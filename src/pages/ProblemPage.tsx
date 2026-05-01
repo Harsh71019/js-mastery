@@ -68,7 +68,7 @@ export const ProblemPage = (): React.JSX.Element => {
     setHasAttempted(true)
 
     const start = Date.now()
-    const execution = await runTests(code, problem.tests)
+    const execution = await runTests(code, problem.functionName, problem.tests)
     const elapsed = Date.now() - start
     if (elapsed < 500) await new Promise((r) => setTimeout(r, 500 - elapsed))
 

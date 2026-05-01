@@ -18,16 +18,22 @@ interface TestCase {
 
 const TIMEOUT_MS = 5000
 
-const buildSandboxHtml = (userCode: string, tests: readonly TestCase[]): string => {
+const buildSandboxHtml = (
+  userCode: string,
+  functionName: string,
+  tests: readonly TestCase[],
+): string => {
   const serializedTests = JSON.stringify(tests)
+  const safeFnName = JSON.stringify(functionName)
 
   return `<!doctype html><html><body><script>
     (function() {
       var tests = ${serializedTests};
+      var fnName = ${safeFnName};
       var results = [];
 
       try {
-        ${userCode}
+        eval(${JSON.stringify(userCode)});
       } catch (syntaxErr) {
         tests.forEach(function(t) {
           results.push({ input: t.input, expected: t.expected, actual: null, passed: false, error: syntaxErr.message });
@@ -36,15 +42,17 @@ const buildSandboxHtml = (userCode: string, tests: readonly TestCase[]): string 
         return;
       }
 
+      if (typeof window[fnName] !== 'function') {
+        tests.forEach(function(t) {
+          results.push({ input: t.input, expected: t.expected, actual: null, passed: false, error: 'Function "' + fnName + '" is not defined. Make sure your function name matches exactly.' });
+        });
+        window.parent.postMessage({ type: 'results', results: results }, '*');
+        return;
+      }
+
       tests.forEach(function(t) {
         try {
           var args = Array.isArray(t.input) ? t.input : [t.input];
-          var fnName = Object.keys(window).find(function(k) {
-            return typeof window[k] === 'function' && k !== 'postMessage';
-          });
-
-          if (!fnName) throw new Error('No function found in submitted code');
-
           var actual = window[fnName].apply(null, args);
           var passed = JSON.stringify(actual) === JSON.stringify(t.expected);
           results.push({ input: t.input, expected: t.expected, actual: actual, passed: passed, error: null });
@@ -60,6 +68,7 @@ const buildSandboxHtml = (userCode: string, tests: readonly TestCase[]): string 
 
 export const runTests = (
   userCode: string,
+  functionName: string,
   tests: readonly TestCase[],
 ): Promise<ExecutionResult> =>
   new Promise((resolve) => {
@@ -94,7 +103,7 @@ export const runTests = (
           expected: test.expected,
           actual: null,
           passed: false,
-          error: 'Execution timed out (infinite loop?)',
+          error: 'Execution timed out — check for an infinite loop',
         })),
         timedOut: true,
       })
@@ -102,25 +111,7 @@ export const runTests = (
 
     window.addEventListener('message', onMessage)
     document.body.appendChild(iframe)
-    iframe.srcdoc = buildSandboxHtml(userCode, tests)
-
-    iframe.addEventListener('load', () => {
-      setTimeout(() => {
-        if (!settled) {
-          clearTimeout(timeoutId)
-          settle({
-            results: tests.map((test) => ({
-              input: test.input,
-              expected: test.expected,
-              actual: null,
-              passed: false,
-              error: 'No function defined in submitted code',
-            })),
-            timedOut: false,
-          })
-        }
-      }, TIMEOUT_MS)
-    })
+    iframe.srcdoc = buildSandboxHtml(userCode, functionName, tests)
 
     void timeoutId
   })
