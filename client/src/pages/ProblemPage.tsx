@@ -75,7 +75,11 @@ export const ProblemPage = (): React.JSX.Element => {
     setAllPassed(passed)
 
     if (passed) {
-      markSolved(problem.id)
+      markSolved(problem.id, {
+        title: problem.title,
+        category: problem.category,
+        difficulty: problem.difficulty,
+      })
       if (!confettiFired.current) {
         confettiFired.current = true
         confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } })

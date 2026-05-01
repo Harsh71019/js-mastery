@@ -1,10 +1,14 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { differenceInCalendarDays } from 'date-fns'
+import type { CategorySlug, Difficulty } from '@/types/problem'
 
-interface SolvedEntry {
+export interface SolvedEntry {
   readonly solvedAt: string
   readonly attempts: number
+  readonly title?: string
+  readonly category?: CategorySlug
+  readonly difficulty?: Difficulty
 }
 
 interface ProgressState {
@@ -15,8 +19,14 @@ interface ProgressState {
   dismissedBackupMilestone: number
 }
 
+export interface ProblemMeta {
+  readonly title: string
+  readonly category: CategorySlug
+  readonly difficulty: Difficulty
+}
+
 interface ProgressActions {
-  markSolved: (id: string) => void
+  markSolved: (id: string, meta?: ProblemMeta) => void
   incrementAttempts: (id: string) => void
   resetProgress: () => void
   dismissBackupBanner: (milestone: number) => void
@@ -62,7 +72,7 @@ export const useProgressStore = create<ProgressStore>()(
     (set, get) => ({
       ...INITIAL_STATE,
 
-      markSolved: (id) => {
+      markSolved: (id, meta) => {
         const state = get()
         const today = new Date().toISOString().split('T')[0]
         const existing = state.solvedProblems[id]
@@ -70,6 +80,9 @@ export const useProgressStore = create<ProgressStore>()(
         const updatedEntry: SolvedEntry = {
           solvedAt: existing?.solvedAt || new Date().toISOString(),
           attempts: (existing?.attempts ?? 0) + 1,
+          title: meta?.title ?? existing?.title,
+          category: meta?.category ?? existing?.category,
+          difficulty: meta?.difficulty ?? existing?.difficulty,
         }
 
         const streakUpdate = getUpdatedStreak(
@@ -91,6 +104,9 @@ export const useProgressStore = create<ProgressStore>()(
         const updated: SolvedEntry = {
           solvedAt: existing?.solvedAt ?? '',
           attempts: (existing?.attempts ?? 0) + 1,
+          title: existing?.title,
+          category: existing?.category,
+          difficulty: existing?.difficulty,
         }
         set({
           solvedProblems: { ...state.solvedProblems, [id]: updated },
