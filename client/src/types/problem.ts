@@ -25,6 +25,15 @@ export interface TestCase {
   readonly label?: string
 }
 
+export interface ProblemSummary {
+  readonly id: string
+  readonly title: string
+  readonly category: CategorySlug
+  readonly difficulty: Difficulty
+  readonly patternTag: string
+  readonly estimatedMinutes: number
+}
+
 export interface Problem {
   readonly id: string
   readonly title: string
@@ -41,4 +50,11 @@ export interface Problem {
   readonly patternTag: string
   readonly patternExplanation: string
   readonly estimatedMinutes: number
+}
+
+export interface Pagination {
+  readonly page: number
+  readonly limit: number
+  readonly total: number
+  readonly totalPages: number
 }

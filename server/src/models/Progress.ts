@@ -1,0 +1,26 @@
+import { Schema, model } from 'mongoose'
+
+const SolvedEntrySchema = new Schema(
+  {
+    solvedAt: { type: String, default: '' },
+    attempts: { type: Number, default: 0 },
+    title: String,
+    category: String,
+    difficulty: String,
+  },
+  { _id: false },
+)
+
+const ProgressSchema = new Schema(
+  {
+    userId: { type: String, required: true, unique: true, default: 'default' },
+    solvedProblems: { type: Map, of: SolvedEntrySchema, default: {} },
+    lastActiveDate: { type: String, default: '' },
+    currentStreak: { type: Number, default: 0 },
+    longestStreak: { type: Number, default: 0 },
+    dismissedBackupMilestone: { type: Number, default: 0 },
+  },
+  { timestamps: true },
+)
+
+export const Progress = model('Progress', ProgressSchema)

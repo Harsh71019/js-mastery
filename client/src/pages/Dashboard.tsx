@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useProgress } from '@/hooks/useProgress'
+import { useProblemCounts } from '@/hooks/useProblemCounts'
 import { useProgressStore } from '@/store/useProgressStore'
 import { StatCard } from '@/components/progress/StatCard'
 import { ProgressRing } from '@/components/ui/ProgressRing'
@@ -13,17 +14,17 @@ export const Dashboard = (): React.JSX.Element => {
   const navigate = useNavigate()
   const {
     solvedCount,
-    totalCount,
+    solvedProblems,
     currentStreak,
     longestStreak,
-    categoryProgress,
     shouldShowBackupBanner,
     nextBackupMilestone,
   } = useProgress()
+  const { total, byCategory } = useProblemCounts()
   const dismissBackupBanner = useProgressStore(selectDismissBackupBanner)
 
   const categoriesStarted = CATEGORIES.filter(
-    (category) => categoryProgress(category.slug).solved > 0,
+    (category) => Object.keys(solvedProblems).some((id) => id.startsWith(category.slug)),
   ).length
 
   const handleExportBackup = (): void => {
@@ -68,22 +69,25 @@ export const Dashboard = (): React.JSX.Element => {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           label="Total Solved"
-          value={`${solvedCount} / ${totalCount}`}
+          value={`${solvedCount} / ${total}`}
           accentColor="#22c55e"
         />
         <StatCard label="Current Streak" value={`${currentStreak} days`} accentColor="#a855f7" />
         <StatCard label="Longest Streak" value={`${longestStreak} days`} accentColor="#3b82f6" />
         <StatCard
           label="Categories Started"
-          value={`${categoriesStarted} / 11`}
+          value={`${categoriesStarted} / ${CATEGORIES.length}`}
           accentColor="#f59e0b"
         />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {CATEGORIES.map((category) => {
-          const { solved, total } = categoryProgress(category.slug)
-          const progress = total > 0 ? Math.round((solved / total) * 100) : 0
+          const categoryTotal = byCategory[category.slug] ?? 0
+          const categorySolved = Object.keys(solvedProblems).filter((id) =>
+            id.startsWith(category.slug),
+          ).length
+          const progress = categoryTotal > 0 ? Math.round((categorySolved / categoryTotal) * 100) : 0
 
           return (
             <button
@@ -100,8 +104,8 @@ export const Dashboard = (): React.JSX.Element => {
                     {category.description}
                   </p>
                   <div className="flex items-center gap-1 mt-3">
-                    <span className="text-accent-green text-sm font-medium">{solved} solved</span>
-                    <span className="text-text-secondary text-sm">/ {total} total</span>
+                    <span className="text-accent-green text-sm font-medium">{categorySolved} solved</span>
+                    <span className="text-text-secondary text-sm">/ {categoryTotal} total</span>
                   </div>
                 </div>
                 <div className="shrink-0 mt-1">

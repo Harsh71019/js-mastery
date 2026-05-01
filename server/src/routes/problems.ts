@@ -30,6 +30,18 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
   })
 })
 
+// Must be defined before /:id to avoid 'categories' matching as an id
+router.get('/categories/counts', async (_req: Request, res: Response): Promise<void> => {
+  const counts = await Problem.aggregate([
+    { $match: { status: 'published' } },
+    { $group: { _id: '$category', count: { $sum: 1 } } },
+    { $project: { _id: 0, slug: '$_id', count: 1 } },
+    { $sort: { slug: 1 } },
+  ])
+
+  res.json(counts)
+})
+
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   const problem = await Problem.findOne(
     { id: req.params.id, status: 'published' },
@@ -41,18 +53,16 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
     return
   }
 
-  res.json(problem)
-})
+  const allIds = await Problem.find({ status: 'published' })
+    .select('id -_id')
+    .sort({ _id: 1 })
+    .lean()
 
-router.get('/categories/counts', async (_req: Request, res: Response): Promise<void> => {
-  const counts = await Problem.aggregate([
-    { $match: { status: 'published' } },
-    { $group: { _id: '$category', count: { $sum: 1 } } },
-    { $project: { _id: 0, slug: '$_id', count: 1 } },
-    { $sort: { slug: 1 } },
-  ])
+  const currentIndex = allIds.findIndex((p) => p.id === req.params.id)
+  const prevId = currentIndex > 0 ? allIds[currentIndex - 1].id : null
+  const nextId = currentIndex < allIds.length - 1 ? allIds[currentIndex + 1].id : null
 
-  res.json(counts)
+  res.json({ ...problem, prevId, nextId })
 })
 
 router.post('/', async (req: Request, res: Response): Promise<void> => {

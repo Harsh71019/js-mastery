@@ -1,6 +1,4 @@
 import { useProgressStore } from '@/store/useProgressStore'
-import { problems } from '@/data'
-import type { CategorySlug } from '@/types/problem'
 
 const selectSolvedProblems = (state: ReturnType<typeof useProgressStore.getState>) =>
   state.solvedProblems
@@ -23,15 +21,8 @@ export const useProgress = () => {
   const dismissedBackupMilestone = useProgressStore(selectDismissedMilestone)
 
   const solvedCount = Object.keys(solvedProblems).length
-  const totalCount = problems.length
 
   const isSolved = (id: string): boolean => id in solvedProblems
-
-  const categoryProgress = (slug: CategorySlug): { solved: number; total: number } => {
-    const categoryProblems = problems.filter((problem) => problem.category === slug)
-    const solved = categoryProblems.filter((problem) => isSolved(problem.id)).length
-    return { solved, total: categoryProblems.length }
-  }
 
   const nextBackupMilestone = Math.floor(solvedCount / BACKUP_INTERVAL) * BACKUP_INTERVAL
   const shouldShowBackupBanner =
@@ -42,11 +33,9 @@ export const useProgress = () => {
   return {
     solvedProblems,
     solvedCount,
-    totalCount,
     currentStreak,
     longestStreak,
     isSolved,
-    categoryProgress,
     shouldShowBackupBanner,
     nextBackupMilestone,
   }

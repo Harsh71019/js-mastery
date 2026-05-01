@@ -1,13 +1,12 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { format } from 'date-fns'
 import { useProgress } from '@/hooks/useProgress'
+import { useProblemCounts } from '@/hooks/useProblemCounts'
 import { useProgressStore } from '@/store/useProgressStore'
 import { StatCard } from '@/components/progress/StatCard'
 import { CalendarHeatmap } from '@/components/progress/CalendarHeatmap'
 import { SolveHistory } from '@/components/progress/SolveHistory'
 import { Toast } from '@/components/ui/Toast'
-import { getProblemById } from '@/data'
-import { useState } from 'react'
 
 interface DayData {
   readonly date: string
@@ -23,17 +22,15 @@ const buildDayData = (
   Object.entries(solvedProblems).forEach(([id, entry]) => {
     if (!entry.solvedAt) return
     const dateKey = format(new Date(entry.solvedAt), 'yyyy-MM-dd')
-    const problem = getProblemById(id)
-    const title = problem?.title ?? id
     const existing = map.get(dateKey)
     if (existing) {
       map.set(dateKey, {
         date: dateKey,
         count: existing.count + 1,
-        titles: [...existing.titles, title],
+        titles: [...existing.titles, id],
       })
     } else {
-      map.set(dateKey, { date: dateKey, count: 1, titles: [title] })
+      map.set(dateKey, { date: dateKey, count: 1, titles: [id] })
     }
   })
 
@@ -43,23 +40,18 @@ const buildDayData = (
 type ToastState = { message: string; variant: 'success' | 'error' } | null
 
 export const ProgressPage = (): React.JSX.Element => {
-  const { solvedProblems, solvedCount, totalCount, currentStreak, longestStreak } = useProgress()
+  const { solvedProblems, solvedCount, currentStreak, longestStreak } = useProgress()
+  const { total } = useProblemCounts()
   const [toast, setToast] = useState<ToastState>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const dayData = buildDayData(solvedProblems)
 
   const handleExport = (): void => {
-    const state = useProgressStore.getState()
-    const { markSolved: _ms, incrementAttempts: _ia, resetProgress: _rp, dismissBackupBanner: _db, ...persistedState } = state
-    const json = JSON.stringify(persistedState, null, 2)
-    const blob = new Blob([json], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
     const anchor = document.createElement('a')
-    anchor.href = url
+    anchor.href = '/api/progress/export'
     anchor.download = `js-trainer-progress-${format(new Date(), 'yyyy-MM-dd')}.json`
     anchor.click()
-    URL.revokeObjectURL(url)
   }
 
   const handleImport = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -67,18 +59,21 @@ export const ProgressPage = (): React.JSX.Element => {
     if (!file) return
 
     const reader = new FileReader()
-    reader.onload = (loadEvent) => {
+    reader.onload = async (loadEvent) => {
       try {
         const parsed: unknown = JSON.parse(loadEvent.target?.result as string)
-        if (
-          typeof parsed !== 'object' ||
-          parsed === null ||
-          !('solvedProblems' in parsed)
-        ) {
+        if (typeof parsed !== 'object' || parsed === null || !('solvedProblems' in parsed)) {
           setToast({ message: 'Invalid file — progress unchanged', variant: 'error' })
           return
         }
-        useProgressStore.setState(parsed as Parameters<typeof useProgressStore.setState>[0])
+        const response = await fetch('/api/progress/import', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(parsed),
+        })
+        if (!response.ok) throw new Error('Import failed')
+        const data = await response.json()
+        useProgressStore.setState({ ...data, isLoaded: true })
         setToast({ message: 'Progress restored successfully', variant: 'success' })
       } catch {
         setToast({ message: 'Invalid file — progress unchanged', variant: 'error' })
@@ -107,20 +102,14 @@ export const ProgressPage = (): React.JSX.Element => {
           >
             Import Progress
           </button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".json"
-            onChange={handleImport}
-            className="hidden"
-          />
+          <input ref={fileInputRef} type="file" accept=".json" onChange={handleImport} className="hidden" />
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <StatCard label="Current Streak" value={`${currentStreak} days`} accentColor="#a855f7" />
         <StatCard label="Longest Streak" value={`${longestStreak} days`} accentColor="#3b82f6" />
-        <StatCard label="Total Solved" value={`${solvedCount} / ${totalCount}`} accentColor="#22c55e" />
+        <StatCard label="Total Solved" value={`${solvedCount} / ${total}`} accentColor="#22c55e" />
       </div>
 
       <div className="bg-bg-secondary border border-border-default rounded-lg p-5">
@@ -137,11 +126,7 @@ export const ProgressPage = (): React.JSX.Element => {
       </div>
 
       {toast && (
-        <Toast
-          message={toast.message}
-          variant={toast.variant}
-          onDismiss={() => setToast(null)}
-        />
+        <Toast message={toast.message} variant={toast.variant} onDismiss={() => setToast(null)} />
       )}
     </div>
   )
