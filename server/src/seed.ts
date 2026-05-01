@@ -44,16 +44,26 @@ const seedCategory = async (
       continue
     }
 
-    const result = await Problem.updateOne(
-      { id: doc.id },
-      { $setOnInsert: { ...doc, status: 'published' } },
-      { upsert: true },
-    )
-
-    if (result.upsertedCount > 0) {
-      inserted++
-    } else {
-      skipped++
+    try {
+      const result = await Problem.updateOne(
+        { id: doc.id },
+        { $setOnInsert: { ...doc, status: 'published' } },
+        { upsert: true },
+      )
+      if (result.upsertedCount > 0) {
+        inserted++
+      } else {
+        skipped++
+      }
+    } catch (error: unknown) {
+      const isDuplicateKey =
+        typeof error === 'object' && error !== null && 'code' in error && error.code === 11000
+      if (isDuplicateKey) {
+        console.warn(`  SKIP (duplicate): ${String(doc.id)}`)
+        skipped++
+      } else {
+        throw error
+      }
     }
   }
 
