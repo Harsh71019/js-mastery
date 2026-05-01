@@ -48,16 +48,10 @@ export const ProgressPage = (): React.JSX.Element => {
   const dayData = buildDayData(solvedProblems)
 
   const handleExport = (): void => {
-    const state = useProgressStore.getState()
-    const { markSolved: _ms, incrementAttempts: _ia, resetProgress: _rp, dismissBackupBanner: _db, ...persistedState } = state
-    const json = JSON.stringify(persistedState, null, 2)
-    const blob = new Blob([json], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
     const anchor = document.createElement('a')
-    anchor.href = url
+    anchor.href = '/api/progress/export'
     anchor.download = `js-trainer-progress-${format(new Date(), 'yyyy-MM-dd')}.json`
     anchor.click()
-    URL.revokeObjectURL(url)
   }
 
   const handleImport = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -65,14 +59,21 @@ export const ProgressPage = (): React.JSX.Element => {
     if (!file) return
 
     const reader = new FileReader()
-    reader.onload = (loadEvent) => {
+    reader.onload = async (loadEvent) => {
       try {
         const parsed: unknown = JSON.parse(loadEvent.target?.result as string)
         if (typeof parsed !== 'object' || parsed === null || !('solvedProblems' in parsed)) {
           setToast({ message: 'Invalid file — progress unchanged', variant: 'error' })
           return
         }
-        useProgressStore.setState(parsed as Parameters<typeof useProgressStore.setState>[0])
+        const response = await fetch('/api/progress/import', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(parsed),
+        })
+        if (!response.ok) throw new Error('Import failed')
+        const data = await response.json()
+        useProgressStore.setState({ ...data, isLoaded: true })
         setToast({ message: 'Progress restored successfully', variant: 'success' })
       } catch {
         setToast({ message: 'Invalid file — progress unchanged', variant: 'error' })

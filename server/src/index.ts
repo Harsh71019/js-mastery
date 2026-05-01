@@ -3,6 +3,7 @@ import express from 'express'
 import cors from 'cors'
 import { connectDb } from './db'
 import problemsRouter from './routes/problems'
+import progressRouter from './routes/progress'
 
 const app = express()
 const PORT = process.env.PORT ?? 3001
@@ -15,6 +16,7 @@ app.get('/api/health', (_req, res) => {
 })
 
 app.use('/api/problems', problemsRouter)
+app.use('/api/progress', progressRouter)
 
 const start = async (): Promise<void> => {
   await connectDb()

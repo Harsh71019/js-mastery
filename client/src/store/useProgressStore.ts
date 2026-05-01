@@ -1,6 +1,4 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import { differenceInCalendarDays } from 'date-fns'
 import type { CategorySlug, Difficulty } from '@/types/problem'
 
 export interface SolvedEntry {
@@ -11,21 +9,23 @@ export interface SolvedEntry {
   readonly difficulty?: Difficulty
 }
 
-interface ProgressState {
-  solvedProblems: Record<string, SolvedEntry>
-  lastActiveDate: string
-  currentStreak: number
-  longestStreak: number
-  dismissedBackupMilestone: number
-}
-
 export interface ProblemMeta {
   readonly title: string
   readonly category: CategorySlug
   readonly difficulty: Difficulty
 }
 
+interface ProgressState {
+  solvedProblems: Record<string, SolvedEntry>
+  lastActiveDate: string
+  currentStreak: number
+  longestStreak: number
+  dismissedBackupMilestone: number
+  isLoaded: boolean
+}
+
 interface ProgressActions {
+  loadProgress: () => Promise<void>
   markSolved: (id: string, meta?: ProblemMeta) => void
   incrementAttempts: (id: string) => void
   resetProgress: () => void
@@ -40,84 +40,81 @@ const INITIAL_STATE: ProgressState = {
   currentStreak: 0,
   longestStreak: 0,
   dismissedBackupMilestone: 0,
+  isLoaded: false,
 }
 
-const getUpdatedStreak = (
-  currentStreak: number,
-  longestStreak: number,
-  lastActiveDate: string,
-  today: string,
-): Pick<ProgressState, 'currentStreak' | 'longestStreak' | 'lastActiveDate'> => {
-  if (lastActiveDate === today) {
-    return { currentStreak, longestStreak, lastActiveDate }
-  }
+const applyServerState = (
+  data: Omit<ProgressState, 'isLoaded'>,
+): Omit<ProgressState, 'isLoaded'> => data
 
-  const daysDiff =
-    lastActiveDate === ''
-      ? 1
-      : differenceInCalendarDays(new Date(today), new Date(lastActiveDate))
+export const useProgressStore = create<ProgressStore>()((set, get) => ({
+  ...INITIAL_STATE,
 
-  const nextStreak = daysDiff === 1 ? currentStreak + 1 : 1
-  const nextLongest = Math.max(longestStreak, nextStreak)
+  loadProgress: async () => {
+    try {
+      const response = await fetch('/api/progress')
+      if (!response.ok) throw new Error(`Server error: ${response.status}`)
+      const data = (await response.json()) as Omit<ProgressState, 'isLoaded'>
+      set({ ...applyServerState(data), isLoaded: true })
+    } catch (error: unknown) {
+      console.error('Failed to load progress:', error)
+      set({ isLoaded: true })
+    }
+  },
 
-  return {
-    currentStreak: nextStreak,
-    longestStreak: nextLongest,
-    lastActiveDate: today,
-  }
-}
+  markSolved: (id, meta) => {
+    const state = get()
+    const existing = state.solvedProblems[id]
 
-export const useProgressStore = create<ProgressStore>()(
-  persist(
-    (set, get) => ({
-      ...INITIAL_STATE,
+    const optimistic: SolvedEntry = {
+      solvedAt: existing?.solvedAt || new Date().toISOString(),
+      attempts: (existing?.attempts ?? 0) + 1,
+      title: meta?.title ?? existing?.title,
+      category: meta?.category ?? existing?.category,
+      difficulty: meta?.difficulty ?? existing?.difficulty,
+    }
+    set({ solvedProblems: { ...state.solvedProblems, [id]: optimistic } })
 
-      markSolved: (id, meta) => {
-        const state = get()
-        const today = new Date().toISOString().split('T')[0]
-        const existing = state.solvedProblems[id]
+    fetch(`/api/progress/solve/${id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(meta ?? {}),
+    })
+      .then((r) => r.json() as Promise<Omit<ProgressState, 'isLoaded'>>)
+      .then((data) => set({ ...applyServerState(data), isLoaded: true }))
+      .catch((error: unknown) => console.error('Failed to sync solve:', error))
+  },
 
-        const updatedEntry: SolvedEntry = {
-          solvedAt: existing?.solvedAt || new Date().toISOString(),
-          attempts: (existing?.attempts ?? 0) + 1,
-          title: meta?.title ?? existing?.title,
-          category: meta?.category ?? existing?.category,
-          difficulty: meta?.difficulty ?? existing?.difficulty,
-        }
+  incrementAttempts: (id) => {
+    const state = get()
+    const existing = state.solvedProblems[id]
 
-        const streakUpdate = getUpdatedStreak(
-          state.currentStreak,
-          state.longestStreak,
-          state.lastActiveDate,
-          today,
-        )
+    const optimistic: SolvedEntry = {
+      solvedAt: existing?.solvedAt ?? '',
+      attempts: (existing?.attempts ?? 0) + 1,
+      title: existing?.title,
+      category: existing?.category,
+      difficulty: existing?.difficulty,
+    }
+    set({ solvedProblems: { ...state.solvedProblems, [id]: optimistic } })
 
-        set({
-          solvedProblems: { ...state.solvedProblems, [id]: updatedEntry },
-          ...streakUpdate,
-        })
-      },
+    fetch(`/api/progress/attempt/${id}`, { method: 'POST' })
+      .then((r) => r.json() as Promise<Omit<ProgressState, 'isLoaded'>>)
+      .then((data) => set({ ...applyServerState(data), isLoaded: true }))
+      .catch((error: unknown) => console.error('Failed to sync attempt:', error))
+  },
 
-      incrementAttempts: (id) => {
-        const state = get()
-        const existing = state.solvedProblems[id]
-        const updated: SolvedEntry = {
-          solvedAt: existing?.solvedAt ?? '',
-          attempts: (existing?.attempts ?? 0) + 1,
-          title: existing?.title,
-          category: existing?.category,
-          difficulty: existing?.difficulty,
-        }
-        set({
-          solvedProblems: { ...state.solvedProblems, [id]: updated },
-        })
-      },
+  resetProgress: () => {
+    set({ ...INITIAL_STATE, isLoaded: true })
+    fetch('/api/progress', { method: 'DELETE' }).catch((error: unknown) =>
+      console.error('Failed to reset progress:', error),
+    )
+  },
 
-      resetProgress: () => set(INITIAL_STATE),
-
-      dismissBackupBanner: (milestone) =>
-        set({ dismissedBackupMilestone: milestone }),
-    }),
-    { name: 'js-trainer-progress' },
-  ),
-)
+  dismissBackupBanner: (milestone) => {
+    set({ dismissedBackupMilestone: milestone })
+    fetch(`/api/progress/dismiss-banner/${milestone}`, { method: 'PUT' }).catch(
+      (error: unknown) => console.error('Failed to dismiss banner:', error),
+    )
+  },
+}))
