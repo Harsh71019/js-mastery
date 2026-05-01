@@ -68,7 +68,7 @@ export const useProgressStore = create<ProgressStore>()(
         const existing = state.solvedProblems[id]
 
         const updatedEntry: SolvedEntry = {
-          solvedAt: existing?.solvedAt ?? new Date().toISOString(),
+          solvedAt: existing?.solvedAt || new Date().toISOString(),
           attempts: (existing?.attempts ?? 0) + 1,
         }
 

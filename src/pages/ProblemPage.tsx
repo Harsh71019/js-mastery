@@ -75,8 +75,6 @@ export const ProblemPage = (): React.JSX.Element => {
     setResults(execution.results)
     setIsRunning(false)
 
-    incrementAttempts(problem.id)
-
     const passed = execution.results.every((r) => r.passed)
     setAllPassed(passed)
 
@@ -86,6 +84,8 @@ export const ProblemPage = (): React.JSX.Element => {
         confettiFired.current = true
         confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } })
       }
+    } else {
+      incrementAttempts(problem.id)
     }
   }, [problem, code, isRunning, markSolved, incrementAttempts])
 
