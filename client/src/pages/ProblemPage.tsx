@@ -6,7 +6,6 @@ import { useProgressStore } from '@/store/useProgressStore'
 import { useProgress } from '@/hooks/useProgress'
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut'
 import { runTests, type TestResult } from '@/runner/executor'
-import { TopBar } from '@/components/layout/TopBar'
 import { CodeEditor } from '@/components/editor/CodeEditor'
 import { ResultsPanel } from '@/components/editor/ResultsPanel'
 import { TraceTable } from '@/components/problems/TraceTable'
@@ -32,7 +31,7 @@ const getSavedRatio = (): number => {
 export const ProblemPage = (): React.JSX.Element => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { problem, prevId, nextId, isLoading, error } = useProblem(id ?? '')
+  const { problem, nextId, isLoading, error } = useProblem(id ?? '')
 
   const [code, setCode] = useState('')
   const [results, setResults] = useState<readonly TestResult[] | null>(null)
@@ -116,16 +115,13 @@ export const ProblemPage = (): React.JSX.Element => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col h-screen overflow-hidden">
-        <div className="h-12 border-b border-border-default bg-bg-primary shrink-0 animate-pulse" />
-        <div className="flex flex-1 overflow-hidden">
-          <div className="w-2/5 border-r border-border-default p-5 flex flex-col gap-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-6 bg-bg-tertiary rounded animate-pulse" />
-            ))}
-          </div>
-          <div className="flex-1 bg-bg-primary" />
+      <div className="flex h-[calc(100vh-3rem)] overflow-hidden">
+        <div className="w-2/5 border-r border-border-default p-5 flex flex-col gap-4">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="h-6 bg-bg-tertiary rounded animate-pulse" />
+          ))}
         </div>
+        <div className="flex-1 bg-bg-primary" />
       </div>
     )
   }
@@ -134,22 +130,14 @@ export const ProblemPage = (): React.JSX.Element => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-screen text-text-tertiary text-sm">
+      <div className="flex items-center justify-center h-[calc(100vh-3rem)] text-text-tertiary text-sm">
         Failed to load problem — is the server running?
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
-      <TopBar
-        problem={problem}
-        onPrev={() => prevId && navigate(`/problem/${prevId}`)}
-        onNext={() => nextId && navigate(`/problem/${nextId}`)}
-        canGoPrev={prevId !== null}
-        canGoNext={nextId !== null}
-      />
-
+    <div className="flex flex-col h-[calc(100vh-3rem)] overflow-hidden">
       <div
         ref={containerRef}
         className="flex flex-1 overflow-hidden"

@@ -20,6 +20,7 @@ export const CodeEditor = ({ value, onChange }: CodeEditorProps): React.JSX.Elem
 
   const handleMount: OnMount = (editorInstance, monaco) => {
     editorRef.current = editorInstance
+
     monaco.editor.defineTheme('app-dark', {
       base: 'vs-dark',
       inherit: true,
@@ -27,6 +28,10 @@ export const CodeEditor = ({ value, onChange }: CodeEditorProps): React.JSX.Elem
       colors: { 'editor.background': '#0a0a0a' },
     })
     monaco.editor.setTheme('app-dark')
+
+    editorInstance.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+      void editorInstance.getAction('editor.action.formatDocument')?.run()
+    })
   }
 
   return (
@@ -48,6 +53,13 @@ export const CodeEditor = ({ value, onChange }: CodeEditorProps): React.JSX.Elem
           padding: { top: 12, bottom: 12 },
           renderLineHighlight: 'line',
           smoothScrolling: true,
+          quickSuggestions: false,
+          suggestOnTriggerCharacters: false,
+          parameterHints: { enabled: false },
+          hover: { enabled: false },
+          wordBasedSuggestions: 'off',
+          inlineSuggest: { enabled: false },
+          suggest: { showWords: false },
         }}
       />
     </Suspense>
