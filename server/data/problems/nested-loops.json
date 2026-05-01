@@ -1,0 +1,615 @@
+[
+  {
+    "id": "nested-loops-1",
+    "title": "All Pairs Sum",
+    "category": "nested-loops",
+    "difficulty": "Easy",
+    "functionName": "allPairsSum",
+    "description": "Given an array of numbers and a target, return all unique index pairs [i, j] where i < j and nums[i] + nums[j] === target.",
+    "whatShouldHappen": [
+      "Use an outer loop to pick the first element.",
+      "Use an inner loop starting one position ahead to pick the second element.",
+      "If the pair sums to the target, add [i, j] to the results.",
+      "Return all matching pairs."
+    ],
+    "starterCode": "function allPairsSum(nums, target) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 2, 3, 4], target = 5",
+      "columns": [
+        "i",
+        "j",
+        "nums[i]+nums[j]",
+        "match"
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "j": 1,
+          "nums[i]+nums[j]": 3,
+          "match": "no"
+        },
+        {
+          "i": 0,
+          "j": 2,
+          "nums[i]+nums[j]": 4,
+          "match": "no"
+        },
+        {
+          "i": 0,
+          "j": 3,
+          "nums[i]+nums[j]": 5,
+          "match": "yes"
+        },
+        {
+          "i": 1,
+          "j": 2,
+          "nums[i]+nums[j]": 5,
+          "match": "yes"
+        },
+        {
+          "i": 1,
+          "j": 3,
+          "nums[i]+nums[j]": 6,
+          "match": "no"
+        },
+        {
+          "i": 2,
+          "j": 3,
+          "nums[i]+nums[j]": 7,
+          "match": "no"
+        }
+      ]
+    },
+    "skeletonHint": "function allPairsSum(nums, target) {\n  const pairs = [];\n  for (let i = 0; i < ____; i++) {\n    for (let j = ____; j < nums.length; j++) {\n      if (____) {\n        pairs.push([i, j]);\n      }\n    }\n  }\n  return pairs;\n}",
+    "solution": "function allPairsSum(nums, target) {\n  // collect every matching pair of indices\n  const pairs = [];\n  // outer loop picks the first element of the pair\n  for (let i = 0; i < nums.length - 1; i++) {\n    // inner loop starts at i+1 to avoid duplicates and self-pairs\n    for (let j = i + 1; j < nums.length; j++) {\n      // check if this pair hits the target\n      if (nums[i] + nums[j] === target) {\n        pairs.push([i, j]);\n      }\n    }\n  }\n  // return all matching index pairs\n  return pairs;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          5
+        ],
+        "expected": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "label": "two pairs"
+      },
+      {
+        "input": [
+          [
+            1,
+            1,
+            1
+          ],
+          2
+        ],
+        "expected": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "label": "duplicate values"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          10
+        ],
+        "expected": [],
+        "label": "no matching pairs"
+      },
+      {
+        "input": [
+          [
+            5
+          ],
+          5
+        ],
+        "expected": [],
+        "label": "single element"
+      }
+    ],
+    "patternTag": "Nested Loop Pairing",
+    "patternExplanation": "The inner loop starts at i+1 to guarantee i < j — this ensures every pair is checked exactly once without revisiting or counting a pair twice.",
+    "estimatedMinutes": 10
+  },
+  {
+    "id": "nested-loops-2",
+    "title": "Multiplication Table",
+    "category": "nested-loops",
+    "difficulty": "Beginner",
+    "functionName": "multiplicationTable",
+    "description": "Given a number n, return a 2D array of size n×n where table[i][j] = (i+1) * (j+1).",
+    "whatShouldHappen": [
+      "Create an empty outer array.",
+      "Outer loop runs n times, creating one row per iteration.",
+      "Inner loop runs n times, filling each column of the row.",
+      "Push the completed row into the outer array and return it."
+    ],
+    "starterCode": "function multiplicationTable(n) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "n = 3",
+      "columns": [
+        "i",
+        "j",
+        "value",
+        "row after inner loop"
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "j": 0,
+          "value": 1,
+          "row after inner loop": "[1, 2, 3]"
+        },
+        {
+          "i": 1,
+          "j": 0,
+          "value": 2,
+          "row after inner loop": "[2, 4, 6]"
+        },
+        {
+          "i": 2,
+          "j": 0,
+          "value": 3,
+          "row after inner loop": "[3, 6, 9]"
+        }
+      ]
+    },
+    "skeletonHint": "function multiplicationTable(n) {\n  const table = [];\n  for (let i = 0; i < ____; i++) {\n    const row = [];\n    for (let j = 0; j < ____; j++) {\n      row.push(____);\n    }\n    table.push(row);\n  }\n  return table;\n}",
+    "solution": "function multiplicationTable(n) {\n  // outer array holds all n rows\n  const table = [];\n  // each iteration of the outer loop produces one row\n  for (let i = 0; i < n; i++) {\n    // fresh row for this iteration\n    const row = [];\n    // each iteration of the inner loop fills one column in this row\n    for (let j = 0; j < n; j++) {\n      // i and j are 0-indexed so add 1 before multiplying\n      row.push((i + 1) * (j + 1));\n    }\n    // commit the completed row to the table\n    table.push(row);\n  }\n  // return the fully filled 2D array\n  return table;\n}",
+    "tests": [
+      {
+        "input": [
+          3
+        ],
+        "expected": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            2,
+            4,
+            6
+          ],
+          [
+            3,
+            6,
+            9
+          ]
+        ],
+        "label": "3×3 table"
+      },
+      {
+        "input": [
+          1
+        ],
+        "expected": [
+          [
+            1
+          ]
+        ],
+        "label": "1×1 table"
+      },
+      {
+        "input": [
+          2
+        ],
+        "expected": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "label": "2×2 table"
+      },
+      {
+        "input": [
+          4
+        ],
+        "expected": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            2,
+            4,
+            6,
+            8
+          ],
+          [
+            3,
+            6,
+            9,
+            12
+          ],
+          [
+            4,
+            8,
+            12,
+            16
+          ]
+        ],
+        "label": "4×4 table"
+      }
+    ],
+    "patternTag": "2D Array Construction",
+    "patternExplanation": "Nested loops where the outer index selects the row and the inner index selects the column — the standard pattern for building or traversing 2D grids.",
+    "estimatedMinutes": 8
+  },
+  {
+    "id": "nested-loops-3",
+    "title": "Print Star Triangle",
+    "category": "nested-loops",
+    "difficulty": "Beginner",
+    "functionName": "starTriangle",
+    "description": "Given a number n, return an array of n strings where the i-th string (1-indexed) contains exactly i asterisks (\"*\"). E.g. n=3 → [\"*\", \"**\", \"***\"].",
+    "whatShouldHappen": [
+      "Create an empty result array.",
+      "Outer loop runs from 1 to n (inclusive).",
+      "Inner loop runs i times, building a string of i asterisks.",
+      "Push each string into the result.",
+      "Return the result."
+    ],
+    "starterCode": "function starTriangle(n) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "n = 4",
+      "columns": [
+        "i (row)",
+        "j (column)",
+        "row string"
+      ],
+      "rows": [
+        {
+          "i (row)": 1,
+          "j (column)": "1",
+          "row string": "\"*\""
+        },
+        {
+          "i (row)": 2,
+          "j (column)": "1→2",
+          "row string": "\"**\""
+        },
+        {
+          "i (row)": 3,
+          "j (column)": "1→3",
+          "row string": "\"***\""
+        },
+        {
+          "i (row)": 4,
+          "j (column)": "1→4",
+          "row string": "\"****\""
+        }
+      ]
+    },
+    "skeletonHint": "function starTriangle(n) {\n  const result = [];\n  for (let i = 1; i <= ____; i++) {\n    let row = '';\n    for (let j = 0; j < ____; j++) {\n      row += ____;\n    }\n    result.push(row);\n  }\n  return result;\n}",
+    "solution": "function starTriangle(n) {\n  const result = [];\n  // outer loop controls how many rows we produce\n  for (let i = 1; i <= n; i++) {\n    let row = '';\n    // inner loop adds exactly i asterisks to this row\n    for (let j = 0; j < i; j++) {\n      row += '*';\n    }\n    result.push(row);\n  }\n  return result;\n}",
+    "tests": [
+      {
+        "input": [
+          3
+        ],
+        "expected": [
+          "*",
+          "**",
+          "***"
+        ],
+        "label": "n = 3"
+      },
+      {
+        "input": [
+          1
+        ],
+        "expected": [
+          "*"
+        ],
+        "label": "n = 1"
+      },
+      {
+        "input": [
+          4
+        ],
+        "expected": [
+          "*",
+          "**",
+          "***",
+          "****"
+        ],
+        "label": "n = 4"
+      },
+      {
+        "input": [
+          5
+        ],
+        "expected": [
+          "*",
+          "**",
+          "***",
+          "****",
+          "*****"
+        ],
+        "label": "n = 5"
+      }
+    ],
+    "patternTag": "Variable Inner Loop",
+    "patternExplanation": "The key insight: the inner loop bound is the outer loop variable itself (i). This makes the inner loop run more iterations each row, producing the triangle shape.",
+    "estimatedMinutes": 8
+  },
+  {
+    "id": "nested-loops-4",
+    "title": "Matrix Diagonal Sum",
+    "category": "nested-loops",
+    "difficulty": "Easy",
+    "functionName": "diagonalSum",
+    "description": "Given a square 2D array (matrix), return the sum of both its main diagonal and anti-diagonal elements. If an element is on both diagonals (center of an odd-sized matrix), count it only once.",
+    "whatShouldHappen": [
+      "Loop through row indices 0 to n-1.",
+      "Add the main diagonal element: matrix[i][i].",
+      "Add the anti-diagonal element: matrix[i][n-1-i].",
+      "If n is odd and i === Math.floor(n/2), both diagonals share the center — subtract it once to avoid double-counting.",
+      "Return the total sum."
+    ],
+    "starterCode": "function diagonalSum(matrix) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "matrix = [[1,2,3],[4,5,6],[7,8,9]]",
+      "columns": [
+        "i",
+        "main diag",
+        "anti diag",
+        "running sum"
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "main diag": 1,
+          "anti diag": 3,
+          "running sum": 4
+        },
+        {
+          "i": 1,
+          "main diag": 5,
+          "anti diag": 5,
+          "running sum": 9
+        },
+        {
+          "i": 2,
+          "main diag": 9,
+          "anti diag": 7,
+          "running sum": 25
+        }
+      ]
+    },
+    "skeletonHint": "function diagonalSum(matrix) {\n  const n = matrix.length;\n  let sum = 0;\n  for (let i = 0; i < ____; i++) {\n    sum += matrix[i][____];          // main diagonal\n    sum += matrix[i][____ - 1 - ____]; // anti-diagonal\n  }\n  // subtract center if n is odd (it was counted twice)\n  if (n % 2 === ____) {\n    sum -= matrix[____][____];\n  }\n  return sum;\n}",
+    "solution": "function diagonalSum(matrix) {\n  const n = matrix.length;\n  let sum = 0;\n  for (let i = 0; i < n; i++) {\n    // main diagonal: top-left to bottom-right\n    sum += matrix[i][i];\n    // anti-diagonal: top-right to bottom-left\n    sum += matrix[i][n - 1 - i];\n  }\n  // for an odd-sized matrix the center cell sits on both diagonals\n  // we added it twice, so subtract it once\n  if (n % 2 !== 0) {\n    const mid = Math.floor(n / 2);\n    sum -= matrix[mid][mid];\n  }\n  return sum;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6
+            ],
+            [
+              7,
+              8,
+              9
+            ]
+          ]
+        ],
+        "expected": 25,
+        "label": "3×3 matrix"
+      },
+      {
+        "input": [
+          [
+            [
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              1,
+              1,
+              1
+            ]
+          ]
+        ],
+        "expected": 8,
+        "label": "4×4 all ones"
+      },
+      {
+        "input": [
+          [
+            [
+              5
+            ]
+          ]
+        ],
+        "expected": 5,
+        "label": "1×1 matrix"
+      },
+      {
+        "input": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ],
+        "expected": 10,
+        "label": "2×2 matrix"
+      }
+    ],
+    "patternTag": "Index Arithmetic",
+    "patternExplanation": "Both diagonals can be addressed in a single loop using index math: main diagonal is [i][i], anti-diagonal is [i][n-1-i]. The center-subtraction handles odd-sized matrix overlap.",
+    "estimatedMinutes": 12
+  },
+  {
+    "id": "nested-loops-5",
+    "title": "Bubble Sort",
+    "category": "nested-loops",
+    "difficulty": "Medium",
+    "functionName": "bubbleSort",
+    "description": "Given an array of numbers, sort it in ascending order using the bubble sort algorithm. Return the sorted array (you may sort in place).",
+    "whatShouldHappen": [
+      "Outer loop runs n-1 passes.",
+      "Inner loop compares adjacent elements: nums[j] and nums[j+1].",
+      "If nums[j] > nums[j+1], swap them.",
+      "After each pass, the largest unsorted element has bubbled to its correct position.",
+      "Return the sorted array."
+    ],
+    "starterCode": "function bubbleSort(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [4, 2, 7, 1] — pass 1",
+      "columns": [
+        "j",
+        "compare",
+        "swap?",
+        "array after"
+      ],
+      "rows": [
+        {
+          "j": 0,
+          "compare": "4 vs 2",
+          "swap?": "yes",
+          "array after": "[2,4,7,1]"
+        },
+        {
+          "j": 1,
+          "compare": "4 vs 7",
+          "swap?": "no",
+          "array after": "[2,4,7,1]"
+        },
+        {
+          "j": 2,
+          "compare": "7 vs 1",
+          "swap?": "yes",
+          "array after": "[2,4,1,7]"
+        }
+      ]
+    },
+    "skeletonHint": "function bubbleSort(nums) {\n  const n = nums.length;\n  for (let i = 0; i < ____; i++) {\n    for (let j = 0; j < ____ - 1 - ____; j++) {\n      if (nums[j] > nums[____]) {\n        // swap\n        const temp = nums[j];\n        nums[j] = nums[____];\n        nums[____] = temp;\n      }\n    }\n  }\n  return nums;\n}",
+    "solution": "function bubbleSort(nums) {\n  const n = nums.length;\n  // n-1 passes are enough to fully sort the array\n  for (let i = 0; i < n - 1; i++) {\n    // after pass i, the last i elements are already sorted\n    // so the inner loop shrinks by i each time\n    for (let j = 0; j < n - 1 - i; j++) {\n      // if the left neighbour is bigger, swap so it moves right\n      if (nums[j] > nums[j + 1]) {\n        const temp = nums[j];\n        nums[j] = nums[j + 1];\n        nums[j + 1] = temp;\n      }\n    }\n  }\n  return nums;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            4,
+            2,
+            7,
+            1
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          4,
+          7
+        ],
+        "label": "unsorted array"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ],
+        "label": "already sorted"
+      },
+      {
+        "input": [
+          [
+            3,
+            2,
+            1
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ],
+        "label": "reverse sorted"
+      },
+      {
+        "input": [
+          [
+            5
+          ]
+        ],
+        "expected": [
+          5
+        ],
+        "label": "single element"
+      }
+    ],
+    "patternTag": "Comparison Swap",
+    "patternExplanation": "Bubble sort uses two loops: the outer counts passes and the inner does adjacent swaps. The inner bound shrinks by i each pass because the last i elements are already in their final position.",
+    "estimatedMinutes": 15
+  }
+]

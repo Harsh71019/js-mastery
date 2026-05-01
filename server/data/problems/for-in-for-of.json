@@ -1,0 +1,480 @@
+[
+  {
+    "id": "for-in-for-of-1",
+    "title": "Sum with for...of",
+    "category": "for-in-for-of",
+    "difficulty": "Beginner",
+    "functionName": "sumWithForOf",
+    "description": "Given an array of numbers, return the sum using a for...of loop instead of a traditional for loop.",
+    "whatShouldHappen": [
+      "Initialize a total variable to 0.",
+      "Use for...of to iterate directly over values (no index needed).",
+      "Add each value to the total.",
+      "Return the total."
+    ],
+    "starterCode": "function sumWithForOf(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [10, 20, 30]",
+      "columns": [
+        "value",
+        "total"
+      ],
+      "rows": [
+        {
+          "value": 10,
+          "total": 10
+        },
+        {
+          "value": 20,
+          "total": 30
+        },
+        {
+          "value": 30,
+          "total": 60
+        }
+      ]
+    },
+    "skeletonHint": "function sumWithForOf(nums) {\n  let total = 0;\n  for (const ____ of ____) {\n    total += ____;\n  }\n  return total;\n}",
+    "solution": "function sumWithForOf(nums) {\n  // start the accumulator at zero\n  let total = 0;\n  // for...of yields each value directly — no index variable needed\n  for (const value of nums) {\n    // accumulate each value\n    total += value;\n  }\n  // return the final sum\n  return total;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            10,
+            20,
+            30
+          ]
+        ],
+        "expected": 60,
+        "label": "normal input"
+      },
+      {
+        "input": [
+          [
+            7
+          ]
+        ],
+        "expected": 7,
+        "label": "single element"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": 0,
+        "label": "empty array"
+      },
+      {
+        "input": [
+          [
+            -5,
+            5
+          ]
+        ],
+        "expected": 0,
+        "label": "cancelling values"
+      }
+    ],
+    "patternTag": "for...of Iteration",
+    "patternExplanation": "for...of iterates over the values of any iterable (arrays, strings, Sets, Maps) — cleaner than a for loop when you only need values, not indices.",
+    "estimatedMinutes": 5
+  },
+  {
+    "id": "for-in-for-of-2",
+    "title": "Count Key Occurrences",
+    "category": "for-in-for-of",
+    "difficulty": "Easy",
+    "functionName": "countKeys",
+    "description": "Given an object, return the total number of own enumerable keys using a for...in loop.",
+    "whatShouldHappen": [
+      "Initialize a counter to 0.",
+      "Use for...in to iterate over the object's keys.",
+      "Increment the counter for each own key (use hasOwnProperty).",
+      "Return the counter."
+    ],
+    "starterCode": "function countKeys(obj) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "obj = { a: 1, b: 2, c: 3 }",
+      "columns": [
+        "key",
+        "count"
+      ],
+      "rows": [
+        {
+          "key": "a",
+          "count": 1
+        },
+        {
+          "key": "b",
+          "count": 2
+        },
+        {
+          "key": "c",
+          "count": 3
+        }
+      ]
+    },
+    "skeletonHint": "function countKeys(obj) {\n  let count = 0;\n  for (const ____ in ____) {\n    count++;\n  }\n  return count;\n}",
+    "solution": "function countKeys(obj) {\n  // counter starts at zero\n  let count = 0;\n  // for...in iterates over all enumerable own (and inherited) keys\n  for (const key in obj) {\n    // only count own properties, not inherited ones from the prototype\n    if (Object.prototype.hasOwnProperty.call(obj, key)) {\n      count++;\n    }\n  }\n  // return how many own keys the object has\n  return count;\n}",
+    "tests": [
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": 2,
+            "c": 3
+          }
+        ],
+        "expected": 3,
+        "label": "normal object"
+      },
+      {
+        "input": [
+          {
+            "x": 10
+          }
+        ],
+        "expected": 1,
+        "label": "single key"
+      },
+      {
+        "input": [
+          {}
+        ],
+        "expected": 0,
+        "label": "empty object"
+      },
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": 2,
+            "c": 3,
+            "d": 4
+          }
+        ],
+        "expected": 4,
+        "label": "four keys"
+      }
+    ],
+    "patternTag": "for...in Iteration",
+    "patternExplanation": "for...in iterates over enumerable string keys of an object — always pair it with hasOwnProperty to avoid counting inherited prototype keys.",
+    "estimatedMinutes": 8
+  },
+  {
+    "id": "for-in-for-of-3",
+    "title": "Collect Characters with for...of",
+    "category": "for-in-for-of",
+    "difficulty": "Beginner",
+    "functionName": "collectChars",
+    "description": "Given a string, use a for...of loop to return an array of its individual characters.",
+    "whatShouldHappen": [
+      "Create an empty result array.",
+      "Use for...of to iterate over each character of the string.",
+      "Push each character into the result array.",
+      "Return the result array."
+    ],
+    "starterCode": "function collectChars(str) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "str = \"cat\"",
+      "columns": [
+        "char",
+        "result"
+      ],
+      "rows": [
+        {
+          "char": "c",
+          "result": "[\"c\"]"
+        },
+        {
+          "char": "a",
+          "result": "[\"c\",\"a\"]"
+        },
+        {
+          "char": "t",
+          "result": "[\"c\",\"a\",\"t\"]"
+        }
+      ]
+    },
+    "skeletonHint": "function collectChars(str) {\n  const result = [];\n  for (const ____ of ____) {\n    result.push(____);\n  }\n  return result;\n}",
+    "solution": "function collectChars(str) {\n  const result = [];\n  // strings are iterable — for...of gives each character one at a time\n  for (const char of str) {\n    result.push(char);\n  }\n  return result;\n}",
+    "tests": [
+      {
+        "input": [
+          "cat"
+        ],
+        "expected": [
+          "c",
+          "a",
+          "t"
+        ],
+        "label": "three chars"
+      },
+      {
+        "input": [
+          "a"
+        ],
+        "expected": [
+          "a"
+        ],
+        "label": "single char"
+      },
+      {
+        "input": [
+          ""
+        ],
+        "expected": [],
+        "label": "empty string"
+      },
+      {
+        "input": [
+          "hi!"
+        ],
+        "expected": [
+          "h",
+          "i",
+          "!"
+        ],
+        "label": "with punctuation"
+      }
+    ],
+    "patternTag": "for...of on Strings",
+    "patternExplanation": "Strings are iterable in JavaScript — for...of gives you each Unicode character directly, handling multi-byte emoji/symbols correctly unlike a regular index loop.",
+    "estimatedMinutes": 5
+  },
+  {
+    "id": "for-in-for-of-4",
+    "title": "Object to Pairs Array",
+    "category": "for-in-for-of",
+    "difficulty": "Easy",
+    "functionName": "toPairs",
+    "description": "Given an object, return an array of [key, value] pairs sorted by key alphabetically. Use a for...in loop.",
+    "whatShouldHappen": [
+      "Create an empty result array.",
+      "Use for...in to iterate over the keys.",
+      "For each key, push [key, obj[key]] into the result array.",
+      "Sort the result array by the key (index 0 of each pair) before returning."
+    ],
+    "starterCode": "function toPairs(obj) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "obj = { b: 2, a: 1, c: 3 }",
+      "columns": [
+        "key",
+        "value",
+        "pairs so far"
+      ],
+      "rows": [
+        {
+          "key": "b",
+          "value": 2,
+          "pairs so far": "[[\"b\",2]]"
+        },
+        {
+          "key": "a",
+          "value": 1,
+          "pairs so far": "[[\"b\",2],[\"a\",1]]"
+        },
+        {
+          "key": "c",
+          "value": 3,
+          "pairs so far": "[[\"b\",2],[\"a\",1],[\"c\",3]]"
+        }
+      ]
+    },
+    "skeletonHint": "function toPairs(obj) {\n  const pairs = [];\n  for (const ____ in obj) {\n    pairs.push([____, ____]);\n  }\n  return pairs.sort((a, b) => ____.____ < ____.____ ? -1 : 1);\n}",
+    "solution": "function toPairs(obj) {\n  const pairs = [];\n  // collect every own key-value pair\n  for (const key in obj) {\n    if (Object.prototype.hasOwnProperty.call(obj, key)) {\n      pairs.push([key, obj[key]]);\n    }\n  }\n  // sort alphabetically by the key (first element of each pair)\n  pairs.sort((a, b) => (a[0] < b[0] ? -1 : 1));\n  return pairs;\n}",
+    "tests": [
+      {
+        "input": [
+          {
+            "b": 2,
+            "a": 1,
+            "c": 3
+          }
+        ],
+        "expected": [
+          [
+            "a",
+            1
+          ],
+          [
+            "b",
+            2
+          ],
+          [
+            "c",
+            3
+          ]
+        ],
+        "label": "unsorted keys"
+      },
+      {
+        "input": [
+          {
+            "z": 26
+          }
+        ],
+        "expected": [
+          [
+            "z",
+            26
+          ]
+        ],
+        "label": "single key"
+      },
+      {
+        "input": [
+          {}
+        ],
+        "expected": [],
+        "label": "empty object"
+      },
+      {
+        "input": [
+          {
+            "x": 10,
+            "a": 1
+          }
+        ],
+        "expected": [
+          [
+            "a",
+            1
+          ],
+          [
+            "x",
+            10
+          ]
+        ],
+        "label": "two keys"
+      }
+    ],
+    "patternTag": "for...in + Sort",
+    "patternExplanation": "for...in collects keys in insertion order — when you need a guaranteed order (alphabetical, numeric), sort the resulting array after collecting.",
+    "estimatedMinutes": 10
+  },
+  {
+    "id": "for-in-for-of-5",
+    "title": "Flatten with for...of",
+    "category": "for-in-for-of",
+    "difficulty": "Medium",
+    "functionName": "flattenOne",
+    "description": "Given an array of arrays (one level deep), return a single flat array containing all elements. Use a for...of loop. Do not use Array.prototype.flat().",
+    "whatShouldHappen": [
+      "Create an empty result array.",
+      "Use an outer for...of to iterate over each sub-array.",
+      "Use an inner for...of to iterate over each element of the sub-array.",
+      "Push each element into the result.",
+      "Return the result."
+    ],
+    "starterCode": "function flattenOne(arrays) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arrays = [[1, 2], [3], [4, 5]]",
+      "columns": [
+        "sub-array",
+        "element",
+        "result"
+      ],
+      "rows": [
+        {
+          "sub-array": "[1,2]",
+          "element": 1,
+          "result": "[1]"
+        },
+        {
+          "sub-array": "[1,2]",
+          "element": 2,
+          "result": "[1,2]"
+        },
+        {
+          "sub-array": "[3]",
+          "element": 3,
+          "result": "[1,2,3]"
+        },
+        {
+          "sub-array": "[4,5]",
+          "element": 4,
+          "result": "[1,2,3,4]"
+        },
+        {
+          "sub-array": "[4,5]",
+          "element": 5,
+          "result": "[1,2,3,4,5]"
+        }
+      ]
+    },
+    "skeletonHint": "function flattenOne(arrays) {\n  const result = [];\n  for (const ____ of ____) {\n    for (const ____ of ____) {\n      result.push(____);\n    }\n  }\n  return result;\n}",
+    "solution": "function flattenOne(arrays) {\n  const result = [];\n  // outer loop: each item in arrays is itself an array\n  for (const subArray of arrays) {\n    // inner loop: each element of the sub-array\n    for (const element of subArray) {\n      result.push(element);\n    }\n  }\n  return result;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3
+            ],
+            [
+              4,
+              5
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "label": "normal nested arrays"
+      },
+      {
+        "input": [
+          [
+            [],
+            [
+              1
+            ],
+            []
+          ]
+        ],
+        "expected": [
+          1
+        ],
+        "label": "some empty sub-arrays"
+      },
+      {
+        "input": [
+          [
+            []
+          ]
+        ],
+        "expected": [],
+        "label": "all empty sub-arrays"
+      },
+      {
+        "input": [
+          [
+            [
+              1,
+              2,
+              3
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ],
+        "label": "single sub-array"
+      }
+    ],
+    "patternTag": "Nested for...of",
+    "patternExplanation": "Nesting for...of loops is ideal for traversing collections of iterables — the outer loop visits each sub-array and the inner loop drains it into the result.",
+    "estimatedMinutes": 10
+  }
+]
