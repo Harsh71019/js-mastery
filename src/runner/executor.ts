@@ -26,44 +26,61 @@ const buildSandboxHtml = (
   const serializedTests = JSON.stringify(tests)
   const safeFnName = JSON.stringify(functionName)
 
-  return `<!doctype html><html><body><script>
-    (function() {
-      var tests = ${serializedTests};
-      var fnName = ${safeFnName};
-      var results = [];
+  // Script 1: user code at top-level scope so function declarations become globals.
+  // Script 2: test runner runs after user code is fully evaluated.
+  // Splitting into two <script> tags means a syntax error in script 1 stops it
+  // cleanly — script 2 then checks __error__ and reports it.
+  return `<!doctype html><html><body>
+<script>
+window.__tests__ = ${serializedTests};
+window.__fnName__ = ${safeFnName};
+window.__results__ = [];
+window.__error__ = null;
+<\/script>
+<script>
+try {
+${userCode}
+} catch (e) {
+  window.__error__ = e.message;
+}
+<\/script>
+<script>
+(function () {
+  var tests = window.__tests__;
+  var fnName = window.__fnName__;
+  var results = window.__results__;
 
-      try {
-        eval(${JSON.stringify(userCode)});
-      } catch (syntaxErr) {
-        tests.forEach(function(t) {
-          results.push({ input: t.input, expected: t.expected, actual: null, passed: false, error: syntaxErr.message });
-        });
-        window.parent.postMessage({ type: 'results', results: results }, '*');
-        return;
-      }
+  if (window.__error__) {
+    tests.forEach(function (t) {
+      results.push({ input: t.input, expected: t.expected, actual: null, passed: false, error: window.__error__ });
+    });
+    window.parent.postMessage({ type: 'results', results: results }, '*');
+    return;
+  }
 
-      if (typeof window[fnName] !== 'function') {
-        tests.forEach(function(t) {
-          results.push({ input: t.input, expected: t.expected, actual: null, passed: false, error: 'Function "' + fnName + '" is not defined. Make sure your function name matches exactly.' });
-        });
-        window.parent.postMessage({ type: 'results', results: results }, '*');
-        return;
-      }
+  if (typeof window[fnName] !== 'function') {
+    tests.forEach(function (t) {
+      results.push({ input: t.input, expected: t.expected, actual: null, passed: false, error: 'Function "' + fnName + '" is not defined. Check the function name matches the starter code.' });
+    });
+    window.parent.postMessage({ type: 'results', results: results }, '*');
+    return;
+  }
 
-      tests.forEach(function(t) {
-        try {
-          var args = Array.isArray(t.input) ? t.input : [t.input];
-          var actual = window[fnName].apply(null, args);
-          var passed = JSON.stringify(actual) === JSON.stringify(t.expected);
-          results.push({ input: t.input, expected: t.expected, actual: actual, passed: passed, error: null });
-        } catch (runtimeErr) {
-          results.push({ input: t.input, expected: t.expected, actual: null, passed: false, error: runtimeErr.message });
-        }
-      });
+  tests.forEach(function (t) {
+    try {
+      var args = Array.isArray(t.input) ? t.input : [t.input];
+      var actual = window[fnName].apply(null, args);
+      var passed = JSON.stringify(actual) === JSON.stringify(t.expected);
+      results.push({ input: t.input, expected: t.expected, actual: actual, passed: passed, error: null });
+    } catch (runtimeErr) {
+      results.push({ input: t.input, expected: t.expected, actual: null, passed: false, error: runtimeErr.message });
+    }
+  });
 
-      window.parent.postMessage({ type: 'results', results: results }, '*');
-    })();
-  <\/script></body></html>`
+  window.parent.postMessage({ type: 'results', results: results }, '*');
+})();
+<\/script>
+</body></html>`
 }
 
 export const runTests = (
