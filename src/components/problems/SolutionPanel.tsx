@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, Suspense, lazy } from 'react'
 import { Lock } from 'lucide-react'
-import Editor from '@monaco-editor/react'
+
+const Editor = lazy(() => import('@monaco-editor/react'))
 
 interface SolutionPanelProps {
   readonly solution: string
@@ -39,6 +40,7 @@ export const SolutionPanel = ({
       ) : (
         <>
           <div className="rounded overflow-hidden border border-border-default" style={{ height: '220px' }}>
+            <Suspense fallback={<div className="w-full h-full bg-bg-primary" />}>
             <Editor
               height="220px"
               language="javascript"
@@ -64,6 +66,7 @@ export const SolutionPanel = ({
                 monaco.editor.setTheme('app-dark')
               }}
             />
+            </Suspense>
           </div>
 
           <div className="bg-accent-purple/10 border-l-[3px] border-accent-purple rounded-r px-4 py-3">

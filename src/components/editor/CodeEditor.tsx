@@ -1,11 +1,19 @@
-import React, { useRef } from 'react'
-import Editor, { type OnMount } from '@monaco-editor/react'
+import React, { useRef, Suspense, lazy } from 'react'
+import type { OnMount } from '@monaco-editor/react'
 import type { editor } from 'monaco-editor'
+
+const Editor = lazy(() => import('@monaco-editor/react'))
 
 interface CodeEditorProps {
   readonly value: string
   readonly onChange: (value: string) => void
 }
+
+const EditorSkeleton = (): React.JSX.Element => (
+  <div className="w-full h-full bg-bg-primary flex items-center justify-center">
+    <span className="text-text-tertiary text-xs">Loading editor…</span>
+  </div>
+)
 
 export const CodeEditor = ({ value, onChange }: CodeEditorProps): React.JSX.Element => {
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
@@ -22,24 +30,26 @@ export const CodeEditor = ({ value, onChange }: CodeEditorProps): React.JSX.Elem
   }
 
   return (
-    <Editor
-      language="javascript"
-      value={value}
-      theme="vs-dark"
-      onChange={(newValue) => onChange(newValue ?? '')}
-      onMount={handleMount}
-      options={{
-        minimap: { enabled: false },
-        fontSize: 14,
-        fontFamily: 'JetBrains Mono, monospace',
-        lineNumbers: 'on',
-        wordWrap: 'off',
-        scrollBeyondLastLine: false,
-        scrollbar: { vertical: 'auto', horizontal: 'auto', verticalScrollbarSize: 6 },
-        padding: { top: 12, bottom: 12 },
-        renderLineHighlight: 'line',
-        smoothScrolling: true,
-      }}
-    />
+    <Suspense fallback={<EditorSkeleton />}>
+      <Editor
+        language="javascript"
+        value={value}
+        theme="vs-dark"
+        onChange={(newValue) => onChange(newValue ?? '')}
+        onMount={handleMount}
+        options={{
+          minimap: { enabled: false },
+          fontSize: 14,
+          fontFamily: 'JetBrains Mono, monospace',
+          lineNumbers: 'on',
+          wordWrap: 'off',
+          scrollBeyondLastLine: false,
+          scrollbar: { vertical: 'auto', horizontal: 'auto', verticalScrollbarSize: 6 },
+          padding: { top: 12, bottom: 12 },
+          renderLineHighlight: 'line',
+          smoothScrolling: true,
+        }}
+      />
+    </Suspense>
   )
 }

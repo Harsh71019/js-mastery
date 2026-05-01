@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CheckCircle2, Circle } from 'lucide-react'
 import { format } from 'date-fns'
@@ -22,10 +22,10 @@ const formatSolveDate = (isoString: string): string => {
   return format(new Date(isoString), 'MMM d, yyyy')
 }
 
-export const ProblemTable = ({
+export const ProblemTable = memo(function ProblemTable({
   problems,
   solvedProblems,
-}: ProblemTableProps): React.JSX.Element => {
+}: ProblemTableProps): React.JSX.Element {
   const navigate = useNavigate()
 
   if (problems.length === 0) {
@@ -107,4 +107,4 @@ export const ProblemTable = ({
       </table>
     </div>
   )
-}
+})
