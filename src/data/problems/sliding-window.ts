@@ -1,0 +1,146 @@
+import type { Problem } from '@/types/problem'
+
+export const slidingWindowProblems: readonly Problem[] = [
+  {
+    id: 'sliding-window-1',
+    title: 'Max Sum Subarray of Size K',
+    category: 'sliding-window',
+    difficulty: 'Easy',
+    functionName: 'maxSumSubarray',
+    description:
+      'Given an array of numbers and an integer k, return the maximum sum of any contiguous subarray of length k.',
+    whatShouldHappen: [
+      'Compute the sum of the first window (first k elements).',
+      'Slide the window one step right each iteration.',
+      'Add the incoming element and subtract the outgoing element.',
+      'Track the maximum window sum seen and return it.',
+    ],
+    starterCode: `function maxSumSubarray(nums, k) {
+  // your code here
+}`,
+    traceTable: {
+      inputLabel: 'nums = [2, 1, 5, 1, 3, 2], k = 3',
+      columns: ['window', 'sum', 'max'],
+      rows: [
+        { window: '[2,1,5]', sum: 8, max: 8 },
+        { window: '[1,5,1]', sum: 7, max: 8 },
+        { window: '[5,1,3]', sum: 9, max: 9 },
+        { window: '[1,3,2]', sum: 6, max: 9 },
+      ],
+    },
+    skeletonHint: `function maxSumSubarray(nums, k) {
+  let windowSum = 0;
+  for (let i = 0; i < k; i++) windowSum += nums[i];
+  let maxSum = windowSum;
+  for (let i = k; i < ____; i++) {
+    windowSum += nums[i] - nums[____];
+    maxSum = Math.max(maxSum, ____);
+  }
+  return maxSum;
+}`,
+    solution: `function maxSumSubarray(nums, k) {
+  // compute the sum of the initial window
+  let windowSum = 0;
+  for (let i = 0; i < k; i++) windowSum += nums[i];
+  // the first window is the current best
+  let maxSum = windowSum;
+  // slide: add the new right element, remove the old left element
+  for (let i = k; i < nums.length; i++) {
+    // nums[i] enters the window; nums[i - k] leaves the window
+    windowSum += nums[i] - nums[i - k];
+    // update the best sum if this window is larger
+    maxSum = Math.max(maxSum, windowSum);
+  }
+  // return the maximum sum found across all windows
+  return maxSum;
+}`,
+    tests: [
+      { input: [[2, 1, 5, 1, 3, 2], 3], expected: 9, label: 'normal input' },
+      { input: [[1, 2, 3], 3], expected: 6, label: 'full array window' },
+      { input: [[5], 1], expected: 5, label: 'single element window' },
+      { input: [[1, 4, 2, 9, 7, 3, 8], 3], expected: 18, label: 'window near end' },
+    ],
+    patternTag: 'Fixed Sliding Window',
+    patternExplanation:
+      'Instead of recomputing each window sum from scratch (O(n·k)), reuse the previous sum by adding the incoming element and subtracting the outgoing one — O(n) total.',
+    estimatedMinutes: 10,
+  },
+  {
+    id: 'sliding-window-2',
+    title: 'Longest Subarray with Sum ≤ K',
+    category: 'sliding-window',
+    difficulty: 'Medium',
+    functionName: 'longestSubarrayWithSumAtMostK',
+    description:
+      'Given an array of non-negative integers and a value k, return the length of the longest contiguous subarray whose sum is at most k.',
+    whatShouldHappen: [
+      'Use a left and right pointer both starting at 0.',
+      'Expand the window by advancing the right pointer and adding to the running sum.',
+      'If the sum exceeds k, shrink the window by advancing the left pointer and subtracting.',
+      'After each step, update the maximum window length seen.',
+    ],
+    starterCode: `function longestSubarrayWithSumAtMostK(nums, k) {
+  // your code here
+}`,
+    traceTable: {
+      inputLabel: 'nums = [1, 2, 1, 0, 1, 1], k = 3',
+      columns: ['left', 'right', 'sum', 'length', 'max'],
+      rows: [
+        { left: 0, right: 0, sum: 1, length: 1, max: 1 },
+        { left: 0, right: 1, sum: 3, length: 2, max: 2 },
+        { left: 0, right: 2, sum: 4, length: 3, max: 2 },
+        { left: 1, right: 2, sum: 3, length: 2, max: 2 },
+        { left: 1, right: 3, sum: 3, length: 3, max: 3 },
+        { left: 1, right: 4, sum: 4, length: 4, max: 3 },
+        { left: 2, right: 4, sum: 2, length: 3, max: 3 },
+        { left: 2, right: 5, sum: 3, length: 4, max: 4 },
+      ],
+    },
+    skeletonHint: `function longestSubarrayWithSumAtMostK(nums, k) {
+  let left = 0;
+  let sum = 0;
+  let maxLength = 0;
+  for (let right = 0; right < ____; right++) {
+    sum += nums[right];
+    while (sum > k) {
+      sum -= nums[____];
+      left++;
+    }
+    maxLength = Math.max(maxLength, right - ____ + 1);
+  }
+  return maxLength;
+}`,
+    solution: `function longestSubarrayWithSumAtMostK(nums, k) {
+  // left marks the start of the current window
+  let left = 0;
+  // running sum of the current window
+  let sum = 0;
+  // best window length seen so far
+  let maxLength = 0;
+  // right expands the window one step at a time
+  for (let right = 0; right < nums.length; right++) {
+    // include nums[right] in the current window
+    sum += nums[right];
+    // shrink from the left until the sum is within the limit
+    while (sum > k) {
+      sum -= nums[left];
+      left++;
+    }
+    // current window [left..right] is valid — check if it's the longest
+    maxLength = Math.max(maxLength, right - left + 1);
+  }
+  // return the length of the longest valid window
+  return maxLength;
+}`,
+    tests: [
+      { input: [[1, 2, 1, 0, 1, 1], 3], expected: 4, label: 'normal input' },
+      { input: [[1, 1, 1, 1], 2], expected: 2, label: 'all ones' },
+      { input: [[1, 2, 3], 6], expected: 3, label: 'entire array fits' },
+      { input: [[5, 5, 5], 3], expected: 0, label: 'no valid subarray' },
+    ],
+    patternTag: 'Variable Sliding Window',
+    patternExplanation:
+      'Expand with the right pointer and shrink with the left — the window size flexes to maintain a constraint, avoiding the need to restart from every possible left boundary.',
+    estimatedMinutes: 15,
+  },
+]
