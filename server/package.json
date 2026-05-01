@@ -6,7 +6,9 @@
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "seed": "ts-node-dev --transpile-only src/seed.ts"
+    "convert": "ts-node-dev --transpile-only src/convert.ts",
+    "seed": "ts-node-dev --transpile-only src/seed.ts",
+    "list-titles": "ts-node-dev --transpile-only src/list-titles.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",
