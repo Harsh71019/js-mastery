@@ -7,8 +7,6 @@ import { CATEGORIES } from '@/data/categories'
 
 interface TopBarProps {
   readonly problem: Problem
-  readonly problemIndex: number
-  readonly totalProblems: number
   readonly onPrev: () => void
   readonly onNext: () => void
   readonly canGoPrev: boolean
@@ -17,8 +15,6 @@ interface TopBarProps {
 
 export const TopBar = ({
   problem,
-  problemIndex,
-  totalProblems,
   onPrev,
   onNext,
   canGoPrev,
@@ -66,9 +62,6 @@ export const TopBar = ({
         >
           <ChevronLeft size={16} />
         </button>
-        <span className="text-xs">
-          {problemIndex + 1} / {totalProblems}
-        </span>
         <button
           type="button"
           onClick={onNext}

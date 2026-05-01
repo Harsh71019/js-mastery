@@ -2,13 +2,14 @@ import React, { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CheckCircle2, Circle } from 'lucide-react'
 import { format } from 'date-fns'
-import type { Problem } from '@/types/problem'
+import type { ProblemSummary } from '@/types/problem'
 import { DifficultyBadge, CategoryBadge } from '@/components/ui/Badge'
 import { CATEGORIES } from '@/data/categories'
 
 interface ProblemTableProps {
-  readonly problems: readonly Problem[]
+  readonly problems: readonly ProblemSummary[]
   readonly solvedProblems: Record<string, { solvedAt: string; attempts: number }>
+  readonly isLoading?: boolean
 }
 
 const getCategoryColor = (slug: string): string =>
@@ -22,11 +23,36 @@ const formatSolveDate = (isoString: string): string => {
   return format(new Date(isoString), 'MMM d, yyyy')
 }
 
+const SkeletonRow = (): React.JSX.Element => (
+  <tr className="border-t border-border-default">
+    {[1, 2, 3, 4, 5, 6, 7].map((cell) => (
+      <td key={cell} className="px-3 py-3">
+        <div className="h-4 bg-bg-tertiary rounded animate-pulse" />
+      </td>
+    ))}
+  </tr>
+)
+
 export const ProblemTable = memo(function ProblemTable({
   problems,
   solvedProblems,
+  isLoading = false,
 }: ProblemTableProps): React.JSX.Element {
   const navigate = useNavigate()
+
+  if (isLoading) {
+    return (
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse">
+          <tbody>
+            {Array.from({ length: 8 }).map((_, index) => (
+              <SkeletonRow key={index} />
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
 
   if (problems.length === 0) {
     return (

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useParams, useNavigate, Navigate } from 'react-router-dom'
 import confetti from 'canvas-confetti'
-import { getProblemById, problems } from '@/data'
+import { useProblem } from '@/hooks/useProblem'
 import { useProgressStore } from '@/store/useProgressStore'
 import { useProgress } from '@/hooks/useProgress'
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut'
@@ -32,7 +32,7 @@ const getSavedRatio = (): number => {
 export const ProblemPage = (): React.JSX.Element => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const problem = getProblemById(id ?? '')
+  const { problem, prevId, nextId, isLoading, error } = useProblem(id ?? '')
 
   const [code, setCode] = useState('')
   const [results, setResults] = useState<readonly TestResult[] | null>(null)
@@ -57,10 +57,6 @@ export const ProblemPage = (): React.JSX.Element => {
     setAllPassed(false)
     confettiFired.current = false
   }, [problem?.id])
-
-  const currentIndex = problems.findIndex((p) => p.id === id)
-  const canGoPrev = currentIndex > 0
-  const canGoNext = currentIndex < problems.length - 1
 
   const handleRun = useCallback(async (): Promise<void> => {
     if (!problem || isRunning) return
@@ -95,17 +91,14 @@ export const ProblemPage = (): React.JSX.Element => {
     isDragging.current = true
   }, [])
 
-  const handleMouseMove = useCallback(
-    (event: React.MouseEvent): void => {
-      if (!isDragging.current || !containerRef.current) return
-      const rect = containerRef.current.getBoundingClientRect()
-      const ratio = ((event.clientX - rect.left) / rect.width) * 100
-      const clamped = Math.min(75, Math.max(25, ratio))
-      setLeftRatio(clamped)
-      localStorage.setItem(PANEL_RATIO_KEY, String(clamped))
-    },
-    [],
-  )
+  const handleMouseMove = useCallback((event: React.MouseEvent): void => {
+    if (!isDragging.current || !containerRef.current) return
+    const rect = containerRef.current.getBoundingClientRect()
+    const ratio = ((event.clientX - rect.left) / rect.width) * 100
+    const clamped = Math.min(75, Math.max(25, ratio))
+    setLeftRatio(clamped)
+    localStorage.setItem(PANEL_RATIO_KEY, String(clamped))
+  }, [])
 
   const handleMouseUp = useCallback((): void => {
     isDragging.current = false
@@ -117,18 +110,40 @@ export const ProblemPage = (): React.JSX.Element => {
     setIsResetModalOpen(false)
   }, [problem])
 
-  if (!problem) return <Navigate to="/problems" replace />
+  if (isLoading) {
+    return (
+      <div className="flex flex-col h-screen overflow-hidden">
+        <div className="h-12 border-b border-border-default bg-bg-primary shrink-0 animate-pulse" />
+        <div className="flex flex-1 overflow-hidden">
+          <div className="w-2/5 border-r border-border-default p-5 flex flex-col gap-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-6 bg-bg-tertiary rounded animate-pulse" />
+            ))}
+          </div>
+          <div className="flex-1 bg-bg-primary" />
+        </div>
+      </div>
+    )
+  }
+
+  if (error === 'not_found' || !problem) return <Navigate to="/problems" replace />
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen text-text-tertiary text-sm">
+        Failed to load problem — is the server running?
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
       <TopBar
         problem={problem}
-        problemIndex={currentIndex}
-        totalProblems={problems.length}
-        onPrev={() => navigate(`/problem/${problems[currentIndex - 1].id}`)}
-        onNext={() => navigate(`/problem/${problems[currentIndex + 1].id}`)}
-        canGoPrev={canGoPrev}
-        canGoNext={canGoNext}
+        onPrev={() => prevId && navigate(`/problem/${prevId}`)}
+        onNext={() => nextId && navigate(`/problem/${nextId}`)}
+        canGoPrev={prevId !== null}
+        canGoNext={nextId !== null}
       />
 
       <div
@@ -138,13 +153,11 @@ export const ProblemPage = (): React.JSX.Element => {
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
       >
-        {/* Left panel */}
         <div
           className="flex flex-col overflow-y-auto border-r border-border-default"
           style={{ width: `${leftRatio}%` }}
         >
           <div className="flex flex-col gap-6 p-5">
-            {/* Section 1 — Problem */}
             <div>
               <h1 className="text-text-primary text-lg font-medium mb-3">
                 {problem.title}
@@ -165,7 +178,6 @@ export const ProblemPage = (): React.JSX.Element => {
 
             <Divider />
 
-            {/* Section 2 — How to think about it */}
             <div>
               <p className="text-text-tertiary text-xs uppercase tracking-wide mb-3">
                 How to think about it
@@ -181,18 +193,10 @@ export const ProblemPage = (): React.JSX.Element => {
             </div>
 
             <Divider />
-
-            {/* Section 3 — Trace table */}
             <TraceTable traceTable={problem.traceTable} />
-
             <Divider />
-
-            {/* Section 4 — Skeleton hint */}
             <SkeletonHint hint={problem.skeletonHint} />
-
             <Divider />
-
-            {/* Section 5 — Solution */}
             <SolutionPanel
               solution={problem.solution}
               patternTag={problem.patternTag}
@@ -202,15 +206,12 @@ export const ProblemPage = (): React.JSX.Element => {
           </div>
         </div>
 
-        {/* Drag handle */}
         <div
           onMouseDown={handleMouseDown}
           className="w-1 bg-border-default hover:bg-accent-blue/50 cursor-col-resize transition-colors duration-150 shrink-0 active:bg-accent-blue"
         />
 
-        {/* Right panel */}
         <div className="flex flex-col flex-1 overflow-hidden">
-          {/* Sub-bar */}
           <div className="flex items-center justify-between px-4 py-2 border-b border-border-default shrink-0">
             <span className="text-text-tertiary text-xs">JavaScript</span>
             <div className="flex items-center gap-4">
@@ -225,22 +226,20 @@ export const ProblemPage = (): React.JSX.Element => {
             </div>
           </div>
 
-          {/* Editor */}
           <div className="flex-1 overflow-hidden" style={{ minHeight: 0 }}>
             <CodeEditor value={code} onChange={setCode} />
           </div>
 
-          {/* Results panel */}
           <div className="border-t border-border-default shrink-0" style={{ height: '220px' }}>
             {allPassed && (
               <div className="flex items-center justify-between px-4 py-2.5 bg-[#052e16] border-b border-accent-green/30">
                 <span className="text-accent-green text-sm font-medium">
                   All {results?.length} tests passed 🎉
                 </span>
-                {canGoNext && (
+                {nextId && (
                   <button
                     type="button"
-                    onClick={() => navigate(`/problem/${problems[currentIndex + 1].id}`)}
+                    onClick={() => navigate(`/problem/${nextId}`)}
                     className="text-accent-green text-xs hover:underline cursor-pointer"
                   >
                     Next Problem →
@@ -253,7 +252,6 @@ export const ProblemPage = (): React.JSX.Element => {
             </div>
           </div>
 
-          {/* Run button */}
           <button
             type="button"
             onClick={handleRun}
