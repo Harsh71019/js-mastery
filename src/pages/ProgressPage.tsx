@@ -126,17 +126,6 @@ export const ProgressPage = (): React.JSX.Element => {
       <div className="bg-bg-secondary border border-border-default rounded-lg p-5">
         <h2 className="text-text-secondary text-xs uppercase tracking-wide mb-4">Activity</h2>
         <CalendarHeatmap dayData={dayData} />
-        <div className="flex items-center gap-2 mt-3 justify-end">
-          <span className="text-text-tertiary text-xs">Less</span>
-          {['#1a1a1a', '#14532d', '#15803d', '#22c55e'].map((color) => (
-            <span
-              key={color}
-              className="w-3 h-3 rounded-sm inline-block"
-              style={{ backgroundColor: color }}
-            />
-          ))}
-          <span className="text-text-tertiary text-xs">More</span>
-        </div>
       </div>
 
       <div className="bg-bg-secondary border border-border-default rounded-lg p-5">
