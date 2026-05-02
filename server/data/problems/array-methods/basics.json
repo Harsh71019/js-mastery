@@ -1,0 +1,344 @@
+[
+  {
+    "id": "array-methods-slice-basic",
+    "title": "Slice: Get First Half",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "getFirstHalf",
+    "description": "Given an array, return a new array containing only the first half of the elements. If the array length is odd, include the middle element in the first half.",
+    "whatShouldHappen": [
+      "Calculate the middle index using Math.ceil(arr.length / 2).",
+      "Use the .slice() method to extract elements from index 0 to the middle index.",
+      "Return the new array."
+    ],
+    "starterCode": "function getFirstHalf(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4, 5]",
+      "columns": ["mid", "result"],
+      "rows": [
+        { "mid": 3, "result": "[1, 2, 3]" }
+      ]
+    },
+    "skeletonHint": "function getFirstHalf(arr) {\n  const mid = Math.ceil(____ / 2);\n  return arr.slice(____, ____);\n}",
+    "solution": "function getFirstHalf(arr) {\n  const mid = Math.ceil(arr.length / 2);\n  return arr.slice(0, mid);\n}",
+    "tests": [
+      { "input": [[1, 2, 3, 4]], "expected": [1, 2], "label": "even length" },
+      { "input": [[1, 2, 3, 4, 5]], "expected": [1, 2, 3], "label": "odd length" },
+      { "input": [[]], "expected": [], "label": "empty array" },
+      { "input": [["a"]], "expected": ["a"], "label": "single element" }
+    ],
+    "patternTag": "Array Slicing",
+    "patternExplanation": ".slice(start, end) creates a shallow copy of a portion of an array without modifying the original.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-splice-remove",
+    "title": "Splice: Remove Every Other",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "removeEveryOther",
+    "description": "Given an array, remove every second element *in-place* and return the modified array. Start removing from the element at index 1.",
+    "whatShouldHappen": [
+      "Loop through the array starting from index 1.",
+      "Use .splice(i, 1) to remove the element at the current index.",
+      "Adjust the loop counter because splicing shortens the array.",
+      "Return the original (now modified) array."
+    ],
+    "starterCode": "function removeEveryOther(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4]",
+      "columns": ["i", "removed", "currentArr"],
+      "rows": [
+        { "i": 1, "removed": 2, "currentArr": "[1, 3, 4]" },
+        { "i": 2, "removed": 4, "currentArr": "[1, 3]" }
+      ]
+    },
+    "skeletonHint": "function removeEveryOther(arr) {\n  for (let i = 1; i < arr.length; i += ____) {\n    arr.splice(i, 1);\n  }\n  return arr;\n}",
+    "solution": "function removeEveryOther(arr) {\n  for (let i = 1; i < arr.length; i++) {\n    arr.splice(i, 1);\n    // No need to increment i by 2 because the next 'every other' element \n    // shifts into the current index position after splice.\n  }\n  return arr;\n}",
+    "tests": [
+      { "input": [[1, 2, 3, 4]], "expected": [1, 3], "label": "even length" },
+      { "input": [[1, 2, 3, 4, 5]], "expected": [1, 3, 5], "label": "odd length" },
+      { "input": [["a", "b"]], "expected": ["a"], "label": "two elements" },
+      { "input": [[1]], "expected": [1], "label": "single element" }
+    ],
+    "patternTag": "In-place Mutation",
+    "patternExplanation": ".splice() modifies the original array. When removing elements in a loop, be careful as indices shift.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-map-transform",
+    "title": "Map: Price Tags",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "formatPrices",
+    "description": "Given an array of numbers, return a new array where each number is converted to a string formatted as a price (e.g., 10 becomes '$10.00').",
+    "whatShouldHappen": [
+      "Use the .map() method to iterate over the array.",
+      "For each number, use .toFixed(2) to ensure two decimal places.",
+      "Prepend a '$' sign.",
+      "Return the new array."
+    ],
+    "starterCode": "function formatPrices(prices) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "prices = [5, 10.5]",
+      "columns": ["price", "formatted"],
+      "rows": [
+        { "price": 5, "formatted": "'$5.00'" },
+        { "price": 10.5, "formatted": "'$10.50'" }
+      ]
+    },
+    "skeletonHint": "function formatPrices(prices) {\n  return prices.map(price => {\n    return '$' + price.____(2);\n  });\n}",
+    "solution": "function formatPrices(prices) {\n  return prices.map(price => `$${price.toFixed(2)}`);\n}",
+    "tests": [
+      { "input": [[5, 10.5, 0.99]], "expected": ["$5.00", "$10.50", "$0.99"], "label": "various numbers" },
+      { "input": [[100]], "expected": ["$100.00"], "label": "whole number" },
+      { "input": [[]], "expected": [], "label": "empty array" },
+      { "input": [[1.234]], "expected": ["$1.23"], "label": "rounding check" }
+    ],
+    "patternTag": "Data Transformation",
+    "patternExplanation": ".map() creates a new array by applying a function to every element of the original array.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-filter-search",
+    "title": "Filter: Long Words",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "getLongWords",
+    "description": "Given an array of strings and a minimum length, return a new array containing only the strings that have at least that many characters.",
+    "whatShouldHappen": [
+      "Use the .filter() method on the input array.",
+      "Check if the length of the current string is greater than or equal to the minimum length.",
+      "Return the filtered array."
+    ],
+    "starterCode": "function getLongWords(words, minLength) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "words = ['cat', 'apple'], min = 4",
+      "columns": ["word", "length", "keep?"],
+      "rows": [
+        { "word": "cat", "length": 3, "keep?": "false" },
+        { "word": "apple", "length": 5, "keep?": "true" }
+      ]
+    },
+    "skeletonHint": "function getLongWords(words, minLength) {\n  return words.filter(word => word.____ >= ____);\n}",
+    "solution": "function getLongWords(words, minLength) {\n  return words.filter(word => word.length >= minLength);\n}",
+    "tests": [
+      { "input": [["apple", "cat", "banana"], 5], "expected": ["apple", "banana"], "label": "mixed lengths" },
+      { "input": [["a", "b"], 3], "expected": [], "label": "none match" },
+      { "input": [["hello"], 1], "expected": ["hello"], "label": "all match" },
+      { "input": [[], 5], "expected": [], "label": "empty input" }
+    ],
+    "patternTag": "Predicate Filtering",
+    "patternExplanation": ".filter() creates a new array with all elements that pass the test implemented by the provided function.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-reduce-sum",
+    "title": "Reduce: Inventory Total",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "getTotalInventory",
+    "description": "Given an array of objects representing items in an inventory (e.g., { name: 'apple', count: 10 }), return the total count of all items.",
+    "whatShouldHappen": [
+      "Use the .reduce() method to accumulate the total count.",
+      "Initialize the accumulator to 0.",
+      "In each iteration, add the 'count' property of the current item to the accumulator.",
+      "Return the final sum."
+    ],
+    "starterCode": "function getTotalInventory(items) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "items = [{count: 5}, {count: 2}]",
+      "columns": ["acc", "curr.count", "newAcc"],
+      "rows": [
+        { "acc": 0, "curr.count": 5, "newAcc": 5 },
+        { "acc": 5, "curr.count": 2, "newAcc": 7 }
+      ]
+    },
+    "skeletonHint": "function getTotalInventory(items) {\n  return items.reduce((total, item) => {\n    return total + ____;\n  }, ____);\n}",
+    "solution": "function getTotalInventory(items) {\n  return items.reduce((total, item) => total + item.count, 0);\n}",
+    "tests": [
+      { "input": [[{ "name": "a", "count": 5 }, { "name": "b", "count": 10 }]], "expected": 15, "label": "multiple items" },
+      { "input": [[{ "count": 0 }]], "expected": 0, "label": "zero count" },
+      { "input": [[]], "expected": 0, "label": "empty inventory" },
+      { "input": [[{ "count": 100 }]], "expected": 100, "label": "single item" }
+    ],
+    "patternTag": "Aggregation",
+    "patternExplanation": ".reduce() executes a reducer function on each element, resulting in a single output value.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-find-index",
+    "title": "Find: First Negative",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "findFirstNegative",
+    "description": "Given an array of numbers, return the first negative number found. If no negative number exists, return undefined.",
+    "whatShouldHappen": [
+      "Use the .find() method on the array.",
+      "Define a condition that checks if a number is less than 0.",
+      "Return the result of the .find() call."
+    ],
+    "starterCode": "function findFirstNegative(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, -2, 3]",
+      "columns": ["num", "isNegative?"],
+      "rows": [
+        { "num": 1, "isNegative?": "false" },
+        { "num": -2, "isNegative?": "true" }
+      ]
+    },
+    "skeletonHint": "function findFirstNegative(nums) {\n  return nums.find(n => ____ < 0);\n}",
+    "solution": "function findFirstNegative(nums) {\n  return nums.find(n => n < 0);\n}",
+    "tests": [
+      { "input": [[1, -2, 3]], "expected": -2, "label": "contains negative" },
+      { "input": [[1, 2, 3]], "expected": null, "label": "no negatives" },
+      { "input": [[-5, -10]], "expected": -5, "label": "all negatives" },
+      { "input": [[]], "expected": null, "label": "empty array" }
+    ],
+    "patternTag": "Searching",
+    "patternExplanation": ".find() returns the value of the first element in the provided array that satisfies the provided testing function.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-sort-numbers",
+    "title": "Sort: Numeric Order",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "sortNumbers",
+    "description": "Given an array of numbers, return a new array with the numbers sorted in ascending numeric order. Be careful: the default .sort() treats elements as strings!",
+    "whatShouldHappen": [
+      "Create a copy of the array using spread syntax or .slice() to avoid mutating the original.",
+      "Call .sort() on the copy.",
+      "Provide a comparison function (a, b) => a - b to handle numeric sorting correctly.",
+      "Return the sorted copy."
+    ],
+    "starterCode": "function sortNumbers(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [10, 2, 5]",
+      "columns": ["a", "b", "a - b", "action"],
+      "rows": [
+        { "a": 10, "b": 2, "a - b": 8, "action": "swap" }
+      ]
+    },
+    "skeletonHint": "function sortNumbers(nums) {\n  return [...nums].sort((a, b) => ____ - ____);\n}",
+    "solution": "function sortNumbers(nums) {\n  return [...nums].sort((a, b) => a - b);\n}",
+    "tests": [
+      { "input": [[10, 1, 20, 2]], "expected": [1, 2, 10, 20], "label": "multi-digit numbers" },
+      { "input": [[5, 4, 3, 2, 1]], "expected": [1, 2, 3, 4, 5], "label": "reverse order" },
+      { "input": [[1]], "expected": [1], "label": "single element" },
+      { "input": [[-1, -5, 0]], "expected": [-5, -1, 0], "label": "negatives and zero" }
+    ],
+    "patternTag": "Custom Sorting",
+    "patternExplanation": "Default .sort() converts elements to strings. Numeric sorting requires a comparator function.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-every-check",
+    "title": "Every: All Positive",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "areAllPositive",
+    "description": "Given an array of numbers, return true if every number in the array is greater than zero, and false otherwise.",
+    "whatShouldHappen": [
+      "Use the .every() method on the array.",
+      "The callback should return true if the current number > 0.",
+      "Return the boolean result."
+    ],
+    "starterCode": "function areAllPositive(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 2, -1]",
+      "columns": ["num", "isPositive?", "resultSoFar"],
+      "rows": [
+        { "num": 1, "isPositive?": "true", "resultSoFar": "true" },
+        { "num": 2, "isPositive?": "true", "resultSoFar": "true" },
+        { "num": -1, "isPositive?": "false", "resultSoFar": "false" }
+      ]
+    },
+    "skeletonHint": "function areAllPositive(nums) {\n  return nums.every(n => ____ > 0);\n}",
+    "solution": "function areAllPositive(nums) {\n  return nums.every(n => n > 0);\n}",
+    "tests": [
+      { "input": [[1, 2, 3]], "expected": true, "label": "all positive" },
+      { "input": [[1, 0, 2]], "expected": false, "label": "contains zero" },
+      { "input": [[-1, 1]], "expected": false, "label": "contains negative" },
+      { "input": [[]], "expected": true, "label": "empty array (vacuously true)" }
+    ],
+    "patternTag": "Universal Quantification",
+    "patternExplanation": ".every() tests whether all elements in the array pass the test implemented by the provided function.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-some-check",
+    "title": "Some: Has Even Number",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "hasEvenNumber",
+    "description": "Given an array of integers, return true if at least one number in the array is even, and false otherwise.",
+    "whatShouldHappen": [
+      "Use the .some() method on the array.",
+      "The callback should return true if num % 2 === 0.",
+      "Return the boolean result."
+    ],
+    "starterCode": "function hasEvenNumber(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 3, 4]",
+      "columns": ["num", "isEven?", "resultSoFar"],
+      "rows": [
+        { "num": 1, "isEven?": "false", "resultSoFar": "false" },
+        { "num": 3, "isEven?": "false", "resultSoFar": "false" },
+        { "num": 4, "isEven?": "true", "resultSoFar": "true" }
+      ]
+    },
+    "skeletonHint": "function hasEvenNumber(nums) {\n  return nums.some(n => n % ____ === 0);\n}",
+    "solution": "function hasEvenNumber(nums) {\n  return nums.some(n => n % 2 === 0);\n}",
+    "tests": [
+      { "input": [[1, 3, 5, 6]], "expected": true, "label": "contains even" },
+      { "input": [[1, 3, 5]], "expected": false, "label": "no evens" },
+      { "input": [[2]], "expected": true, "label": "single even" },
+      { "input": [[]], "expected": false, "label": "empty array" }
+    ],
+    "patternTag": "Existential Quantification",
+    "patternExplanation": ".some() tests whether at least one element in the array passes the test implemented by the provided function.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-splice-insert",
+    "title": "Splice: Insert at Index",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "insertAt",
+    "description": "Given an array, an index, and an element, insert the element into the array at the specified index *in-place*. Return the modified array.",
+    "whatShouldHappen": [
+      "Use .splice(index, 0, element) to insert without removing any elements.",
+      "Return the modified array."
+    ],
+    "starterCode": "function insertAt(arr, index, element) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 3], idx = 1, el = 2",
+      "columns": ["index", "deleteCount", "insert", "result"],
+      "rows": [
+        { "index": 1, "deleteCount": 0, "insert": 2, "result": "[1, 2, 3]" }
+      ]
+    },
+    "skeletonHint": "function insertAt(arr, index, element) {\n  arr.splice(____, 0, ____);\n  return arr;\n}",
+    "solution": "function insertAt(arr, index, element) {\n  arr.splice(index, 0, element);\n  return arr;\n}",
+    "tests": [
+      { "input": [[1, 3, 4], 1, 2], "expected": [1, 2, 3, 4], "label": "insert in middle" },
+      { "input": [[2, 3], 0, 1], "expected": [1, 2, 3], "label": "insert at start" },
+      { "input": [[1, 2], 2, 3], "expected": [1, 2, 3], "label": "insert at end" },
+      { "input": [[], 0, "first"], "expected": ["first"], "label": "insert into empty" }
+    ],
+    "patternTag": "In-place Insertion",
+    "patternExplanation": ".splice() can be used to insert elements by setting the delete count (second argument) to 0.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  }
+]

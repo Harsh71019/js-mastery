@@ -27,22 +27,19 @@ const run = async (): Promise<void> => {
       continue
     }
 
-    const duplicate = await Problem.findOne({
-      $or: [
+    try {
+      // Use replaceOne with upsert: true to update existing records with full content
+      await Problem.replaceOne(
         { id: problem.id },
-        { title: { $regex: `^${escapeRegex(String(problem.title))}$`, $options: 'i' } },
-      ],
-    }).lean()
-
-    if (duplicate) {
-      console.log(`  SKIP (duplicate): ${String(problem.id)}`)
-      skipped++
-      continue
+        { ...problem, status: 'published' },
+        { upsert: true }
+      )
+      console.log(`  ✓ ${String(problem.id)}`)
+      inserted++
+    } catch (err: any) {
+      console.error(`  ERROR ${String(problem.id)}:`, err.message)
+      errors++
     }
-
-    await Problem.create(problem)
-    console.log(`  + ${String(problem.id)}`)
-    inserted++
   }
 
   console.log(`\nDone: ${inserted} inserted, ${skipped} skipped, ${errors} errors`)

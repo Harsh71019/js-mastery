@@ -1,0 +1,328 @@
+[
+  {
+    "id": "array-methods-slice-partial",
+    "title": "Slice: Extract Middle Portion",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "getMiddlePortion",
+    "description": "Given an array, return a new array containing elements from the second element (index 1) up to, but not including, the last element.",
+    "whatShouldHappen": [
+      "Use .slice() on the input array.",
+      "Start index should be 1.",
+      "End index should be the array length minus 1.",
+      "Return the new sliced array."
+    ],
+    "starterCode": "function getMiddlePortion(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4]",
+      "columns": ["start", "end", "result"],
+      "rows": [
+        { "start": 1, "end": 3, "result": "[2, 3]" }
+      ]
+    },
+    "skeletonHint": "function getMiddlePortion(arr) {\n  return arr.slice(____, arr.length - ____);\n}",
+    "solution": "function getMiddlePortion(arr) {\n  return arr.slice(1, arr.length - 1);\n}",
+    "tests": [
+      { "input": [[1, 2, 3, 4, 5]], "expected": [2, 3, 4], "label": "5 elements" },
+      { "input": [["a", "b", "c"]], "expected": ["b"], "label": "3 elements" },
+      { "input": [[1, 2]], "expected": [], "label": "2 elements (empty result)" }
+    ],
+    "patternTag": "Array Slicing",
+    "patternExplanation": ".slice(start, end) extracts a section of an array without modifying the original.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-slice-clone",
+    "title": "Slice: Clone Array",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "cloneArray",
+    "description": "Given an array, return a perfect shallow clone of it using the `.slice()` method. The new array should have the same elements but a different memory reference.",
+    "whatShouldHappen": [
+      "Call .slice() with no arguments.",
+      "This default behavior extracts the entire array from index 0 to the end.",
+      "Return the cloned array."
+    ],
+    "starterCode": "function cloneArray(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [10, 20]",
+      "columns": ["operation", "result", "isSameRef?"],
+      "rows": [
+        { "operation": "arr.slice()", "result": "[10, 20]", "isSameRef?": "false" }
+      ]
+    },
+    "skeletonHint": "function cloneArray(arr) {\n  return arr.____();\n}",
+    "solution": "function cloneArray(arr) {\n  return arr.slice();\n}",
+    "tests": [
+      { "input": [[1, 2, 3]], "expected": [1, 2, 3], "label": "clones data" },
+      { "input": [[]], "expected": [], "label": "clones empty" }
+    ],
+    "patternTag": "Array Cloning",
+    "patternExplanation": "Calling .slice() with no arguments is a classic way to create a shallow copy of an array.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-slice-last-n",
+    "title": "Slice: Take Last N",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "getLastN",
+    "description": "Given an array and a number `n`, return a new array containing the last `n` elements. Use a single negative index with `.slice()`.",
+    "whatShouldHappen": [
+      "Call .slice() passing `-n` as the first argument.",
+      "Do not provide a second argument.",
+      "Return the resulting array."
+    ],
+    "starterCode": "function getLastN(arr, n) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4], n = 2",
+      "columns": ["index", "result"],
+      "rows": [
+        { "index": -2, "result": "[3, 4]" }
+      ]
+    },
+    "skeletonHint": "function getLastN(arr, n) {\n  return arr.slice(-____);\n}",
+    "solution": "function getLastN(arr, n) {\n  if (n === 0) return [];\n  return arr.slice(-n);\n}",
+    "tests": [
+      { "input": [[10, 20, 30, 40], 2], "expected": [30, 40], "label": "last 2" },
+      { "input": [["a", "b", "c"], 1], "expected": ["c"], "label": "last 1" },
+      { "input": [[1, 2], 5], "expected": [1, 2], "label": "n exceeds length" }
+    ],
+    "patternTag": "Negative Indexing",
+    "patternExplanation": "A negative start index in .slice() counts from the end of the array, making it perfect for 'take' operations.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-slice-everything-but-last",
+    "title": "Slice: All But Last",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "allButLast",
+    "description": "Given an array, return a new array containing all elements except the very last one. Use a negative *end* index.",
+    "whatShouldHappen": [
+      "Call .slice() starting from index 0.",
+      "Pass -1 as the second argument (the end index).",
+      "Return the resulting array."
+    ],
+    "starterCode": "function allButLast(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3]",
+      "columns": ["start", "end", "result"],
+      "rows": [
+        { "start": 0, "end": -1, "result": "[1, 2]" }
+      ]
+    },
+    "skeletonHint": "function allButLast(arr) {\n  return arr.slice(0, -____);\n}",
+    "solution": "function allButLast(arr) {\n  return arr.slice(0, -1);\n}",
+    "tests": [
+      { "input": [[10, 20, 30]], "expected": [10, 20], "label": "3 elements" },
+      { "input": [["alone"]], "expected": [], "label": "1 element" },
+      { "input": [[]], "expected": [], "label": "empty array" }
+    ],
+    "patternTag": "Negative Indexing",
+    "patternExplanation": "Just like the start index, the end index can be negative to indicate a position relative to the end of the array.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-slice-pagination",
+    "title": "Slice: Simple Pagination",
+    "category": "array-methods",
+    "difficulty": "Medium",
+    "functionName": "getPage",
+    "description": "Implement a simple pagination helper. Given an array of items, a `pageNumber` (1-indexed), and a `pageSize`, return the items for that specific page.",
+    "whatShouldHappen": [
+      "Calculate the `startIndex` as `(pageNumber - 1) * pageSize`.",
+      "Calculate the `endIndex` as `startIndex + pageSize`.",
+      "Use .slice() with these calculated indices.",
+      "Return the resulting page items."
+    ],
+    "starterCode": "function getPage(items, pageNumber, pageSize) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "items=[1..10], page=2, size=3",
+      "columns": ["start", "end", "items"],
+      "rows": [
+        { "start": 3, "end": 6, "items": "[4, 5, 6]" }
+      ]
+    },
+    "skeletonHint": "function getPage(items, pageNumber, pageSize) {\n  const start = (____ - 1) * ____;\n  const end = start + ____;\n  return items.slice(____, ____);\n}",
+    "solution": "function getPage(items, pageNumber, pageSize) {\n  const start = (pageNumber - 1) * pageSize;\n  const end = start + pageSize;\n  return items.slice(start, end);\n}",
+    "tests": [
+      { "input": [[1, 2, 3, 4, 5, 6], 1, 3], "expected": [1, 2, 3], "label": "first page" },
+      { "input": [[1, 2, 3, 4, 5, 6], 2, 3], "expected": [4, 5, 6], "label": "second page" },
+      { "input": [[1, 2, 3, 4, 5, 6], 3, 3], "expected": [], "label": "page out of bounds" }
+    ],
+    "patternTag": "Data Chunking",
+    "patternExplanation": "Pagination is essentially taking a fixed-size window from a larger dataset using slice.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-slice-filename-ext",
+    "title": "Slice: Get File Extension",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "getExtension",
+    "description": "Given a filename string (e.g., 'image.png'), return the extension part (e.g., 'png'). Use `.split('')` to turn the string into an array, then use `.lastIndexOf('.')` and `.slice()` to extract the extension. (Normally we'd use string methods, but practice your array slicing here!)",
+    "whatShouldHappen": [
+      "Convert filename string to an array of characters.",
+      "Find the last index of '.'.",
+      "If no '.' exists, return an empty string.",
+      "Slice from (dotIndex + 1) to the end of the array.",
+      "Join the sliced array back into a string and return it."
+    ],
+    "starterCode": "function getExtension(filename) {\n  const chars = filename.split('');\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "filename = 'test.js'",
+      "columns": ["dotIdx", "sliceFrom", "result"],
+      "rows": [
+        { "dotIdx": 4, "sliceFrom": 5, "result": "'js'" }
+      ]
+    },
+    "skeletonHint": "function getExtension(filename) {\n  const chars = filename.split('');\n  const dotIdx = chars.lastIndexOf('.');\n  if (dotIdx === -1) return '';\n  return chars.slice(____).join('');\n}",
+    "solution": "function getExtension(filename) {\n  const chars = filename.split('');\n  const dotIdx = chars.lastIndexOf('.');\n  if (dotIdx === -1) return '';\n  return chars.slice(dotIdx + 1).join('');\n}",
+    "tests": [
+      { "input": ["photo.jpg"], "expected": "jpg", "label": "standard extension" },
+      { "input": ["archive.tar.gz"], "expected": "gz", "label": "double dots" },
+      { "input": ["README"], "expected": "", "label": "no extension" }
+    ],
+    "patternTag": "Searching + Extraction",
+    "patternExplanation": "Combining search methods like lastIndexOf with extraction methods like slice is a fundamental string/array processing pattern.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-slice-first-n",
+    "title": "Slice: Take First N",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "getFirstN",
+    "description": "Given an array and a number `n`, return a new array containing the first `n` elements using `.slice()`.",
+    "whatShouldHappen": [
+      "Call .slice() on the array.",
+      "Pass 0 as the start index and `n` as the end index.",
+      "Return the result."
+    ],
+    "starterCode": "function getFirstN(arr, n) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3], n = 2",
+      "columns": ["start", "end", "result"],
+      "rows": [
+        { "start": 0, "end": 2, "result": "[1, 2]" }
+      ]
+    },
+    "skeletonHint": "function getFirstN(arr, n) {\n  return arr.slice(____, ____);\n}",
+    "solution": "function getFirstN(arr, n) {\n  return arr.slice(0, n);\n}",
+    "tests": [
+      { "input": [[10, 20, 30], 2], "expected": [10, 20], "label": "take 2" },
+      { "input": [[1, 2], 5], "expected": [1, 2], "label": "n exceeds length" },
+      { "input": [[1, 2], 0], "expected": [], "label": "take 0" }
+    ],
+    "patternTag": "Data Extraction",
+    "patternExplanation": "Slice(0, n) is the idiomatic way to 'take' the beginning of a collection.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-slice-rotate",
+    "title": "Slice: Rotate Array",
+    "category": "array-methods",
+    "difficulty": "Hard",
+    "functionName": "rotateLeft",
+    "description": "Given an array and a number `k`, rotate the array to the left by `k` positions. For example, `[1, 2, 3]` rotated left by 1 becomes `[2, 3, 1]`. Use `.slice()` and `.concat()` to return a NEW array. Do not mutate the original.",
+    "whatShouldHappen": [
+      "Normalize `k` by using `k % arr.length` (in case k is larger than the array).",
+      "Extract the first part (elements to be moved to the end) using .slice(0, k).",
+      "Extract the second part (elements that stay at the front) using .slice(k).",
+      "Return the second part concatenated with the first part."
+    ],
+    "starterCode": "function rotateLeft(arr, k) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr=[1,2,3], k=1",
+      "columns": ["front", "back", "combined"],
+      "rows": [
+        { "front": "[1]", "back": "[2, 3]", "combined": "[2, 3, 1]" }
+      ]
+    },
+    "skeletonHint": "function rotateLeft(arr, k) {\n  const n = k % arr.length;\n  const firstPart = arr.slice(0, ____);\n  const secondPart = arr.slice(____);\n  return secondPart.concat(____);\n}",
+    "solution": "function rotateLeft(arr, k) {\n  if (arr.length === 0) return [];\n  const n = k % arr.length;\n  const firstPart = arr.slice(0, n);\n  const secondPart = arr.slice(n);\n  return secondPart.concat(firstPart);\n}",
+    "tests": [
+      { "input": [[1, 2, 3, 4, 5], 2], "expected": [3, 4, 5, 1, 2], "label": "rotate by 2" },
+      { "input": [[1, 2, 3], 3], "expected": [1, 2, 3], "label": "rotate by length (no change)" },
+      { "input": [[10, 20], 1], "expected": [20, 10], "label": "rotate by 1" }
+    ],
+    "patternTag": "Array Reorganization",
+    "patternExplanation": "Slice and concat allow you to split and rebuild an array in a different order without dangerous mutations.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-slice-middle-only",
+    "title": "Slice: Exact Middle",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "getExactMiddle",
+    "description": "Given an array, return a NEW array containing only the middle element (if length is odd) or the middle two elements (if length is even). Use `.slice()`.",
+    "whatShouldHappen": [
+      "Calculate the start index based on whether length is odd or even.",
+      "For odd length `L`, start is `floor(L / 2)` and end is `start + 1`.",
+      "For even length `L`, start is `(L / 2) - 1` and end is `start + 2`.",
+      "Return the result of .slice(start, end)."
+    ],
+    "starterCode": "function getExactMiddle(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4]",
+      "columns": ["length", "start", "end", "result"],
+      "rows": [
+        { "length": 4, "start": 1, "end": 3, "result": "[2, 3]" }
+      ]
+    },
+    "skeletonHint": "function getExactMiddle(arr) {\n  const mid = Math.floor(arr.length / 2);\n  if (arr.length % 2 === 0) {\n    return arr.slice(mid - 1, ____);\n  } else {\n    return arr.slice(mid, ____);\n  }\n}",
+    "solution": "function getExactMiddle(arr) {\n  const len = arr.length;\n  if (len === 0) return [];\n  const mid = Math.floor(len / 2);\n  if (len % 2 === 0) {\n    return arr.slice(mid - 1, mid + 1);\n  } else {\n    return arr.slice(mid, mid + 1);\n  }\n}",
+    "tests": [
+      { "input": [[1, 2, 3, 4, 5]], "expected": [3], "label": "odd length" },
+      { "input": [[10, 20, 30, 40]], "expected": [20, 30], "label": "even length" },
+      { "input": [[99]], "expected": [99], "label": "single element" }
+    ],
+    "patternTag": "Selection Logic",
+    "patternExplanation": "Slice's start and end logic must be carefully calculated when dealing with center-based extractions.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-slice-remove-index-immutable",
+    "title": "Slice: Remove at Index (Immutable)",
+    "category": "array-methods",
+    "difficulty": "Hard",
+    "functionName": "removeAtIndexImmutable",
+    "description": "Given an array and an index, return a NEW array with the element at that index removed. Use `.slice()` and `.concat()` (or spread). Do not use `.splice()` as it mutates the original.",
+    "whatShouldHappen": [
+      "Slice the part *before* the index: .slice(0, index).",
+      "Slice the part *after* the index: .slice(index + 1).",
+      "Concatenate them together.",
+      "Return the new array."
+    ],
+    "starterCode": "function removeAtIndexImmutable(arr, index) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['A', 'B', 'C'], idx = 1",
+      "columns": ["before", "after", "result"],
+      "rows": [
+        { "before": "['A']", "after": "['C']", "result": "['A', 'C']" }
+      ]
+    },
+    "skeletonHint": "function removeAtIndexImmutable(arr, index) {\n  return arr.slice(0, ____).concat(arr.slice(____));\n}",
+    "solution": "function removeAtIndexImmutable(arr, index) {\n  return arr.slice(0, index).concat(arr.slice(index + 1));\n}",
+    "tests": [
+      { "input": [[1, 2, 3, 4], 1], "expected": [1, 3, 4], "label": "remove middle" },
+      { "input": [[10, 20, 30], 0], "expected": [20, 30], "label": "remove first" },
+      { "input": [[1, 2], 1], "expected": [1], "label": "remove last" }
+    ],
+    "patternTag": "Immutable Patterns",
+    "patternExplanation": "Combining slice(0, i) and slice(i + 1) is the standard immutable pattern for deleting an item from an array.",
+    "estimatedMinutes": 7,
+    "status": "published"
+  }
+]

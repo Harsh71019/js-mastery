@@ -1,0 +1,342 @@
+[
+  {
+    "id": "array-methods-map-celsius-to-fahrenheit",
+    "title": "Map: Celsius to Fahrenheit",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "convertTemperatures",
+    "description": "Given an array of temperatures in Celsius, return a new array where each temperature is converted to Fahrenheit. Formula: `(C * 9/5) + 32`.",
+    "whatShouldHappen": [
+      "Use .map() to iterate over the array.",
+      "Apply the conversion formula to each element.",
+      "Return the new array of Fahrenheit values."
+    ],
+    "starterCode": "function convertTemperatures(celsius) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "celsius = [0, 10]",
+      "columns": ["C", "result"],
+      "rows": [
+        { "C": 0, "result": 32 },
+        { "C": 10, "result": 50 }
+      ]
+    },
+    "skeletonHint": "function convertTemperatures(celsius) {\n  return celsius.map(c => (____ * 9/5) + ____);\n}",
+    "solution": "function convertTemperatures(celsius) {\n  return celsius.map(c => (c * 9/5) + 32);\n}",
+    "tests": [
+      { "input": [[0, 10, 20, 30]], "expected": [32, 50, 68, 86], "label": "standard temperatures" },
+      { "input": [[-10]], "expected": [14], "label": "negative temperature" },
+      { "input": [[]], "expected": [], "label": "empty array" }
+    ],
+    "patternTag": "Data Transformation",
+    "patternExplanation": ".map() is the standard tool for transforming Every item in an array into something else while keeping the array length the same.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-filter-active-users",
+    "title": "Filter: Active Users",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "getActiveUsers",
+    "description": "Given an array of user objects, return a new array containing only the users who are active (where `isActive` is true).",
+    "whatShouldHappen": [
+      "Use .filter() on the users array.",
+      "The callback should return the value of the `isActive` property.",
+      "Return the filtered array."
+    ],
+    "starterCode": "function getActiveUsers(users) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "users = [{id: 1, isActive: true}, {id: 2, isActive: false}]",
+      "columns": ["user.id", "isActive", "keep?"],
+      "rows": [
+        { "user.id": 1, "isActive": "true", "keep?": "true" },
+        { "user.id": 2, "isActive": "false", "keep?": "false" }
+      ]
+    },
+    "skeletonHint": "function getActiveUsers(users) {\n  return users.filter(user => user.____);\n}",
+    "solution": "function getActiveUsers(users) {\n  return users.filter(user => user.isActive);\n}",
+    "tests": [
+      { "input": [[{ "id": 1, "isActive": true }, { "id": 2, "isActive": false }]], "expected": [{ "id": 1, "isActive": true }], "label": "mixed users" },
+      { "input": [[{ "isActive": false }]], "expected": [], "label": "no active users" },
+      { "input": [[]], "expected": [], "label": "empty array" }
+    ],
+    "patternTag": "Predicate Filtering",
+    "patternExplanation": ".filter() creates a subset of the original array based on a boolean condition.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-find-by-id",
+    "title": "Find: User by ID",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "findUser",
+    "description": "Given an array of users and an ID, return the first user object that matches the ID. If no user is found, return `undefined`.",
+    "whatShouldHappen": [
+      "Use .find() to locate the user.",
+      "Compare each user's `id` property to the target `id`.",
+      "Return the found object."
+    ],
+    "starterCode": "function findUser(users, id) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "users = [{id: 1}, {id: 2}], target = 2",
+      "columns": ["user.id", "match?"],
+      "rows": [
+        { "user.id": 1, "match?": "false" },
+        { "user.id": 2, "match?": "true (RETURN)" }
+      ]
+    },
+    "skeletonHint": "function findUser(users, id) {\n  return users.find(user => user.____ === ____);\n}",
+    "solution": "function findUser(users, id) {\n  return users.find(user => user.id === id);\n}",
+    "tests": [
+      { "input": [[{ "id": 1, "name": "A" }, { "id": 2, "name": "B" }], 2], "expected": { "id": 2, "name": "B" }, "label": "user exists" },
+      { "input": [[{ "id": 1 }], 99], "expected": null, "label": "user does not exist" },
+      { "input": [[], 1], "expected": null, "label": "empty array" }
+    ],
+    "patternTag": "Searching",
+    "patternExplanation": ".find() is more efficient than .filter() when you only need a single item, as it stops iterating as soon as a match is found.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-every-is-even",
+    "title": "Every: Are All Even?",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "areAllEven",
+    "description": "Check if every number in an array is even. Return `true` if they are, and `false` if at least one is odd.",
+    "whatShouldHappen": [
+      "Use .every() on the numbers array.",
+      "Check if each number % 2 is equal to 0.",
+      "Return the result."
+    ],
+    "starterCode": "function areAllEven(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [2, 4, 5]",
+      "columns": ["num", "isEven?", "result"],
+      "rows": [
+        { "num": 2, "isEven?": "true", "result": "true" },
+        { "num": 4, "isEven?": "true", "result": "true" },
+        { "num": 5, "isEven?": "false", "result": "false (EXIT)" }
+      ]
+    },
+    "skeletonHint": "function areAllEven(nums) {\n  return nums.every(n => ____ % 2 === 0);\n}",
+    "solution": "function areAllEven(nums) {\n  return nums.every(n => n % 2 === 0);\n}",
+    "tests": [
+      { "input": [[2, 4, 6, 8]], "expected": true, "label": "all even" },
+      { "input": [[2, 4, 7, 8]], "expected": false, "label": "contains one odd" },
+      { "input": [[]], "expected": true, "label": "empty array (vacuously true)" }
+    ],
+    "patternTag": "Validation",
+    "patternExplanation": ".every() returns true if the callback returns true for ALL elements. If it finds one false, it stops and returns false immediately.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-some-has-admin",
+    "title": "Some: Has Admin?",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "hasAdmin",
+    "description": "Given an array of users, return `true` if at least one user has the role `'admin'`. Otherwise, return `false`.",
+    "whatShouldHappen": [
+      "Use .some() on the users array.",
+      "Check if user.role is equal to 'admin'.",
+      "Return the result."
+    ],
+    "starterCode": "function hasAdmin(users) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "users = [{role: 'user'}, {role: 'admin'}]",
+      "columns": ["role", "isAdmin?"],
+      "rows": [
+        { "role": "user", "isAdmin?": "false" },
+        { "role": "admin", "isAdmin?": "true (RETURN true)" }
+      ]
+    },
+    "skeletonHint": "function hasAdmin(users) {\n  return users.some(u => u.____ === 'admin');\n}",
+    "solution": "function hasAdmin(users) {\n  return users.some(u => u.role === 'admin');\n}",
+    "tests": [
+      { "input": [[{ "role": "user" }, { "role": "admin" }]], "expected": true, "label": "one admin" },
+      { "input": [[{ "role": "user" }, { "role": "guest" }]], "expected": false, "label": "no admins" },
+      { "input": [[]], "expected": false, "label": "empty array" }
+    ],
+    "patternTag": "Existential Check",
+    "patternExplanation": ".some() returns true if at least ONE element satisfies the condition. It stops iterating as soon as it finds a match.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-findindex-first-vowel",
+    "title": "FindIndex: First Vowel",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "getFirstVowelIndex",
+    "description": "Given an array of characters, return the index of the first vowel ('a', 'e', 'i', 'o', 'u'). If no vowel exists, return -1.",
+    "whatShouldHappen": [
+      "Use .findIndex() on the array.",
+      "Check if the character (lowercase) is included in the string 'aeiou'.",
+      "Return the resulting index."
+    ],
+    "starterCode": "function getFirstVowelIndex(chars) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "chars = ['b', 'c', 'e', 'd']",
+      "columns": ["char", "isVowel?", "index"],
+      "rows": [
+        { "char": "b", "isVowel?": "false", "index": 0 },
+        { "char": "c", "isVowel?": "false", "index": 1 },
+        { "char": "e", "isVowel?": "true", "index": 2 }
+      ]
+    },
+    "skeletonHint": "function getFirstVowelIndex(chars) {\n  const vowels = 'aeiou';\n  return chars.findIndex(char => vowels.includes(____.toLowerCase()));\n}",
+    "solution": "function getFirstVowelIndex(chars) {\n  const vowels = 'aeiou';\n  return chars.findIndex(char => vowels.includes(char.toLowerCase()));\n}",
+    "tests": [
+      { "input": [["p", "r", "o", "g", "r", "a", "m"]], "expected": 2, "label": "contains multiple vowels" },
+      { "input": [["X", "Y", "Z"]], "expected": -1, "label": "no vowels" },
+      { "input": [["A", "b", "c"]], "expected": 0, "label": "vowel at start" }
+    ],
+    "patternTag": "Position Searching",
+    "patternExplanation": ".findIndex() is similar to .find(), but it returns the numeric index of the first match instead of the value itself.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-foreach-sum-positives",
+    "title": "ForEach: Sum Positives",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "sumPositives",
+    "description": "Given an array of numbers, use `.forEach()` to calculate the sum of all positive numbers (> 0). Return the sum.",
+    "whatShouldHappen": [
+      "Initialize a `sum` variable to 0.",
+      "Call .forEach() on the array.",
+      "In the callback, check if the current number is positive.",
+      "If positive, add it to the `sum` variable.",
+      "Return the `sum` after the loop."
+    ],
+    "starterCode": "function sumPositives(nums) {\n  let sum = 0;\n  // your code here\n  return sum;\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, -5, 2]",
+      "columns": ["num", "isPositive?", "currentSum"],
+      "rows": [
+        { "num": 1, "isPositive?": "true", "currentSum": 1 },
+        { "num": -5, "isPositive?": "false", "currentSum": 1 },
+        { "num": 2, "isPositive?": "true", "currentSum": 3 }
+      ]
+    },
+    "skeletonHint": "function sumPositives(nums) {\n  let sum = 0;\n  nums.forEach(n => {\n    if (n > ____) {\n      sum += ____;\n    }\n  });\n  return sum;\n}",
+    "solution": "function sumPositives(nums) {\n  let sum = 0;\n  nums.forEach(n => {\n    if (n > 0) {\n      sum += n;\n    }\n  });\n  return sum;\n}",
+    "tests": [
+      { "input": [[1, -2, 3, -4]], "expected": 4, "label": "mixed numbers" },
+      { "input": [[-1, -2, -3]], "expected": 0, "label": "all negatives" },
+      { "input": [[5, 10]], "expected": 15, "label": "all positives" },
+      { "input": [[]], "expected": 0, "label": "empty array" }
+    ],
+    "patternTag": "Manual Accumulation",
+    "patternExplanation": ".forEach() is used for side effects. While .reduce() is usually better for summing, forEach is a clear way to perform logic on every item without creating a new array.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-chained-top-performers",
+    "title": "Chained: Top Performers",
+    "category": "array-methods",
+    "difficulty": "Medium",
+    "functionName": "getTopPerformerNames",
+    "description": "Given an array of student objects `{ name: string, score: number }`, return an array of names for students who scored 80 or higher.",
+    "whatShouldHappen": [
+      "Use .filter() to keep only students with score >= 80.",
+      "Chain .map() to extract only the 'name' property from those filtered objects.",
+      "Return the resulting array of strings."
+    ],
+    "starterCode": "function getTopPerformerNames(students) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "students = [{name: 'A', score: 90}, {name: 'B', score: 50}]",
+      "columns": ["step", "result"],
+      "rows": [
+        { "step": "filter (score >= 80)", "result": "[{name: 'A', score: 90}]" },
+        { "step": "map (name)", "result": "['A']" }
+      ]
+    },
+    "skeletonHint": "function getTopPerformerNames(students) {\n  return students\n    .filter(s => s.____ >= 80)\n    .map(s => s.____);\n}",
+    "solution": "function getTopPerformerNames(students) {\n  return students\n    .filter(s => s.score >= 80)\n    .map(s => s.name);\n}",
+    "tests": [
+      { "input": [[{ "name": "Alice", "score": 90 }, { "name": "Bob", "score": 70 }, { "name": "Charlie", "score": 85 }]], "expected": ["Alice", "Charlie"], "label": "mixed scores" },
+      { "input": [[{ "name": "Dave", "score": 10 }]], "expected": [], "label": "no high scores" },
+      { "input": [[]], "expected": [], "label": "empty array" }
+    ],
+    "patternTag": "Method Chaining",
+    "patternExplanation": "One of the biggest strengths of functional array methods is that they can be chained together to perform complex data pipelines in a readable way.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-map-with-index",
+    "title": "Map: Numbered List",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "numberItems",
+    "description": "Given an array of strings, return a new array where each string is prefixed with its 1-based index (e.g., ['apple'] becomes ['1. apple']).",
+    "whatShouldHappen": [
+      "Use the second argument of the .map() callback, which is the current `index`.",
+      "Return a template string combining `index + 1` and the current item.",
+      "Return the new array."
+    ],
+    "starterCode": "function numberItems(items) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "items = ['a', 'b']",
+      "columns": ["item", "index", "result"],
+      "rows": [
+        { "item": "a", "index": 0, "result": "'1. a'" },
+        { "item": "b", "index": 1, "result": "'2. b'" }
+      ]
+    },
+    "skeletonHint": "function numberItems(items) {\n  return items.map((item, index) => {\n    return `${____ + 1}. ${____}`;\n  });\n}",
+    "solution": "function numberItems(items) {\n  return items.map((item, index) => `${index + 1}. ${item}`);\n}",
+    "tests": [
+      { "input": [["apple", "banana"]], "expected": ["1. apple", "2. banana"], "label": "multiple items" },
+      { "input": [["lone"]], "expected": ["1. lone"], "label": "single item" },
+      { "input": [[]], "expected": [], "label": "empty array" }
+    ],
+    "patternTag": "Index Utilization",
+    "patternExplanation": "All iteration methods (map, filter, forEach, etc.) provide the index as a second argument to the callback.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-filter-unique",
+    "title": "Filter: Unique Values",
+    "category": "array-methods",
+    "difficulty": "Hard",
+    "functionName": "getUniqueValues",
+    "description": "Given an array of values, return a new array containing only the unique elements. Use `.filter()` and `.indexOf()` to solve this without using a Set.",
+    "whatShouldHappen": [
+      "Use .filter() on the array.",
+      "The callback receives the `item` and its current `index`.",
+      "Check if `arr.indexOf(item)` is equal to the current `index`.",
+      "Since .indexOf() always returns the *first* occurrence, this condition will only be true for the first time an element appears.",
+      "Return the filtered array."
+    ],
+    "starterCode": "function getUniqueValues(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 1]",
+      "columns": ["item", "index", "indexOf(item)", "keep?"],
+      "rows": [
+        { "item": 1, "index": 0, "indexOf(item)": 0, "keep?": "true" },
+        { "item": 2, "index": 1, "indexOf(item)": 1, "keep?": "true" },
+        { "item": 1, "index": 2, "indexOf(item)": 0, "keep?": "false" }
+      ]
+    },
+    "skeletonHint": "function getUniqueValues(arr) {\n  return arr.filter((item, index) => {\n    return arr.indexOf(____) === ____;\n  });\n}",
+    "solution": "function getUniqueValues(arr) {\n  return arr.filter((item, index) => arr.indexOf(item) === index);\n}",
+    "tests": [
+      { "input": [[1, 2, 2, 3, 1, 4]], "expected": [1, 2, 3, 4], "label": "numbers with duplicates" },
+      { "input": [["a", "b", "a"]], "expected": ["a", "b"], "label": "strings" },
+      { "input": [[1, 1, 1]], "expected": [1], "label": "all same" },
+      { "input": [[]], "expected": [], "label": "empty array" }
+    ],
+    "patternTag": "Uniqueness Pattern",
+    "patternExplanation": "Comparing the current index to the indexOf() the element is a classic clever way to filter duplicates in a single chain without extra data structures.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  }
+]

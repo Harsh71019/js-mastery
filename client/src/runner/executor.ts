@@ -70,7 +70,12 @@ ${userCode}
     try {
       var args = Array.isArray(t.input) ? t.input : [t.input];
       var actual = window[fnName].apply(null, args);
-      var passed = JSON.stringify(actual) === JSON.stringify(t.expected);
+      
+      // Normalize undefined to null for JSON comparison
+      var normalizedActual = actual === undefined ? null : actual;
+      var normalizedExpected = t.expected === undefined ? null : t.expected;
+      
+      var passed = JSON.stringify(normalizedActual) === JSON.stringify(normalizedExpected);
       results.push({ input: t.input, expected: t.expected, actual: actual, passed: passed, error: null });
     } catch (runtimeErr) {
       results.push({ input: t.input, expected: t.expected, actual: null, passed: false, error: runtimeErr.message });

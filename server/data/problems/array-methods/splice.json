@@ -1,0 +1,341 @@
+[
+  {
+    "id": "array-methods-splice-remove-single",
+    "title": "Splice: Remove at Index",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "removeAtIndex",
+    "description": "Given an array and an index, remove exactly one element at that index using `.splice()` and return the modified array. Note that `.splice()` mutates the original array in place.",
+    "whatShouldHappen": [
+      "Call .splice() on the array, passing the index as the first argument.",
+      "Pass 1 as the second argument to specify that one element should be deleted.",
+      "Return the modified array."
+    ],
+    "starterCode": "function removeAtIndex(arr, index) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['a', 'b', 'c'], index = 1",
+      "columns": ["index", "deleteCount", "modifiedArr"],
+      "rows": [
+        { "index": 1, "deleteCount": 1, "modifiedArr": "['a', 'c']" }
+      ]
+    },
+    "skeletonHint": "function removeAtIndex(arr, index) {\n  arr.splice(____, ____);\n  return arr;\n}",
+    "solution": "function removeAtIndex(arr, index) {\n  arr.splice(index, 1);\n  return arr;\n}",
+    "tests": [
+      { "input": [[10, 20, 30], 1], "expected": [10, 30], "label": "remove middle" },
+      { "input": [["apple", "banana", "cherry"], 0], "expected": ["banana", "cherry"], "label": "remove first" },
+      { "input": [[1, 2, 3], 2], "expected": [1, 2], "label": "remove last" },
+      { "input": [[99], 0], "expected": [], "label": "remove only element" }
+    ],
+    "patternTag": "Basic Splice Deletion",
+    "patternExplanation": "Splice takes a start index and a delete count. It mutates the array in place and returns an array of the deleted items.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-splice-remove-multiple",
+    "title": "Splice: Remove a Chunk",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "removeChunk",
+    "description": "Given an array, a start index, and a count `k`, remove `k` elements starting from that index and return the modified array.",
+    "whatShouldHappen": [
+      "Use .splice(startIndex, k) to remove the specified number of elements.",
+      "Return the mutated array."
+    ],
+    "starterCode": "function removeChunk(arr, startIndex, k) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4, 5], start = 1, k = 3",
+      "columns": ["startIndex", "k", "modifiedArr"],
+      "rows": [
+        { "startIndex": 1, "k": 3, "modifiedArr": "[1, 5]" }
+      ]
+    },
+    "skeletonHint": "function removeChunk(arr, startIndex, k) {\n  arr.splice(____, ____);\n  return arr;\n}",
+    "solution": "function removeChunk(arr, startIndex, k) {\n  arr.splice(startIndex, k);\n  return arr;\n}",
+    "tests": [
+      { "input": [[1, 2, 3, 4, 5], 1, 3], "expected": [1, 5], "label": "remove 3 from middle" },
+      { "input": [[10, 20, 30], 0, 2], "expected": [30], "label": "remove 2 from start" },
+      { "input": [["a", "b", "c"], 1, 0], "expected": ["a", "b", "c"], "label": "remove 0 elements" },
+      { "input": [[1, 2], 0, 5], "expected": [], "label": "count exceeds length" }
+    ],
+    "patternTag": "Chunk Deletion",
+    "patternExplanation": "The second argument to splice determines how many elements are removed. If it exceeds the remaining length, it removes all elements to the end.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-splice-replace",
+    "title": "Splice: Replace Element",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "replaceElement",
+    "description": "Given an array, an index, and a new item, replace the element at that index with the new item using `.splice()`. Return the modified array.",
+    "whatShouldHappen": [
+      "Call .splice() starting at the given index.",
+      "Set the delete count to 1 (to remove the old item).",
+      "Provide the new item as the third argument to insert it in place of the deleted one.",
+      "Return the array."
+    ],
+    "starterCode": "function replaceElement(arr, index, newItem) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['x', 'y', 'z'], index = 1, item = 'A'",
+      "columns": ["delete", "insert", "result"],
+      "rows": [
+        { "delete": "'y'", "insert": "'A'", "result": "['x', 'A', 'z']" }
+      ]
+    },
+    "skeletonHint": "function replaceElement(arr, index, newItem) {\n  arr.splice(____, ____, ____);\n  return arr;\n}",
+    "solution": "function replaceElement(arr, index, newItem) {\n  arr.splice(index, 1, newItem);\n  return arr;\n}",
+    "tests": [
+      { "input": [[1, 2, 3], 1, 99], "expected": [1, 99, 3], "label": "replace middle" },
+      { "input": [["a", "b"], 0, "z"], "expected": ["z", "b"], "label": "replace first" },
+      { "input": [[10, 20], 1, 30], "expected": [10, 30], "label": "replace last" },
+      { "input": [[], 0, 1], "expected": [1], "label": "replace in empty (acts like insert)" }
+    ],
+    "patternTag": "In-place Replacement",
+    "patternExplanation": "By setting deleteCount to 1 and providing new items, splice acts as a replacement tool.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-splice-negative-index",
+    "title": "Splice: Remove Last N Elements",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "removeLastN",
+    "description": "Given an array and a number `n`, remove the last `n` elements from the array using `.splice()` and a negative index. Return the modified array. Assume `n` is greater than 0 and less than or equal to the array length.",
+    "whatShouldHappen": [
+      "Call .splice() using -n as the start index.",
+      "This tells splice to start counting from the end of the array.",
+      "You don't strictly need a delete count if you want to remove everything from that point to the end.",
+      "Return the modified array."
+    ],
+    "starterCode": "function removeLastN(arr, n) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4], n = 2",
+      "columns": ["startIndex", "result"],
+      "rows": [
+        { "startIndex": -2, "result": "[1, 2]" }
+      ]
+    },
+    "skeletonHint": "function removeLastN(arr, n) {\n  arr.splice(-____);\n  return arr;\n}",
+    "solution": "function removeLastN(arr, n) {\n  arr.splice(-n);\n  return arr;\n}",
+    "tests": [
+      { "input": [[1, 2, 3, 4, 5], 2], "expected": [1, 2, 3], "label": "remove last 2" },
+      { "input": [["a", "b", "c"], 1], "expected": ["a", "b"], "label": "remove last 1" },
+      { "input": [[10, 20], 2], "expected": [], "label": "remove all (n = length)" },
+      { "input": [[1, 2, 3], 3], "expected": [], "label": "remove 3 from length 3" }
+    ],
+    "patternTag": "Negative Indexing",
+    "patternExplanation": "Negative indices in slice and splice count backwards from the end of the array. -1 is the last element.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-splice-insert-multiple",
+    "title": "Splice: Insert Multiple",
+    "category": "array-methods",
+    "difficulty": "Medium",
+    "functionName": "insertMultiple",
+    "description": "Given an array, an index, and an array of new items, insert all the new items into the array at the given index without removing anything. Use the spread operator `...` with `.splice()`. Return the array.",
+    "whatShouldHappen": [
+      "Call .splice() with the given index and 0 for the delete count.",
+      "Use the spread operator (...newItems) to pass the elements of the new items array as separate arguments to splice.",
+      "Return the modified array."
+    ],
+    "starterCode": "function insertMultiple(arr, index, newItems) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 5], idx = 1, newItems = [2, 3, 4]",
+      "columns": ["deleteCount", "inserted", "result"],
+      "rows": [
+        { "deleteCount": 0, "inserted": "2, 3, 4", "result": "[1, 2, 3, 4, 5]" }
+      ]
+    },
+    "skeletonHint": "function insertMultiple(arr, index, newItems) {\n  arr.splice(____, 0, ...____);\n  return arr;\n}",
+    "solution": "function insertMultiple(arr, index, newItems) {\n  arr.splice(index, 0, ...newItems);\n  return arr;\n}",
+    "tests": [
+      { "input": [[1, 5], 1, [2, 3, 4]], "expected": [1, 2, 3, 4, 5], "label": "insert in middle" },
+      { "input": [["c"], 0, ["a", "b"]], "expected": ["a", "b", "c"], "label": "insert at start" },
+      { "input": [[10], 1, [20, 30]], "expected": [10, 20, 30], "label": "insert at end" },
+      { "input": [[1, 2], 1, []], "expected": [1, 2], "label": "insert empty array" }
+    ],
+    "patternTag": "Spread Splice",
+    "patternExplanation": "Since splice takes individual arguments for items to insert, spreading an array into it is the perfect way to insert a whole array into another.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-splice-swap-adjacent",
+    "title": "Splice: Swap Right",
+    "category": "array-methods",
+    "difficulty": "Medium",
+    "functionName": "swapRight",
+    "description": "Given an array and an index, swap the element at that index with the element immediately to its right using exactly one call to `.splice()`. If the index is the last element, do nothing. Return the modified array.",
+    "whatShouldHappen": [
+      "Check if the index is at the end of the array. If so, return early.",
+      "Use splice to remove 2 elements starting at the given index.",
+      "Since splice returns the deleted elements, you can save them in an array.",
+      "In the same splice call, insert them back in reverse order, OR do it in two steps: splice to extract, then splice to insert.",
+      "Actually, there's a trick: `arr.splice(index, 2, arr[index+1], arr[index])`!"
+    ],
+    "starterCode": "function swapRight(arr, index) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['A', 'B', 'C'], index = 0",
+      "columns": ["index", "removed", "inserted", "result"],
+      "rows": [
+        { "index": 0, "removed": "['A', 'B']", "inserted": "'B', 'A'", "result": "['B', 'A', 'C']" }
+      ]
+    },
+    "skeletonHint": "function swapRight(arr, index) {\n  if (index >= arr.length - 1) return arr;\n  arr.splice(index, ____, arr[____], arr[____]);\n  return arr;\n}",
+    "solution": "function swapRight(arr, index) {\n  if (index >= arr.length - 1) return arr;\n  // Remove 2 elements at 'index', and insert them back in swapped order\n  arr.splice(index, 2, arr[index + 1], arr[index]);\n  return arr;\n}",
+    "tests": [
+      { "input": [["A", "B", "C"], 0], "expected": ["B", "A", "C"], "label": "swap first and second" },
+      { "input": [[1, 2, 3, 4], 2], "expected": [1, 2, 4, 3], "label": "swap near end" },
+      { "input": [[10, 20], 1], "expected": [10, 20], "label": "swap last (does nothing)" },
+      { "input": [[99], 0], "expected": [99], "label": "single element" }
+    ],
+    "patternTag": "In-place Swap",
+    "patternExplanation": "Splice can simultaneously remove and insert, making it possible to reorder elements in a single operation without temporary variables.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-splice-extract-middle",
+    "title": "Splice: Extract Middle",
+    "category": "array-methods",
+    "difficulty": "Medium",
+    "functionName": "extractMiddle",
+    "description": "Given an array, extract and return the middle element. If the array length is even, extract and return the middle *two* elements. Mutate the original array using `.splice()`.",
+    "whatShouldHappen": [
+      "Calculate the middle index.",
+      "Determine if the length is odd or even.",
+      "If odd, splice out 1 element at the middle index.",
+      "If even, splice out 2 elements starting at (middle - 1).",
+      "Return the array of removed elements (which is what .splice() returns natively)."
+    ],
+    "starterCode": "function extractMiddle(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4]",
+      "columns": ["length", "startIdx", "count", "extracted"],
+      "rows": [
+        { "length": 4, "startIdx": 1, "count": 2, "extracted": "[2, 3]" }
+      ]
+    },
+    "skeletonHint": "function extractMiddle(arr) {\n  const mid = Math.floor(arr.length / 2);\n  if (arr.length % 2 === 0) {\n    return arr.splice(____, ____);\n  } else {\n    return arr.splice(____, 1);\n  }\n}",
+    "solution": "function extractMiddle(arr) {\n  const mid = Math.floor(arr.length / 2);\n  if (arr.length % 2 === 0) {\n    // For even length, take 2 elements centered around the middle\n    return arr.splice(mid - 1, 2);\n  } else {\n    // For odd length, just take the exact middle element\n    return arr.splice(mid, 1);\n  }\n}",
+    "tests": [
+      { "input": [[1, 2, 3, 4, 5]], "expected": [3], "label": "odd length" },
+      { "input": [[10, 20, 30, 40]], "expected": [20, 30], "label": "even length" },
+      { "input": [[99]], "expected": [99], "label": "length 1" },
+      { "input": [[1, 2]], "expected": [1, 2], "label": "length 2" }
+    ],
+    "patternTag": "Extracting Elements",
+    "patternExplanation": "Splice returns an array containing the deleted elements, making it ideal for extracting data destructively.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-splice-clear",
+    "title": "Splice: Clear Array",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "clearArray",
+    "description": "Empty an array completely using `.splice()` and return the now-empty array. (Do not just reassign the variable to `[]`, you must mutate the original reference).",
+    "whatShouldHappen": [
+      "Call .splice() starting at index 0.",
+      "Do not provide a second argument, which tells splice to delete everything until the end.",
+      "Return the array."
+    ],
+    "starterCode": "function clearArray(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3]",
+      "columns": ["operation", "arr length"],
+      "rows": [
+        { "operation": "splice(0)", "arr length": 0 }
+      ]
+    },
+    "skeletonHint": "function clearArray(arr) {\n  arr.splice(____);\n  return arr;\n}",
+    "solution": "function clearArray(arr) {\n  arr.splice(0);\n  return arr;\n}",
+    "tests": [
+      { "input": [[1, 2, 3, 4, 5]], "expected": [], "label": "normal array" },
+      { "input": [["a"]], "expected": [], "label": "single element" },
+      { "input": [[]], "expected": [], "label": "already empty" }
+    ],
+    "patternTag": "Total Deletion",
+    "patternExplanation": "If deleteCount is omitted, splice removes all elements from start to the end of the array.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-splice-backwards-loop",
+    "title": "Splice: Remove Evens Safely",
+    "category": "array-methods",
+    "difficulty": "Hard",
+    "functionName": "removeEvensInPlace",
+    "description": "Given an array of numbers, remove all even numbers *in-place* using `.splice()`. To avoid index shifting bugs, iterate through the array backwards. Return the modified array.",
+    "whatShouldHappen": [
+      "Set up a for loop that starts at `arr.length - 1` and counts down to 0.",
+      "If the current element is even, splice it out.",
+      "Iterating backwards ensures that when you remove an element, it only shifts the indices of elements you have *already processed*, keeping the ones you haven't processed at their correct indices."
+    ],
+    "starterCode": "function removeEvensInPlace(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 4, 5]",
+      "columns": ["i", "arr[i]", "action", "arr"],
+      "rows": [
+        { "i": 3, "arr[i]": 5, "action": "keep", "arr": "[1, 2, 4, 5]" },
+        { "i": 2, "arr[i]": 4, "action": "splice(2,1)", "arr": "[1, 2, 5]" },
+        { "i": 1, "arr[i]": 2, "action": "splice(1,1)", "arr": "[1, 5]" },
+        { "i": 0, "arr[i]": 1, "action": "keep", "arr": "[1, 5]" }
+      ]
+    },
+    "skeletonHint": "function removeEvensInPlace(arr) {\n  for (let i = ____; i >= 0; i--) {\n    if (arr[i] % 2 === 0) {\n      arr.splice(____, 1);\n    }\n  }\n  return arr;\n}",
+    "solution": "function removeEvensInPlace(arr) {\n  // Loop backwards to safely mutate the array without index shifting bugs\n  for (let i = arr.length - 1; i >= 0; i--) {\n    if (arr[i] % 2 === 0) {\n      arr.splice(i, 1);\n    }\n  }\n  return arr;\n}",
+    "tests": [
+      { "input": [[1, 2, 4, 5]], "expected": [1, 5], "label": "mixed with adjacent evens" },
+      { "input": [[2, 4, 6]], "expected": [], "label": "all evens" },
+      { "input": [[1, 3, 5]], "expected": [1, 3, 5], "label": "no evens" },
+      { "input": [[8, 1, 6, 3, 4]], "expected": [1, 3], "label": "scattered evens" }
+    ],
+    "patternTag": "Backwards Mutation",
+    "patternExplanation": "When removing elements in a loop, iterating forwards causes elements to skip indices as the array shrinks. Iterating backwards perfectly avoids this.",
+    "estimatedMinutes": 10,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-splice-move-element",
+    "title": "Splice: Move Element",
+    "category": "array-methods",
+    "difficulty": "Hard",
+    "functionName": "moveElement",
+    "description": "Given an array, a `fromIndex`, and a `toIndex`, move the element at `fromIndex` to `toIndex` in-place using `.splice()`. Return the modified array. Assume both indices are valid and within bounds.",
+    "whatShouldHappen": [
+      "Use splice to remove 1 element at the `fromIndex`.",
+      "Save the extracted element (remember splice returns an array).",
+      "Use splice again to insert that extracted element at the `toIndex`.",
+      "Return the array."
+    ],
+    "starterCode": "function moveElement(arr, fromIndex, toIndex) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['a', 'b', 'c'], from = 0, to = 2",
+      "columns": ["step", "extracted", "resultArr"],
+      "rows": [
+        { "step": "remove", "extracted": "'a'", "resultArr": "['b', 'c']" },
+        { "step": "insert", "extracted": "-", "resultArr": "['b', 'c', 'a']" }
+      ]
+    },
+    "skeletonHint": "function moveElement(arr, fromIndex, toIndex) {\n  const extracted = arr.splice(____, 1)[0];\n  arr.splice(____, 0, ____);\n  return arr;\n}",
+    "solution": "function moveElement(arr, fromIndex, toIndex) {\n  // Remove the element and grab the first item from the returned array\n  const extracted = arr.splice(fromIndex, 1)[0];\n  // Insert it at the new position\n  arr.splice(toIndex, 0, extracted);\n  return arr;\n}",
+    "tests": [
+      { "input": [["a", "b", "c"], 0, 2], "expected": ["b", "c", "a"], "label": "move start to end" },
+      { "input": [[10, 20, 30, 40], 2, 0], "expected": [30, 10, 20, 40], "label": "move middle to start" },
+      { "input": [[1, 2, 3], 1, 1], "expected": [1, 2, 3], "label": "move to same place" },
+      { "input": [["x", "y"], 1, 0], "expected": ["y", "x"], "label": "swap two elements" }
+    ],
+    "patternTag": "Extract and Reinsert",
+    "patternExplanation": "Splice can extract elements into a temporary variable, which can then be re-inserted elsewhere, making it useful for drag-and-drop or reordering logic.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  }
+]

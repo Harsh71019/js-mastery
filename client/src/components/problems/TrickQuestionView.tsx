@@ -7,6 +7,7 @@ import { useProgress } from '@/hooks/useProgress'
 import { McqOptions } from './McqOptions'
 import { DifficultyBadge } from '@/components/ui/Badge'
 import { Divider } from '@/components/ui/Divider'
+import { MarkdownContent } from '@/components/ui/MarkdownContent'
 
 const selectMarkSolved = (state: ReturnType<typeof useProgressStore.getState>) =>
   state.markSolved
@@ -73,7 +74,7 @@ export const TrickQuestionView = ({
         </div>
 
         {problem.description && (
-          <p className="text-text-secondary text-sm leading-7">{problem.description}</p>
+          <MarkdownContent content={problem.description} />
         )}
 
         <div className="relative rounded border border-border-default bg-bg-secondary overflow-hidden">

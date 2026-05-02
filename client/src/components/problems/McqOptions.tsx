@@ -41,6 +41,21 @@ const getOptionIcon = (
   return String.fromCharCode(65 + index)
 }
 
+const formatOption = (text: string): React.ReactNode => {
+  if (!text) return null
+  const parts = text.split(/(`[^`]*`)/g)
+  return parts.map((part, index) => {
+    if (part.startsWith('`')) {
+      return (
+        <code key={index} className="px-1 py-0.5 rounded bg-bg-primary/50 text-accent-amber font-jetbrains text-[12px] border border-border-default/30">
+          {part.replace(/^`|`$/g, '')}
+        </code>
+      )
+    }
+    return <span key={index}>{part}</span>
+  })
+}
+
 export const McqOptions = ({
   options,
   selectedIndex,
@@ -61,7 +76,9 @@ export const McqOptions = ({
           <span className="shrink-0 w-6 h-6 rounded-full border border-current flex items-center justify-center text-xs font-medium">
             {getOptionIcon(index, selectedIndex, correctIndex, isSubmitted)}
           </span>
-          {option}
+          <span className="flex-1 leading-relaxed">
+            {formatOption(option)}
+          </span>
         </span>
       </button>
     ))}

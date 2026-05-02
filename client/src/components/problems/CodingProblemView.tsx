@@ -14,11 +14,27 @@ import { SkeletonHint } from '@/components/problems/SkeletonHint'
 import { SolutionPanel } from '@/components/problems/SolutionPanel'
 import { Modal } from '@/components/ui/Modal'
 import { Divider } from '@/components/ui/Divider'
+import { MarkdownContent } from '@/components/ui/MarkdownContent'
 
 const selectMarkSolved = (state: ReturnType<typeof useProgressStore.getState>) =>
   state.markSolved
 const selectIncrementAttempts = (state: ReturnType<typeof useProgressStore.getState>) =>
   state.incrementAttempts
+
+const formatInlineCode = (text: string): React.ReactNode => {
+  if (!text) return null
+  const parts = text.split(/(`[^`]*`)/g)
+  return parts.map((part, index) => {
+    if (part.startsWith('`')) {
+      return (
+        <code key={index} className="px-1.5 py-0.5 rounded bg-bg-tertiary text-accent-amber font-jetbrains text-[12px] border border-border-default/50">
+          {part.replace(/^`|`$/g, '')}
+        </code>
+      )
+    }
+    return <span key={index}>{part}</span>
+  })
+}
 
 interface CodingProblemViewProps {
   readonly problem: Problem
@@ -112,7 +128,7 @@ export const CodingProblemView = ({
                   <span className="ml-2 text-accent-green text-sm font-normal">✓ Solved</span>
                 )}
               </h1>
-              <p className="text-text-secondary text-sm leading-7">{problem.description}</p>
+              <MarkdownContent content={problem.description} />
               <div className="mt-4 bg-bg-tertiary border-l-[3px] border-accent-blue rounded-r px-4 py-3 font-jetbrains text-xs text-text-secondary leading-relaxed">
                 {problem.tests[0] && (
                   <>
@@ -133,7 +149,7 @@ export const CodingProblemView = ({
                 {problem.whatShouldHappen.map((step, stepIndex) => (
                   <li key={stepIndex} className="flex gap-3 text-sm text-text-secondary leading-relaxed">
                     <span className="text-text-tertiary shrink-0 w-4">{stepIndex + 1}.</span>
-                    <span>{step}</span>
+                    <span>{formatInlineCode(step)}</span>
                   </li>
                 ))}
               </ol>

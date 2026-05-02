@@ -1,0 +1,217 @@
+[
+  {
+    "id": "array-methods-modern-at",
+    "title": "Modern: Last Element with .at()",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "getLastItem",
+    "description": "Given an array, return the very last element using the modern `.at()` method. Use a negative index.",
+    "whatShouldHappen": [
+      "Call .at(-1) on the array.",
+      "Return the result."
+    ],
+    "starterCode": "function getLastItem(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3]",
+      "columns": ["index", "result"],
+      "rows": [
+        { "index": -1, "result": 3 }
+      ]
+    },
+    "skeletonHint": "function getLastItem(arr) {\n  return arr.at(____);\n}",
+    "solution": "function getLastItem(arr) {\n  return arr.at(-1);\n}",
+    "tests": [
+      { "input": [[10, 20, 30]], "expected": 30, "label": "3 elements" },
+      { "input": [["alone"]], "expected": "lone", "label": "1 element" },
+      { "input": [[]], "expected": null, "label": "empty array" }
+    ],
+    "patternTag": "Modern Accessors",
+    "patternExplanation": ".at(index) allows for negative indexing to easily grab elements from the end of an array without using .length.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-modern-to-sorted",
+    "title": "Modern: Immutable Sort",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "getSortedCopy",
+    "description": "Given an array of numbers, return a NEW sorted array in ascending order using `.toSorted()`. The original array must remain unchanged.",
+    "whatShouldHappen": [
+      "Use .toSorted() instead of .sort().",
+      "Provide the same comparison logic `(a, b) => a - b`.",
+      "Return the new array."
+    ],
+    "starterCode": "function getSortedCopy(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [3, 1, 2]",
+      "columns": ["method", "returns", "original state"],
+      "rows": [
+        { "method": "toSorted", "returns": "[1, 2, 3]", "original state": "[3, 1, 2]" }
+      ]
+    },
+    "skeletonHint": "function getSortedCopy(nums) {\n  return nums.toSorted((a, b) => ____ - ____);\n}",
+    "solution": "function getSortedCopy(nums) {\n  return nums.toSorted((a, b) => a - b);\n}",
+    "tests": [
+      { "input": [[10, 5, 8]], "expected": [5, 8, 10], "label": "3 numbers" },
+      { "input": [[1, 2, 3]], "expected": [1, 2, 3], "label": "already sorted" }
+    ],
+    "patternTag": "Immutability",
+    "patternExplanation": ".toSorted() is the non-mutating version of .sort(). It returns a new array, keeping the original intact.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-modern-to-reversed",
+    "title": "Modern: Immutable Reverse",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "getReversedCopy",
+    "description": "Given an array, return a NEW array with the elements in reverse order using `.toReversed()`. Do not modify the original array.",
+    "whatShouldHappen": [
+      "Call .toReversed() on the input array.",
+      "Return the result."
+    ],
+    "starterCode": "function getReversedCopy(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2]",
+      "columns": ["method", "returns", "original"],
+      "rows": [
+        { "method": "toReversed", "returns": "[2, 1]", "original": "[1, 2]" }
+      ]
+    },
+    "skeletonHint": "function getReversedCopy(arr) {\n  return arr.____();\n}",
+    "solution": "function getReversedCopy(arr) {\n  return arr.toReversed();\n}",
+    "tests": [
+      { "input": [[1, 2, 3]], "expected": [3, 2, 1], "label": "numbers" },
+      { "input": [["a"]], "expected": ["a"], "label": "single" }
+    ],
+    "patternTag": "Immutability",
+    "patternExplanation": ".toReversed() returns a reversed copy of the array without mutating the original reference.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-modern-with",
+    "title": "Modern: Replace with .with()",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "replaceAt",
+    "description": "Given an array, an index, and a new value, return a NEW array where the element at that index is replaced by the new value. Use the modern `.with()` method.",
+    "whatShouldHappen": [
+      "Call .with(index, newValue) on the array.",
+      "Return the new array."
+    ],
+    "starterCode": "function replaceAt(arr, index, val) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr=[1,2], idx=0, val=9",
+      "columns": ["operation", "result"],
+      "rows": [
+        { "operation": "arr.with(0, 9)", "result": "[9, 2]" }
+      ]
+    },
+    "skeletonHint": "function replaceAt(arr, index, val) {\n  return arr.____(index, val);\n}",
+    "solution": "function replaceAt(arr, index, val) {\n  return arr.with(index, val);\n}",
+    "tests": [
+      { "input": [[1, 2, 3], 1, 99], "expected": [1, 99, 3], "label": "middle replace" },
+      { "input": [["a", "b"], 0, "Z"], "expected": ["z", "b"], "label": "start replace" }
+    ],
+    "patternTag": "Immutability",
+    "patternExplanation": ".with(index, value) is a convenient way to get a copy of an array with one element changed, which is a very common pattern in React state updates.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-modern-find-last",
+    "title": "Modern: Find Last Match",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "findLastNegative",
+    "description": "Given an array of numbers, return the LAST negative number in the array using `.findLast()`. If none exist, return `undefined`.",
+    "whatShouldHappen": [
+      "Use .findLast() on the array.",
+      "The callback should check if the number is less than 0.",
+      "Return the result."
+    ],
+    "starterCode": "function findLastNegative(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [-1, 2, -3, 4]",
+      "columns": ["num", "isNeg?", "found?"],
+      "rows": [
+        { "num": 4, "isNeg?": "false", "found?": "no" },
+        { "num": -3, "isNeg?": "true", "found?": "YES (-3)" }
+      ]
+    },
+    "skeletonHint": "function findLastNegative(nums) {\n  return nums.findLast(n => ____ < 0);\n}",
+    "solution": "function findLastNegative(nums) {\n  return nums.findLast(n => n < 0);\n}",
+    "tests": [
+      { "input": [[-1, 5, -2, 10]], "expected": -2, "label": "two negatives" },
+      { "input": [[1, 2, 3]], "expected": null, "label": "no negatives" }
+    ],
+    "patternTag": "Modern Searching",
+    "patternExplanation": ".findLast() starts searching from the end of the array towards the beginning, returning the first value that matches the condition.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-modern-to-spliced",
+    "title": "Modern: Immutable Splice",
+    "category": "array-methods",
+    "difficulty": "Medium",
+    "functionName": "getSplicedCopy",
+    "description": "Given an array, a start index, and a delete count, return a NEW array with those elements removed using `.toSpliced()`. Do not mutate the original array.",
+    "whatShouldHappen": [
+      "Call .toSpliced(start, deleteCount) on the array.",
+      "Return the new array."
+    ],
+    "starterCode": "function getSplicedCopy(arr, start, count) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr=[1,2,3,4], start=1, count=2",
+      "columns": ["operation", "returns", "original"],
+      "rows": [
+        { "operation": "toSpliced(1, 2)", "returns": "[1, 4]", "original": "[1, 2, 3, 4]" }
+      ]
+    },
+    "skeletonHint": "function getSplicedCopy(arr, start, count) {\n  return arr.____(start, count);\n}",
+    "solution": "function getSplicedCopy(arr, start, count) {\n  return arr.toSpliced(start, count);\n}",
+    "tests": [
+      { "input": [[1, 2, 3, 4, 5], 1, 3], "expected": [1, 5], "label": "remove 3" },
+      { "input": [["a", "b"], 0, 1], "expected": ["b"], "label": "remove first" }
+    ],
+    "patternTag": "Immutability",
+    "patternExplanation": ".toSpliced() provides the powerful insertion/deletion capabilities of .splice() but returns a new array instead of mutating the source.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-modern-flat",
+    "title": "Modern: Depth Flatten",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "flattenDeep",
+    "description": "Given a nested array, flatten it to a depth of 2 using the modern `.flat()` method.",
+    "whatShouldHappen": [
+      "Call .flat() on the input array.",
+      "Provide 2 as the depth argument.",
+      "Return the flattened array."
+    ],
+    "starterCode": "function flattenDeep(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, [2, [3]]]",
+      "columns": ["depth", "result"],
+      "rows": [
+        { "depth": 2, "result": "[1, 2, 3]" }
+      ]
+    },
+    "skeletonHint": "function flattenDeep(arr) {\n  return arr.flat(____);\n}",
+    "solution": "function flattenDeep(arr) {\n  return arr.flat(2);\n}",
+    "tests": [
+      { "input": [[[1, [2, [3, 4]], 5]]], "expected": [1, 2, 3, 4, 5], "label": "depth 2 nested" },
+      { "input": [[1, [2]]], "expected": [1, 2], "label": "shallow nested" }
+    ],
+    "patternTag": "Modern Utility",
+    "patternExplanation": ".flat(depth) is the modern way to flatten nested arrays. The depth defaults to 1 if not provided.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  }
+]
