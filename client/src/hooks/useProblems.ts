@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
-import type { ProblemSummary, Pagination, Difficulty, CategorySlug } from '@/types/problem'
+import type { ProblemSummary, Pagination, Difficulty, CategorySlug, ProblemType } from '@/types/problem'
 
 export interface ProblemFilters {
-  readonly search: string
-  readonly difficulty: Difficulty | 'all'
-  readonly category: CategorySlug | 'all'
+  readonly search:      string
+  readonly difficulty:  Difficulty | 'all'
+  readonly category:    CategorySlug | 'all'
+  readonly type:        ProblemType | 'all' | 'quiz'
+  readonly patternTag?: string
 }
 
 interface UseProblemsResult {
@@ -18,9 +20,11 @@ const DEFAULT_PAGINATION: Pagination = { page: 1, limit: 20, total: 0, totalPage
 
 const buildQuery = (filters: ProblemFilters, page: number): string => {
   const params = new URLSearchParams({ page: String(page), limit: '20' })
-  if (filters.search) params.set('search', filters.search)
-  if (filters.difficulty !== 'all') params.set('difficulty', filters.difficulty)
-  if (filters.category !== 'all') params.set('category', filters.category)
+  if (filters.search)                         params.set('search', filters.search)
+  if (filters.difficulty !== 'all')           params.set('difficulty', filters.difficulty)
+  if (filters.category !== 'all')             params.set('category', filters.category)
+  if (filters.type && filters.type !== 'all') params.set('type', filters.type)
+  if (filters.patternTag)                     params.set('patternTag', filters.patternTag)
   return params.toString()
 }
 
@@ -53,7 +57,7 @@ export const useProblems = (filters: ProblemFilters, page: number): UseProblemsR
       })
 
     return () => { cancelled = true }
-  }, [filters.search, filters.difficulty, filters.category, page])
+  }, [filters.search, filters.difficulty, filters.category, filters.type, filters.patternTag, page])
 
   return { problems, pagination, isLoading, error }
 }

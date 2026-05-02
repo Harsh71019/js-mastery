@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Difficulty, CategorySlug } from '@/types/problem'
+import type { Difficulty, CategorySlug, ProblemType } from '@/types/problem'
 import { CATEGORIES } from '@/data/categories'
 
 type StatusFilter = 'all' | 'solved' | 'unsolved'
@@ -9,6 +9,7 @@ export interface FilterState {
   readonly difficulty: Difficulty | 'all'
   readonly category: CategorySlug | 'all'
   readonly status: StatusFilter
+  readonly type: ProblemType | 'all'
 }
 
 interface FilterBarProps {
@@ -16,18 +17,26 @@ interface FilterBarProps {
   readonly resultCount: number
   readonly onFiltersChange: (filters: FilterState) => void
   readonly hideCategoryFilter?: boolean
+  readonly hideTypeFilter?: boolean
 }
 
 const DIFFICULTIES: readonly (Difficulty | 'all')[] = ['all', 'Beginner', 'Easy', 'Medium', 'Hard']
+const TYPES: readonly (ProblemType | 'all')[] = ['all', 'coding', 'mcq', 'trick']
 
 const inputClass =
   'bg-bg-tertiary border border-border-default text-text-primary text-sm rounded px-3 py-1.5 focus:outline-none focus:border-accent-blue transition-colors duration-150 placeholder:text-text-tertiary'
+
+const segmentClass = (isActive: boolean): string =>
+  `px-3 py-1.5 text-sm capitalize transition-colors duration-150 cursor-pointer ${
+    isActive ? 'bg-accent-blue/20 text-accent-blue' : 'text-text-secondary hover:text-text-primary'
+  }`
 
 export const FilterBar = ({
   filters,
   resultCount,
   onFiltersChange,
   hideCategoryFilter = false,
+  hideTypeFilter = false,
 }: FilterBarProps): React.JSX.Element => {
   const update = (partial: Partial<FilterState>): void =>
     onFiltersChange({ ...filters, ...partial })
@@ -69,17 +78,28 @@ export const FilterBar = ({
         </select>
       )}
 
+      {!hideTypeFilter && (
+      <div className="flex items-center gap-1 bg-bg-tertiary border border-border-default rounded overflow-hidden">
+        {TYPES.map((typeOption) => (
+          <button
+            key={typeOption}
+            type="button"
+            onClick={() => update({ type: typeOption })}
+            className={segmentClass(filters.type === typeOption)}
+          >
+            {typeOption === 'all' ? 'All' : typeOption.toUpperCase()}
+          </button>
+        ))}
+      </div>
+      )}
+
       <div className="flex items-center gap-1 bg-bg-tertiary border border-border-default rounded overflow-hidden">
         {(['all', 'solved', 'unsolved'] as const).map((statusOption) => (
           <button
             key={statusOption}
             type="button"
             onClick={() => update({ status: statusOption })}
-            className={`px-3 py-1.5 text-sm capitalize transition-colors duration-150 cursor-pointer ${
-              filters.status === statusOption
-                ? 'bg-accent-blue/20 text-accent-blue'
-                : 'text-text-secondary hover:text-text-primary'
-            }`}
+            className={segmentClass(filters.status === statusOption)}
           >
             {statusOption}
           </button>

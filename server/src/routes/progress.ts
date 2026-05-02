@@ -1,7 +1,9 @@
 import { Router, type Request, type Response } from 'express'
-import { format } from 'date-fns'
+import { format, differenceInCalendarDays } from 'date-fns'
 import { Progress } from '../models/Progress'
 import { getUpdatedStreak } from '../utils/streak'
+import { computeNextReview, isMastered } from '../utils/review'
+import { serializeProgress } from '../utils/serializeProgress'
 
 const router = Router()
 const USER_ID = 'default'
@@ -12,13 +14,8 @@ const getOrCreateProgress = async () => {
   return Progress.create({ userId: USER_ID })
 }
 
-const toClientShape = (doc: Awaited<ReturnType<typeof getOrCreateProgress>>) => ({
-  solvedProblems: Object.fromEntries(doc.solvedProblems ?? new Map()),
-  lastActiveDate: doc.lastActiveDate,
-  currentStreak: doc.currentStreak,
-  longestStreak: doc.longestStreak,
-  dismissedBackupMilestone: doc.dismissedBackupMilestone,
-})
+const toClientShape = (doc: Awaited<ReturnType<typeof getOrCreateProgress>>) =>
+  serializeProgress(doc)
 
 router.get('/', async (_req: Request, res: Response): Promise<void> => {
   const doc = await getOrCreateProgress()
@@ -36,13 +33,23 @@ router.post('/solve/:problemId', async (req: Request, res: Response): Promise<vo
   const doc = await getOrCreateProgress()
   const today = new Date().toISOString().split('T')[0]
   const existing = doc.solvedProblems.get(problemId)
+  const isFirstSolve = !existing?.solvedAt
+
+  const review = computeNextReview(
+    isFirstSolve ? 1 : (existing?.reviewInterval ?? 1),
+    true,
+    today,
+  )
 
   doc.solvedProblems.set(problemId, {
-    solvedAt: existing?.solvedAt || new Date().toISOString(),
-    attempts: (existing?.attempts ?? 0) + 1,
-    title: title ?? existing?.title,
-    category: category ?? existing?.category,
-    difficulty: difficulty ?? existing?.difficulty,
+    solvedAt:       existing?.solvedAt || new Date().toISOString(),
+    attempts:       (existing?.attempts ?? 0) + 1,
+    title:          title ?? existing?.title,
+    category:       category ?? existing?.category,
+    difficulty:     difficulty ?? existing?.difficulty,
+    reviewInterval: review.reviewInterval,
+    lastReviewedAt: review.lastReviewedAt,
+    nextReviewDue:  review.nextReviewDue,
   })
 
   const streak = getUpdatedStreak(
@@ -64,11 +71,14 @@ router.post('/attempt/:problemId', async (req: Request, res: Response): Promise<
   const existing = doc.solvedProblems.get(problemId)
 
   doc.solvedProblems.set(problemId, {
-    solvedAt: existing?.solvedAt ?? '',
-    attempts: (existing?.attempts ?? 0) + 1,
-    title: existing?.title,
-    category: existing?.category,
-    difficulty: existing?.difficulty,
+    solvedAt:       existing?.solvedAt ?? '',
+    attempts:       (existing?.attempts ?? 0) + 1,
+    title:          existing?.title,
+    category:       existing?.category,
+    difficulty:     existing?.difficulty,
+    reviewInterval: existing?.reviewInterval ?? 1,
+    lastReviewedAt: existing?.lastReviewedAt,
+    nextReviewDue:  existing?.nextReviewDue,
   })
   doc.markModified('solvedProblems')
 
@@ -89,6 +99,40 @@ router.delete('/', async (_req: Request, res: Response): Promise<void> => {
     { upsert: true },
   )
   res.json({ ok: true })
+})
+
+router.get('/review-queue', async (_req: Request, res: Response): Promise<void> => {
+  const doc   = await getOrCreateProgress()
+  const today = format(new Date(), 'yyyy-MM-dd')
+
+  const due: {
+    id:             string
+    title:          string
+    category:       string
+    difficulty:     string
+    nextReviewDue:  string
+    reviewInterval: number
+    daysOverdue:    number
+  }[] = []
+
+  for (const [id, entry] of doc.solvedProblems.entries()) {
+    const interval = entry.reviewInterval ?? 1
+    const nextDue  = entry.nextReviewDue ?? today
+    if (nextDue <= today && !isMastered(interval)) {
+      due.push({
+        id,
+        title:          entry.title ?? id,
+        category:       entry.category ?? '',
+        difficulty:     entry.difficulty ?? 'Easy',
+        nextReviewDue:  nextDue,
+        reviewInterval: interval,
+        daysOverdue:    differenceInCalendarDays(new Date(today), new Date(nextDue)),
+      })
+    }
+  }
+
+  due.sort((a, b) => b.daysOverdue - a.daysOverdue)
+  res.json({ due, total: due.length })
 })
 
 router.put('/dismiss-banner/:milestone', async (req: Request, res: Response): Promise<void> => {

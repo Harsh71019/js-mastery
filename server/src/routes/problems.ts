@@ -3,17 +3,22 @@ import { Problem } from '../models/Problem'
 
 const router = Router()
 
-const LIST_FIELDS = 'id title category difficulty patternTag estimatedMinutes -_id'
+const LIST_FIELDS = 'id title category difficulty patternTag estimatedMinutes type -_id'
 
 router.get('/', async (req: Request, res: Response): Promise<void> => {
   const page = Math.max(1, parseInt(req.query.page as string) || 1)
   const limit = Math.min(100, Math.max(1, parseInt(req.query.limit as string) || 20))
-  const { category, difficulty, search } = req.query
+  const { category, difficulty, search, type, patternTag } = req.query
 
   const filter: Record<string, unknown> = { status: 'published' }
-  if (category) filter.category = category
+  if (category)   filter.category   = category
   if (difficulty) filter.difficulty = difficulty
-  if (search) filter.title = { $regex: search, $options: 'i' }
+  if (search)     filter.title      = { $regex: search, $options: 'i' }
+  if (patternTag) filter.patternTag = patternTag
+  // null matches documents where the field is missing — handles pre-type coding problems
+  if (type === 'coding') filter.type = { $in: ['coding', null] }
+  else if (type === 'quiz') filter.type = { $in: ['mcq', 'trick'] }
+  else if (type) filter.type = type
 
   const [problems, total] = await Promise.all([
     Problem.find(filter)
@@ -30,7 +35,18 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
   })
 })
 
-// Must be defined before /:id to avoid 'categories' matching as an id
+// Must be defined before /:id to avoid specific paths matching as an id
+router.get('/patterns', async (_req: Request, res: Response): Promise<void> => {
+  const patterns = await Problem.aggregate([
+    { $match: { status: 'published' } },
+    { $group: { _id: '$patternTag', count: { $sum: 1 } } },
+    { $project: { _id: 0, tag: '$_id', count: 1 } },
+    { $sort: { count: -1, tag: 1 } },
+  ])
+
+  res.json(patterns)
+})
+
 router.get('/categories/counts', async (_req: Request, res: Response): Promise<void> => {
   const counts = await Problem.aggregate([
     { $match: { status: 'published' } },

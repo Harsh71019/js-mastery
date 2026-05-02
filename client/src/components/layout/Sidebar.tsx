@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Code2, BarChart2, Flame, CheckCircle2 } from 'lucide-react'
+import { LayoutDashboard, Code2, BarChart2, Flame, CheckCircle2, HelpCircle, RefreshCw, Tag, CalendarDays } from 'lucide-react'
 import { useProgress } from '@/hooks/useProgress'
 import { useProblemCounts } from '@/hooks/useProblemCounts'
 
@@ -11,8 +11,12 @@ interface NavItem {
 }
 
 const NAV_ITEMS: readonly NavItem[] = [
-  { to: '/', label: 'Dashboard', icon: <LayoutDashboard size={16} /> },
+  { to: '/',       label: 'Dashboard', icon: <LayoutDashboard size={16} /> },
+  { to: '/daily',  label: 'Daily',     icon: <CalendarDays size={16} /> },
   { to: '/problems', label: 'Problems', icon: <Code2 size={16} /> },
+  { to: '/quiz',     label: 'Quiz',     icon: <HelpCircle size={16} /> },
+  { to: '/review',   label: 'Review',   icon: <RefreshCw size={16} /> },
+  { to: '/patterns', label: 'Patterns', icon: <Tag size={16} /> },
   { to: '/progress', label: 'Progress', icon: <BarChart2 size={16} /> },
 ]
 

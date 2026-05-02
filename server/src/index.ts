@@ -4,6 +4,8 @@ import cors from 'cors'
 import { connectDb } from './db'
 import problemsRouter from './routes/problems'
 import progressRouter from './routes/progress'
+import adminRouter from './routes/admin'
+import dailyRouter from './routes/daily'
 
 const app = express()
 const PORT = process.env.PORT ?? 3001
@@ -17,6 +19,8 @@ app.get('/api/health', (_req, res) => {
 
 app.use('/api/problems', problemsRouter)
 app.use('/api/progress', progressRouter)
+app.use('/api/admin/problems', adminRouter)
+app.use('/api/daily', dailyRouter)
 
 const start = async (): Promise<void> => {
   await connectDb()

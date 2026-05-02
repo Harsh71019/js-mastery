@@ -1,4 +1,5 @@
 import React, { useState, Suspense, lazy } from 'react'
+import { Link } from 'react-router-dom'
 import { Lock } from 'lucide-react'
 
 const Editor = lazy(() => import('@monaco-editor/react'))
@@ -70,7 +71,12 @@ export const SolutionPanel = ({
           </div>
 
           <div className="bg-accent-purple/10 border-l-[3px] border-accent-purple rounded-r px-4 py-3">
-            <p className="text-accent-purple text-xs font-medium mb-1">Pattern: {patternTag}</p>
+            <Link
+              to={`/patterns/${encodeURIComponent(patternTag)}`}
+              className="text-accent-purple text-xs font-medium mb-1 block hover:underline"
+            >
+              Pattern: {patternTag}
+            </Link>
             <p className="text-text-secondary text-xs leading-relaxed">{patternExplanation}</p>
           </div>
         </>

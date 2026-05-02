@@ -8,7 +8,9 @@
     "start": "node dist/index.js",
     "convert": "ts-node-dev --transpile-only src/convert.ts",
     "seed": "ts-node-dev --transpile-only src/seed.ts",
-    "list-titles": "ts-node-dev --transpile-only src/list-titles.ts"
+    "list-titles": "ts-node-dev --transpile-only src/list-titles.ts",
+    "seed-mcq": "ts-node-dev --transpile-only src/seed-mcq.ts",
+    "seed-trick": "ts-node-dev --transpile-only src/seed-trick.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",

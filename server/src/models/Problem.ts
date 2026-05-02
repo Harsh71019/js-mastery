@@ -20,30 +20,38 @@ const TraceTableSchema = new Schema(
 
 const ProblemSchema = new Schema(
   {
-    id: { type: String, required: true, unique: true },
+    id:    { type: String, required: true, unique: true },
     title: { type: String, required: true, unique: true },
-    category: { type: String, required: true },
-    difficulty: {
+    type: {
       type: String,
-      enum: ['Beginner', 'Easy', 'Medium', 'Hard'],
-      required: true,
+      enum: ['coding', 'mcq', 'trick'],
+      default: 'coding',
     },
-    functionName: { type: String, required: true },
-    description: { type: String, required: true },
-    whatShouldHappen: { type: [String], required: true },
-    starterCode: { type: String, required: true },
-    solution: { type: String, required: true },
-    traceTable: { type: TraceTableSchema, required: true },
-    skeletonHint: { type: String, required: true },
-    tests: { type: [TestCaseSchema], required: true },
-    patternTag: { type: String, required: true },
+    category:   { type: String, required: true },
+    difficulty: { type: String, enum: ['Beginner', 'Easy', 'Medium', 'Hard'], required: true },
+    description: { type: String },
+    patternTag:         { type: String, required: true },
     patternExplanation: { type: String, required: true },
-    estimatedMinutes: { type: Number, required: true },
-    status: {
-      type: String,
-      enum: ['draft', 'published'],
-      default: 'published',
-    },
+    estimatedMinutes:   { type: Number, required: true },
+    status: { type: String, enum: ['draft', 'published'], default: 'published' },
+
+    // Coding-only (optional for mcq/trick)
+    functionName:    { type: String },
+    whatShouldHappen: { type: [String] },
+    starterCode:     { type: String },
+    solution:        { type: String },
+    traceTable:      { type: TraceTableSchema },
+    skeletonHint:    { type: String },
+    tests:           { type: [TestCaseSchema] },
+
+    // MCQ / trick fields
+    options:          { type: [String], default: undefined },
+    correctIndex:     { type: Number },
+    explanation:      { type: String },
+
+    // Trick-only fields
+    codeSnippet:       { type: String },
+    gotchaExplanation: { type: String },
   },
   { timestamps: true },
 )

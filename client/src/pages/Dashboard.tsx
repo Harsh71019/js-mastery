@@ -5,6 +5,7 @@ import { useProblemCounts } from '@/hooks/useProblemCounts'
 import { useProgressStore } from '@/store/useProgressStore'
 import { StatCard } from '@/components/progress/StatCard'
 import { ProgressRing } from '@/components/ui/ProgressRing'
+import { DailyWidget } from '@/components/daily/DailyWidget'
 import { CATEGORIES } from '@/data/categories'
 
 const selectDismissBackupBanner = (state: ReturnType<typeof useProgressStore.getState>) =>
@@ -65,6 +66,8 @@ export const Dashboard = (): React.JSX.Element => {
           </button>
         </div>
       )}
+
+      <DailyWidget />
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard

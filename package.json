@@ -7,7 +7,10 @@
     "build": "npm run build --prefix client",
     "convert": "npm run convert --prefix server",
     "seed": "npm run seed --prefix server",
-    "list-titles": "npm run list-titles --prefix server"
+    "list-titles": "npm run list-titles --prefix server",
+    "add-problems": "node scripts/add-problems.js",
+    "seed-mcq": "npm run seed-mcq --prefix server",
+    "seed-trick": "npm run seed-trick --prefix server"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

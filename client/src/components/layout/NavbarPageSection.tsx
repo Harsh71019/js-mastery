@@ -5,6 +5,7 @@ import { CATEGORIES } from '@/data/categories'
 interface NavbarPageSectionProps {
   readonly categorySlug: string | undefined
   readonly hasProblemsList: boolean
+  readonly hasQuiz: boolean
   readonly hasProgress: boolean
   readonly total: number
 }
@@ -12,9 +13,16 @@ interface NavbarPageSectionProps {
 const getCategoryTitle = (slug: string): string =>
   CATEGORIES.find((c) => c.slug === slug)?.title ?? slug
 
+const TABS = [
+  { label: 'Problems', path: '/problems' },
+  { label: 'Quiz',     path: '/quiz' },
+  { label: 'Progress', path: '/progress' },
+] as const
+
 export const NavbarPageSection = ({
   categorySlug,
   hasProblemsList,
+  hasQuiz,
   hasProgress,
   total,
 }: NavbarPageSectionProps): React.JSX.Element => {
@@ -36,22 +44,34 @@ export const NavbarPageSection = ({
     )
   }
 
-  if (hasProblemsList) {
-    return (
-      <div className="flex items-center gap-2 text-sm">
-        <span className="text-text-primary font-medium">Problems</span>
-        {total > 0 && (
-          <span className="text-text-tertiary text-xs bg-bg-tertiary border border-border-default rounded px-2 py-0.5">
-            {total} total
-          </span>
-        )}
-      </div>
-    )
+  const activeMap: Record<string, boolean> = {
+    '/problems': hasProblemsList,
+    '/quiz':     hasQuiz,
+    '/progress': hasProgress,
   }
 
-  if (hasProgress) {
-    return <span className="text-text-primary text-sm font-medium">Progress</span>
-  }
-
-  return <span className="text-text-primary text-sm font-medium">Dashboard</span>
+  return (
+    <div className="flex items-center gap-1">
+      {TABS.map(({ label, path }) => {
+        const isActive = activeMap[path] ?? false
+        return (
+          <button
+            key={path}
+            type="button"
+            onClick={() => navigate(path)}
+            className={`px-3 py-1 text-sm rounded transition-colors duration-150 cursor-pointer ${
+              isActive
+                ? 'text-text-primary font-medium bg-bg-tertiary'
+                : 'text-text-secondary hover:text-text-primary'
+            }`}
+          >
+            {label}
+            {isActive && path === '/problems' && total > 0 && (
+              <span className="ml-2 text-text-tertiary text-xs font-normal">{total}</span>
+            )}
+          </button>
+        )
+      })}
+    </div>
+  )
 }
