@@ -40,3 +40,5 @@ pnpm-debug.log*
 *.local
 .vite/
 client/.vite/
+
+jsquestion

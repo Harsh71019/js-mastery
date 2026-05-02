@@ -45,6 +45,12 @@ export const CATEGORIES: readonly Category[] = [
     accentColor: '#f97316',
   },
   {
+    slug: 'array-methods',
+    title: 'Array Methods',
+    description: 'Master slice, splice, map, filter, and other essential array transformations.',
+    accentColor: '#fbbf24',
+  },
+  {
     slug: 'two-pointer',
     title: 'Two Pointer',
     description: 'Solve problems by moving two indices toward each other.',

@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose'
 const TestCaseSchema = new Schema(
   {
     input: { type: Schema.Types.Mixed, required: true },
-    expected: { type: Schema.Types.Mixed, required: true },
+    expected: { type: Schema.Types.Mixed },
     label: { type: String },
   },
   { _id: false },

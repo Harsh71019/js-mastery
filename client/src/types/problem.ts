@@ -9,6 +9,7 @@ export type CategorySlug =
   | 'nested-loops'
   | 'array-building'
   | 'object-loops'
+  | 'array-methods'
   | 'two-pointer'
   | 'prefix-suffix'
   | 'sliding-window'

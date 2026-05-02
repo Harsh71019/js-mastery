@@ -1,0 +1,224 @@
+[
+  {
+    "id": "array-methods-push-basic",
+    "title": "Push: Add to End",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "addToEnd",
+    "description": "Given an array and an element, use the `.push()` method to add the element to the end of the array. Return the modified array.",
+    "whatShouldHappen": [
+      "Call .push() on the array, passing the element as the argument.",
+      "Return the mutated array."
+    ],
+    "starterCode": "function addToEnd(arr, element) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2], el = 3",
+      "columns": ["action", "arr state"],
+      "rows": [
+        { "action": "arr.push(3)", "arr state": "[1, 2, 3]" }
+      ]
+    },
+    "skeletonHint": "function addToEnd(arr, element) {\n  arr.____(____);\n  return arr;\n}",
+    "solution": "function addToEnd(arr, element) {\n  arr.push(element);\n  return arr;\n}",
+    "tests": [
+      { "input": [[1, 2], 3], "expected": [1, 2, 3], "label": "normal array" },
+      { "input": [[], "a"], "expected": ["a"], "label": "empty array" },
+      { "input": [[1], [2, 3]], "expected": [1, [2, 3]], "label": "pushing an array" }
+    ],
+    "patternTag": "End Insertion",
+    "patternExplanation": ".push() mutates the array by appending one or more elements to its end.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-pop-basic",
+    "title": "Pop: Remove from End",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "removeFromEnd",
+    "description": "Given an array, use the `.pop()` method to remove the last element. Return the modified array.",
+    "whatShouldHappen": [
+      "Call .pop() on the array.",
+      "Return the mutated array."
+    ],
+    "starterCode": "function removeFromEnd(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['a', 'b', 'c']",
+      "columns": ["action", "popped item", "arr state"],
+      "rows": [
+        { "action": "arr.pop()", "popped item": "'c'", "arr state": "['a', 'b']" }
+      ]
+    },
+    "skeletonHint": "function removeFromEnd(arr) {\n  arr.____();\n  return arr;\n}",
+    "solution": "function removeFromEnd(arr) {\n  arr.pop();\n  return arr;\n}",
+    "tests": [
+      { "input": [[1, 2, 3]], "expected": [1, 2], "label": "normal array" },
+      { "input": [["a"]], "expected": [], "label": "single element" },
+      { "input": [[]], "expected": [], "label": "empty array (does nothing)" }
+    ],
+    "patternTag": "End Deletion",
+    "patternExplanation": ".pop() mutates the array by removing the very last element.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-unshift-basic",
+    "title": "Unshift: Add to Beginning",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "addToBeginning",
+    "description": "Given an array and an element, use the `.unshift()` method to add the element to the very beginning of the array. Return the modified array.",
+    "whatShouldHappen": [
+      "Call .unshift() on the array, passing the element as the argument.",
+      "Return the mutated array."
+    ],
+    "starterCode": "function addToBeginning(arr, element) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [2, 3], el = 1",
+      "columns": ["action", "arr state"],
+      "rows": [
+        { "action": "arr.unshift(1)", "arr state": "[1, 2, 3]" }
+      ]
+    },
+    "skeletonHint": "function addToBeginning(arr, element) {\n  arr.____(____);\n  return arr;\n}",
+    "solution": "function addToBeginning(arr, element) {\n  arr.unshift(element);\n  return arr;\n}",
+    "tests": [
+      { "input": [[2, 3], 1], "expected": [1, 2, 3], "label": "normal array" },
+      { "input": [[], 99], "expected": [99], "label": "empty array" },
+      { "input": [["y", "z"], "x"], "expected": ["x", "y", "z"], "label": "string array" }
+    ],
+    "patternTag": "Start Insertion",
+    "patternExplanation": ".unshift() mutates the array by adding one or more elements to the start, shifting existing elements to higher indices.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-shift-basic",
+    "title": "Shift: Remove from Beginning",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "removeFromBeginning",
+    "description": "Given an array, use the `.shift()` method to remove the first element. Return the modified array.",
+    "whatShouldHappen": [
+      "Call .shift() on the array.",
+      "Return the mutated array."
+    ],
+    "starterCode": "function removeFromBeginning(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [10, 20, 30]",
+      "columns": ["action", "shifted item", "arr state"],
+      "rows": [
+        { "action": "arr.shift()", "shifted item": "10", "arr state": "[20, 30]" }
+      ]
+    },
+    "skeletonHint": "function removeFromBeginning(arr) {\n  arr.____();\n  return arr;\n}",
+    "solution": "function removeFromBeginning(arr) {\n  arr.shift();\n  return arr;\n}",
+    "tests": [
+      { "input": [[10, 20, 30]], "expected": [20, 30], "label": "normal array" },
+      { "input": [[100]], "expected": [], "label": "single element" },
+      { "input": [[]], "expected": [], "label": "empty array" }
+    ],
+    "patternTag": "Start Deletion",
+    "patternExplanation": ".shift() mutates the array by removing the first element and shifting all subsequent elements down one index.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-queue-sim",
+    "title": "Simulate a Queue",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "processQueue",
+    "description": "Given an array representing a line of people (a queue) and a new person, simulate queue behavior. The new person joins the back of the line, and the person at the front of the line is processed and leaves. Return the array.",
+    "whatShouldHappen": [
+      "Use .push() to add the new person to the end.",
+      "Use .shift() to remove the person at the front.",
+      "Return the modified queue."
+    ],
+    "starterCode": "function processQueue(queue, newPerson) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "queue = ['Alice', 'Bob'], newPerson = 'Charlie'",
+      "columns": ["action", "queue state"],
+      "rows": [
+        { "action": "push('Charlie')", "queue state": "['Alice', 'Bob', 'Charlie']" },
+        { "action": "shift()", "queue state": "['Bob', 'Charlie']" }
+      ]
+    },
+    "skeletonHint": "function processQueue(queue, newPerson) {\n  queue.____(____);\n  queue.____();\n  return queue;\n}",
+    "solution": "function processQueue(queue, newPerson) {\n  queue.push(newPerson);\n  queue.shift();\n  return queue;\n}",
+    "tests": [
+      { "input": [["Alice", "Bob"], "Charlie"], "expected": ["Bob", "Charlie"], "label": "normal queue" },
+      { "input": [["OnlyPerson"], "NextPerson"], "expected": ["NextPerson"], "label": "single person queue" },
+      { "input": [[], "FirstPerson"], "expected": [], "label": "empty queue edge case (shifts out the person just pushed)" }
+    ],
+    "patternTag": "FIFO Operations",
+    "patternExplanation": "A Queue operates on a First-In-First-Out (FIFO) basis. In arrays, this is simulated using push (enqueue) and shift (dequeue).",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-stack-sim",
+    "title": "Simulate a Stack",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "processStack",
+    "description": "Given an array representing a stack of plates and a new plate, simulate stack behavior. The new plate is placed on top of the stack, and then the top plate is immediately removed (perhaps to serve it). Return the array. Note: In JavaScript arrays, the 'top' of the stack is the *end* of the array.",
+    "whatShouldHappen": [
+      "Use .push() to add the new plate to the end.",
+      "Use .pop() to remove the plate at the end.",
+      "Return the modified stack."
+    ],
+    "starterCode": "function processStack(stack, newPlate) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "stack = ['plate1', 'plate2'], newPlate = 'plate3'",
+      "columns": ["action", "stack state"],
+      "rows": [
+        { "action": "push('plate3')", "stack state": "['plate1', 'plate2', 'plate3']" },
+        { "action": "pop()", "stack state": "['plate1', 'plate2']" }
+      ]
+    },
+    "skeletonHint": "function processStack(stack, newPlate) {\n  stack.____(____);\n  stack.____();\n  return stack;\n}",
+    "solution": "function processStack(stack, newPlate) {\n  stack.push(newPlate);\n  stack.pop();\n  return stack;\n}",
+    "tests": [
+      { "input": [["p1", "p2"], "p3"], "expected": ["p1", "p2"], "label": "normal stack (net zero change)" },
+      { "input": [[], "p1"], "expected": [], "label": "empty stack" }
+    ],
+    "patternTag": "LIFO Operations",
+    "patternExplanation": "A Stack operates on a Last-In-First-Out (LIFO) basis. In arrays, this is simulated using push and pop.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-transfer-elements",
+    "title": "Transfer Element",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "transferElement",
+    "description": "Given two arrays, `arr1` and `arr2`, remove the last element from `arr1` and add it to the beginning of `arr2`. Return an array containing both arrays: `[arr1, arr2]`.",
+    "whatShouldHappen": [
+      "Use .pop() on arr1 to remove and return its last element.",
+      "Check if the popped element is undefined (in case arr1 is empty). If so, just return the arrays.",
+      "Use .unshift() on arr2, passing the popped element.",
+      "Return `[arr1, arr2]`."
+    ],
+    "starterCode": "function transferElement(arr1, arr2) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr1 = [1, 2], arr2 = [3, 4]",
+      "columns": ["popped", "arr1", "arr2"],
+      "rows": [
+        { "popped": 2, "arr1": "[1]", "arr2": "[2, 3, 4]" }
+      ]
+    },
+    "skeletonHint": "function transferElement(arr1, arr2) {\n  if (arr1.length > 0) {\n    const item = arr1.____();\n    arr2.____(____);\n  }\n  return [arr1, arr2];\n}",
+    "solution": "function transferElement(arr1, arr2) {\n  if (arr1.length > 0) {\n    const item = arr1.pop();\n    arr2.unshift(item);\n  }\n  return [arr1, arr2];\n}",
+    "tests": [
+      { "input": [[1, 2], [3, 4]], "expected": [[1], [2, 3, 4]], "label": "normal transfer" },
+      { "input": [[99], []], "expected": [[], [99]], "label": "transfer to empty" },
+      { "input": [[], [1, 2]], "expected": [[], [1, 2]], "label": "empty source array" }
+    ],
+    "patternTag": "Cross-Array Mutation",
+    "patternExplanation": "Pop and Shift return the element they removed, which makes them perfect for handing data off to another array.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  }
+]

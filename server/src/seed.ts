@@ -14,6 +14,10 @@ const REQUIRED_FIELDS = [
 ]
 
 const validate = (doc: Record<string, unknown>, slug: string, index: number): string | null => {
+  // Only validate coding problems for now using this strict list
+  // MCQ/Trick problems have different required fields but aren't typically in this dir
+  if (doc.type && doc.type !== 'coding') return null;
+
   for (const field of REQUIRED_FIELDS) {
     if (doc[field] === undefined || doc[field] === null || doc[field] === '') {
       return `[${slug}][${index}] missing required field: ${field}`
@@ -22,9 +26,19 @@ const validate = (doc: Record<string, unknown>, slug: string, index: number): st
   return null
 }
 
-const loadCategory = (filePath: string): Record<string, unknown>[] => {
-  const raw = fs.readFileSync(filePath, 'utf-8')
-  return JSON.parse(raw) as Record<string, unknown>[]
+const getAllJsonFiles = (dir: string): string[] => {
+  let results: string[] = []
+  const list = fs.readdirSync(dir)
+  list.forEach((file) => {
+    const filePath = path.join(dir, file)
+    const stat = fs.statSync(filePath)
+    if (stat && stat.isDirectory()) {
+      results = results.concat(getAllJsonFiles(filePath))
+    } else if (file.endsWith('.json')) {
+      results.push(filePath)
+    }
+  })
+  return results
 }
 
 const seedCategory = async (
@@ -77,9 +91,9 @@ const run = async (): Promise<void> => {
   await mongoose.connect(uri)
   console.log('MongoDB connected\n')
 
-  const files = fs.readdirSync(PROBLEMS_DIR).filter((f) => f.endsWith('.json'))
-  if (files.length === 0) {
-    console.error('No JSON files found in server/data/problems/. Run npm run convert first.')
+  const jsonFiles = getAllJsonFiles(PROBLEMS_DIR)
+  if (jsonFiles.length === 0) {
+    console.error('No JSON files found in server/data/problems/')
     process.exit(1)
   }
 
@@ -87,12 +101,27 @@ const run = async (): Promise<void> => {
   let totalSkipped = 0
   let totalErrors = 0
 
-  for (const file of files) {
-    const slug = file.replace('.json', '')
-    const problems = loadCategory(path.join(PROBLEMS_DIR, file))
+  for (const filePath of jsonFiles) {
+    const relativePath = path.relative(PROBLEMS_DIR, filePath)
+    const slug = relativePath.replace('.json', '').replace(/\//g, '-')
+    
+    const raw = fs.readFileSync(filePath, 'utf-8')
+    let problems: Record<string, unknown>[] = []
+    try {
+        problems = JSON.parse(raw)
+        if (!Array.isArray(problems)) problems = [problems]
+    } catch (e) {
+        console.error(`  ERROR: Failed to parse ${relativePath}`)
+        totalErrors++
+        continue
+    }
+
     const { inserted, skipped, errors } = await seedCategory(slug, problems)
 
-    console.log(`${slug}: ${inserted} inserted, ${skipped} skipped, ${errors} errors`)
+    if (inserted > 0 || errors > 0) {
+        console.log(`${relativePath}: ${inserted} inserted, ${skipped} skipped, ${errors} errors`)
+    }
+    
     totalInserted += inserted
     totalSkipped += skipped
     totalErrors += errors

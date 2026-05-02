@@ -1,0 +1,129 @@
+[
+  {
+    "id": "array-methods-concat-merge",
+    "title": "Concat: Merge Three Arrays",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "mergeThree",
+    "description": "Given three arrays, merge them into a single new array in the order they were provided using `.concat()`.",
+    "whatShouldHappen": [
+      "Call .concat() on the first array.",
+      "Pass the second and third arrays as arguments to .concat().",
+      "Return the resulting combined array."
+    ],
+    "starterCode": "function mergeThree(arr1, arr2, arr3) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr1=[1], arr2=[2], arr3=[3]",
+      "columns": ["action", "result"],
+      "rows": [
+        { "action": "arr1.concat(arr2, arr3)", "result": "[1, 2, 3]" }
+      ]
+    },
+    "skeletonHint": "function mergeThree(arr1, arr2, arr3) {\n  return arr1.____(arr2, ____);\n}",
+    "solution": "function mergeThree(arr1, arr2, arr3) {\n  return arr1.concat(arr2, arr3);\n}",
+    "tests": [
+      { "input": [[1], [2], [3]], "expected": [1, 2, 3], "label": "simple numbers" },
+      { "input": [[], ["a"], []], "expected": ["a"], "label": "with empty arrays" }
+    ],
+    "patternTag": "Array Merging",
+    "patternExplanation": ".concat() is a non-mutating method that combines two or more arrays into a new one.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-includes-check",
+    "title": "Includes: Word Search",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "hasWord",
+    "description": "Given an array of strings and a target word, return `true` if the word is in the array (exact match), and `false` otherwise.",
+    "whatShouldHappen": [
+      "Use .includes() on the array.",
+      "Pass the target word as the argument.",
+      "Return the boolean result."
+    ],
+    "starterCode": "function hasWord(words, target) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "words = ['cat', 'dog'], target = 'cat'",
+      "columns": ["target", "result"],
+      "rows": [
+        { "target": "'cat'", "result": "true" }
+      ]
+    },
+    "skeletonHint": "function hasWord(words, target) {\n  return words.____(target);\n}",
+    "solution": "function hasWord(words, target) {\n  return words.includes(target);\n}",
+    "tests": [
+      { "input": [["apple", "banana"], "apple"], "expected": true, "label": "word present" },
+      { "input": [["apple", "banana"], "cherry"], "expected": false, "label": "word absent" }
+    ],
+    "patternTag": "Membership Check",
+    "patternExplanation": ".includes() is the modern, readable way to check if an element exists in an array.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-indexof-all-positions",
+    "title": "IndexOf: Check Start and End",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "isAtEnds",
+    "description": "Given an array and a value, return `true` if the value is located at either the very first position OR the very last position. Otherwise, return `false`.",
+    "whatShouldHappen": [
+      "Check if .indexOf(value) is 0 (first position).",
+      "Check if .lastIndexOf(value) is equal to array length - 1 (last position).",
+      "Return true if either condition is true."
+    ],
+    "starterCode": "function isAtEnds(arr, val) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 1], val = 1",
+      "columns": ["indexOf", "lastIndexOf", "result"],
+      "rows": [
+        { "indexOf": 0, "lastIndexOf": 2, "result": "true" }
+      ]
+    },
+    "skeletonHint": "function isAtEnds(arr, val) {\n  return arr.indexOf(val) === ____ || arr.lastIndexOf(val) === ____;\n}",
+    "solution": "function isAtEnds(arr, val) {\n  return arr.indexOf(val) === 0 || arr.lastIndexOf(val) === arr.length - 1;\n}",
+    "tests": [
+      { "input": [[1, 2, 3], 1], "expected": true, "label": "at start" },
+      { "input": [[1, 2, 3], 3], "expected": true, "label": "at end" },
+      { "input": [[1, 2, 3], 2], "expected": false, "label": "in middle" },
+      { "input": [[], 5], "expected": false, "label": "empty array" }
+    ],
+    "patternTag": "Positional Search",
+    "patternExplanation": "indexOf searches from the start, while lastIndexOf searches from the end. They return -1 if the value is not found.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-join-csv",
+    "title": "Join: Create CSV",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "toCsv",
+    "description": "Given an array of values, return a string where each value is separated by a comma and a space (e.g., `[1, 2]` becomes `'1, 2'`).",
+    "whatShouldHappen": [
+      "Use .join() on the array.",
+      "Pass the string ', ' (comma + space) as the separator.",
+      "Return the resulting string."
+    ],
+    "starterCode": "function toCsv(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['a', 'b']",
+      "columns": ["separator", "result"],
+      "rows": [
+        { "separator": "', '", "result": "'a, b'" }
+      ]
+    },
+    "skeletonHint": "function toCsv(arr) {\n  return arr.join(____);\n}",
+    "solution": "function toCsv(arr) {\n  return arr.join(', ');\n}",
+    "tests": [
+      { "input": [["red", "green", "blue"]], "expected": "red, green, blue", "label": "colors" },
+      { "input": [[10, 20]], "expected": "10, 20", "label": "numbers" },
+      { "input": [[]], "expected": "", "label": "empty" }
+    ],
+    "patternTag": "Serialization",
+    "patternExplanation": ".join() converts an array into a string by concatenating all elements with a specified separator.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  }
+]

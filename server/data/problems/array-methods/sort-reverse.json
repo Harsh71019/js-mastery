@@ -1,0 +1,220 @@
+[
+  {
+    "id": "array-methods-sort-numeric-asc",
+    "title": "Sort: Numeric Ascending",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "sortNumbersAsc",
+    "description": "Given an array of numbers, return the array sorted in ascending order. Use a comparison function to ensure numeric sorting (not string sorting).",
+    "whatShouldHappen": [
+      "Call .sort() on the array.",
+      "Provide a comparison function `(a, b) => a - b`.",
+      "Return the mutated array."
+    ],
+    "starterCode": "function sortNumbersAsc(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [10, 2, 5]",
+      "columns": ["a", "b", "result"],
+      "rows": [
+        { "a": 10, "b": 2, "result": "8 (swap)" }
+      ]
+    },
+    "skeletonHint": "function sortNumbersAsc(nums) {\n  return nums.sort((a, b) => ____ - ____);\n}",
+    "solution": "function sortNumbersAsc(nums) {\n  return nums.sort((a, b) => a - b);\n}",
+    "tests": [
+      { "input": [[10, 1, 20, 2]], "expected": [1, 2, 10, 20], "label": "numeric values" },
+      { "input": [[-1, -5, 0]], "expected": [-5, -1, 0], "label": "negatives" },
+      { "input": [[]], "expected": [], "label": "empty" }
+    ],
+    "patternTag": "Numeric Sorting",
+    "patternExplanation": "By default, .sort() converts elements to strings. A comparator (a, b) => a - b is required for numeric order.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-sort-numeric-desc",
+    "title": "Sort: Numeric Descending",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "sortNumbersDesc",
+    "description": "Given an array of numbers, return the array sorted in descending order (largest to smallest).",
+    "whatShouldHappen": [
+      "Call .sort() on the array.",
+      "Provide a comparison function `(a, b) => b - a`.",
+      "Return the array."
+    ],
+    "starterCode": "function sortNumbersDesc(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 5, 2]",
+      "columns": ["a", "b", "b - a"],
+      "rows": [
+        { "a": 1, "b": 5, "b - a": 4 }
+      ]
+    },
+    "skeletonHint": "function sortNumbersDesc(nums) {\n  return nums.sort((a, b) => ____ - ____);\n}",
+    "solution": "function sortNumbersDesc(nums) {\n  return nums.sort((a, b) => b - a);\n}",
+    "tests": [
+      { "input": [[1, 2, 3]], "expected": [3, 2, 1], "label": "asc to desc" },
+      { "input": [[10, 100, 5]], "expected": [100, 10, 5], "label": "large numbers" }
+    ],
+    "patternTag": "Numeric Sorting",
+    "patternExplanation": "Flipping the comparator logic to (b - a) results in a descending sort.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-sort-objects-by-age",
+    "title": "Sort: Objects by Property",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "sortByAge",
+    "description": "Given an array of user objects `{ name: string, age: number }`, sort the array by age in ascending order.",
+    "whatShouldHappen": [
+      "Call .sort() on the users array.",
+      "The comparator should compare `a.age` and `b.age`.",
+      "Return the mutated array."
+    ],
+    "starterCode": "function sortByAge(users) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "users = [{age: 30}, {age: 20}]",
+      "columns": ["a.age", "b.age", "diff"],
+      "rows": [
+        { "a.age": 30, "b.age": 20, "diff": 10 }
+      ]
+    },
+    "skeletonHint": "function sortByAge(users) {\n  return users.sort((a, b) => a.____ - b.____);\n}",
+    "solution": "function sortByAge(users) {\n  return users.sort((a, b) => a.age - b.age);\n}",
+    "tests": [
+      { "input": [[{ "name": "A", "age": 25 }, { "name": "B", "age": 20 }, { "name": "C", "age": 30 }]], "expected": [{ "name": "B", "age": 20 }, { "name": "A", "age": 25 }, { "name": "C", "age": 30 }], "label": "standard users" },
+      { "input": [[{ "age": 10 }, { "age": 10 }]], "expected": [{ "age": 10 }, { "age": 10 }], "label": "same age" }
+    ],
+    "patternTag": "Object Sorting",
+    "patternExplanation": "When sorting objects, the comparator must access the specific property you want to sort by.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-sort-strings-case-insensitive",
+    "title": "Sort: Case-Insensitive Strings",
+    "category": "array-methods",
+    "difficulty": "Medium",
+    "functionName": "sortStrings",
+    "description": "Given an array of strings, return them sorted alphabetically, regardless of case (e.g., 'a' should come before 'B'). Default string sort puts all uppercase before lowercase.",
+    "whatShouldHappen": [
+      "Use .sort() with a comparator.",
+      "Compare the lowercase versions of strings `a` and `b`.",
+      "Use `localeCompare()` for a robust string comparison, or manually check `<` and `>`."
+    ],
+    "starterCode": "function sortStrings(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['b', 'A']",
+      "columns": ["a.low", "b.low", "result"],
+      "rows": [
+        { "a.low": "'b'", "b.low": "'a'", "result": "1 (swap)" }
+      ]
+    },
+    "skeletonHint": "function sortStrings(arr) {\n  return arr.sort((a, b) => a.toLowerCase().____(b.toLowerCase()));\n}",
+    "solution": "function sortStrings(arr) {\n  return arr.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));\n}",
+    "tests": [
+      { "input": [["banana", "Apple", "cherry"]], "expected": ["Apple", "banana", "cherry"], "label": "mixed case" },
+      { "input": [["a", "b", "A", "B"]], "expected": ["a", "A", "b", "B"], "label": "same letters" }
+    ],
+    "patternTag": "String Normalization",
+    "patternExplanation": "Normalizing strings to lowercase before comparing ensures consistent alphabetical order without ASCII value bias.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-sort-multi-criteria",
+    "title": "Sort: Multiple Criteria",
+    "category": "array-methods",
+    "difficulty": "Hard",
+    "functionName": "sortByScoreAndName",
+    "description": "Given an array of player objects `{ name: string, score: number }`, sort them first by score in DESCENDING order. If scores are tied, sort those players by name in ASCENDING alphabetical order.",
+    "whatShouldHappen": [
+      "The comparator should first calculate `b.score - a.score`.",
+      "If that difference is not 0, return it.",
+      "If the difference is 0 (scores are equal), return the result of comparing `a.name` and `b.name` using `localeCompare()`."
+    ],
+    "starterCode": "function sortByScoreAndName(players) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "players = [{n:'Z', s:10}, {n:'A', s:10}]",
+      "columns": ["s diff", "name comp", "result"],
+      "rows": [
+        { "s diff": 0, "name comp": -1, "result": -1 }
+      ]
+    },
+    "skeletonHint": "function sortByScoreAndName(players) {\n  return players.sort((a, b) => {\n    const scoreDiff = b.score - a.score;\n    if (scoreDiff !== 0) return ____;\n    return a.name.____(b.name);\n  });\n}",
+    "solution": "function sortByScoreAndName(players) {\n  return players.sort((a, b) => {\n    const scoreDiff = b.score - a.score;\n    if (scoreDiff !== 0) return scoreDiff;\n    return a.name.localeCompare(b.name);\n  });\n}",
+    "tests": [
+      { "input": [[{ "name": "Alice", "score": 100 }, { "name": "Bob", "score": 100 }, { "name": "Charlie", "score": 80 }]], "expected": [{ "name": "Alice", "score": 100 }, { "name": "Bob", "score": 100 }, { "name": "Charlie", "score": 80 }], "label": "Alice before Bob (alphabetical tie-break)" },
+      { "input": [[{ "name": "X", "score": 50 }, { "name": "Y", "score": 90 }]], "expected": [{ "name": "Y", "score": 90 }, { "name": "X", "score": 50 }], "label": "high score first" }
+    ],
+    "patternTag": "Stable Tie-breaking",
+    "patternExplanation": "Chaining comparison logic allows you to define complex priority rules for sorting.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-reverse-basic",
+    "title": "Reverse: Array Reversal",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "reverseArray",
+    "description": "Given an array, reverse the order of its elements in-place using `.reverse()`.",
+    "whatShouldHappen": [
+      "Call .reverse() on the array.",
+      "Return the mutated array."
+    ],
+    "starterCode": "function reverseArray(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3]",
+      "columns": ["action", "result"],
+      "rows": [
+        { "action": "arr.reverse()", "result": "[3, 2, 1]" }
+      ]
+    },
+    "skeletonHint": "function reverseArray(arr) {\n  return arr.____();\n}",
+    "solution": "function reverseArray(arr) {\n  return arr.reverse();\n}",
+    "tests": [
+      { "input": [[1, 2, 3, 4, 5]], "expected": [5, 4, 3, 2, 1], "label": "numbers" },
+      { "input": [["a", "b"]], "expected": ["b", "a"], "label": "strings" },
+      { "input": [[]], "expected": [], "label": "empty" }
+    ],
+    "patternTag": "Reversal",
+    "patternExplanation": ".reverse() mutates the original array and reverses it. It is very fast and efficient.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-sort-strings-length",
+    "title": "Sort: By String Length",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "sortByLength",
+    "description": "Given an array of strings, sort them by their length in ascending order (shortest to longest).",
+    "whatShouldHappen": [
+      "Call .sort() on the array.",
+      "The comparator should compare `a.length` and `b.length`.",
+      "Return the array."
+    ],
+    "starterCode": "function sortByLength(arr) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['apple', 'cat', 'kiwi']",
+      "columns": ["a.len", "b.len", "diff"],
+      "rows": [
+        { "a.len": 5, "b.len": 3, "diff": 2 }
+      ]
+    },
+    "skeletonHint": "function sortByLength(arr) {\n  return arr.sort((a, b) => a.____ - b.____);\n}",
+    "solution": "function sortByLength(arr) {\n  return arr.sort((a, b) => a.length - b.length);\n}",
+    "tests": [
+      { "input": [["apple", "cat", "banana", "kiwi"]], "expected": ["cat", "kiwi", "apple", "banana"], "label": "various lengths" },
+      { "input": [["a", ""]], "expected": ["", "a"], "label": "empty string first" }
+    ],
+    "patternTag": "Length Sorting",
+    "patternExplanation": "Sorting by a derived value (like length) follows the same pattern as sorting by a property.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  }
+]

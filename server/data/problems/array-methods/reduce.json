@@ -1,0 +1,329 @@
+[
+  {
+    "id": "array-methods-reduce-sum-basic",
+    "title": "Reduce: Simple Sum",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "sumNumbers",
+    "description": "Given an array of numbers, return the sum of all elements using `.reduce()`. Start with an initial value of 0.",
+    "whatShouldHappen": [
+      "Use .reduce() on the input array.",
+      "The callback should take two arguments: `accumulator` and `currentValue`.",
+      "Add the `currentValue` to the `accumulator` in each step.",
+      "Provide 0 as the second argument to .reduce() (the initial value)."
+    ],
+    "starterCode": "function sumNumbers(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 2, 3]",
+      "columns": ["acc", "curr", "newAcc"],
+      "rows": [
+        { "acc": 0, "curr": 1, "newAcc": 1 },
+        { "acc": 1, "curr": 2, "newAcc": 3 },
+        { "acc": 3, "curr": 3, "newAcc": 6 }
+      ]
+    },
+    "skeletonHint": "function sumNumbers(nums) {\n  return nums.reduce((acc, curr) => {\n    return acc + ____;\n  }, 0);\n}",
+    "solution": "function sumNumbers(nums) {\n  return nums.reduce((acc, curr) => acc + curr, 0);\n}",
+    "tests": [
+      { "input": [[1, 2, 3, 4]], "expected": 10, "label": "normal sum" },
+      { "input": [[-1, 1]], "expected": 0, "label": "net zero" },
+      { "input": [[]], "expected": 0, "label": "empty array" }
+    ],
+    "patternTag": "Aggregation",
+    "patternExplanation": "The most basic use of reduce is 'boiling down' an array into a single numeric value like a sum or product.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-reduce-string-concat",
+    "title": "Reduce: Long Sentence",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "joinWords",
+    "description": "Given an array of words, use `.reduce()` to concatenate them into a single string separated by spaces. Do not use `.join()`.",
+    "whatShouldHappen": [
+      "Use .reduce() with an empty string `''` as the initial value.",
+      "In each step, append the current word to the accumulator.",
+      "Handle the space: return `acc + ' ' + curr` but only if `acc` is not empty."
+    ],
+    "starterCode": "function joinWords(words) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "words = ['Hello', 'World']",
+      "columns": ["acc", "curr", "result"],
+      "rows": [
+        { "acc": "''", "curr": "'Hello'", "result": "'Hello'" },
+        { "acc": "'Hello'", "curr": "'World'", "result": "'Hello World'" }
+      ]
+    },
+    "skeletonHint": "function joinWords(words) {\n  return words.reduce((acc, curr) => {\n    return acc === '' ? curr : acc + ' ' + ____;\n  }, '');\n}",
+    "solution": "function joinWords(words) {\n  return words.reduce((acc, curr) => (acc === '' ? curr : acc + ' ' + curr), '');\n}",
+    "tests": [
+      { "input": [["JavaScript", "is", "fun"]], "expected": "JavaScript is fun", "label": "multiple words" },
+      { "input": [["One"]], "expected": "One", "label": "single word" },
+      { "input": [[]], "expected": "", "label": "empty array" }
+    ],
+    "patternTag": "String Construction",
+    "patternExplanation": "Reduce can build any type of value, including strings. This mimics the behavior of .join().",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-reduce-tally",
+    "title": "Reduce: Vote Counter",
+    "category": "array-methods",
+    "difficulty": "Medium",
+    "functionName": "countVotes",
+    "description": "Given an array of strings representing votes (e.g., `['apple', 'banana', 'apple']`), return an object that tallies the count for each vote.",
+    "whatShouldHappen": [
+      "Use .reduce() with an empty object `{}` as the initial value.",
+      "For each vote, increment its count in the accumulator object.",
+      "Return the accumulator object."
+    ],
+    "starterCode": "function countVotes(votes) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "votes = ['a', 'b', 'a']",
+      "columns": ["acc", "curr", "newAcc"],
+      "rows": [
+        { "acc": "{}", "curr": "'a'", "newAcc": "{a: 1}" },
+        { "acc": "{a: 1}", "curr": "'b'", "newAcc": "{a: 1, b: 1}" },
+        { "acc": "{a: 1, b: 1}", "curr": "'a'", "newAcc": "{a: 2, b: 1}" }
+      ]
+    },
+    "skeletonHint": "function countVotes(votes) {\n  return votes.reduce((tally, vote) => {\n    tally[vote] = (tally[vote] || 0) + 1;\n    return tally;\n  }, {});\n}",
+    "solution": "function countVotes(votes) {\n  return votes.reduce((tally, vote) => {\n    tally[vote] = (tally[vote] || 0) + 1;\n    return tally;\n  }, {});\n}",
+    "tests": [
+      { "input": [["apple", "banana", "apple", "cherry", "banana", "apple"]], "expected": { "apple": 3, "banana": 2, "cherry": 1 }, "label": "mixed votes" },
+      { "input": [["yes", "yes", "yes"]], "expected": { "yes": 3 }, "label": "unanimous" },
+      { "input": [[]], "expected": {}, "label": "no votes" }
+    ],
+    "patternTag": "Frequency Map",
+    "patternExplanation": "Using an object as an accumulator allows you to count occurrences or group data by keys in a single pass.",
+    "estimatedMinutes": 7,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-reduce-grouping",
+    "title": "Reduce: Group by Age",
+    "category": "array-methods",
+    "difficulty": "Medium",
+    "functionName": "groupByAge",
+    "description": "Given an array of user objects `{ name: string, age: number }`, return an object where the keys are ages and the values are arrays of names for that age.",
+    "whatShouldHappen": [
+      "Initial value: `{}`.",
+      "If the age key doesn't exist, initialize it to `[]`.",
+      "Push the user's name into the appropriate age array."
+    ],
+    "starterCode": "function groupByAge(users) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "users = [{name: 'A', age: 20}, {name: 'B', age: 20}]",
+      "columns": ["acc", "curr.name", "newAcc"],
+      "rows": [
+        { "acc": "{}", "curr.name": "'A'", "newAcc": "{20: ['A']}" },
+        { "acc": "{20: ['A']}", "curr.name": "'B'", "newAcc": "{20: ['A', 'B']}" }
+      ]
+    },
+    "skeletonHint": "function groupByAge(users) {\n  return users.reduce((groups, user) => {\n    const { age, name } = user;\n    if (!groups[age]) groups[age] = [];\n    groups[age].push(name);\n    return groups;\n  }, {});\n}",
+    "solution": "function groupByAge(users) {\n  return users.reduce((groups, user) => {\n    const { age, name } = user;\n    if (!groups[age]) groups[age] = [];\n    groups[age].push(name);\n    return groups;\n  }, {});\n}",
+    "tests": [
+      { "input": [[{ "name": "Alice", "age": 25 }, { "name": "Bob", "age": 30 }, { "name": "Charlie", "age": 25 }]], "expected": { "25": ["Alice", "Charlie"], "30": ["Bob"] }, "label": "mixed ages" },
+      { "input": [[]], "expected": {}, "label": "empty list" }
+    ],
+    "patternTag": "Data Grouping",
+    "patternExplanation": "Reduce is incredibly powerful for re-structuring flat arrays into categorized or hierarchical objects.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-reduce-flatten",
+    "title": "Reduce: Flatten Arrays",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "flatten",
+    "description": "Given an array of arrays, return a single 'flattened' array containing all the elements. Do not use `.flat()`.",
+    "whatShouldHappen": [
+      "Use .reduce() with an initial value of an empty array `[]`.",
+      "Merge each sub-array into the accumulator using `.concat()`."
+    ],
+    "starterCode": "function flatten(arrays) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arrays = [[1], [2, 3]]",
+      "columns": ["acc", "curr", "newAcc"],
+      "rows": [
+        { "acc": "[]", "curr": "[1]", "newAcc": "[1]" },
+        { "acc": "[1]", "curr": "[2, 3]", "newAcc": "[1, 2, 3]" }
+      ]
+    },
+    "skeletonHint": "function flatten(arrays) {\n  return arrays.reduce((acc, curr) => {\n    return acc.concat(curr);\n  }, []);\n}",
+    "solution": "function flatten(arrays) {\n  return arrays.reduce((acc, curr) => acc.concat(curr), []);\n}",
+    "tests": [
+      { "input": [[[1, 2], [3, 4], [5]]], "expected": [1, 2, 3, 4, 5], "label": "multiple sub-arrays" },
+      { "input": [[[], [1], []]], "expected": [1], "label": "includes empty sub-arrays" },
+      { "input": [[]], "expected": [], "label": "empty outer array" }
+    ],
+    "patternTag": "Flattening",
+    "patternExplanation": "Before .flat() was standard, reduce + concat was the idiomatic way to flatten nested structures.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-reduce-max",
+    "title": "Reduce: Find Maximum",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "findMax",
+    "description": "Given an array of numbers, return the largest value using `.reduce()`. If the array is empty, return `null`.",
+    "whatShouldHappen": [
+      "Use .reduce() without an initial value to use the first element as the starting max.",
+      "Compare `acc` and `curr` and return the larger one."
+    ],
+    "starterCode": "function findMax(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [10, 5, 20]",
+      "columns": ["acc (max)", "curr", "result"],
+      "rows": [
+        { "acc (max)": 10, "curr": 5, "result": 10 },
+        { "acc (max)": 10, "curr": 20, "result": 20 }
+      ]
+    },
+    "skeletonHint": "function findMax(nums) {\n  if (nums.length === 0) return null;\n  return nums.reduce((max, curr) => curr > max ? curr : max);\n}",
+    "solution": "function findMax(nums) {\n  if (nums.length === 0) return null;\n  return nums.reduce((max, curr) => (curr > max ? curr : max));\n}",
+    "tests": [
+      { "input": [[3, 1, 9, 2]], "expected": 9, "label": "normal array" },
+      { "input": [[-5, -10, -1]], "expected": -1, "label": "negative numbers" },
+      { "input": [[]], "expected": null, "label": "empty array" }
+    ],
+    "patternTag": "Selection",
+    "patternExplanation": "Omitting the initial value is useful for operations like finding max/min where you want to start with a valid value from the dataset.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-reduce-average",
+    "title": "Reduce: Calculate Average",
+    "category": "array-methods",
+    "difficulty": "Medium",
+    "functionName": "getAverage",
+    "description": "Given an array of numbers, return their average. If the array is empty, return 0.",
+    "whatShouldHappen": [
+      "Sum all numbers using .reduce().",
+      "Divide the result by the array length."
+    ],
+    "starterCode": "function getAverage(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [10, 20]",
+      "columns": ["sum", "length", "average"],
+      "rows": [
+        { "sum": 30, "length": 2, "average": 15 }
+      ]
+    },
+    "skeletonHint": "function getAverage(nums) {\n  if (nums.length === 0) return 0;\n  const sum = nums.reduce((acc, curr) => acc + curr, 0);\n  return sum / nums.length;\n}",
+    "solution": "function getAverage(nums) {\n  if (nums.length === 0) return 0;\n  const sum = nums.reduce((acc, curr) => acc + curr, 0);\n  return sum / nums.length;\n}",
+    "tests": [
+      { "input": [[10, 20, 30]], "expected": 20, "label": "standard numbers" },
+      { "input": [[5, 5]], "expected": 5, "label": "same numbers" },
+      { "input": [[]], "expected": 0, "label": "empty array" }
+    ],
+    "patternTag": "Aggregation",
+    "patternExplanation": "Calculations like average, variance, or standard deviation usually start with a reduction to find a sum.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-reduce-index-by-id",
+    "title": "Reduce: Create Lookup Map",
+    "category": "array-methods",
+    "difficulty": "Medium",
+    "functionName": "indexById",
+    "description": "Given an array of objects with unique IDs, return an object where each key is an ID and the value is the corresponding object.",
+    "whatShouldHappen": [
+      "Use .reduce() with an initial value of `{}`.",
+      "Assign each item to the accumulator object using its ID."
+    ],
+    "starterCode": "function indexById(items) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "items = [{id: 'u1'}]",
+      "columns": ["acc", "curr.id", "newAcc"],
+      "rows": [
+        { "acc": "{}", "curr.id": "'u1'", "newAcc": "{u1: {id: 'u1'}}" }
+      ]
+    },
+    "skeletonHint": "function indexById(items) {\n  return items.reduce((map, item) => {\n    map[item.id] = item;\n    return map;\n  }, {});\n}",
+    "solution": "function indexById(items) {\n  return items.reduce((map, item) => {\n    map[item.id] = item;\n    return map;\n  }, {});\n}",
+    "tests": [
+      { "input": [[{ "id": "a", "v": 1 }, { "id": "b", "v": 2 }]], "expected": { "a": { "id": "a", "v": 1 }, "b": { "id": "b", "v": 2 } }, "label": "normal indexing" },
+      { "input": [[]], "expected": {}, "label": "empty input" }
+    ],
+    "patternTag": "Lookup Optimization",
+    "patternExplanation": "Indexing data is a common pattern for making data retrieval constant-time O(1) in the rest of your application.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-reduce-filter-map-pass",
+    "title": "Reduce: Single Pass Filter/Map",
+    "category": "array-methods",
+    "difficulty": "Hard",
+    "functionName": "getShortUpperNames",
+    "description": "Given an array of names, return a new array containing the UPPERCASE version of names that are 4 characters or shorter. Use only ONE call to `.reduce()`.",
+    "whatShouldHappen": [
+      "Initial value: `[]`.",
+      "Check length of current name.",
+      "If <= 4, convert to uppercase and push to accumulator.",
+      "Return the accumulator."
+    ],
+    "starterCode": "function getShortUpperNames(names) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "names = ['Alice', 'Bob']",
+      "columns": ["acc", "curr", "action"],
+      "rows": [
+        { "acc": "[]", "curr": "'Alice'", "action": "skip (>4)" },
+        { "acc": "[]", "curr": "'Bob'", "action": "push('BOB')" }
+      ]
+    },
+    "skeletonHint": "function getShortUpperNames(names) {\n  return names.reduce((acc, name) => {\n    if (name.length <= 4) {\n      acc.push(name.toUpperCase());\n    }\n    return acc;\n  }, []);\n}",
+    "solution": "function getShortUpperNames(names) {\n  return names.reduce((acc, name) => {\n    if (name.length <= 4) {\n      acc.push(name.toUpperCase());\n    }\n    return acc;\n  }, []);\n}",
+    "tests": [
+      { "input": [["Alice", "Bob", "Dan", "Eve", "Charlie"]], "expected": ["BOB", "DAN", "EVE"], "label": "mixed names" },
+      { "input": [["LongName"]], "expected": [], "label": "all long" },
+      { "input": [["A", "BC"]], "expected": ["A", "BC"], "label": "all short" }
+    ],
+    "patternTag": "Pipeline Compression",
+    "patternExplanation": "Performing filter and map in a single reduce pass is a micro-optimization that avoids creating intermediate arrays.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "array-methods-reduce-longest-word",
+    "title": "Reduce: Find Longest Word",
+    "category": "array-methods",
+    "difficulty": "Medium",
+    "functionName": "findLongestWord",
+    "description": "Given an array of words, return the longest word using `.reduce()`. If there's a tie, return the first one encountered.",
+    "whatShouldHappen": [
+      "Use .reduce() without an initial value (or use `''` if preferred).",
+      "Compare lengths of accumulator and current word.",
+      "Return the word with the greater length."
+    ],
+    "starterCode": "function findLongestWord(words) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "words = ['a', 'abc', 'ab']",
+      "columns": ["acc", "curr", "result"],
+      "rows": [
+        { "acc": "'a'", "curr": "'abc'", "result": "'abc'" },
+        { "acc": "'abc'", "curr": "'ab'", "result": "'abc'" }
+      ]
+    },
+    "skeletonHint": "function findLongestWord(words) {\n  if (words.length === 0) return '';\n  return words.reduce((longest, curr) => curr.length > longest.length ? curr : longest);\n}",
+    "solution": "function findLongestWord(words) {\n  if (words.length === 0) return '';\n  return words.reduce((longest, curr) => (curr.length > longest.length ? curr : longest));\n}",
+    "tests": [
+      { "input": [["apple", "banana", "kiwi"]], "expected": "banana", "label": "various lengths" },
+      { "input": [["cat", "dog", "bat"]], "expected": "cat", "label": "tie (first winner)" },
+      { "input": [["antidisestablishmentarianism"]], "expected": "antidisestablishmentarianism", "label": "single long word" },
+      { "input": [[]], "expected": "", "label": "empty array" }
+    ],
+    "patternTag": "Selection",
+    "patternExplanation": "Similar to finding a max number, reduce can be used to select a single 'best' string based on criteria like length.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  }
+]
