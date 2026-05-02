@@ -13,6 +13,7 @@ const DEFAULT_FILTERS: FilterState = {
   difficulty: 'all',
   category: 'all',
   status: 'all',
+  type: 'all',
 }
 
 const applyStatusFilter = (
@@ -36,7 +37,7 @@ export const CategoryPage = (): React.JSX.Element => {
   if (!category) return <Navigate to="/problems" replace />
 
   const { problems, isLoading, error } = useProblems(
-    { search: filters.search, difficulty: filters.difficulty, category: slug as CategorySlug },
+    { search: filters.search, difficulty: filters.difficulty, category: slug as CategorySlug, type: filters.type },
     page,
   )
 

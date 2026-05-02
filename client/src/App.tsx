@@ -6,6 +6,11 @@ import { ProblemsPage } from '@/pages/ProblemsPage'
 import { CategoryPage } from '@/pages/CategoryPage'
 import { ProblemPage } from '@/pages/ProblemPage'
 import { ProgressPage } from '@/pages/ProgressPage'
+import { QuizPage } from '@/pages/QuizPage'
+import { ReviewPage } from '@/pages/ReviewPage'
+import { PatternsPage } from '@/pages/PatternsPage'
+import { PatternPage } from '@/pages/PatternPage'
+import { DailyChallengePage } from '@/pages/DailyChallengePage'
 import { useProgressStore } from '@/store/useProgressStore'
 
 const selectLoadProgress = (state: ReturnType<typeof useProgressStore.getState>) =>
@@ -23,9 +28,14 @@ export const App = (): React.JSX.Element => {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Dashboard />} />
+          <Route path="daily" element={<DailyChallengePage />} />
           <Route path="problems" element={<ProblemsPage />} />
           <Route path="category/:slug" element={<CategoryPage />} />
           <Route path="problem/:id" element={<ProblemPage />} />
+          <Route path="quiz" element={<QuizPage />} />
+          <Route path="review" element={<ReviewPage />} />
+          <Route path="patterns" element={<PatternsPage />} />
+          <Route path="patterns/:tag" element={<PatternPage />} />
           <Route path="progress" element={<ProgressPage />} />
         </Route>
       </Routes>

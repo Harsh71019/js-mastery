@@ -14,6 +14,7 @@ export const Navbar = (): React.JSX.Element => {
   const problemMatch = useMatch('/problem/:id')
   const categoryMatch = useMatch('/category/:slug')
   const problemsMatch = useMatch('/problems')
+  const quizMatch = useMatch('/quiz')
   const progressMatch = useMatch('/progress')
 
   const problemId = problemMatch?.params.id
@@ -38,6 +39,7 @@ export const Navbar = (): React.JSX.Element => {
           <NavbarPageSection
             categorySlug={categoryMatch?.params.slug}
             hasProblemsList={problemsMatch !== null}
+            hasQuiz={quizMatch !== null}
             hasProgress={progressMatch !== null}
             total={total}
           />

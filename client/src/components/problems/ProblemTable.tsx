@@ -1,9 +1,9 @@
 import React, { memo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { CheckCircle2, Circle } from 'lucide-react'
 import { format } from 'date-fns'
 import type { ProblemSummary } from '@/types/problem'
-import { DifficultyBadge, CategoryBadge } from '@/components/ui/Badge'
+import { DifficultyBadge, CategoryBadge, TypeBadge } from '@/components/ui/Badge'
 import { CATEGORIES } from '@/data/categories'
 
 interface ProblemTableProps {
@@ -90,8 +90,13 @@ export const ProblemTable = memo(function ProblemTable({
                 <td className="px-6 py-3 text-text-tertiary text-sm">{index + 1}</td>
 
                 <td className="px-3 py-3 text-sm">
-                  <span className={isSolved ? 'text-accent-green/80' : 'text-text-primary'}>
-                    {problem.title}
+                  <span className="flex items-center gap-2">
+                    <span className={isSolved ? 'text-accent-green/80' : 'text-text-primary'}>
+                      {problem.title}
+                    </span>
+                    {problem.type && problem.type !== 'coding' && (
+                      <TypeBadge type={problem.type} />
+                    )}
                   </span>
                 </td>
 
@@ -102,8 +107,14 @@ export const ProblemTable = memo(function ProblemTable({
                   />
                 </td>
 
-                <td className="px-3 py-3 text-text-secondary text-sm truncate max-w-[140px]">
-                  {problem.patternTag}
+                <td className="px-3 py-3 max-w-[140px]">
+                  <Link
+                    to={`/patterns/${encodeURIComponent(problem.patternTag)}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-text-secondary text-sm truncate block hover:text-accent-blue transition-colors duration-150"
+                  >
+                    {problem.patternTag}
+                  </Link>
                 </td>
 
                 <td className="px-3 py-3">

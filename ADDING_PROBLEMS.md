@@ -1,77 +1,228 @@
-# Adding Problems Guide
+# Adding Problems
 
-Two scenarios: adding a problem to an **existing category**, or creating an **entirely new category**. Read the relevant section below.
+## How it works
+
+Problems live in MongoDB with a `draft` / `published` status. The recommended workflow is:
+
+1. **Generate** a JSON array of problems (manually or with AI)
+2. **Import** via the admin script — duplicates and invalid fields are reported per item
+3. **Review** drafts in the browser or via the API
+4. **Publish** when satisfied
+
+No seed script, no JSON files to maintain.
 
 ---
 
-## Scenario A — Add a problem to an existing category
+## Step 1 — Generate problems with AI
 
-**One file changes. That's it.**
+Copy the prompt below, fill in the bracketed values, and paste it to any AI (Claude, ChatGPT, etc.).
 
-1. Open the matching file in `server/data/problems/`. The filename is the category slug:
+```
+Generate [NUMBER] JavaScript coding problems for a loop/iteration mastery trainer app.
 
-   | Category | File |
-   |---|---|
-   | Basic Loops | `server/data/problems/basic-loops.json` |
-   | Reverse Loops | `server/data/problems/reverse-loops.json` |
-   | for...in / for...of | `server/data/problems/for-in-for-of.json` |
-   | Nested Loops | `server/data/problems/nested-loops.json` |
-   | Array Building | `server/data/problems/array-building.json` |
-   | Object Loops | `server/data/problems/object-loops.json` |
-   | Two Pointer | `server/data/problems/two-pointer.json` |
-   | Prefix & Suffix | `server/data/problems/prefix-suffix.json` |
-   | Sliding Window | `server/data/problems/sliding-window.json` |
-   | Polyfills | `server/data/problems/polyfills.json` |
-   | Tricky Patterns | `server/data/problems/tricky-patterns.json` |
+Target category: "[CATEGORY_SLUG]"   ← pick one from the table below
+Target difficulty: "[DIFFICULTY]"    ← Beginner | Easy | Medium | Hard
 
-2. Append a new object to the JSON array. Full annotated example:
+Return ONLY a valid JSON array with no explanation. Each item must have every field below — no field may be omitted.
 
-```json
 {
-  "id": "array-building-5",
-  "title": "Double Each Element",
-  "category": "array-building",
-  "difficulty": "Beginner",
-  "functionName": "doubleEach",
-  "description": "Given an array of numbers, return a new array where every element is multiplied by 2.",
-  "whatShouldHappen": [
-    "Create an empty result array.",
-    "Loop through each element.",
-    "Multiply each element by 2 and push it into result.",
-    "Return result."
-  ],
-  "starterCode": "function doubleEach(nums) {\n  // your code here\n}",
-  "skeletonHint": "function doubleEach(nums) {\n  const result = [];\n  for (let i = 0; i < ____; i++) {\n    result.push(nums[i] * ____);\n  }\n  return result;\n}",
-  "solution": "function doubleEach(nums) {\n  // result holds the transformed elements\n  const result = [];\n  // visit every index\n  for (let i = 0; i < nums.length; i++) {\n    // multiply current element by 2\n    result.push(nums[i] * 2);\n  }\n  // return the new array\n  return result;\n}",
+  "id": "<category-slug>-<descriptive-kebab-name>",
+  "title": "...",
+  "category": "<category-slug>",
+  "difficulty": "Beginner" | "Easy" | "Medium" | "Hard",
+  "functionName": "...",
+  "description": "...",
+  "whatShouldHappen": ["step 1", "step 2", "step 3", "step 4"],
+  "starterCode": "function functionName(param) {\n  // your code here\n}",
+  "skeletonHint": "function functionName(param) {\n  ...____..\n}",
+  "solution": "function functionName(param) {\n  // every single line has a comment\n  ...\n}",
   "traceTable": {
-    "inputLabel": "nums = [1, 2, 3]",
-    "columns": ["i", "nums[i]", "nums[i] * 2", "result"],
-    "rows": [
-      { "i": 0, "nums[i]": 1, "nums[i] * 2": 2,  "result": "[2]" },
-      { "i": 1, "nums[i]": 2, "nums[i] * 2": 4,  "result": "[2, 4]" },
-      { "i": 2, "nums[i]": 3, "nums[i] * 2": 6,  "result": "[2, 4, 6]" }
-    ]
+    "inputLabel": "param = <example>",
+    "columns": ["i", "variable", "..."],
+    "rows": [{ "i": 0, "variable": ... }]
   },
   "tests": [
-    { "input": [[1, 2, 3]],   "expected": [2, 4, 6],  "label": "normal case" },
-    { "input": [[0, -1, 5]],  "expected": [0, -2, 10], "label": "zero and negative" },
-    { "input": [[7]],         "expected": [14],         "label": "single element" },
-    { "input": [[]],          "expected": [],           "label": "empty array" }
+    { "input": [<arg1>], "expected": ..., "label": "normal input" },
+    { "input": [...],    "expected": ..., "label": "edge case" },
+    { "input": [...],    "expected": ..., "label": "single element" },
+    { "input": [...],    "expected": ..., "label": "empty array" }
   ],
-  "patternTag": "Transform Accumulator",
-  "patternExplanation": "Map each element to a new value and collect results — the pattern behind Array.prototype.map.",
+  "patternTag": "2–4 word tag",
+  "patternExplanation": "One sentence connecting this to the general pattern.",
   "estimatedMinutes": 5,
-  "status": "published"
+  "status": "draft"
+}
+
+RULES — follow these exactly or the import will fail:
+
+1. tests[].input is always an array of the function's arguments.
+   - filterEvens(nums)        → "input": [[1, 2, 3]]       (one array arg wrapped in outer array)
+   - twoSum(nums, target)     → "input": [[2, 7, 11], 9]   (two args in the outer array)
+   - sum(a, b)                → "input": [3, 4]            (two scalar args)
+
+2. traceTable.rows must be accurate for the exact inputLabel given. Do not approximate.
+
+3. solution must have a // comment on every single line without exception.
+
+4. Each problem needs at least 4 tests covering: normal input, edge case, single element, empty/zero.
+
+5. functionName must be unique — do NOT use any of these already-taken names:
+   [PASTE THE OUTPUT OF: curl http://localhost:3001/api/admin/problems/stats]
+
+6. id must be unique and descriptive — use "basic-loops-count-positives" not "basic-loops-6".
+
+7. No two problems in the batch should test the same core concept.
+```
+
+### Category slugs
+
+| Category | Slug to use in prompt |
+|---|---|
+| Basic Loops | `basic-loops` |
+| Reverse Loops | `reverse-loops` |
+| for...in / for...of | `for-in-for-of` |
+| Nested Loops | `nested-loops` |
+| Array Building | `array-building` |
+| Object Loops | `object-loops` |
+| Two Pointer | `two-pointer` |
+| Prefix & Suffix | `prefix-suffix` |
+| Sliding Window | `sliding-window` |
+| Polyfills | `polyfills` |
+| Tricky Patterns | `tricky-patterns` |
+
+---
+
+## Step 2 — Save the AI output
+
+Save the JSON array to a file anywhere, e.g.:
+
+```
+scripts/problems-basic-loops.json
+scripts/batch-2025-05-01.json
+```
+
+The filename doesn't matter. Multiple batches can be imported independently.
+
+---
+
+## Step 3 — Import via the script
+
+The server must be running (`npm run dev`).
+
+```bash
+# Add as drafts (review before publishing)
+node scripts/add-problems.js scripts/your-file.json
+
+# Add and publish immediately (you trust the AI output)
+node scripts/add-problems.js scripts/your-file.json --publish
+```
+
+The script prints a summary:
+
+```
+Summary: 4 inserted  1 duplicates  0 invalid
+
+Inserted:
+  + basic-loops-count-positives (draft)
+  + basic-loops-product-array (draft)
+  + basic-loops-first-even (draft)
+  + basic-loops-all-positive (draft)
+
+Skipped (duplicates):
+  ~ [2] basic-loops-find-max  →  matched: basic-loops-2
+```
+
+Duplicates are detected on **three fields** — if any match, the problem is skipped:
+- `id` (exact)
+- `title` (case-insensitive)
+- `functionName` (exact)
+
+---
+
+## Step 4 — Review drafts
+
+```bash
+# List all drafts
+curl http://localhost:3001/api/admin/problems?status=draft
+
+# Read one full problem
+curl http://localhost:3001/api/admin/problems/<id>
+```
+
+---
+
+## Step 5 — Publish
+
+```bash
+# Publish one
+curl -X POST http://localhost:3001/api/admin/problems/<id>/publish
+
+# Unpublish (send back to draft)
+curl -X POST http://localhost:3001/api/admin/problems/<id>/unpublish
+
+# Edit a field before publishing
+curl -X PATCH http://localhost:3001/api/admin/problems/<id> \
+  -H "Content-Type: application/json" \
+  -d '{ "difficulty": "Easy" }'
+
+# Delete a bad problem
+curl -X DELETE http://localhost:3001/api/admin/problems/<id>
+```
+
+---
+
+## Admin API reference
+
+All routes are under `/api/admin/problems`.
+
+| Method | Path | What it does |
+|---|---|---|
+| `GET` | `/` | List all problems (any status). Query: `status`, `category`, `difficulty`, `search`, `page`, `limit` |
+| `GET` | `/stats` | Counts by status and category |
+| `POST` | `/` | Create one. Validates + deduplicates. Defaults to `draft`. |
+| `POST` | `/bulk` | Create many. Returns `{ summary, inserted[], duplicates[], invalid[] }` per item. |
+| `GET` | `/:id` | Full problem (any status) |
+| `PATCH` | `/:id` | Partial update. Cannot change `id`. |
+| `DELETE` | `/:id` | Delete permanently |
+| `POST` | `/:id/publish` | Set status → `published` |
+| `POST` | `/:id/unpublish` | Set status → `draft` |
+
+---
+
+## Adding a new category
+
+If your category slug is not in the table above, three more things must change before seeding:
+
+### 1 — Register the slug in TypeScript
+
+Open `client/src/types/problem.ts` and add to the `CategorySlug` union:
+
+```typescript
+export type CategorySlug =
+  | 'basic-loops'
+  // ... existing ...
+  | 'your-new-slug'   // ← add here
+```
+
+### 2 — Add category metadata
+
+Open `client/src/data/categories.ts` and add an entry:
+
+```typescript
+{
+  slug: 'your-new-slug',
+  title: 'Your Category Title',
+  description: 'One sentence describing what the learner will practice.',
+  accentColor: '#f43f5e',  // pick a unique hex not used by another category
 }
 ```
 
-3. Run the seed:
+Existing accent colors (don't reuse):
+`#3b82f6` `#8b5cf6` `#06b6d4` `#f59e0b` `#22c55e` `#f97316` `#ec4899` `#a855f7` `#14b8a6` `#6366f1` `#ef4444`
 
-```bash
-npm run seed
-```
+### 3 — Then import problems as normal
 
-That's it. The problem is live immediately — no server restart needed.
+Use the script above with `"category": "your-new-slug"` in every problem object.
 
 ---
 
@@ -79,105 +230,48 @@ That's it. The problem is live immediately — no server restart needed.
 
 | Field | Type | Notes |
 |---|---|---|
-| `id` | string | `<category-slug>-<N>`. Must be unique across all problems. |
-| `title` | string | Must be unique across all problems. |
+| `id` | string | `<category-slug>-<descriptive-name>`. Unique across all problems. |
+| `title` | string | Unique across all problems. Title case. |
 | `category` | string | Must exactly match the category slug. |
 | `difficulty` | string | One of: `Beginner` `Easy` `Medium` `Hard` |
-| `functionName` | string | The JS function name the user implements (no parentheses). |
+| `functionName` | string | camelCase JS function name, no parentheses. Unique. |
 | `description` | string | One clear paragraph. |
-| `whatShouldHappen` | string[] | 3–5 steps. Imperative sentences. No code. |
-| `starterCode` | string | Use `\n` for newlines. End with `// your code here` inside the function body. |
-| `skeletonHint` | string | Same structure as starter code but with `____` blanks at key spots. |
+| `whatShouldHappen` | string[] | 3–5 imperative steps. No code. |
+| `starterCode` | string | Use `\n` for newlines. Ends with `// your code here` inside body. |
+| `skeletonHint` | string | Same as starterCode but with `____` blanks at key decision points. |
 | `solution` | string | Every line must have a `// comment` explaining what it does. |
 | `traceTable.inputLabel` | string | e.g. `"nums = [1, 2, 3]"` |
-| `traceTable.columns` | string[] | Column headers — match variable names used in the loop. |
-| `traceTable.rows` | object[] | One row per iteration. Keys match the columns exactly. |
-| `tests` | object[] | Minimum 4. Cover: normal input, edge case, single element, empty/zero. |
-| `tests[].input` | array | **Always an array of arguments.** One-arg function: `[[1,2,3]]`. Two-arg: `[[1,2], 5]`. |
-| `tests[].expected` | any | The exact return value of the function. |
-| `tests[].label` | string | Short description of what the test checks. |
-| `patternTag` | string | 2–4 word label e.g. `"Sliding Window"`, `"Two Pointer"`. |
-| `patternExplanation` | string | One sentence connecting this problem to the general pattern. |
-| `estimatedMinutes` | number | Realistic solve time. Beginner: 5–8, Easy: 8–15, Medium: 15–25, Hard: 25+. |
-| `status` | string | `"published"` to show in app, `"draft"` to hide. |
+| `traceTable.columns` | string[] | Column headers — must exactly match keys used in rows. |
+| `traceTable.rows` | object[] | One row per iteration. Accurate for the inputLabel given. |
+| `tests` | object[] | Minimum 4: normal, edge, single-element, empty/zero. |
+| `tests[].input` | array | Array of arguments spread into the function: `fn(...input)`. |
+| `tests[].expected` | any | Exact return value. |
+| `tests[].label` | string | What this test is checking. |
+| `patternTag` | string | 2–4 words e.g. `"Counter Variable"`, `"Early Exit Search"`. |
+| `patternExplanation` | string | One sentence connecting this to the general pattern. |
+| `estimatedMinutes` | number | Beginner: 5–8, Easy: 8–15, Medium: 15–25, Hard: 25+ |
+| `status` | string | `"draft"` or `"published"` |
 
-### Common mistake — tests input format
+### The tests input format — common mistake
 
-The `input` field is always **an array of the function's arguments**, not the arguments themselves.
+`tests[].input` is always **an array of the function's arguments** because the runner calls `fn(...input)`.
 
-```json
-// function sum(a, b)  →  two arguments
-{ "input": [3, 4], "expected": 7 }          // WRONG
-{ "input": [[3, 4]], "expected": 7 }         // WRONG — that passes one array arg
-
-// correct:
-{ "input": [3, 4], "expected": 7 }          // only correct if sum takes two numbers
 ```
-
-Actually the executor spreads `input` as `fn(...input)`. So:
-- `sum(a, b)` with args `3, 4` → `"input": [3, 4]`
-- `filterEvens(nums)` with arg `[1,2,3]` → `"input": [[1, 2, 3]]`
-- `twoSum(nums, target)` with args `[2,7,11]` and `9` → `"input": [[2, 7, 11], 9]`
+function filterEvens(nums)          →  "input": [[1, 2, 3]]       outer array wraps the one arg
+function twoSum(nums, target)       →  "input": [[2, 7, 11], 9]   two args side-by-side
+function sum(a, b)                  →  "input": [3, 4]            two scalar args
+```
 
 ---
 
-## Scenario B — Add a new category
+## Legacy — seed from JSON files
 
-**Four things change.** Do them in this order.
-
-### Step 1 — Create the problem file
-
-Create `server/data/problems/<your-slug>.json` with an array of problem objects. Use the format from Scenario A. The slug must be all lowercase, words separated by hyphens: `string-manipulation`, `recursion`, `sorting-algorithms`.
+The old workflow (editing JSON files in `server/data/problems/` then running `npm run seed`) still works and is safe to re-run. Use it if you need to bulk-restore problems from a backup export or migrate from another environment.
 
 ```bash
-# Example
-touch server/data/problems/string-manipulation.json
-# Then add [ { ...problem }, { ...problem } ] inside it
-```
+# Export everything currently in Mongo to a file
+curl http://localhost:3001/api/progress/export > backup.json
 
-### Step 2 — Register the slug in TypeScript types
-
-Open `client/src/types/problem.ts` and add your slug to the `CategorySlug` union:
-
-```typescript
-export type CategorySlug =
-  | 'basic-loops'
-  | 'reverse-loops'
-  // ... existing slugs ...
-  | 'string-manipulation'   // ← add here
-```
-
-### Step 3 — Add the category metadata
-
-Open `client/src/data/categories.ts` and add an entry to the `CATEGORIES` array:
-
-```typescript
-{
-  slug: 'string-manipulation',
-  title: 'String Manipulation',
-  description: 'Loop over characters, build substrings, and transform string data.',
-  accentColor: '#f43f5e',
-},
-```
-
-Pick a unique `accentColor` hex that isn't already used by another category. Existing ones: `#3b82f6` `#8b5cf6` `#06b6d4` `#f59e0b` `#22c55e` `#f97316` `#ec4899` `#a855f7` `#14b8a6` `#6366f1` `#ef4444`.
-
-### Step 4 — Seed
-
-```bash
+# Re-seed from the JSON files on disk
 npm run seed
 ```
-
-The new category and its problems appear immediately in the app's sidebar, problem list, and category page.
-
----
-
-## Checklist before seeding
-
-- [ ] `id` is unique (check other files in `server/data/problems/` — no two problems share an id)
-- [ ] `title` is unique across all files
-- [ ] `category` matches the slug exactly
-- [ ] `tests` has at least 4 entries covering normal, edge, single-element, and empty cases
-- [ ] `status` is `"published"`
-- [ ] For a new category: slug added to `CategorySlug` union **and** entry added to `CATEGORIES`
-- [ ] Run `npm run seed` — watch the output for any `skipped` or `error` lines

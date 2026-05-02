@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import type { Problem } from '@/types/problem'
+import type { AnyProblem } from '@/types/problem'
 
 interface UseProblemResult {
-  readonly problem: Problem | null
+  readonly problem: AnyProblem | null
   readonly prevId: string | null
   readonly nextId: string | null
   readonly isLoading: boolean
@@ -10,7 +10,7 @@ interface UseProblemResult {
 }
 
 export const useProblem = (id: string): UseProblemResult => {
-  const [problem, setProblem] = useState<Problem | null>(null)
+  const [problem, setProblem] = useState<AnyProblem | null>(null)
   const [prevId, setPrevId] = useState<string | null>(null)
   const [nextId, setNextId] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -26,12 +26,12 @@ export const useProblem = (id: string): UseProblemResult => {
       .then((response) => {
         if (response.status === 404) throw new Error('not_found')
         if (!response.ok) throw new Error(`Server error: ${response.status}`)
-        return response.json() as Promise<Problem & { prevId: string | null; nextId: string | null }>
+        return response.json() as Promise<AnyProblem & { prevId: string | null; nextId: string | null }>
       })
       .then((data) => {
         if (cancelled) return
         const { prevId: prev, nextId: next, ...rest } = data
-        setProblem(rest as Problem)
+        setProblem(rest as AnyProblem)
         setPrevId(prev)
         setNextId(next)
         setIsLoading(false)

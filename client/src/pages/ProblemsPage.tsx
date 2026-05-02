@@ -10,6 +10,7 @@ const DEFAULT_FILTERS: FilterState = {
   difficulty: 'all',
   category: 'all',
   status: 'all',
+  type: 'coding',
 }
 
 const applyStatusFilter = (
@@ -28,8 +29,8 @@ export const ProblemsPage = (): React.JSX.Element => {
   const { solvedProblems } = useProgress()
 
   const apiFilters: ProblemFilters = useMemo(
-    () => ({ search: filters.search, difficulty: filters.difficulty, category: filters.category }),
-    [filters.search, filters.difficulty, filters.category],
+    () => ({ search: filters.search, difficulty: filters.difficulty, category: filters.category, type: filters.type }),
+    [filters.search, filters.difficulty, filters.category, filters.type],
   )
 
   const { problems, pagination, isLoading, error } = useProblems(apiFilters, page)
@@ -58,6 +59,7 @@ export const ProblemsPage = (): React.JSX.Element => {
         filters={filters}
         resultCount={filters.status === 'all' ? pagination.total : filtered.length}
         onFiltersChange={handleFiltersChange}
+        hideTypeFilter
       />
       <ProblemTable problems={filtered} solvedProblems={solvedProblems} isLoading={isLoading} />
       {pagination.totalPages > 1 && (

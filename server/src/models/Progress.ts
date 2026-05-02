@@ -2,11 +2,14 @@ import { Schema, model } from 'mongoose'
 
 const SolvedEntrySchema = new Schema(
   {
-    solvedAt: { type: String, default: '' },
-    attempts: { type: Number, default: 0 },
-    title: String,
-    category: String,
-    difficulty: String,
+    solvedAt:       { type: String, default: '' },
+    attempts:       { type: Number, default: 0 },
+    title:          String,
+    category:       String,
+    difficulty:     String,
+    reviewInterval: { type: Number, default: 1 },
+    lastReviewedAt: { type: String },
+    nextReviewDue:  { type: String },
   },
   { _id: false },
 )
@@ -19,6 +22,10 @@ const ProgressSchema = new Schema(
     currentStreak: { type: Number, default: 0 },
     longestStreak: { type: Number, default: 0 },
     dismissedBackupMilestone: { type: Number, default: 0 },
+    dailyStreak:              { type: Number, default: 0 },
+    longestDailyStreak:       { type: Number, default: 0 },
+    lastDailySolvedAt:        { type: String },
+    completedDailies:         { type: [String], default: [] },
   },
   { timestamps: true },
 )

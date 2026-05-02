@@ -2,11 +2,14 @@ import { create } from 'zustand'
 import type { CategorySlug, Difficulty } from '@/types/problem'
 
 export interface SolvedEntry {
-  readonly solvedAt: string
-  readonly attempts: number
-  readonly title?: string
-  readonly category?: CategorySlug
-  readonly difficulty?: Difficulty
+  readonly solvedAt:        string
+  readonly attempts:        number
+  readonly title?:          string
+  readonly category?:       CategorySlug
+  readonly difficulty?:     Difficulty
+  readonly reviewInterval?: number
+  readonly lastReviewedAt?: string
+  readonly nextReviewDue?:  string
 }
 
 export interface ProblemMeta {
@@ -16,31 +19,38 @@ export interface ProblemMeta {
 }
 
 interface ProgressState {
-  solvedProblems: Record<string, SolvedEntry>
-  lastActiveDate: string
-  currentStreak: number
-  longestStreak: number
+  solvedProblems:           Record<string, SolvedEntry>
+  lastActiveDate:           string
+  currentStreak:            number
+  longestStreak:            number
   dismissedBackupMilestone: number
-  isLoaded: boolean
+  dailyStreak:              number
+  longestDailyStreak:       number
+  completedDailies:         string[]
+  isLoaded:                 boolean
 }
 
 interface ProgressActions {
-  loadProgress: () => Promise<void>
-  markSolved: (id: string, meta?: ProblemMeta) => void
-  incrementAttempts: (id: string) => void
-  resetProgress: () => void
-  dismissBackupBanner: (milestone: number) => void
+  loadProgress:           () => Promise<void>
+  markSolved:             (id: string, meta?: ProblemMeta) => void
+  incrementAttempts:      (id: string) => void
+  resetProgress:          () => void
+  dismissBackupBanner:    (milestone: number) => void
+  completeDailyChallenge: () => Promise<void>
 }
 
 type ProgressStore = ProgressState & ProgressActions
 
 const INITIAL_STATE: ProgressState = {
-  solvedProblems: {},
-  lastActiveDate: '',
-  currentStreak: 0,
-  longestStreak: 0,
+  solvedProblems:           {},
+  lastActiveDate:           '',
+  currentStreak:            0,
+  longestStreak:            0,
   dismissedBackupMilestone: 0,
-  isLoaded: false,
+  dailyStreak:              0,
+  longestDailyStreak:       0,
+  completedDailies:         [],
+  isLoaded:                 false,
 }
 
 const applyServerState = (
@@ -116,5 +126,16 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
     fetch(`/api/progress/dismiss-banner/${milestone}`, { method: 'PUT' }).catch(
       (error: unknown) => console.error('Failed to dismiss banner:', error),
     )
+  },
+
+  completeDailyChallenge: async () => {
+    try {
+      const response = await fetch('/api/daily/complete', { method: 'POST' })
+      if (!response.ok) throw new Error(`Server error: ${response.status}`)
+      const data = (await response.json()) as Omit<ProgressState, 'isLoaded'>
+      set({ ...applyServerState(data), isLoaded: true })
+    } catch (error: unknown) {
+      console.error('Failed to complete daily challenge:', error)
+    }
   },
 }))
