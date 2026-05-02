@@ -12,7 +12,7 @@ const getSavedRatio = (): number => {
 
 interface UsePanelResizeResult {
   readonly leftRatio: number
-  readonly containerRef: React.RefObject<HTMLDivElement>
+  readonly containerRef: React.RefObject<HTMLDivElement | null>
   readonly handleMouseDown: () => void
   readonly handleMouseMove: (event: React.MouseEvent) => void
   readonly handleMouseUp: () => void
