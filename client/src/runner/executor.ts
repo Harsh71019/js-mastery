@@ -14,6 +14,13 @@ export interface ExecutionResult {
 interface TestCase {
   readonly input: unknown
   readonly expected: unknown
+  readonly isEval?: boolean
+  readonly isGenerator?: boolean
+  readonly isIterable?: boolean
+  readonly isAsyncGenerator?: boolean
+  readonly isAsyncIterable?: boolean
+  readonly testRunnerWrapper?: string
+  readonly take?: number
 }
 
 const TIMEOUT_MS = 5000
@@ -26,10 +33,6 @@ const buildSandboxHtml = (
   const serializedTests = JSON.stringify(tests)
   const safeFnName = JSON.stringify(functionName)
 
-  // Script 1: user code at top-level scope so function declarations become globals.
-  // Script 2: test runner runs after user code is fully evaluated.
-  // Splitting into two <script> tags means a syntax error in script 1 stops it
-  // cleanly — script 2 then checks __error__ and reports it.
   return `<!doctype html><html><body>
 <script>
 window.__tests__ = ${serializedTests};
@@ -45,7 +48,7 @@ ${userCode}
 }
 <\/script>
 <script>
-(function () {
+(async function () {
   var tests = window.__tests__;
   var fnName = window.__fnName__;
   var results = window.__results__;
@@ -66,12 +69,59 @@ ${userCode}
     return;
   }
 
-  tests.forEach(function (t) {
+  for (var i = 0; i < tests.length; i++) {
+    var t = tests[i];
     try {
       var args = Array.isArray(t.input) ? t.input : [t.input];
-      var actual = window[fnName].apply(null, args);
       
-      // Normalize undefined to null for JSON comparison
+      if (t.isEval) {
+        args = args.map(function(arg) {
+          if (typeof arg === 'string') {
+            try {
+              return new Function('return ' + arg)();
+            } catch (e) {
+              return arg;
+            }
+          }
+          return arg;
+        });
+      }
+
+      var actual;
+      if (t.testRunnerWrapper) {
+        var wrapper = new Function('fn', 'input', t.testRunnerWrapper + '\\nreturn runner(fn, input);');
+        actual = await wrapper(window[fnName], args);
+      } else {
+        actual = await window[fnName].apply(null, args);
+      }
+      
+      if (actual && typeof actual === 'object') {
+        var isGen = t.isGenerator;
+        var isIter = t.isIterable || (typeof actual[Symbol.iterator] === 'function' && (isGen || t.take));
+        var isAsyncGen = t.isAsyncGenerator;
+        var isAsyncIter = t.isAsyncIterable || (typeof actual[Symbol.asyncIterator] === 'function' && (isAsyncGen || t.take));
+        
+        if (isGen || isIter) {
+          var arr = [];
+          var count = 0;
+          var limit = t.take || 100;
+          for (var item of actual) {
+            arr.push(item);
+            if (++count >= limit) break;
+          }
+          actual = arr;
+        } else if (isAsyncGen || isAsyncIter) {
+          var arr = [];
+          var count = 0;
+          var limit = t.take || 100;
+          for await (var item of actual) {
+            arr.push(item);
+            if (++count >= limit) break;
+          }
+          actual = arr;
+        }
+      }
+      
       var normalizedActual = actual === undefined ? null : actual;
       var normalizedExpected = t.expected === undefined ? null : t.expected;
       
@@ -80,7 +130,7 @@ ${userCode}
     } catch (runtimeErr) {
       results.push({ input: t.input, expected: t.expected, actual: null, passed: false, error: runtimeErr.message });
     }
-  });
+  }
 
   window.parent.postMessage({ type: 'results', results: results }, '*');
 })();
