@@ -1,0 +1,1430 @@
+[
+  {
+    "id": "js-p1-map",
+    "title": "Polyfill: Array.map",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myMap",
+    "description": "Implement a custom version of `Array.prototype.map`. Your function `myMap(arr, callback, thisArg)` should return a new array with the results of calling the provided function on every element in the calling array. It must handle the optional `thisArg` to set the `this` context for the callback.",
+    "whatShouldHappen": [
+      "Create a new array of the same length as the input.",
+      "Loop through the input array.",
+      "For each element, call the callback with `this` bound to `thisArg` (if provided).",
+      "Pass the current element, index, and original array to the callback.",
+      "Assign the result of each callback call to the corresponding index in the new array.",
+      "Return the new array."
+    ],
+    "starterCode": "function myMap(arr, callback, thisArg) {\n  // your code here\n}",
+    "skeletonHint": "function myMap(arr, callback, thisArg) {\n  const result = new Array(arr.length);\n  for (let i = 0; i < arr.length; i++) {\n    if (i in arr) {\n      // Use .call() to set the this context\n      result[i] = callback.____(thisArg, arr[i], i, arr);\n    }\n  }\n  return result;\n}",
+    "solution": "function myMap(arr, callback, thisArg) {\n  const result = new Array(arr.length);\n  for (let i = 0; i < arr.length; i++) {\n    // We use 'i in arr' to handle sparse arrays correctly,\n    // matching native Array.prototype.map behavior.\n    if (i in arr) {\n      result[i] = callback.call(thisArg, arr[i], i, arr);\n    }\n  }\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "myMap([1, 2], x => x * 2)",
+      "columns": ["i", "arr[i]", "callback result", "result array"],
+      "rows": [
+        { "i": 0, "arr[i]": 1, "callback result": 2, "result array": "[2]" },
+        { "i": 1, "arr[i]": 2, "callback result": 4, "result array": "[2, 4]" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [[1, 2, 3], "x => x * 2"],
+        "expected": [2, 4, 6],
+        "label": "Basic multiplication",
+        "isEval": true
+      },
+      {
+        "input": [[1, 2, 3], "function(x) { return x + this.val; }", "{ \"val\": 10 }"],
+        "expected": [11, 12, 13],
+        "label": "Using thisArg",
+        "isEval": true
+      },
+      {
+        "input": [["a", "b", "c"], "(el, i) => el + i"],
+        "expected": ["a0", "b1", "c2"],
+        "label": "Using index",
+        "isEval": true
+      }
+    ],
+    "patternTag": "Higher-Order Functions",
+    "patternExplanation": "The map polyfill demonstrates how to safely execute callbacks within a specific context while maintaining a 1:1 mapping of input to output.",
+    "estimatedMinutes": 10,
+    "status": "published"
+  },
+  {
+    "id": "js-p2-filter",
+    "title": "Polyfill: Array.filter",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myFilter",
+    "description": "Implement a custom version of `Array.prototype.filter`. Your function `myFilter(arr, callback, thisArg)` should return a new array containing all elements that pass the test implemented by the provided function. It must handle the optional `thisArg`.",
+    "whatShouldHappen": [
+      "Initialize an empty result array.",
+      "Iterate through the input array.",
+      "Call the callback with `this` bound to `thisArg` for each element.",
+      "Pass the current element, index, and array to the callback.",
+      "If the callback returns a truthy value, add the element to the result array.",
+      "Return the result array."
+    ],
+    "starterCode": "function myFilter(arr, callback, thisArg) {\n  // your code here\n}",
+    "skeletonHint": "function myFilter(arr, callback, thisArg) {\n  const result = [];\n  for (let i = 0; i < arr.length; i++) {\n    if (i in arr) {\n      if (callback.____(thisArg, arr[i], i, arr)) {\n        result.push(____);\n      }\n    }\n  }\n  return result;\n}",
+    "solution": "function myFilter(arr, callback, thisArg) {\n  const result = [];\n  for (let i = 0; i < arr.length; i++) {\n    if (i in arr) {\n      if (callback.call(thisArg, arr[i], i, arr)) {\n        result.push(arr[i]);\n      }\n    }\n  }\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "myFilter([1, 2, 3], x => x > 1)",
+      "columns": ["i", "arr[i]", "predicate result", "result array"],
+      "rows": [
+        { "i": 0, "arr[i]": 1, "predicate result": false, "result array": "[]" },
+        { "i": 1, "arr[i]": 2, "predicate result": true, "result array": "[2]" },
+        { "i": 2, "arr[i]": 3, "predicate result": true, "result array": "[2, 3]" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [[1, 2, 3, 4, 5], "x => x % 2 === 0"],
+        "expected": [2, 4],
+        "label": "Filter even numbers",
+        "isEval": true
+      },
+      {
+        "input": [[10, 20, 30], "function(x) { return x > this.threshold; }", "{ \"threshold\": 15 }"],
+        "expected": [20, 30],
+        "label": "With thisArg context",
+        "isEval": true
+      },
+      {
+        "input": [[1, 2, 3], "(el, i) => i > 0"],
+        "expected": [2, 3],
+        "label": "Filtering by index",
+        "isEval": true
+      }
+    ],
+    "patternTag": "Higher-Order Functions",
+    "patternExplanation": "Filter is a predicate-based higher-order function. The key is to only include elements where the callback returns true, without mutating the original array.",
+    "estimatedMinutes": 10,
+    "status": "published"
+  },
+  {
+    "id": "js-p3-reduce",
+    "title": "Polyfill: Array.reduce",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myReduce",
+    "description": "Implement a custom version of `Array.prototype.reduce`. Your function `myReduce(arr, callback, initialValue)` should execute a reducer function on each element of the array, resulting in a single output value. It must correctly handle the case where `initialValue` is not provided.",
+    "whatShouldHappen": [
+      "If the array is empty and no `initialValue` is provided, throw a TypeError.",
+      "Initialize the `accumulator` with `initialValue` if provided, otherwise use the first element of the array.",
+      "If no `initialValue` is provided, start iteration from the second element (index 1).",
+      "For each element, update the `accumulator` with the result of `callback(accumulator, currentElement, index, array)`.",
+      "Return the final `accumulator` value."
+    ],
+    "starterCode": "function myReduce(arr, callback, initialValue) {\n  // your code here\n}",
+    "skeletonHint": "function myReduce(arr, callback, initialValue) {\n  let accumulator = initialValue !== undefined ? initialValue : arr[0];\n  let startIndex = initialValue !== undefined ? 0 : 1;\n\n  for (let i = startIndex; i < arr.length; i++) {\n    if (i in arr) {\n      accumulator = callback(____, arr[i], i, arr);\n    }\n  }\n  return accumulator;\n}",
+    "solution": "function myReduce(arr, callback, initialValue) {\n  if (arr.length === 0 && initialValue === undefined) {\n    throw new TypeError('Reduce of empty array with no initial value');\n  }\n\n  let accumulator = initialValue !== undefined ? initialValue : arr[0];\n  let startIndex = initialValue !== undefined ? 0 : 1;\n\n  for (let i = startIndex; i < arr.length; i++) {\n    if (i in arr) {\n      accumulator = callback(accumulator, arr[i], i, arr);\n    }\n  }\n\n  return accumulator;\n}",
+    "traceTable": {
+      "inputLabel": "myReduce([1, 2, 3], (acc, c) => acc + c, 0)",
+      "columns": ["i", "curr", "acc (before)", "acc (after)"],
+      "rows": [
+        { "i": 0, "curr": 1, "acc (before)": 0, "acc (after)": 1 },
+        { "i": 1, "curr": 2, "acc (before)": 1, "acc (after)": 3 },
+        { "i": 2, "curr": 3, "acc (before)": 3, "acc (after)": 6 }
+      ]
+    },
+    "tests": [
+      {
+        "input": [[1, 2, 3, 4], "(acc, curr) => acc + curr", 0],
+        "expected": 10,
+        "label": "Sum with initial value",
+        "isEval": true
+      },
+      {
+        "input": [[1, 2, 3, 4], "(acc, curr) => acc + curr"],
+        "expected": 10,
+        "label": "Sum without initial value",
+        "isEval": true
+      },
+      {
+        "input": [["a", "b", "c"], "(acc, curr) => acc + curr", ""],
+        "expected": "abc",
+        "label": "String concatenation",
+        "isEval": true
+      }
+    ],
+    "patternTag": "Accumulation Pattern",
+    "patternExplanation": "Reduce is the most powerful array method as it can implement map, filter, and more. Handling the presence or absence of initialValue is the trickiest part of its polyfill.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "js-p4-flat",
+    "title": "Polyfill: Array.flat",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myFlat",
+    "description": "Implement a custom version of `Array.prototype.flat`. Your function `myFlat(arr, depth)` should return a new array with all sub-array elements concatenated into it recursively up to the specified `depth`. The default depth should be 1.",
+    "whatShouldHappen": [
+      "Initialize an empty result array.",
+      "Iterate through the input array.",
+      "If an element is an array and `depth > 0`, recursively call `myFlat` on it with `depth - 1`.",
+      "Spread the results of the recursive call into the result array.",
+      "If the element is not an array or `depth` reached 0, add it directly to the result array.",
+      "Return the result array."
+    ],
+    "starterCode": "function myFlat(arr, depth = 1) {\n  // your code here\n}",
+    "skeletonHint": "function myFlat(arr, depth = 1) {\n  const result = [];\n  (function flatten(currentArr, currentDepth) {\n    for (const item of currentArr) {\n      if (Array.isArray(item) && currentDepth > 0) {\n        flatten(item, ____);\n      } else {\n        result.push(____);\n      }\n    }\n  })(arr, depth);\n  return result;\n}",
+    "solution": "function myFlat(arr, depth = 1) {\n  const result = [];\n  \n  (function flatten(currentArr, currentDepth) {\n    for (const item of currentArr) {\n      if (Array.isArray(item) && currentDepth > 0) {\n        flatten(item, currentDepth - 1);\n      } else {\n        result.push(item);\n      }\n    }\n  })(arr, depth);\n  \n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "myFlat([1, [2]], 1)",
+      "columns": ["Item", "Is Array?", "Depth", "Action", "Result Array"],
+      "rows": [
+        { "Item": "1", "Is Array?": false, "Depth": 1, "Action": "Push", "Result Array": "[1]" },
+        { "Item": "[2]", "Is Array?": true, "Depth": 1, "Action": "Recurse", "Result Array": "[1, 2]" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [[1, [2, [3, [4]]], 5]],
+        "expected": [1, 2, [3, [4]], 5],
+        "label": "Default depth 1"
+      },
+      {
+        "input": [[1, [2, [3, [4]]], 5], 2],
+        "expected": [1, 2, 3, [4], 5],
+        "label": "Depth 2"
+      },
+      {
+        "input": [[1, [2, [3, [4]]], 5], 999],
+        "expected": [1, 2, 3, 4, 5],
+        "label": "Infinite depth"
+      }
+    ],
+    "patternTag": "Recursion",
+    "patternExplanation": "Array.flat uses recursion to visit nested structures. The depth parameter acts as the base case for the recursion.",
+    "estimatedMinutes": 12,
+    "status": "published"
+  },
+  {
+    "id": "js-p5-bind",
+    "title": "Polyfill: Function.bind",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myBind",
+    "description": "Implement a custom version of `Function.prototype.bind`. Your function `myBind(fn, context, ...args)` should return a new function that, when called, has its `this` keyword set to the provided `context`, with `args` preceding any arguments provided when the new function is called.",
+    "whatShouldHappen": [
+      "Return a new function.",
+      "The new function should accept its own arguments (let's call them `newArgs`).",
+      "Inside the new function, call the original `fn` using `apply` or `call`.",
+      "Set the `this` context to the provided `context`.",
+      "Combine the initial `args` and `newArgs` to pass to the original function.",
+      "Return the result of the original function call."
+    ],
+    "starterCode": "function myBind(fn, context, ...args) {\n  // your code here\n}",
+    "skeletonHint": "function myBind(fn, context, ...args) {\n  return function(...newArgs) {\n    return fn.apply(____, [____, ____]);\n  };\n}",
+    "solution": "function myBind(fn, context, ...args) {\n  return function(...newArgs) {\n    return fn.apply(context, [...args, ...newArgs]);\n  };\n}",
+    "traceTable": {
+      "inputLabel": "myBind(fn, {a: 5}, 10)",
+      "columns": ["Step", "Action", "Result"],
+      "rows": [
+        { "Step": "1", "Action": "Return new function", "Result": "bound function" },
+        { "Step": "2", "Action": "Call bound(20)", "Result": "fn.apply({a: 5}, [10, 20])" }
+      ]
+    },
+    "tests": [
+      {
+        "input": ["function(b) { return this.a + b; }", "{ \"a\": 5 }", 10],
+        "expected": 30,
+        "label": "Bind with pre-applied args",
+        "isEval": true,
+        "testRunnerWrapper": "function runner(fn, input) {\n  const [func, context, ...args] = input;\n  const bound = fn(func, context, ...args);\n  return bound(20);\n}"
+      },
+      {
+        "input": ["function(b, c) { return this.name + b + c; }", "{ \"name\": \"Result: \" }"],
+        "expected": "Result: 1020",
+        "label": "Bind without pre-applied args",
+        "isEval": true,
+        "testRunnerWrapper": "function runner(fn, input) {\n  const [func, context, ...args] = input;\n  const bound = fn(func, context, ...args);\n  return bound(10, 20);\n}"
+      }
+    ],
+    "patternTag": "Closures & Context",
+    "patternExplanation": "Bind leverages closures to 'remember' the context and initial arguments, returning a new function that can be executed later.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "js-p6-call",
+    "title": "Polyfill: Function.call",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Hard",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myCall",
+    "description": "Implement a custom version of `Function.prototype.call`. Your function `myCall(fn, context, ...args)` should execute the provided function `fn` with `this` set to `context`, passing the remaining `args` as individual arguments. While `call` is normally a method on `Function.prototype`, here we implement it as a standalone utility to focus on the underlying logic of context binding.",
+    "whatShouldHappen": [
+      "Handle `null` or `undefined` context by defaulting to `globalThis`.",
+      "Wrap primitive context values (numbers, strings) using `Object()`.",
+      "Assign the function `fn` to a temporary unique property on the `context` object.",
+      "Execute the function using the object's property to ensure the correct `this` binding.",
+      "Capture the result, delete the temporary property, and return the result."
+    ],
+    "starterCode": "function myCall(fn, context, ...args) {\n  // your code here\n}",
+    "skeletonHint": "function myCall(fn, context, ...args) {\n  context = context || globalThis;\n  if (typeof context !== 'object') context = Object(context);\n\n  const fnSymbol = Symbol();\n  context[fnSymbol] = ____;\n  \n  const result = context[fnSymbol](____);\n  \n  delete context[fnSymbol];\n  return result;\n}",
+    "solution": "function myCall(fn, context, ...args) {\n  // Handle null/undefined context\n  context = context || globalThis;\n  \n  // Handle primitive context (boxing)\n  if (typeof context !== 'object') {\n    context = Object(context);\n  }\n\n  // Use a Symbol to avoid property collisions\n  const fnSymbol = Symbol();\n  context[fnSymbol] = fn;\n  \n  // Execute the function in the context of the object\n  const result = context[fnSymbol](...args);\n  \n  // Cleanup\n  delete context[fnSymbol];\n  \n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "myCall(fn, {a:1}, 2)",
+      "columns": ["Step", "Action", "Context State"],
+      "rows": [
+        { "Step": "1", "Action": "Assign fn to context", "Context State": "{a:1, [Symbol]: fn}" },
+        { "Step": "2", "Action": "Execute context.fn(2)", "Context State": "Executing..." },
+        { "Step": "3", "Action": "Delete fn from context", "Context State": "{a:1}" }
+      ]
+    },
+    "tests": [
+      {
+        "input": ["function(b) { return this.a + b; }", "{ \"a\": 10 }", 5],
+        "expected": 15,
+        "label": "Basic context binding",
+        "isEval": true
+      },
+      {
+        "input": ["function() { return this.toUpperCase(); }", "\"hello\""],
+        "expected": "HELLO",
+        "label": "Boxing primitive string",
+        "isEval": true
+      },
+      {
+        "input": ["function(x, y) { return x + y + (this.z || 0); }", "{ \"z\": 100 }", 10, 20],
+        "expected": 130,
+        "label": "Multiple arguments",
+        "isEval": true
+      }
+    ],
+    "patternTag": "Context Binding",
+    "patternExplanation": "The core of .call() is executing a function as a property of an object, which implicitly sets the 'this' value to that object.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "js-p7-apply",
+    "title": "Polyfill: Function.apply",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Hard",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myApply",
+    "description": "Implement a custom version of `Function.prototype.apply`. Your function `myApply(fn, context, args)` should execute the provided function `fn` with `this` set to `context`, using the elements of the `args` array as the arguments to the function.",
+    "whatShouldHappen": [
+      "Handle `null` or `undefined` context by defaulting to `globalThis`.",
+      "Box primitive context values using `Object()`.",
+      "Assign `fn` to a temporary property on the `context`.",
+      "Use the spread operator (or another method) to pass the `args` array elements to the function call.",
+      "Clean up the temporary property and return the result."
+    ],
+    "starterCode": "function myApply(fn, context, args = []) {\n  // your code here\n}",
+    "skeletonHint": "function myApply(fn, context, args = []) {\n  context = context || globalThis;\n  if (typeof context !== 'object') context = Object(context);\n\n  const uniqueID = Symbol();\n  context[uniqueID] = fn;\n  \n  const result = context[uniqueID](____);\n  \n  delete context[uniqueID];\n  return result;\n}",
+    "solution": "function myApply(fn, context, args = []) {\n  context = context || globalThis;\n  if (typeof context !== 'object') {\n    context = Object(context);\n  }\n\n  const fnKey = Symbol();\n  context[fnKey] = fn;\n\n  // Apply is different from Call only in how it receives arguments\n  const result = context[fnKey](...(args || []));\n\n  delete context[fnKey];\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "myApply(fn, {x:1}, [2, 3])",
+      "columns": ["Step", "Action", "Function Call"],
+      "rows": [
+        { "Step": "1", "Action": "Setup context", "Function Call": "context[Symbol] = fn" },
+        { "Step": "2", "Action": "Execute", "Function Call": "fn(2, 3) with this={x:1}" }
+      ]
+    },
+    "tests": [
+      {
+        "input": ["function(a, b) { return this.sum + a + b; }", "{ \"sum\": 10 }", [5, 5]],
+        "expected": 20,
+        "label": "Apply with array of args",
+        "isEval": true
+      },
+      {
+        "input": ["Math.max", "null", [1, 5, 2]],
+        "expected": 5,
+        "label": "Apply for Math.max",
+        "isEval": true
+      }
+    ],
+    "patternTag": "Context Binding",
+    "patternExplanation": "Apply is identical to Call in context handling, differing only in its acceptance of an array for arguments instead of a comma-separated list.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "js-p8-promise",
+    "title": "Polyfill: Promise (basic)",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Hard",
+    "collectionId": "js-pro-mastery",
+    "functionName": "MyPromise",
+    "description": "Implement a simplified version of the `Promise` constructor. Your `MyPromise` class should take an `executor` function which receives `resolve` and `reject` callbacks. It should support basic state transitions (pending -> fulfilled/rejected) and a `.then(onFulfilled, onRejected)` method. Note: This version only needs to handle synchronous resolution and a single `.then` call for testing purposes.",
+    "whatShouldHappen": [
+      "Initialize state to 'pending'.",
+      "Store the value/reason and a list of callbacks.",
+      "Define `resolve(value)` and `reject(reason)` that transition state once.",
+      "Execute the `executor` immediately with `resolve` and `reject`.",
+      "Implement `.then()` to register callbacks or execute them immediately if the promise is already settled."
+    ],
+    "starterCode": "class MyPromise {\n  constructor(executor) {\n    // your code here\n  }\n\n  then(onFulfilled, onRejected) {\n    // your code here\n  }\n}",
+    "skeletonHint": "class MyPromise {\n  constructor(executor) {\n    this.state = 'pending';\n    this.value = undefined;\n    this.handlers = [];\n\n    const resolve = (val) => {\n      if (this.state !== 'pending') return;\n      this.state = 'fulfilled';\n      this.value = val;\n      this.handlers.forEach(h => h.onFulfilled(val));\n    };\n    \n    try {\n      executor(resolve, ____);\n    } catch (e) {\n      ____(e);\n    }\n  }\n}",
+    "solution": "class MyPromise {\n  constructor(executor) {\n    this.state = 'pending';\n    this.value = undefined;\n    this.handlers = [];\n\n    const resolve = (value) => {\n      if (this.state !== 'pending') return;\n      this.state = 'fulfilled';\n      this.value = value;\n      this.handlers.forEach(h => h.onFulfilled(value));\n    };\n\n    const reject = (reason) => {\n      if (this.state !== 'pending') return;\n      this.state = 'rejected';\n      this.value = reason;\n      this.handlers.forEach(h => h.onRejected(reason));\n    };\n\n    try {\n      executor(resolve, reject);\n    } catch (err) {\n      reject(err);\n    }\n  }\n\n  then(onFulfilled, onRejected) {\n    if (this.state === 'fulfilled') {\n      if (onFulfilled) onFulfilled(this.value);\n    } else if (this.state === 'rejected') {\n      if (onRejected) onRejected(this.value);\n    } else {\n      this.handlers.push({ onFulfilled, onRejected });\n    }\n  }\n}",
+    "traceTable": {
+      "inputLabel": "new MyPromise((res) => res(1)).then(v => console.log(v))",
+      "columns": ["State", "Action", "Value"],
+      "rows": [
+        { "State": "pending", "Action": "Executor call res(1)", "Value": "undefined" },
+        { "State": "fulfilled", "Action": "Register/Run then", "Value": "1" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [],
+        "expected": "Resolved!",
+        "label": "Synchronous resolve",
+        "testRunnerWrapper": "function runner(MyPromise) {\n  let result;\n  new MyPromise((res) => res('Resolved!')).then(v => result = v);\n  return result;\n}"
+      },
+      {
+        "input": [],
+        "expected": "Error!",
+        "label": "Synchronous reject",
+        "testRunnerWrapper": "function runner(MyPromise) {\n  let result;\n  new MyPromise((res, rej) => rej('Error!')).then(null, e => result = e);\n  return result;\n}"
+      }
+    ],
+    "patternTag": "State Machine",
+    "patternExplanation": "Promises are state machines that transition from pending to exactly one of two settled states: fulfilled or rejected.",
+    "estimatedMinutes": 30,
+    "status": "published"
+  },
+  {
+    "id": "js-p9-promise-all",
+    "title": "Polyfill: Promise.all",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Hard",
+    "collectionId": "js-pro-mastery",
+    "functionName": "promiseAll",
+    "description": "Implement `Promise.all`. The function `promiseAll(promises)` takes an array of promises (or values) and returns a single Promise that resolves to an array of the results of the input promises. This returned promise will resolve when all of the input promises have resolved, or reject immediately if any of the input promises reject.",
+    "whatShouldHappen": [
+      "Return a new Promise.",
+      "If the input array is empty, resolve immediately with an empty array.",
+      "Track the number of resolved promises.",
+      "Use an array to store results at their original indices.",
+      "Iterate through input, using `Promise.resolve()` to handle non-promise values.",
+      "If all resolve, resolve the main promise with the results array.",
+      "If any reject, reject the main promise immediately with that error."
+    ],
+    "starterCode": "function promiseAll(promises) {\n  // your code here\n}",
+    "skeletonHint": "function promiseAll(promises) {\n  return new Promise((resolve, reject) => {\n    const results = [];\n    let completed = 0;\n    if (promises.length === 0) return resolve([]);\n\n    promises.forEach((p, i) => {\n      Promise.resolve(p).then(\n        (val) => {\n          results[i] = val;\n          completed++;\n          if (completed === promises.length) resolve(____);\n        },\n        reject\n      );\n    });\n  });\n}",
+    "solution": "function promiseAll(promises) {\n  return new Promise((resolve, reject) => {\n    if (promises.length === 0) {\n      return resolve([]);\n    }\n\n    const results = new Array(promises.length);\n    let completedCount = 0;\n\n    promises.forEach((promise, index) => {\n      Promise.resolve(promise).then(\n        (value) => {\n          results[index] = value;\n          completedCount++;\n\n          if (completedCount === promises.length) {\n            resolve(results);\n          }\n        },\n        (error) => {\n          reject(error);\n        }\n      );\n    });\n  });\n}",
+    "traceTable": {
+      "inputLabel": "promiseAll([P1, P2])",
+      "columns": ["P1 Status", "P2 Status", "Completed", "Results"],
+      "rows": [
+        { "P1 Status": "Pending", "P2 Status": "Resolved(A)", "Completed": "1", "Results": "[?, A]" },
+        { "P1 Status": "Resolved(B)", "P2 Status": "Resolved(A)", "Completed": "2", "Results": "[B, A]" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [],
+        "expected": [1, 2, 3],
+        "label": "All promises resolve",
+        "testRunnerWrapper": "async function runner(fn) {\n  return await fn([Promise.resolve(1), 2, Promise.resolve(3)]);\n}"
+      },
+      {
+        "input": [],
+        "expected": "Fail",
+        "label": "One promise rejects",
+        "testRunnerWrapper": "async function runner(fn) {\n  try {\n    await fn([Promise.resolve(1), Promise.reject('Fail')]);\n  } catch (e) {\n    return e;\n  }\n}"
+      }
+    ],
+    "patternTag": "Concurrency",
+    "patternExplanation": "Promise.all demonstrates parallel execution management, where multiple asynchronous operations are tracked to a single completion point.",
+    "estimatedMinutes": 20,
+    "status": "published"
+  },
+  {
+    "id": "js-p10-promise-race",
+    "title": "Polyfill: Promise.race",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Hard",
+    "collectionId": "js-pro-mastery",
+    "functionName": "promiseRace",
+    "description": "Implement `Promise.race`. The function `promiseRace(promises)` takes an array of promises and returns a new promise that settles (either resolves or rejects) as soon as any of the promises in the input array settles, with the value or reason from that promise.",
+    "whatShouldHappen": [
+      "Return a new Promise.",
+      "Iterate through the input array.",
+      "Use `Promise.resolve(p)` to ensure each item is treated as a promise.",
+      "Attach `.then(resolve, reject)` to each promise.",
+      "The first promise to settle will trigger the main promise's resolution or rejection."
+    ],
+    "starterCode": "function promiseRace(promises) {\n  // your code here\n}",
+    "skeletonHint": "function promiseRace(promises) {\n  return new Promise((resolve, reject) => {\n    for (const p of promises) {\n      Promise.resolve(p).then(____, ____);\n    }\n  });\n}",
+    "solution": "function promiseRace(promises) {\n  return new Promise((resolve, reject) => {\n    if (promises.length === 0) return; // Native behavior: stays pending\n\n    for (const promise of promises) {\n      Promise.resolve(promise).then(resolve, reject);\n    }\n  });\n}",
+    "traceTable": {
+      "inputLabel": "promiseRace([SlowP, FastP])",
+      "columns": ["Event", "Action", "Settled?"],
+      "rows": [
+        { "Event": "FastP settles", "Action": "Main promise settles", "Settled?": "Yes" },
+        { "Event": "SlowP settles", "Action": "Ignored", "Settled?": "Yes" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [],
+        "expected": "Fast",
+        "label": "Fastest resolves",
+        "testRunnerWrapper": "async function runner(fn) {\n  const p1 = new Promise(res => setTimeout(() => res('Slow'), 50));\n  const p2 = new Promise(res => setTimeout(() => res('Fast'), 10));\n  return await fn([p1, p2]);\n}"
+      },
+      {
+        "input": [],
+        "expected": "Quick Fail",
+        "label": "Fastest rejects",
+        "testRunnerWrapper": "async function runner(fn) {\n  const p1 = new Promise(res => setTimeout(() => res('Slow'), 50));\n  const p2 = new Promise((_, rej) => setTimeout(() => rej('Quick Fail'), 10));\n  try {\n    await fn([p1, p2]);\n  } catch (e) {\n    return e;\n  }\n}"
+      }
+    ],
+    "patternTag": "Concurrency",
+    "patternExplanation": "Promise.race is useful for timeouts or responding to the quickest source of data among several asynchronous operations.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "js-p11-promise-any",
+    "title": "Polyfill: Promise.any",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Hard",
+    "collectionId": "js-pro-mastery",
+    "functionName": "promiseAny",
+    "description": "Implement `Promise.any`. This function takes an array of promises and returns a single promise that resolves as soon as any of the input promises fulfills. If all promises reject, it rejects with an `AggregateError` (or a simple Error for this exercise) containing all the rejection reasons.",
+    "whatShouldHappen": [
+      "Return a new Promise.",
+      "If the input array is empty, reject immediately (AggregateError).",
+      "Track the number of rejected promises.",
+      "Use an array to store rejection reasons at their original indices.",
+      "Iterate through input, using `Promise.resolve()` to handle values.",
+      "If any promise fulfills, resolve the main promise immediately with that value.",
+      "If all promises reject, reject the main promise with the collection of errors."
+    ],
+    "starterCode": "function promiseAny(promises) {\n  // your code here\n}",
+    "skeletonHint": "function promiseAny(promises) {\n  return new Promise((resolve, reject) => {\n    const errors = [];\n    let rejectedCount = 0;\n    if (promises.length === 0) return reject(new Error('All promises were rejected'));\n\n    promises.forEach((p, i) => {\n      Promise.resolve(p).then(\n        resolve,\n        (err) => {\n          errors[i] = err;\n          rejectedCount++;\n          if (rejectedCount === promises.length) reject(errors);\n        }\n      );\n    });\n  });\n}",
+    "solution": "function promiseAny(promises) {\n  return new Promise((resolve, reject) => {\n    if (promises.length === 0) {\n      return reject(new Error('All promises were rejected'));\n    }\n\n    const errors = new Array(promises.length);\n    let rejectedCount = 0;\n\n    promises.forEach((promise, index) => {\n      Promise.resolve(promise).then(\n        (value) => {\n          resolve(value);\n        },\n        (error) => {\n          errors[index] = error;\n          rejectedCount++;\n\n          if (rejectedCount === promises.length) {\n            reject(errors);\n          }\n        }\n      );\n    });\n  });\n}",
+    "traceTable": {
+      "inputLabel": "promiseAny([P1, P2])",
+      "columns": ["Event", "Action", "Settled?"],
+      "rows": [
+        { "Event": "P1 Rejects", "Action": "Track Error", "Settled?": "No" },
+        { "Event": "P2 Resolves", "Action": "Main Resolve", "Settled?": "Yes" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [],
+        "expected": "First",
+        "label": "First to resolve succeeds",
+        "testRunnerWrapper": "async function runner(fn) {\n  const p1 = new Promise((res, rej) => setTimeout(() => rej('Fail'), 10));\n  const p2 = new Promise(res => setTimeout(() => res('First'), 50));\n  return await fn([p1, p2]);\n}"
+      },
+      {
+        "input": [],
+        "expected": ["Error 1", "Error 2"],
+        "label": "All promises reject",
+        "testRunnerWrapper": "async function runner(fn) {\n  try {\n    await fn([Promise.reject('Error 1'), Promise.reject('Error 2')]);\n  } catch (e) {\n    return e;\n  }\n}"
+      }
+    ],
+    "patternTag": "Concurrency",
+    "patternExplanation": "Promise.any focuses on the first fulfillment. It's the opposite of Promise.all in terms of what it prioritizes (success vs. failure).",
+    "estimatedMinutes": 20,
+    "status": "published"
+  },
+  {
+    "id": "js-p12-promise-allsettled",
+    "title": "Polyfill: Promise.allSettled",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Hard",
+    "collectionId": "js-pro-mastery",
+    "functionName": "promiseAllSettled",
+    "description": "Implement `Promise.allSettled`. This function returns a promise that resolves after all of the given promises have either fulfilled or rejected, with an array of objects that each describes the outcome of each promise.",
+    "whatShouldHappen": [
+      "Return a new Promise.",
+      "If the input is empty, resolve with an empty array.",
+      "Track the number of settled promises.",
+      "Store results as objects: `{ status: 'fulfilled', value: val }` or `{ status: 'rejected', reason: err }`.",
+      "Maintain the original order of promises in the results array.",
+      "Resolve the main promise only when every input promise has settled."
+    ],
+    "starterCode": "function promiseAllSettled(promises) {\n  // your code here\n}",
+    "skeletonHint": "function promiseAllSettled(promises) {\n  return new Promise((resolve) => {\n    const results = [];\n    let settled = 0;\n    if (promises.length === 0) return resolve([]);\n\n    promises.forEach((p, i) => {\n      Promise.resolve(p).then(\n        (val) => {\n          results[i] = { status: 'fulfilled', value: val };\n          settled++;\n          if (settled === promises.length) resolve(results);\n        },\n        (err) => {\n          results[i] = { status: 'rejected', reason: err };\n          settled++;\n          if (settled === promises.length) resolve(results);\n        }\n      );\n    });\n  });\n}",
+    "solution": "function promiseAllSettled(promises) {\n  return new Promise((resolve) => {\n    if (promises.length === 0) {\n      return resolve([]);\n    }\n\n    const results = new Array(promises.length);\n    let settledCount = 0;\n\n    promises.forEach((promise, index) => {\n      Promise.resolve(promise)\n        .then((value) => {\n          results[index] = { status: 'fulfilled', value };\n        })\n        .catch((reason) => {\n          results[index] = { status: 'rejected', reason };\n        })\n        .finally(() => {\n          settledCount++;\n          if (settledCount === promises.length) {\n            resolve(results);\n          }\n        });\n    });\n  });\n}",
+    "traceTable": {
+      "inputLabel": "promiseAllSettled([P_RES, P_REJ])",
+      "columns": ["P_RES", "P_REJ", "Settled Count", "Results"],
+      "rows": [
+        { "P_RES": "Fulfilled", "P_REJ": "Pending", "Settled Count": "1", "Results": "[{status: 'fulfilled', ...}, ?]" },
+        { "P_RES": "Fulfilled", "P_REJ": "Rejected", "Settled Count": "2", "Results": "[{...}, {status: 'rejected', ...}]" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [],
+        "expected": [
+          { "status": "fulfilled", "value": 1 },
+          { "status": "rejected", "reason": "Error" }
+        ],
+        "label": "Mixed results",
+        "testRunnerWrapper": "async function runner(fn) {\n  return await fn([Promise.resolve(1), Promise.reject('Error')]);\n}"
+      }
+    ],
+    "patternTag": "Concurrency",
+    "patternExplanation": "Promise.allSettled is used when you want to wait for multiple tasks to finish regardless of whether they succeed or fail.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "js-p13-object-create",
+    "title": "Polyfill: Object.create",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myObjectCreate",
+    "description": "Implement a simplified version of `Object.create`. Your function `myObjectCreate(proto)` should create a new object with the specified prototype object. You do not need to implement the second argument (propertiesObject).",
+    "whatShouldHappen": [
+      "Check if `proto` is an object or null. If not, throw a TypeError.",
+      "Create a temporary constructor function.",
+      "Set the constructor's prototype to the provided `proto`.",
+      "Return a new instance of that constructor.",
+      "Alternatively, use `Object.setPrototypeOf` or the `__proto__` property (though the constructor approach is the classic polyfill)."
+    ],
+    "starterCode": "function myObjectCreate(proto) {\n  // your code here\n}",
+    "skeletonHint": "function myObjectCreate(proto) {\n  if (typeof proto !== 'object' && proto !== null) {\n    throw new TypeError('Object prototype may only be an Object or null');\n  }\n  function F() {}\n  F.prototype = proto;\n  return new F();\n}",
+    "solution": "function myObjectCreate(proto) {\n  if (typeof proto !== 'object' && proto !== null) {\n    throw new TypeError('Object prototype may only be an Object or null');\n  }\n\n  function F() {}\n  F.prototype = proto;\n  const obj = new F();\n\n  if (proto === null) {\n    Object.setPrototypeOf(obj, null);\n  }\n\n  return obj;\n}",
+    "traceTable": {
+      "inputLabel": "myObjectCreate({a: 1})",
+      "columns": ["Step", "Action", "Resulting Object"],
+      "rows": [
+        { "Step": "1", "Action": "F.prototype = proto", "Resulting Object": "F.prototype is {a:1}" },
+        { "Step": "2", "Action": "return new F()", "Resulting Object": "{} with __proto__ {a:1}" }
+      ]
+    },
+    "tests": [
+      {
+        "input": ["{ \"a\": 1 }"],
+        "expected": 1,
+        "label": "Inherits property",
+        "isEval": true,
+        "testRunnerWrapper": "function runner(fn, input) {\n  const proto = JSON.parse(input[0]);\n  const obj = fn(proto);\n  return obj.a;\n}"
+      },
+      {
+        "input": ["{ \"sayHi\": \"function() { return 'hi'; }\" }"],
+        "expected": "hi",
+        "label": "Inherits method",
+        "isEval": true,
+        "testRunnerWrapper": "function runner(fn, input) {\n  const proto = { sayHi: () => 'hi' };\n  const obj = fn(proto);\n  return obj.sayHi();\n}"
+      }
+    ],
+    "patternTag": "Prototypal Inheritance",
+    "patternExplanation": "Object.create is the fundamental way to establish a prototype link between objects without using classes or constructors directly.",
+    "estimatedMinutes": 10,
+    "status": "published"
+  },
+  {
+    "id": "js-p14-object-assign",
+    "title": "Polyfill: Object.assign",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myObjectAssign",
+    "description": "Implement `Object.assign(target, ...sources)`. This function copies all enumerable own properties from one or more source objects to a target object. It returns the modified target object.",
+    "whatShouldHappen": [
+      "Ensure target is not null or undefined (throw TypeError).",
+      "Convert target to an object if it's a primitive (boxing).",
+      "Iterate through each source object.",
+      "For each source, iterate through its keys.",
+      "Only copy own enumerable properties (use `Object.prototype.hasOwnProperty`).",
+      "Assign the source property value to the target object.",
+      "Return the target object."
+    ],
+    "starterCode": "function myObjectAssign(target, ...sources) {\n  // your code here\n}",
+    "skeletonHint": "function myObjectAssign(target, ...sources) {\n  if (target == null) throw new TypeError('Cannot convert undefined or null to object');\n  let to = Object(target);\n\n  for (let i = 0; i < sources.length; i++) {\n    let nextSource = sources[i];\n    if (nextSource != null) {\n      for (let key in nextSource) {\n        if (Object.prototype.hasOwnProperty.call(nextSource, key)) {\n          to[key] = ____;\n        }\n      }\n    }\n  }\n  return to;\n}",
+    "solution": "function myObjectAssign(target, ...sources) {\n  if (target == null) {\n    throw new TypeError('Cannot convert undefined or null to object');\n  }\n\n  const to = Object(target);\n\n  for (let i = 0; i < sources.length; i++) {\n    const nextSource = sources[i];\n\n    if (nextSource != null) {\n      // Use Object.keys or for...in with hasOwnProperty to get own enumerable properties\n      const keys = Object.keys(nextSource);\n      for (let j = 0; j < keys.length; j++) {\n        const key = keys[j];\n        to[key] = nextSource[key];\n      }\n    }\n  }\n\n  return to;\n}",
+    "traceTable": {
+      "inputLabel": "myObjectAssign({a:1}, {b:2})",
+      "columns": ["Source", "Key", "Action", "Target State"],
+      "rows": [
+        { "Source": "{b:2}", "Key": "b", "Action": "Assign 2", "Target State": "{a:1, b:2}" }
+      ]
+    },
+    "tests": [
+      {
+        "input": ["{ \"a\": 1 }", "{ \"b\": 2 }", "{ \"c\": 3 }"],
+        "expected": { "a": 1, "b": 2, "c": 3 },
+        "label": "Merge multiple objects",
+        "isEval": true,
+        "testRunnerWrapper": "function runner(fn, input) {\n  const args = input.map(i => JSON.parse(i));\n  return fn(...args);\n}"
+      },
+      {
+        "input": ["{ \"a\": 1 }", "{ \"a\": 2 }"],
+        "expected": { "a": 2 },
+        "label": "Overwriting existing keys",
+        "isEval": true,
+        "testRunnerWrapper": "function runner(fn, input) {\n  const args = input.map(i => JSON.parse(i));\n  return fn(...args);\n}"
+      }
+    ],
+    "patternTag": "Object Manipulation",
+    "patternExplanation": "Object.assign performs a shallow copy. It's essential to only copy 'own' properties to avoid dragging in inherited properties from the prototype chain.",
+    "estimatedMinutes": 10,
+    "status": "published"
+  },
+  {
+    "id": "js-p15-debounce",
+    "title": "Debounce function implementation",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "debounce",
+    "description": "Implement a `debounce` function. Debouncing ensures that a function is not called again until a certain amount of time has passed since the last time it was called. It's useful for search inputs or window resize events.",
+    "whatShouldHappen": [
+      "Return a new function.",
+      "Inside the returned function, clear any existing timeout.",
+      "Set a new timeout for the specified `wait` duration.",
+      "When the timeout expires, call the original function with the correct `this` context and arguments.",
+      "The timer should reset every time the debounced function is called before the previous timer finishes."
+    ],
+    "starterCode": "function debounce(fn, wait) {\n  // your code here\n}",
+    "skeletonHint": "function debounce(fn, wait) {\n  let timeout;\n  return function(...args) {\n    const context = this;\n    clearTimeout(____);\n    timeout = setTimeout(() => {\n      fn.apply(____, ____);\n    }, wait);\n  };\n}",
+    "solution": "function debounce(fn, wait) {\n  let timeoutId;\n\n  return function(...args) {\n    const context = this;\n    \n    // Clear previous timer to reset the wait period\n    if (timeoutId) {\n      clearTimeout(timeoutId);\n    }\n\n    timeoutId = setTimeout(() => {\n      fn.apply(context, args);\n    }, wait);\n  };\n}",
+    "traceTable": {
+      "inputLabel": "debouncedFn() called at 0ms, 10ms, 20ms (wait 50ms)",
+      "columns": ["Time", "Action", "Timer Status", "Function Called?"],
+      "rows": [
+        { "Time": "0ms", "Action": "Call 1", "Timer Status": "Set (expires 50ms)", "Function Called?": "No" },
+        { "Time": "10ms", "Action": "Call 2", "Timer Status": "Reset (expires 60ms)", "Function Called?": "No" },
+        { "Time": "20ms", "Action": "Call 3", "Timer Status": "Reset (expires 70ms)", "Function Called?": "No" },
+        { "Time": "70ms", "Action": "None", "Timer Status": "Expired", "Function Called?": "Yes" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [],
+        "expected": 1,
+        "label": "Only called once after multiple bursts",
+        "testRunnerWrapper": "async function runner(fn) {\n  let count = 0;\n  const increment = () => count++;\n  const debounced = fn(increment, 50);\n  \n  debounced();\n  debounced();\n  debounced();\n  \n  await new Promise(res => setTimeout(res, 100));\n  return count;\n}"
+      }
+    ],
+    "patternTag": "Rate Limiting / Closures",
+    "patternExplanation": "Debouncing uses closures to maintain a timer state across multiple function calls, effectively 'grouping' them into one single execution.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "js-p16-throttle",
+    "title": "Throttle function implementation",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "throttle",
+    "description": "Implement a `throttle` function. Throttling ensures that a function is called at most once in a specified time interval. If the function is called multiple times within that interval, it will only execute at the start (or end, depending on implementation) and ignore subsequent calls until the interval has passed.",
+    "whatShouldHappen": [
+      "Return a new function.",
+      "Track whether the function is currently 'throttled' (on cool-down).",
+      "If not throttled, execute the original function immediately with the provided context and arguments.",
+      "Set a timeout to clear the throttled state after the specified `limit` time.",
+      "Any calls made while throttled should be ignored."
+    ],
+    "starterCode": "function throttle(fn, limit) {\n  // your code here\n}",
+    "skeletonHint": "function throttle(fn, limit) {\n  let lastFunc;\n  let lastRan;\n  return function(...args) {\n    const context = this;\n    if (!lastRan) {\n      fn.apply(context, args);\n      lastRan = Date.now();\n    } else {\n      clearTimeout(lastFunc);\n      lastFunc = setTimeout(function() {\n        if ((Date.now() - lastRan) >= limit) {\n          fn.apply(context, args);\n          lastRan = Date.now();\n        }\n      }, limit - (Date.now() - lastRan));\n    }\n  };\n}",
+    "solution": "function throttle(fn, limit) {\n  let inThrottle;\n  \n  return function(...args) {\n    const context = this;\n    if (!inThrottle) {\n      fn.apply(context, args);\n      inThrottle = true;\n      setTimeout(() => inThrottle = false, limit);\n    }\n  };\n}",
+    "traceTable": {
+      "inputLabel": "throttledFn() called every 10ms (limit 50ms)",
+      "columns": ["Time", "Action", "Throttled?", "Function Called?"],
+      "rows": [
+        { "Time": "0ms", "Action": "Call 1", "Throttled?": "No", "Function Called?": "Yes" },
+        { "Time": "10ms", "Action": "Call 2", "Throttled?": "Yes", "Function Called?": "No" },
+        { "Time": "50ms", "Action": "Call 6", "Throttled?": "No", "Function Called?": "Yes" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [],
+        "expected": 2,
+        "label": "Only called twice in 120ms with 50ms limit",
+        "testRunnerWrapper": "async function runner(fn) {\n  let count = 0;\n  const increment = () => count++;\n  const throttled = fn(increment, 50);\n  \n  throttled(); // 0ms - calls\n  throttled(); // 10ms - ignored\n  throttled(); // 20ms - ignored\n  \n  await new Promise(res => setTimeout(res, 60));\n  throttled(); // 60ms - calls\n  \n  return count;\n}"
+      }
+    ],
+    "patternTag": "Rate Limiting",
+    "patternExplanation": "Throttling is used to control the rate of execution. Unlike debouncing which waits for a pause, throttling guarantees execution at a regular interval.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "js-p17-deep-clone",
+    "title": "Deep Clone implementation",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Hard",
+    "collectionId": "js-pro-mastery",
+    "functionName": "deepClone",
+    "description": "Implement a function `deepClone(obj)` that creates a deep copy of a JavaScript value. It should handle nested objects and arrays. Primitives should be returned as is. You do not need to handle complex types like Maps, Sets, or Circular References for this basic implementation.",
+    "whatShouldHappen": [
+      "If the input is null or not an object, return it (it's a primitive).",
+      "Check if the input is an array or a plain object.",
+      "Create a new array or object to hold the clone.",
+      "Recursively call `deepClone` for each property/element of the input.",
+      "Assign the cloned values to the new structure.",
+      "Return the resulting clone."
+    ],
+    "starterCode": "function deepClone(obj) {\n  // your code here\n}",
+    "skeletonHint": "function deepClone(obj) {\n  if (obj === null || typeof obj !== 'object') return obj;\n\n  const clone = Array.isArray(obj) ? [] : {};\n\n  for (const key in obj) {\n    if (Object.prototype.hasOwnProperty.call(obj, key)) {\n      clone[key] = ____(obj[key]);\n    }\n  }\n\n  return clone;\n}",
+    "solution": "function deepClone(obj) {\n  // Handle primitives and null\n  if (obj === null || typeof obj !== 'object') {\n    return obj;\n  }\n\n  // Handle Arrays\n  if (Array.isArray(obj)) {\n    return obj.map(item => deepClone(item));\n  }\n\n  // Handle Objects\n  const clonedObj = {};\n  for (const key in obj) {\n    if (Object.prototype.hasOwnProperty.call(obj, key)) {\n      clonedObj[key] = deepClone(obj[key]);\n    }\n  }\n\n  return clonedObj;\n}",
+    "traceTable": {
+      "inputLabel": "deepClone({a: [1]})",
+      "columns": ["Key", "Value", "Action", "Clone State"],
+      "rows": [
+        { "Key": "a", "Value": "[1]", "Action": "Recurse on [1]", "Clone State": "{a: []}" },
+        { "Key": "0", "Value": "1", "Action": "Assign 1", "Clone State": "{a: [1]}" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [{ "a": 1, "b": { "c": 2 }, "d": [3, 4] }],
+        "expected": true,
+        "label": "Deep clone nested structures",
+        "testRunnerWrapper": "function runner(fn, input) {\n  const original = input[0];\n  const cloned = fn(original);\n  // Check if they are equal but different references\n  const isDeepEqual = JSON.stringify(original) === JSON.stringify(cloned);\n  const isDifferentRef = original !== cloned && original.b !== cloned.b && original.d !== cloned.d;\n  return isDeepEqual && isDifferentRef;\n}"
+      },
+      {
+        "input": [[1, [2, 3]]],
+        "expected": true,
+        "label": "Deep clone arrays",
+        "testRunnerWrapper": "function runner(fn, input) {\n  const original = input[0];\n  const cloned = fn(original);\n  return JSON.stringify(original) === JSON.stringify(cloned) && original !== cloned && original[1] !== cloned[1];\n}"
+      }
+    ],
+    "patternTag": "Recursion",
+    "patternExplanation": "Deep cloning is a classic recursive problem. The base case is encountering a primitive value, while the recursive step involves traversing into nested objects and arrays.",
+    "estimatedMinutes": 20,
+    "status": "published"
+  },
+  {
+    "id": "js-p18-deep-equal",
+    "title": "Deep Equal implementation",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Hard",
+    "collectionId": "js-pro-mastery",
+    "functionName": "deepEqual",
+    "description": "Implement a function `deepEqual(a, b)` that checks if two values are deeply equal. Two values are deeply equal if they are the same primitive, or if they are objects/arrays with the same keys/indices and their values are deeply equal.",
+    "whatShouldHappen": [
+      "Check if `a` and `b` are strictly equal (identity check). If so, return true.",
+      "Check if either is null or not an object. If they aren't both objects, they aren't equal (since identity check failed).",
+      "Check if they have the same number of keys.",
+      "Recursively check each property of `a` against the corresponding property in `b`.",
+      "If any property is missing or not deeply equal, return false.",
+      "Return true if all checks pass."
+    ],
+    "starterCode": "function deepEqual(a, b) {\n  // your code here\n}",
+    "skeletonHint": "function deepEqual(a, b) {\n  if (a === b) return true;\n  \n  if (typeof a !== 'object' || a === null || typeof b !== 'object' || b === null) {\n    return false;\n  }\n\n  const keysA = Object.keys(a);\n  const keysB = Object.keys(b);\n\n  if (keysA.length !== keysB.length) return false;\n\n  for (const key of keysA) {\n    if (!keysB.includes(key) || !____(a[key], b[key])) {\n      return false;\n    }\n  }\n\n  return true;\n}",
+    "solution": "function deepEqual(a, b) {\n  // Identical primitives or same reference\n  if (a === b) return true;\n\n  // One is primitive, one is object (or both are different primitives)\n  if (typeof a !== 'object' || a === null || typeof b !== 'object' || b === null) {\n    return false;\n  }\n\n  const keysA = Object.keys(a);\n  const keysB = Object.keys(b);\n\n  // Different number of properties\n  if (keysA.length !== keysB.length) return false;\n\n  for (const key of keysA) {\n    // B doesn't have the key or values are not deeply equal\n    if (!Object.prototype.hasOwnProperty.call(b, key) || !deepEqual(a[key], b[key])) {\n      return false;\n    }\n  }\n\n  return true;\n}",
+    "traceTable": {
+      "inputLabel": "deepEqual({x:1}, {x:1})",
+      "columns": ["Compare", "Result", "Reason"],
+      "rows": [
+        { "Compare": "{x:1} vs {x:1}", "Result": "Continue", "Reason": "Both are objects" },
+        { "Compare": "Keys length", "Result": "Continue", "Reason": "Both have 1 key" },
+        { "Compare": "a.x vs b.x", "Result": "True", "Reason": "1 === 1" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [{ "a": 1, "b": { "c": 2 } }, { "a": 1, "b": { "c": 2 } }],
+        "expected": true,
+        "label": "Deeply equal objects"
+      },
+      {
+        "input": [{ "a": 1, "b": { "c": 2 } }, { "a": 1, "b": { "c": 3 } }],
+        "expected": false,
+        "label": "Different nested values"
+      },
+      {
+        "input": [[1, 2], [1, 2]],
+        "expected": true,
+        "label": "Deeply equal arrays"
+      }
+    ],
+    "patternTag": "Recursion",
+    "patternExplanation": "Deep equality requires structural comparison. This is done by recursively diving into objects and arrays until primitives are reached.",
+    "estimatedMinutes": 20,
+    "status": "published"
+  },
+  {
+    "id": "js-p19-event-emitter",
+    "title": "Simple Event Emitter class",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "EventEmitter",
+    "description": "Implement a simple `EventEmitter` class. It should allow subscribing to events, unsubscribing, and emitting events with data. This is the core pattern behind many Node.js and browser APIs.",
+    "whatShouldHappen": [
+      "Store events in an object where keys are event names and values are arrays of listener functions.",
+      "Implement `on(eventName, listener)` to add a function to the listener array for that event.",
+      "Implement `emit(eventName, ...args)` to call all listeners for that event with the provided arguments.",
+      "Implement `off(eventName, listener)` to remove a specific listener from the array for that event."
+    ],
+    "starterCode": "class EventEmitter {\n  constructor() {\n    // your code here\n  }\n\n  on(eventName, listener) {\n    // your code here\n  }\n\n  emit(eventName, ...args) {\n    // your code here\n  }\n\n  off(eventName, listener) {\n    // your code here\n  }\n}",
+    "skeletonHint": "class EventEmitter {\n  constructor() {\n    this.events = {};\n  }\n\n  on(name, fn) {\n    if (!this.events[name]) this.events[name] = [];\n    this.events[name].push(fn);\n  }\n\n  emit(name, ...args) {\n    if (this.events[name]) {\n      this.events[name].forEach(fn => fn.____(null, args));\n    }\n  }\n}",
+    "solution": "class EventEmitter {\n  constructor() {\n    this.events = {};\n  }\n\n  on(eventName, listener) {\n    if (!this.events[eventName]) {\n      this.events[eventName] = [];\n    }\n    this.events[eventName].push(listener);\n  }\n\n  emit(eventName, ...args) {\n    const listeners = this.events[eventName];\n    if (listeners) {\n      listeners.forEach(listener => listener(...args));\n    }\n  }\n\n  off(eventName, listener) {\n    const listeners = this.events[eventName];\n    if (listeners) {\n      this.events[eventName] = listeners.filter(l => l !== listener);\n    }\n  }\n}",
+    "traceTable": {
+      "inputLabel": "emitter.on('hi', f); emitter.emit('hi', 1);",
+      "columns": ["Action", "Event", "Listeners Count", "Output"],
+      "rows": [
+        { "Action": "on", "Event": "hi", "Listeners Count": "1", "Output": "-" },
+        { "Action": "emit", "Event": "hi", "Listeners Count": "1", "Output": "f(1) called" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [],
+        "expected": [10, 10],
+        "label": "Subscribe and emit",
+        "testRunnerWrapper": "function runner(EventEmitter) {\n  const emitter = new EventEmitter();\n  const results = [];\n  const handler = (val) => results.push(val);\n  \n  emitter.on('test', handler);\n  emitter.on('test', handler);\n  emitter.emit('test', 10);\n  \n  return results;\n}"
+      },
+      {
+        "input": [],
+        "expected": 0,
+        "label": "Unsubscribe correctly",
+        "testRunnerWrapper": "function runner(EventEmitter) {\n  const emitter = new EventEmitter();\n  let count = 0;\n  const handler = () => count++;\n  \n  emitter.on('test', handler);\n  emitter.off('test', handler);\n  emitter.emit('test');\n  \n  return count;\n}"
+      }
+    ],
+    "patternTag": "Observer Pattern",
+    "patternExplanation": "The Event Emitter is a realization of the Observer pattern, facilitating decoupled communication between different parts of a system.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "js-p20-custom-setinterval",
+    "title": "Custom setInterval using setTimeout",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "mySetInterval",
+    "description": "Implement a function `mySetInterval(fn, delay)` that behaves like `setInterval`, but is built using recursive `setTimeout` calls. It should return an object with a `clear()` method.",
+    "whatShouldHappen": [
+      "Define a function (e.g., `run`) that executes the provided `fn`.",
+      "Inside `run`, schedule the next execution of `run` using `setTimeout` with the given `delay`.",
+      "The first execution should happen after the `delay`.",
+      "Store the current timeout ID so it can be cleared.",
+      "Return an object with a `clear` method that calls `clearTimeout` on the stored ID."
+    ],
+    "starterCode": "function mySetInterval(fn, delay) {\n  // your code here\n}",
+    "skeletonHint": "function mySetInterval(fn, delay) {\n  let timerId;\n  function run() {\n    timerId = setTimeout(() => {\n      fn();\n      ____();\n    }, delay);\n  }\n  run();\n  return {\n    clear: () => clearTimeout(____)\n  };\n}",
+    "solution": "function mySetInterval(fn, delay) {\n  let timerId;\n\n  function run() {\n    timerId = setTimeout(() => {\n      fn();\n      run(); // Schedule next run\n    }, delay);\n  }\n\n  run();\n\n  return {\n    clear: () => clearTimeout(timerId)\n  };\n}",
+    "traceTable": {
+      "inputLabel": "mySetInterval(f, 100)",
+      "columns": ["Time", "Action", "Next Run Scheduled?"],
+      "rows": [
+        { "Time": "100ms", "Action": "Execute f()", "Next Run Scheduled?": "Yes (at 200ms)" },
+        { "Time": "200ms", "Action": "Execute f()", "Next Run Scheduled?": "Yes (at 300ms)" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [],
+        "expected": 3,
+        "label": "Executes multiple times",
+        "testRunnerWrapper": "async function runner(fn) {\n  let count = 0;\n  const interval = fn(() => count++, 20);\n  \n  await new Promise(res => setTimeout(res, 70));\n  interval.clear();\n  return count;\n}"
+      }
+    ],
+    "patternTag": "Asynchronous Control Flow",
+    "patternExplanation": "Using setTimeout for intervals is often preferred over setInterval because it ensures that the next execution only starts after the previous one finishes (preventing overlap if the function takes long to execute).",
+    "estimatedMinutes": 12,
+    "status": "published"
+  },
+  {
+    "id": "js-p21-json-stringify",
+    "title": "Polyfill: JSON.stringify",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Hard",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myJSONStringify",
+    "description": "Implement a simplified version of `JSON.stringify`. It should handle null, booleans, numbers, strings, arrays, and plain objects. It should correctly handle nested structures. You don't need to handle the replacer function or space arguments.",
+    "whatShouldHappen": [
+      "If input is null, return 'null'.",
+      "If input is a string, wrap it in double quotes.",
+      "If input is a number or boolean, return its string representation.",
+      "If input is an array, recursively stringify each element and join with commas inside brackets.",
+      "If input is an object, recursively stringify each own enumerable property key-value pair and join with commas inside curly braces.",
+      "Ignore properties with undefined, function, or symbol values in objects.",
+      "In arrays, replace undefined, function, or symbol values with 'null'."
+    ],
+    "starterCode": "function myJSONStringify(value) {\n  // your code here\n}",
+    "skeletonHint": "function myJSONStringify(value) {\n  if (value === null) return 'null';\n  if (typeof value === 'string') return `\"${value}\"`;\n  if (typeof value !== 'object') return String(value);\n\n  if (Array.isArray(value)) {\n    const items = value.map(item => {\n      const res = myJSONStringify(item);\n      return res === undefined ? 'null' : res;\n    });\n    return `[${items.join(',')}]`;\n  }\n\n  const pairs = [];\n  for (const key in value) {\n    if (Object.prototype.hasOwnProperty.call(value, key)) {\n      const val = myJSONStringify(value[key]);\n      if (val !== undefined) {\n        pairs.push(`\"${key}\":${val}`);\n      }\n    }\n  }\n  return `{${pairs.join(',')}}`;\n}",
+    "solution": "function myJSONStringify(value) {\n  const type = typeof value;\n\n  if (type !== 'object' || value === null) {\n    if (type === 'string') return `\"${value}\"`;\n    return String(value);\n  }\n\n  if (Array.isArray(value)) {\n    const arr = value.map(item => {\n      const res = myJSONStringify(item);\n      return (typeof item === 'function' || typeof item === 'symbol' || res === undefined) ? 'null' : res;\n    });\n    return `[${arr.join(',')}]`;\n  }\n\n  const pairs = [];\n  Object.keys(value).forEach(key => {\n    const val = value[key];\n    if (typeof val !== 'function' && typeof val !== 'symbol' && val !== undefined) {\n      pairs.push(`\"${key}\":${myJSONStringify(val)}`);\n    }\n  });\n\n  return `{${pairs.join(',')}}`;\n}",
+    "traceTable": {
+      "inputLabel": "myJSONStringify({a: 1, b: 'hi'})",
+      "columns": ["Key", "Value", "Action", "Result"],
+      "rows": [
+        { "Key": "a", "Value": "1", "Action": "Stringify 1", "Result": "\"a\":1" },
+        { "Key": "b", "Value": "'hi'", "Action": "Stringify 'hi'", "Result": "\"b\":\"hi\"" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [{ "a": 1, "b": "test", "c": [true, null] }],
+        "expected": "{\"a\":1,\"b\":\"test\",\"c\":[true,null]}",
+        "label": "Complex object"
+      },
+      {
+        "input": [],
+        "expected": "[1,\"a\",null,true]",
+        "label": "Array with undefined",
+        "testRunnerWrapper": "function runner(fn) {\n  return fn([1, \"a\", undefined, true]);\n}"
+      }
+    ],
+    "patternTag": "Recursion / Serialization",
+    "patternExplanation": "JSON.stringify is a recursive serialization problem. It requires careful handling of different data types and their specific serialization rules.",
+    "estimatedMinutes": 25,
+    "status": "published"
+  },
+  {
+    "id": "js-p22-json-parse",
+    "title": "Polyfill: JSON.parse (Basic)",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Hard",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myJSONParse",
+    "description": "Implement a basic version of `JSON.parse`. While a full parser is complex, for this challenge, you can use `eval()` safely (by wrapping the input in parentheses) or use the `Function` constructor. Note: In a real-world scenario, you would never use eval for parsing JSON due to security risks.",
+    "whatShouldHappen": [
+      "The simplest (though not most secure) way to polyfill JSON.parse is using `eval()`.",
+      "Wrap the JSON string in parentheses to make it an expression: `eval('(' + jsonStr + ')')`.",
+      "Return the result of the evaluation.",
+      "In a more advanced implementation, you would use a recursive descent parser to avoid `eval`."
+    ],
+    "starterCode": "function myJSONParse(jsonStr) {\n  // your code here\n}",
+    "skeletonHint": "function myJSONParse(jsonStr) {\n  // Using eval is the classic 'cheat' for a simple polyfill\n  return eval('(' + jsonStr + ')');\n}",
+    "solution": "function myJSONParse(jsonStr) {\n  // Using the Function constructor is slightly cleaner than eval\n  return (new Function('return ' + jsonStr))();\n}",
+    "traceTable": {
+      "inputLabel": "myJSONParse('{\"a\":1}')",
+      "columns": ["Input", "Action", "Result"],
+      "rows": [
+        { "Input": "'{\"a\":1}'", "Action": "Evaluate as JS", "Result": "{a: 1}" }
+      ]
+    },
+    "tests": [
+      {
+        "input": ["{\"a\":1,\"b\":\"test\"}"],
+        "expected": { "a": 1, "b": "test" },
+        "label": "Parse object"
+      },
+      {
+        "input": ["[1,2,3]"],
+        "expected": [1, 2, 3],
+        "label": "Parse array"
+      }
+    ],
+    "patternTag": "Serialization",
+    "patternExplanation": "JSON.parse converts a string representation back into live JavaScript objects. Using the Function constructor or eval leverages the JS engine's own parser.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "js-p23-pipe-compose",
+    "title": "Polyfill: Pipe and Compose",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "pipe",
+    "description": "Implement `pipe` and `compose` utility functions. `pipe` takes multiple functions and returns a new function that passes its input through the functions from left to right. `compose` does the same but from right to left.",
+    "whatShouldHappen": [
+      "Both functions take a variable number of functions as arguments.",
+      "Return a new function that takes an initial value.",
+      "In `pipe`, use `reduce` to apply functions in the order they were provided.",
+      "In `compose`, use `reduceRight` to apply functions in reverse order.",
+      "The output of one function becomes the input of the next."
+    ],
+    "starterCode": "function pipe(...fns) {\n  // your code here\n}\n\nfunction compose(...fns) {\n  // your code here\n}",
+    "skeletonHint": "function pipe(...fns) {\n  return (x) => fns.reduce((v, f) => f(v), x);\n}\n\nfunction compose(...fns) {\n  return (x) => fns.reduceRight((v, f) => f(v), x);\n}",
+    "solution": "function pipe(...fns) {\n  return function(initialValue) {\n    return fns.reduce((acc, fn) => fn(acc), initialValue);\n  };\n}\n\nfunction compose(...fns) {\n  return function(initialValue) {\n    return fns.reduceRight((acc, fn) => fn(acc), initialValue);\n  };\n}",
+    "traceTable": {
+      "inputLabel": "pipe(add1, double)(2)",
+      "columns": ["Step", "Function", "Input", "Output"],
+      "rows": [
+        { "Step": "1", "Function": "add1", "Input": "2", "Output": "3" },
+        { "Step": "2", "Function": "double", "Input": "3", "Output": "6" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [],
+        "expected": 6,
+        "label": "Pipe functions",
+        "testRunnerWrapper": "function runner(pipe) {\n  const add1 = x => x + 1;\n  const double = x => x * 2;\n  return pipe(add1, double)(2);\n}"
+      },
+      {
+        "input": [],
+        "expected": 5,
+        "label": "Compose functions",
+        "testRunnerWrapper": "function runner(_, compose) {\n  const add1 = x => x + 1;\n  const double = x => x * 2;\n  return compose(add1, double)(2);\n}"
+      }
+    ],
+    "patternTag": "Functional Programming",
+    "patternExplanation": "Pipe and Compose are fundamental in functional programming for building complex logic by chaining simple, pure functions.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "js-p24-array-reduceright",
+    "title": "Polyfill: Array.reduceRight",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myReduceRight",
+    "description": "Implement `Array.prototype.reduceRight`. It works exactly like `reduce`, but iterates through the array from right to left (from the last element to the first).",
+    "whatShouldHappen": [
+      "Add `myReduceRight` to `Array.prototype` (or implement as a standalone function).",
+      "Initialize the accumulator with `initialValue` if provided.",
+      "If no `initialValue` is provided, use the last element as the starting accumulator and begin iteration from the second-to-last element.",
+      "Iterate backwards through the array.",
+      "Call the callback for each element: `callback(accumulator, currentValue, index, array)`.",
+      "Update the accumulator with the return value of the callback.",
+      "Handle empty arrays (throw TypeError if no initial value)."
+    ],
+    "starterCode": "Array.prototype.myReduceRight = function(callback, initialValue) {\n  // your code here\n};",
+    "skeletonHint": "Array.prototype.myReduceRight = function(callback, initialValue) {\n  let accumulator = initialValue;\n  let i = this.length - 1;\n\n  if (initialValue === undefined) {\n    if (this.length === 0) throw new TypeError('Reduce of empty array with no initial value');\n    accumulator = this[i];\n    i--;\n  }\n\n  for (; i >= 0; i--) {\n    accumulator = callback(accumulator, this[i], i, this);\n  }\n\n  return accumulator;\n};",
+    "solution": "Array.prototype.myReduceRight = function(callback, initialValue) {\n  if (this.length === 0 && initialValue === undefined) {\n    throw new TypeError('Reduce of empty array with no initial value');\n  }\n\n  let i = this.length - 1;\n  let accumulator = initialValue;\n\n  if (initialValue === undefined) {\n    accumulator = this[i];\n    i--;\n  }\n\n  while (i >= 0) {\n    if (i in this) {\n      accumulator = callback(accumulator, this[i], i, this);\n    }\n    i--;\n  }\n\n  return accumulator;\n};",
+    "traceTable": {
+      "inputLabel": "[1, 2, 3].reduceRight((a, b) => a - b)",
+      "columns": ["Index", "Current Value", "Accumulator"],
+      "rows": [
+        { "Index": "Start", "Current Value": "-", "Accumulator": "3" },
+        { "Index": "1", "Current Value": "2", "Accumulator": "3 - 2 = 1" },
+        { "Index": "0", "Current Value": "1", "Accumulator": "1 - 1 = 0" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [[1, 2, 3, 4]],
+        "expected": "4321",
+        "label": "String concatenation right-to-left",
+        "testRunnerWrapper": "function runner(arr) {\n  return arr.myReduceRight((acc, curr) => acc + curr, \"\");\n}"
+      },
+      {
+        "input": [[10, 20, 30]],
+        "expected": 0,
+        "label": "Subtract from right",
+        "testRunnerWrapper": "function runner(arr) {\n  return arr.myReduceRight((acc, curr) => acc - curr);\n}"
+      }
+    ],
+    "patternTag": "Array Iteration",
+    "patternExplanation": "reduceRight is useful when the order of operations matters, such as function composition or when processing data that is naturally ordered from end to beginning.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "js-p25-array-find",
+    "title": "Polyfill: Array.find",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myFind",
+    "description": "Implement `Array.prototype.find`. This method returns the value of the first element in the array that satisfies the provided testing function. If no elements satisfy the testing function, `undefined` is returned.",
+    "whatShouldHappen": [
+      "Add `myFind` to `Array.prototype` (or implement as a standalone function).",
+      "Iterate through the array elements.",
+      "Call the callback for each element: `callback(element, index, array)`.",
+      "If the callback returns a truthy value, immediately return that element.",
+      "If the loop finishes without finding a match, return `undefined`.",
+      "Ensure the callback is called with the correct `thisArg` if provided."
+    ],
+    "starterCode": "Array.prototype.myFind = function(callback, thisArg) {\n  // your code here\n};",
+    "skeletonHint": "Array.prototype.myFind = function(callback, thisArg) {\n  for (let i = 0; i < this.length; i++) {\n    if (callback.call(thisArg, this[i], i, this)) {\n      return this[i];\n    }\n  }\n  return undefined;\n};",
+    "solution": "Array.prototype.myFind = function(callback, thisArg) {\n  if (this == null) {\n    throw new TypeError('Array.prototype.myFind called on null or undefined');\n  }\n  if (typeof callback !== 'function') {\n    throw new TypeError('callback must be a function');\n  }\n\n  const O = Object(this);\n  const len = O.length >>> 0;\n\n  for (let i = 0; i < len; i++) {\n    if (i in O) {\n      const element = O[i];\n      if (callback.call(thisArg, element, i, O)) {\n        return element;\n      }\n    }\n  }\n\n  return undefined;\n};",
+    "traceTable": {
+      "inputLabel": "[5, 12, 8].find(x => x > 10)",
+      "columns": ["Index", "Element", "Condition", "Action"],
+      "rows": [
+        { "Index": "0", "Element": "5", "Condition": "5 > 10 (False)", "Action": "Continue" },
+        { "Index": "1", "Element": "12", "Condition": "12 > 10 (True)", "Action": "Return 12" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [[5, 12, 8, 130, 44]],
+        "expected": 12,
+        "label": "Find first number > 10",
+        "testRunnerWrapper": "function runner(arr) {\n  return arr.myFind(element => element > 10);\n}"
+      },
+      {
+        "input": [[5, 8, 4]],
+        "expected": "undefined",
+        "label": "No element matches",
+        "testRunnerWrapper": "function runner(arr) {\n  const res = arr.myFind(element => element > 10);\n  return res === undefined ? 'undefined' : res;\n}"
+      }
+    ],
+    "patternTag": "Array Iteration",
+    "patternExplanation": "Array.find is an efficient way to search for an item when you only need the first match, as it stops iterating as soon as the predicate is satisfied.",
+    "estimatedMinutes": 10,
+    "status": "published"
+  },
+  {
+    "id": "js-p26-array-findindex",
+    "title": "Polyfill: Array.findIndex",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myFindIndex",
+    "description": "Implement `Array.prototype.findIndex`. This method returns the index of the first element in the array that satisfies the provided testing function. If no elements satisfy the testing function, it returns -1.",
+    "whatShouldHappen": [
+      "Add `myFindIndex` to `Array.prototype` (or implement as a standalone function).",
+      "Iterate through the array elements using a loop.",
+      "Call the callback for each element: `callback(element, index, array)`.",
+      "If the callback returns a truthy value, immediately return the current index.",
+      "If the loop finishes without finding a match, return -1.",
+      "Ensure the callback is called with the correct `thisArg` if provided."
+    ],
+    "starterCode": "Array.prototype.myFindIndex = function(callback, thisArg) {\n  // your code here\n};",
+    "skeletonHint": "Array.prototype.myFindIndex = function(callback, thisArg) {\n  for (let i = 0; i < this.length; i++) {\n    if (callback.call(thisArg, this[i], i, this)) {\n      return ____;\n    }\n  }\n  return ____;\n};",
+    "solution": "Array.prototype.myFindIndex = function(callback, thisArg) {\n  if (this == null) {\n    throw new TypeError('Array.prototype.myFindIndex called on null or undefined');\n  }\n  if (typeof callback !== 'function') {\n    throw new TypeError('callback must be a function');\n  }\n\n  const O = Object(this);\n  const len = O.length >>> 0;\n\n  for (let i = 0; i < len; i++) {\n    if (i in O) {\n      if (callback.call(thisArg, O[i], i, O)) {\n        return i;\n      }\n    }\n  }\n\n  return -1;\n};",
+    "traceTable": {
+      "inputLabel": "[5, 12, 8].findIndex(x => x > 10)",
+      "columns": ["Index", "Element", "Condition", "Action"],
+      "rows": [
+        { "Index": "0", "Element": "5", "Condition": "5 > 10 (False)", "Action": "Continue" },
+        { "Index": "1", "Element": "12", "Condition": "12 > 10 (True)", "Action": "Return 1" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [[5, 12, 8, 130, 44]],
+        "expected": 1,
+        "label": "Find index of first number > 10",
+        "testRunnerWrapper": "function runner(arr) {\n  return arr.myFindIndex(element => element > 10);\n}"
+      },
+      {
+        "input": [[5, 8, 4]],
+        "expected": -1,
+        "label": "No element matches",
+        "testRunnerWrapper": "function runner(arr) {\n  return arr.myFindIndex(element => element > 10);\n}"
+      }
+    ],
+    "patternTag": "Array Iteration",
+    "patternExplanation": "Array.findIndex is a variation of the search pattern that returns the position rather than the value, which is useful for operations like splicing or identifying specific records.",
+    "estimatedMinutes": 10,
+    "status": "published"
+  },
+  {
+    "id": "js-p27-string-repeat",
+    "title": "Polyfill: String.repeat",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myRepeat",
+    "description": "Implement `String.prototype.repeat`. This method constructs and returns a new string which contains the specified number of copies of the string on which it was called, concatenated together.",
+    "whatShouldHappen": [
+      "Check if `count` is negative or Infinity. If so, throw a RangeError.",
+      "Convert `count` to an integer.",
+      "If the resulting string would exceed the maximum string length, throw a RangeError.",
+      "Create an empty result string.",
+      "Concatenate the original string to the result `count` times.",
+      "Return the result string."
+    ],
+    "starterCode": "String.prototype.myRepeat = function(count) {\n  // your code here\n};",
+    "skeletonHint": "String.prototype.myRepeat = function(count) {\n  if (count < 0) throw new RangeError('Repeat count must be non-negative');\n  let str = String(this);\n  let result = '';\n  for (let i = 0; i < count; i++) {\n    result += ____;\n  }\n  return result;\n};",
+    "solution": "String.prototype.myRepeat = function(count) {\n  if (this == null) {\n    throw new TypeError('String.prototype.myRepeat called on null or undefined');\n  }\n  \n  let str = String(this);\n  count = Number(count);\n  \n  if (count < 0) {\n    throw new RangeError('repeat count must be non-negative');\n  }\n  if (count === Infinity) {\n    throw new RangeError('repeat count must be less than infinity');\n  }\n  \n  count = Math.floor(count);\n  if (str.length === 0 || count === 0) {\n    return '';\n  }\n\n  // Efficient implementation using doubling\n  let result = '';\n  while (count > 0) {\n    if (count % 2 === 1) result += str;\n    if (count > 1) str += str;\n    count = Math.floor(count / 2);\n  }\n  return result;\n};",
+    "traceTable": {
+      "inputLabel": "'abc'.repeat(3)",
+      "columns": ["Count", "Result (Current)", "Str (Doubling)"],
+      "rows": [
+        { "Count": "3", "Result (Current)": "'abc'", "Str (Doubling)": "'abcabc'" },
+        { "Count": "1", "Result (Current)": "'abcabcabc'", "Str (Doubling)": "'abcabcabcabc'" }
+      ]
+    },
+    "tests": [
+      {
+        "input": ["abc", 3],
+        "expected": "abcabcabc",
+        "label": "Repeat 3 times",
+        "testRunnerWrapper": "function runner(s, count) {\n  return s.myRepeat(count);\n}"
+      },
+      {
+        "input": ["*", 5],
+        "expected": "*****",
+        "label": "Repeat character 5 times",
+        "testRunnerWrapper": "function runner(s, count) {\n  return s.myRepeat(count);\n}"
+      }
+    ],
+    "patternTag": "String Manipulation",
+    "patternExplanation": "String.repeat demonstrates how to efficiently build strings. While simple concatenation works, the doubling (binary exponential) approach is much faster for large counts.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "js-p28-string-startswith",
+    "title": "Polyfill: String.startsWith",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myStartsWith",
+    "description": "Implement `String.prototype.startsWith`. This method determines whether a string begins with the characters of a specified string, returning `true` or `false` as appropriate.",
+    "whatShouldHappen": [
+      "Accept a `searchString` and an optional `position` (defaults to 0).",
+      "Check if the `searchString` exists at the start of the original string beginning at `position`.",
+      "The `position` should be clamped between 0 and the string length.",
+      "Use `substring` or a loop to compare the characters.",
+      "Return `true` if the characters match, otherwise `false`."
+    ],
+    "starterCode": "String.prototype.myStartsWith = function(searchString, position = 0) {\n  // your code here\n};",
+    "skeletonHint": "String.prototype.myStartsWith = function(searchString, position = 0) {\n  const pos = Math.max(0, position);\n  return this.substring(pos, pos + searchString.length) === ____;\n};",
+    "solution": "String.prototype.myStartsWith = function(searchString, position = 0) {\n  if (this == null) {\n    throw new TypeError('String.prototype.myStartsWith called on null or undefined');\n  }\n  \n  const str = String(this);\n  const search = String(searchString);\n  const pos = position > 0 ? position : 0;\n  \n  return str.substring(pos, pos + search.length) === search;\n};",
+    "traceTable": {
+      "inputLabel": "'Hello world'.startsWith('world', 6)",
+      "columns": ["Pos", "Search Length", "Substring", "Match?"],
+      "rows": [
+        { "Pos": "6", "Search Length": "5", "Substring": "'world'", "Match?": "True" }
+      ]
+    },
+    "tests": [
+      {
+        "input": ["Hello world", "Hello"],
+        "expected": true,
+        "label": "Starts with 'Hello'"
+      },
+      {
+        "input": ["Hello world", "world", 6],
+        "expected": true,
+        "label": "Starts with 'world' at index 6"
+      },
+      {
+        "input": ["Hello world", "hello"],
+        "expected": false,
+        "label": "Case sensitivity check"
+      }
+    ],
+    "patternTag": "String Comparison",
+    "patternExplanation": "String.startsWith is a common utility for prefix matching. It illustrates basic string slicing and comparison logic.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-p29-number-isnan",
+    "title": "Polyfill: Number.isNaN",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myIsNaN",
+    "description": "Implement `Number.isNaN`. This method determines whether the passed value is `NaN` and its type is `Number`. It is more robust than the global `isNaN()` because it does not return true for non-numeric values that are not `NaN`.",
+    "whatShouldHappen": [
+      "Check if the value is of type 'number'.",
+      "Check if the value is actually `NaN`.",
+      "The most reliable way to check for `NaN` is to use the fact that `NaN` is the only value in JavaScript that is not equal to itself (`x !== x`).",
+      "Return `true` only if both conditions are met."
+    ],
+    "starterCode": "function myIsNaN(value) {\n  // your code here\n}",
+    "skeletonHint": "function myIsNaN(value) {\n  return typeof value === 'number' && ____ !== ____;\n}",
+    "solution": "function myIsNaN(value) {\n  // The key difference: Number.isNaN doesn't coerce input to Number\n  return typeof value === 'number' && value !== value;\n}",
+    "traceTable": {
+      "inputLabel": "myIsNaN('abc')",
+      "columns": ["Value", "Type", "Self-Equality", "Result"],
+      "rows": [
+        { "Value": "'abc'", "Type": "string", "Self-Equality": "True", "Result": "False" }
+      ]
+    },
+    "tests": [
+      {
+        "input": ["NaN"],
+        "expected": true,
+        "label": "Correctly identifies NaN",
+        "isEval": true
+      },
+      {
+        "input": ["'NaN'"],
+        "expected": false,
+        "label": "Correctly identifies string 'NaN' as false",
+        "isEval": true
+      },
+      {
+        "input": ["undefined"],
+        "expected": false,
+        "label": "Correctly identifies undefined as false",
+        "isEval": true
+      },
+      {
+        "input": [123],
+        "expected": false,
+        "label": "Correctly identifies a number as false"
+      }
+    ],
+    "patternTag": "Type Checking",
+    "patternExplanation": "Number.isNaN demonstrates a critical lesson in JS type safety: avoiding implicit coercion. It uses the unique property of NaN (non-reflexivity) to perform an accurate check.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-p30-fetch-timeout",
+    "title": "Custom Fetch with Timeout",
+    "type": "coding",
+    "category": "polyfills",
+    "difficulty": "Hard",
+    "collectionId": "js-pro-mastery",
+    "functionName": "fetchWithTimeout",
+    "description": "Implement a `fetchWithTimeout(url, options, timeout)` function. It should behave like the standard `fetch` API, but automatically reject if the request does not complete within the specified `timeout` (in milliseconds).",
+    "whatShouldHappen": [
+      "Initialize an `AbortController` (if supported).",
+      "Set a `setTimeout` that calls `controller.abort()` after the timeout duration.",
+      "Pass the `controller.signal` into the `fetch` options.",
+      "If the fetch completes before the timeout, clear the `setTimeout`.",
+      "If the timeout hits first, the fetch will reject with an 'AbortError'.",
+      "Alternatively, use `Promise.race` between the `fetch` call and a timer promise that rejects."
+    ],
+    "starterCode": "function fetchWithTimeout(url, options = {}, timeout = 5000) {\n  // your code here\n}",
+    "skeletonHint": "function fetchWithTimeout(url, options = {}, timeout = 5000) {\n  const controller = new AbortController();\n  const timer = setTimeout(() => ____(), timeout);\n\n  return fetch(url, { ...options, signal: controller.signal })\n    .then(res => {\n      clearTimeout(____);\n      return res;\n    });\n}",
+    "solution": "function fetchWithTimeout(url, options = {}, timeout = 5000) {\n  const controller = new AbortController();\n  const { signal } = controller;\n\n  const timer = setTimeout(() => {\n    controller.abort();\n  }, timeout);\n\n  return fetch(url, { ...options, signal })\n    .then(response => {\n      clearTimeout(timer);\n      return response;\n    })\n    .catch(error => {\n      clearTimeout(timer);\n      if (error.name === 'AbortError') {\n        throw new Error('Request timed out');\n      }\n      throw error;\n    });\n}",
+    "traceTable": {
+      "inputLabel": "fetchWithTimeout(url, {}, 100)",
+      "columns": ["Timer Status", "Fetch Status", "Result"],
+      "rows": [
+        { "Timer Status": "Hits 100ms", "Fetch Status": "Pending", "Result": "Rejects (AbortError)" },
+        { "Timer Status": "Cleared", "Fetch Status": "Done (50ms)", "Result": "Resolves (Response)" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [],
+        "expected": "Success",
+        "label": "Fetch completes within timeout",
+        "testRunnerWrapper": "async function runner(fn) {\n  // Mock fetch\n  const originalFetch = globalThis.fetch;\n  globalThis.fetch = () => new Promise(res => setTimeout(() => res('Success'), 10));\n  try {\n    const res = await fn('http://example.com', {}, 100);\n    return res;\n  } finally {\n    globalThis.fetch = originalFetch;\n  }\n}"
+      },
+      {
+        "input": [],
+        "expected": "Request timed out",
+        "label": "Fetch times out",
+        "testRunnerWrapper": "async function runner(fn) {\n  // Mock fetch\n  const originalFetch = globalThis.fetch;\n  globalThis.fetch = (url, { signal }) => new Promise((res, rej) => {\n    const t = setTimeout(() => res('Success'), 100);\n    signal.addEventListener('abort', () => {\n      clearTimeout(t);\n      const err = new Error();\n      err.name = 'AbortError';\n      rej(err);\n    });\n  });\n  try {\n    await fn('http://example.com', {}, 10);\n    return 'Success';\n  } catch (e) {\n    return e.message;\n  } finally {\n    globalThis.fetch = originalFetch;\n  }\n}"
+      }
+    ],
+    "patternTag": "Asynchronous Patterns",
+    "patternExplanation": "Fetch with timeout is a practical application of the AbortController API and Promise management, essential for building resilient web applications.",
+    "estimatedMinutes": 20,
+    "status": "published"
+  }
+]

@@ -1,0 +1,255 @@
+[
+  {
+    "id": "reverse-bits",
+    "title": "Reverse Bits",
+    "type": "coding",
+    "category": "binary",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "reverseBits",
+    "description": "Reverse bits of a given 32 bits unsigned integer.\n\nNote that in some languages, such as Java, there is no unsigned integer type. In this case, both input and output will be given as a signed integer type. They should not affect your implementation, as the integer's internal binary representation is the same, whether it is signed or unsigned.",
+    "whatShouldHappen": [
+      "Iterate through all 32 bits of the input integer",
+      "Extract the rightmost bit of the input and append it to the result",
+      "Shift the result to the left and the input to the right in each iteration"
+    ],
+    "starterCode": "/**\n * @param {number} n - a positive integer\n * @return {number} - a positive integer\n */\nfunction reverseBits(n) {\n  // Your code here\n}",
+    "solution": "function reverseBits(n) {\n  let result = 0;\n  for (let i = 0; i < 32; i++) {\n    // Shift result left to make room for the next bit\n    result = (result << 1) | (n & 1);\n    // Shift n right to process the next bit\n    n = n >>> 1;\n  }\n  // Use unsigned right shift by 0 to convert to unsigned 32-bit integer\n  return result >>> 0;\n}",
+    "traceTable": {
+      "inputLabel": "n = 43261596 (000000101...)",
+      "columns": ["i", "n & 1", "new result", "new n"],
+      "rows": [
+        { "i": "0", "n & 1": "0", "new result": "0", "new n": "21630798" },
+        { "i": "1", "n & 1": "0", "new result": "0", "new n": "10815399" },
+        { "i": "2", "n & 1": "1", "new result": "1", "new n": "5407699" }
+      ]
+    },
+    "skeletonHint": "Use a loop that runs 32 times. In each iteration, take the last bit of `n` using `n & 1`, add it to your result, then shift `n` to the right and your result to the left. Be careful with signed/unsigned shifts in JavaScript (`>>>` is your friend).",
+    "tests": [
+      { "input": [43261596], "expected": 964176192 },
+      { "input": [1], "expected": 2147483648 },
+      { "input": [4294967295], "expected": 4294967295 }
+    ],
+    "patternTag": "Bit Manipulation",
+    "patternExplanation": "The problem requires manipulating individual bits of an integer. Shifting and bitwise OR/AND operations are the primary tools for this.",
+    "estimatedMinutes": 10
+  },
+  {
+    "id": "number-of-1-bits",
+    "title": "Number of 1 Bits",
+    "type": "coding",
+    "category": "binary",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "hammingWeight",
+    "description": "Write a function that takes the binary representation of an unsigned integer and returns the number of '1' bits it has (also known as the Hamming weight).",
+    "whatShouldHappen": [
+      "Count the number of set bits (1s) in the integer",
+      "Process the integer bit by bit or use a bit manipulation trick",
+      "Return the total count of 1s"
+    ],
+    "starterCode": "/**\n * @param {number} n - a positive integer\n * @return {number}\n */\nfunction hammingWeight(n) {\n  // Your code here\n}",
+    "solution": "function hammingWeight(n) {\n  let count = 0;\n  while (n !== 0) {\n    // Brian Kernighan's Algorithm: n & (n - 1) drops the lowest set bit\n    n = n & (n - 1);\n    count++;\n  }\n  return count;\n}",
+    "traceTable": {
+      "inputLabel": "n = 11 (1011 in binary)",
+      "columns": ["Iteration", "n (binary)", "n - 1 (binary)", "n & (n - 1)", "count"],
+      "rows": [
+        { "Iteration": "1", "n (binary)": "1011", "n - 1 (binary)": "1010", "n & (n - 1)": "1010", "count": "1" },
+        { "Iteration": "2", "n (binary)": "1010", "n - 1 (binary)": "1001", "n & (n - 1)": "1000", "count": "2" },
+        { "Iteration": "3", "n (binary)": "1000", "n - 1 (binary)": "0111", "n & (n - 1)": "0000", "count": "3" }
+      ]
+    },
+    "skeletonHint": "You can either check each of the 32 bits by shifting and masking, or use a clever trick: `n & (n - 1)` always removes the rightmost set bit. How many times can you do that until `n` becomes 0?",
+    "tests": [
+      { "input": [11], "expected": 3 },
+      { "input": [128], "expected": 1 },
+      { "input": [4294967293], "expected": 31 }
+    ],
+    "patternTag": "Bit Manipulation",
+    "patternExplanation": "Efficiently counting bits involves bitwise operations. Brian Kernighan's algorithm is a classic way to count set bits by repeatedly stripping the lowest bit.",
+    "estimatedMinutes": 5
+  },
+  {
+    "id": "sum-of-two-integers",
+    "title": "Sum of Two Integers",
+    "type": "coding",
+    "category": "binary",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "getSum",
+    "description": "Given two integers `a` and `b`, return *the sum of the two integers without using the operators* `+` and `-`.",
+    "whatShouldHappen": [
+      "Calculate sum using bitwise XOR for addition",
+      "Use bitwise AND and shift left for carry logic",
+      "Iterate until there is no carry left"
+    ],
+    "starterCode": "/**\n * @param {number} a\n * @param {number} b\n * @return {number}\n */\nfunction getSum(a, b) {\n  // Your code here\n}",
+    "solution": "function getSum(a, b) {\n  while (b !== 0) {\n    const carry = (a & b) << 1;\n    a = a ^ b;\n    b = carry;\n  }\n  return a;\n}",
+    "traceTable": {
+      "inputLabel": "a = 1, b = 2",
+      "columns": [
+        "a (bin)",
+        "b (bin)",
+        "a & b (carry)",
+        "a ^ b (sum)"
+      ],
+      "rows": [
+        {
+          "a (bin)": "01",
+          "b (bin)": "10",
+          "a & b (carry)": "00",
+          "a ^ b (sum)": "11"
+        },
+        {
+          "a (bin)": "11",
+          "b (bin)": "00",
+          "a & b (carry)": "-",
+          "a ^ b (sum)": "3"
+        }
+      ]
+    },
+    "skeletonHint": "Addition can be broken into two parts: the sum without carry and the carry itself. XOR (`^`) gives the sum without carry, and AND (`&`) shifted left (`<< 1`) gives the carry. Repeat the process until the carry is 0.",
+    "tests": [
+      {
+        "input": [
+          1,
+          2
+        ],
+        "expected": 3
+      },
+      {
+        "input": [
+          2,
+          3
+        ],
+        "expected": 5
+      },
+      {
+        "input": [
+          -1,
+          1
+        ],
+        "expected": 0
+      }
+    ],
+    "patternTag": "Bit Manipulation",
+    "patternExplanation": "The problem specifically forbids standard arithmetic operators, requiring bitwise logic to simulate a half-adder or full-adder circuit.",
+    "estimatedMinutes": 15
+  },
+  {
+    "id": "counting-bits",
+    "title": "Counting Bits",
+    "type": "coding",
+    "category": "binary",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "countBits",
+    "description": "Given an integer `n`, return *an array* `ans` *of length* `n + 1` *such that for each* `i` (`0 <= i <= n`), `ans[i]` *is the **number of 1's** in the binary representation of* `i`.",
+    "whatShouldHappen": [
+      "Generate an array of size n + 1",
+      "Count set bits for every number from 0 to n",
+      "Optimize using dynamic programming based on previous bit counts"
+    ],
+    "starterCode": "/**\n * @param {number} n\n * @return {number[]}\n */\nfunction countBits(n) {\n  // Your code here\n}",
+    "solution": "function countBits(n) {\n  const ans = new Array(n + 1).fill(0);\n  for (let i = 1; i <= n; i++) {\n    ans[i] = ans[i >> 1] + (i & 1);\n  }\n  return ans;\n}",
+    "traceTable": {
+      "inputLabel": "n = 5",
+      "columns": [
+        "i",
+        "i >> 1",
+        "ans[i >> 1]",
+        "i & 1",
+        "ans[i]"
+      ],
+      "rows": [
+        {
+          "i": "2",
+          "i >> 1": "1",
+          "ans[i >> 1]": "1",
+          "i & 1": "0",
+          "ans[i]": "1"
+        },
+        {
+          "i": "3",
+          "i >> 1": "1",
+          "ans[i >> 1]": "1",
+          "i & 1": "1",
+          "ans[i]": "2"
+        }
+      ]
+    },
+    "skeletonHint": "While you could solve this by calling a 'popcount' function for each number, there's a DP relationship. The number of bits in `i` is the same as the number of bits in `i / 2` (shifted right) plus 1 if `i` is odd.",
+    "tests": [
+      {
+        "input": [
+          2
+        ],
+        "expected": [
+          0,
+          1,
+          1
+        ]
+      },
+      {
+        "input": [
+          5
+        ],
+        "expected": [
+          0,
+          1,
+          1,
+          2,
+          1,
+          2
+        ]
+      },
+      {
+        "input": [
+          0
+        ],
+        "expected": [
+          0
+        ]
+      }
+    ],
+    "patternTag": "Bit Manipulation",
+    "patternExplanation": "This problem combines bit manipulation with dynamic programming. The count of bits for a number can be derived from the count of bits for a smaller number.",
+    "estimatedMinutes": 15
+  },
+  {
+    "id": "missing-number",
+    "title": "Missing Number",
+    "type": "coding",
+    "category": "binary",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "missingNumber",
+    "description": "Given an array `nums` containing `n` distinct numbers in the range `[0, n]`, return *the only number in the range that is missing from the array*.",
+    "whatShouldHappen": [
+      "Compute the XOR sum of all numbers from 0 to n",
+      "Compute the XOR sum of all numbers in the input array",
+      "XOR the two results to find the missing number"
+    ],
+    "starterCode": "/**\n * @param {number[]} nums\n * @return {number}\n */\nfunction missingNumber(nums) {\n  // Your code here\n}",
+    "solution": "function missingNumber(nums) {\n  let res = nums.length;\n  for (let i = 0; i < nums.length; i++) {\n    res ^= i ^ nums[i];\n  }\n  return res;\n}",
+    "traceTable": {
+      "inputLabel": "nums = [3,0,1]",
+      "columns": ["i", "nums[i]", "res (XOR sequence)"],
+      "rows": [
+        { "i": "Initial", "nums[i]": "-", "res (XOR sequence)": "3 (n)" },
+        { "i": "0", "nums[i]": "3", "res (XOR sequence)": "3 ^ 0 ^ 3 = 0" },
+        { "i": "1", "nums[i]": "0", "res (XOR sequence)": "0 ^ 1 ^ 0 = 1" },
+        { "i": "2", "nums[i]": "1", "res (XOR sequence)": "1 ^ 2 ^ 1 = 2" }
+      ]
+    },
+    "skeletonHint": "You can use the formula for the sum of the first n numbers (n*(n+1)/2) and subtract the sum of the array, or use bitwise XOR. XORing a number with itself cancels it out, so XORing all expected and actual numbers will leave only the missing one.",
+    "tests": [
+      { "input": [[3, 0, 1]], "expected": 2 },
+      { "input": [[0, 1]], "expected": 2 },
+      { "input": [[9, 6, 4, 2, 3, 5, 7, 0, 1]], "expected": 8 }
+    ],
+    "patternTag": "Bit Manipulation",
+    "patternExplanation": "XOR is ideal here because it's commutative and associative, and x ^ x = 0. By XORing every index and every value, all pairs cancel out except for the missing number.",
+    "estimatedMinutes": 10
+  }
+]

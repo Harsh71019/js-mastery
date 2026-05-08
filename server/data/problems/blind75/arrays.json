@@ -1,0 +1,480 @@
+[
+  {
+    "id": "two-sum",
+    "title": "Two Sum",
+    "type": "coding",
+    "category": "arrays",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "twoSum",
+    "description": "Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\n\nYou can return the answer in any order.",
+    "whatShouldHappen": [
+      "Find two numbers that add up to the target",
+      "Return their indices as an array"
+    ],
+    "starterCode": "function twoSum(nums, target) {\n  // Your code here\n}",
+    "solution": "function twoSum(nums, target) {\n  const map = new Map();\n  for (let i = 0; i < nums.length; i++) {\n    const complement = target - nums[i];\n    if (map.has(complement)) {\n      return [map.get(complement), i];\n    }\n    map.set(nums[i], i);\n  }\n  return [];\n}",
+    "traceTable": {
+      "inputLabel": "nums = [2, 7, 11, 15], target = 9",
+      "columns": ["i", "nums[i]", "complement", "map"],
+      "rows": [
+        { "i": 0, "nums[i]": 2, "complement": 7, "map": "{}" },
+        { "i": 1, "nums[i]": 7, "complement": 2, "map": "{2: 0}" }
+      ]
+    },
+    "skeletonHint": "Use a Map to store the numbers you have seen so far and their indices. For each number, calculate its complement (target - num) and check if it exists in the Map.",
+    "tests": [
+      { "input": [[2, 7, 11, 15], 9], "expected": [0, 1] },
+      { "input": [[3, 2, 4], 6], "expected": [1, 2] },
+      { "input": [[3, 3], 6], "expected": [0, 1] }
+    ],
+    "patternTag": "Hash Map",
+    "patternExplanation": "By using a Hash Map, we can trade space for time, reducing the lookup time for the complement from O(n) to O(1).",
+    "estimatedMinutes": 15
+  },
+  {
+    "id": "contains-duplicate",
+    "title": "Contains Duplicate",
+    "type": "coding",
+    "category": "arrays",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "containsDuplicate",
+    "description": "Given an integer array `nums`, return `true` if any value appears at least twice in the array, and return `false` if every element is distinct.",
+    "whatShouldHappen": [
+      "Check if any element is repeated",
+      "Return true if duplicates exist, false otherwise"
+    ],
+    "starterCode": "function containsDuplicate(nums) {\n  // Your code here\n}",
+    "solution": "function containsDuplicate(nums) {\n  const set = new Set();\n  for (const num of nums) {\n    if (set.has(num)) return true;\n    set.add(num);\n  }\n  return false;\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 2, 3, 1]",
+      "columns": ["num", "set", "result"],
+      "rows": [
+        { "num": 1, "set": "{}", "result": "continue" },
+        { "num": 2, "set": "{1}", "result": "continue" },
+        { "num": 3, "set": "{1, 2}", "result": "continue" },
+        { "num": 1, "set": "{1, 2, 3}", "result": "true" }
+      ]
+    },
+    "skeletonHint": "Use a Set to keep track of unique elements. If you encounter an element already in the Set, a duplicate is found.",
+    "tests": [
+      { "input": [[1, 2, 3, 1]], "expected": true },
+      { "input": [[1, 2, 3, 4]], "expected": false },
+      { "input": [[1, 1, 1, 3, 3, 4, 3, 2, 4, 2]], "expected": true }
+    ],
+    "patternTag": "Hash Set",
+    "patternExplanation": "A Hash Set allows for O(1) average time complexity for both insertions and lookups, making it efficient for detecting duplicates.",
+    "estimatedMinutes": 10
+  },
+  {
+    "id": "container-with-most-water",
+    "title": "Container With Most Water",
+    "type": "coding",
+    "category": "arrays",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "maxArea",
+    "description": "You are given an integer array `height` of length `n`. There are `n` vertical lines drawn such that the two endpoints of the `i-th` line are `(i, 0)` and `(i, height[i])`.\n\nFind two lines that together with the x-axis form a container, such that the container contains the most water.\n\nReturn the maximum amount of water a container can store.",
+    "whatShouldHappen": [
+      "Calculate the area between two lines: `min(h1, h2) * distance` ",
+      "Find the pair of lines that yields the maximum area",
+      "Optimize to avoid a nested loop approach"
+    ],
+    "starterCode": "function maxArea(height) {\n  // Your code here\n}",
+    "solution": "function maxArea(height) {\n  let maxWater = 0;\n  let left = 0;\n  let right = height.length - 1;\n\n  while (left < right) {\n    const h = Math.min(height[left], height[right]);\n    const w = right - left;\n    maxWater = Math.max(maxWater, h * w);\n\n    if (height[left] < height[right]) {\n      left++;\n    } else {\n      right--;\n    }\n  }\n\n  return maxWater;\n}",
+    "traceTable": {
+      "inputLabel": "height = [1,8,6,2,5,4,8,3,7]",
+      "columns": ["left", "right", "h[L]", "h[R]", "width", "area", "maxWater"],
+      "rows": [
+        { "left": 0, "right": 8, "h[L]": 1, "h[R]": 7, "width": 8, "area": 8, "maxWater": 8 },
+        { "left": 1, "right": 8, "h[L]": 8, "h[R]": 7, "width": 7, "area": 49, "maxWater": 49 },
+        { "left": 1, "right": 7, "h[L]": 8, "h[R]": 3, "width": 6, "area": 18, "maxWater": 49 }
+      ]
+    },
+    "skeletonHint": "Use two pointers, one at each end of the array. The area is limited by the shorter line. To potentially find a larger area, move the pointer pointing to the shorter line inward.",
+    "tests": [
+      { "input": [[1,8,6,2,5,4,8,3,7]], "expected": 49 },
+      { "input": [[1,1]], "expected": 1 },
+      { "input": [[4,3,2,1,4]], "expected": 16 }
+    ],
+    "patternTag": "Two Pointers",
+    "patternExplanation": "The two-pointer approach allows us to explore potential containers from widest to narrowest, greedily discarding lines that can no longer contribute to a larger area.",
+    "estimatedMinutes": 15
+  },
+  {
+    "id": "three-sum",
+    "title": "3Sum",
+    "type": "coding",
+    "category": "arrays",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "threeSum",
+    "description": "Given an integer array nums, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, and `j != k`, and `nums[i] + nums[j] + nums[k] == 0`.\n\nNotice that the solution set must not contain duplicate triplets.",
+    "whatShouldHappen": [
+      "Sort the array to handle duplicates and use two pointers",
+      "Find all unique triplets that sum to zero",
+      "Skip duplicate elements to ensure unique results"
+    ],
+    "starterCode": "function threeSum(nums) {\n  // Your code here\n}",
+    "solution": "function threeSum(nums) {\n  const results = [];\n  nums.sort((a, b) => a - b);\n\n  for (let i = 0; i < nums.length - 2; i++) {\n    if (i > 0 && nums[i] === nums[i - 1]) continue;\n\n    let left = i + 1;\n    let right = nums.length - 1;\n\n    while (left < right) {\n      const sum = nums[i] + nums[left] + nums[right];\n      if (sum === 0) {\n        results.push([nums[i], nums[left], nums[right]]);\n        while (left < right && nums[left] === nums[left + 1]) left++;\n        while (left < right && nums[right] === nums[right - 1]) right--;\n        left++;\n        right--;\n      } else if (sum < 0) {\n        left++;\n      } else {\n        right--;\n      }\n    }\n  }\n\n  return results;\n}",
+    "traceTable": {
+      "inputLabel": "nums = [-1, 0, 1, 2, -1, -4]",
+      "columns": ["i", "nums[i]", "left", "right", "sum", "results"],
+      "rows": [
+        { "i": 0, "nums[i]": -4, "left": 1, "right": 5, "sum": -3, "results": "[]" },
+        { "i": 1, "nums[i]": -1, "left": 2, "right": 5, "sum": 0, "results": "[[-1, -1, 2]]" },
+        { "i": 1, "nums[i]": -1, "left": 3, "right": 4, "sum": 0, "results": "[[-1, -1, 2], [-1, 0, 1]]" }
+      ]
+    },
+    "skeletonHint": "Sort the input array. Iterate through the array with a fixed element `nums[i]`, and use two pointers (`left` and `right`) to find pairs that sum to `-nums[i]`. Remember to skip duplicate values for `i`, `left`, and `right`.",
+    "tests": [
+      { "input": [[-1, 0, 1, 2, -1, -4]], "expected": [[-1, -1, 2], [-1, 0, 1]] },
+      { "input": [[0, 1, 1]], "expected": [] },
+      { "input": [[0, 0, 0]], "expected": [[0, 0, 0]] }
+    ],
+    "patternTag": "Two Pointers",
+    "patternExplanation": "Sorting combined with the two-pointer approach allows us to efficiently find triplets while avoiding duplicate combinations in O(n²) time.",
+    "estimatedMinutes": 30
+  },
+  {
+    "id": "search-in-rotated-sorted-array",
+    "title": "Search in Rotated Sorted Array",
+    "type": "coding",
+    "category": "arrays",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "search",
+    "description": "There is an integer array `nums` sorted in ascending order (with distinct values).\n\nPrior to being passed to your function, `nums` is **possibly rotated** at an unknown pivot index `k` (`1 <= k < nums.length`) such that the resulting array is `[nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]`.\n\nGiven the array `nums` **after** the possible rotation and an integer `target`, return *the index of target if it is in nums, or -1 if it is not in nums*.\n\nYou must write an algorithm with `O(log n)` runtime complexity.",
+    "whatShouldHappen": [
+      "Determine which half of the array is sorted",
+      "Check if the target lies within the sorted half",
+      "Maintain O(log n) time complexity"
+    ],
+    "starterCode": "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number}\n */\nfunction search(nums, target) {\n  // Your code here\n}",
+    "solution": "function search(nums, target) {\n  let left = 0;\n  let right = nums.length - 1;\n\n  while (left <= right) {\n    const mid = Math.floor((left + right) / 2);\n\n    if (nums[mid] === target) return mid;\n\n    // Check if left half is sorted\n    if (nums[left] <= nums[mid]) {\n      if (target >= nums[left] && target < nums[mid]) {\n        right = mid - 1;\n      } else {\n        left = mid + 1;\n      }\n    } else {\n      // Right half must be sorted\n      if (target > nums[mid] && target <= nums[right]) {\n        left = mid + 1;\n      } else {\n        right = mid - 1;\n      }\n    }\n  }\n\n  return -1;\n}",
+    "traceTable": {
+      "inputLabel": "nums = [4,5,6,7,0,1,2], target = 0",
+      "columns": ["left", "right", "mid", "nums[mid]", "sorted half"],
+      "rows": [
+        { "left": 0, "right": 6, "mid": 3, "nums[mid]": 7, "sorted half": "Left (4-7)" },
+        { "left": 4, "right": 6, "mid": 5, "nums[mid]": 1, "sorted half": "Right (0-2)" }
+      ]
+    },
+    "skeletonHint": "Even if the array is rotated, one half of the array (relative to the midpoint) will always be sorted. Identify which half is sorted, and then check if the target could be in that range.",
+    "tests": [
+      { "input": [[4,5,6,7,0,1,2], 0], "expected": 4 },
+      { "input": [[4,5,6,7,0,1,2], 3], "expected": -1 },
+      { "input": [[1], 0], "expected": -1 }
+    ],
+    "patternTag": "Binary Search",
+    "patternExplanation": "Modified binary search allows us to find the target in O(log n) time by exploiting the fact that at least one half of any subarray is still sorted.",
+    "estimatedMinutes": 25
+  },
+  {
+    "id": "combination-sum",
+    "title": "Combination Sum",
+    "type": "coding",
+    "category": "arrays",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "combinationSum",
+    "description": "Given an array of **distinct** integers `candidates` and a target integer `target`, return a list of all **unique combinations** of `candidates` where the chosen numbers sum to `target`. You may return the combinations in **any order**.\n\nThe **same** number may be chosen from `candidates` an **unlimited number of times**. Two combinations are unique if the frequency of at least one of the chosen numbers is different.\n\nThe test cases are generated such that the number of unique combinations that sum up to `target` is less than `150` combinations for the given input.",
+    "whatShouldHappen": [
+      "Explore all possible combinations using recursion",
+      "Allow the same number to be reused multiple times",
+      "Backtrack when the current sum exceeds the target"
+    ],
+    "starterCode": "function combinationSum(candidates, target) {\n  // Your code here\n}",
+    "solution": "function combinationSum(candidates, target) {\n  const result = [];\n\n  function backtrack(remaining, start, currentCombination) {\n    if (remaining === 0) {\n      result.push([...currentCombination]);\n      return;\n    }\n    if (remaining < 0) {\n      return;\n    }\n\n    for (let i = start; i < candidates.length; i++) {\n      currentCombination.push(candidates[i]);\n      backtrack(remaining - candidates[i], i, currentCombination);\n      currentCombination.pop();\n    }\n  }\n\n  backtrack(target, 0, []);\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "candidates = [2, 3, 6, 7], target = 7",
+      "columns": ["remaining", "start", "combination", "action"],
+      "rows": [
+        { "remaining": 7, "start": 0, "combination": "[]", "action": "Start" },
+        { "remaining": 5, "start": 0, "combination": "[2]", "action": "Add 2" },
+        { "remaining": 3, "start": 0, "combination": "[2, 2]", "action": "Add 2" },
+        { "remaining": 1, "start": 0, "combination": "[2, 2, 2]", "action": "Add 2" },
+        { "remaining": -1, "start": 0, "combination": "[2, 2, 2, 2]", "action": "Over target, Pop" }
+      ]
+    },
+    "skeletonHint": "Use a backtracking function that takes the remaining target, the current starting index in candidates, and the current combination built so far. If remaining is 0, you found a valid combination. If remaining < 0, stop exploring that path.",
+    "tests": [
+      { "input": [[2, 3, 6, 7], 7], "expected": [[2, 2, 3], [7]] },
+      { "input": [[2, 3, 5], 8], "expected": [[2, 2, 2, 2], [2, 3, 3], [3, 5]] },
+      { "input": [[2], 1], "expected": [] }
+    ],
+    "patternTag": "Backtracking",
+    "patternExplanation": "Backtracking is used to systematically explore all combinations by adding a candidate, recursing, and then 'undoing' the choice to try the next candidate.",
+    "estimatedMinutes": 30
+  },
+  {
+    "id": "maximum-subarray",
+    "title": "Maximum Subarray",
+    "type": "coding",
+    "category": "arrays",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "maxSubArray",
+    "description": "Given an integer array `nums`, find the subarray with the largest sum, and return its sum.\n\nA **subarray** is a contiguous non-empty sequence of elements within an array.",
+    "whatShouldHappen": [
+      "Identify the contiguous subarray that yields the highest sum",
+      "Return the sum of this subarray",
+      "Use Kadane's Algorithm for an O(n) solution"
+    ],
+    "starterCode": "function maxSubArray(nums) {\n  // Your code here\n}",
+    "solution": "function maxSubArray(nums) {\n  let maxSoFar = nums[0];\n  let currentMax = nums[0];\n\n  for (let i = 1; i < nums.length; i++) {\n    currentMax = Math.max(nums[i], currentMax + nums[i]);\n    maxSoFar = Math.max(maxSoFar, currentMax);\n  }\n\n  return maxSoFar;\n}",
+    "traceTable": {
+      "inputLabel": "nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]",
+      "columns": ["i", "nums[i]", "currentMax", "maxSoFar"],
+      "rows": [
+        { "i": 0, "nums[i]": -2, "currentMax": -2, "maxSoFar": -2 },
+        { "i": 1, "nums[i]": 1, "currentMax": 1, "maxSoFar": 1 },
+        { "i": 2, "nums[i]": -3, "currentMax": -2, "maxSoFar": 1 },
+        { "i": 3, "nums[i]": 4, "currentMax": 4, "maxSoFar": 4 }
+      ]
+    },
+    "skeletonHint": "At each position, decide whether to start a new subarray with the current element or extend the existing subarray. Keep track of the maximum sum seen so far.",
+    "tests": [
+      { "input": [[-2, 1, -3, 4, -1, 2, 1, -5, 4]], "expected": 6 },
+      { "input": [[1]], "expected": 1 },
+      { "input": [[5, 4, -1, 7, 8]], "expected": 23 }
+    ],
+    "patternTag": "Kadane's Algorithm",
+    "patternExplanation": "Kadane's Algorithm is a dynamic programming approach that finds the maximum subarray sum in linear time by making a local optimal choice at each step.",
+    "estimatedMinutes": 20
+  },
+  {
+    "id": "jump-game",
+    "title": "Jump Game",
+    "type": "coding",
+    "category": "arrays",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "canJump",
+    "description": "You are given an integer array `nums`. You are initially positioned at the array's **first index**, and each element in the array represents your maximum jump length at that position.\n\nReturn `true` if you can reach the last index, or `false` otherwise.",
+    "whatShouldHappen": [
+      "Determine if the end of the array is reachable from the start",
+      "Track the maximum reachable index as you iterate through the array",
+      "Return false if you reach an index that is further than your maximum reachable index"
+    ],
+    "starterCode": "function canJump(nums) {\n  // Your code here\n}",
+    "solution": "function canJump(nums) {\n  let maxReach = 0;\n  for (let i = 0; i < nums.length; i++) {\n    if (i > maxReach) return false;\n    maxReach = Math.max(maxReach, i + nums[i]);\n    if (maxReach >= nums.length - 1) return true;\n  }\n  return true;\n}",
+    "traceTable": {
+      "inputLabel": "nums = [2, 3, 1, 1, 4]",
+      "columns": ["i", "nums[i]", "i + nums[i]", "maxReach"],
+      "rows": [
+        { "i": 0, "nums[i]": 2, "i + nums[i]": 2, "maxReach": 2 },
+        { "i": 1, "nums[i]": 3, "i + nums[i]": 4, "maxReach": 4 }
+      ]
+    },
+    "skeletonHint": "Keep track of the furthest index you can reach (`maxReach`). Iterate through the array; if your current index `i` is greater than `maxReach`, it means you can't reach this index, so return false. Otherwise, update `maxReach` to `max(maxReach, i + nums[i])`.",
+    "tests": [
+      { "input": [[2, 3, 1, 1, 4]], "expected": true },
+      { "input": [[3, 2, 1, 0, 4]], "expected": false },
+      { "input": [[0]], "expected": true }
+    ],
+    "patternTag": "Greedy",
+    "patternExplanation": "A greedy approach works here because at each step we only care about the maximum reach we can achieve, which determines if we can eventually reach the end.",
+    "estimatedMinutes": 15
+  },
+  {
+    "id": "maximum-product-subarray",
+    "title": "Maximum Product Subarray",
+    "type": "coding",
+    "category": "arrays",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "maxProduct",
+    "description": "Given an integer array `nums`, find a subarray that has the largest product, and return the product.\n\nThe test cases are generated so that the answer will fit in a **32-bit** integer.",
+    "whatShouldHappen": [
+      "Keep track of both maximum and minimum products ending at each position",
+      "Handle negative numbers which can flip a minimum product into a maximum",
+      "Reset the current product if a zero is encountered"
+    ],
+    "starterCode": "/**\n * @param {number[]} nums\n * @return {number}\n */\nfunction maxProduct(nums) {\n  // Your code here\n}",
+    "solution": "function maxProduct(nums) {\n  if (nums.length === 0) return 0;\n\n  let res = nums[0];\n  let curMin = 1;\n  let curMax = 1;\n\n  for (const n of nums) {\n    const tmp = curMax * n;\n    curMax = Math.max(n * curMax, n * curMin, n);\n    curMin = Math.min(tmp, n * curMin, n);\n    res = Math.max(res, curMax);\n  }\n\n  return res;\n}",
+    "traceTable": {
+      "inputLabel": "nums = [2, 3, -2, 4]",
+      "columns": ["n", "curMax", "curMin", "res"],
+      "rows": [
+        { "n": 2, "curMax": 2, "curMin": 2, "res": 2 },
+        { "n": 3, "curMax": 6, "curMin": 3, "res": 6 },
+        { "n": -2, "curMax": -2, "curMin": -12, "res": 6 },
+        { "n": 4, "curMax": 4, "curMin": -48, "res": 6 }
+      ]
+    },
+    "skeletonHint": "Use dynamic programming to track the maximum and minimum products up to the current element. When you multiply by a negative number, the maximum becomes the minimum and vice versa.",
+    "tests": [
+      { "input": [[2, 3, -2, 4]], "expected": 6 },
+      { "input": [[-2, 0, -1]], "expected": 0 },
+      { "input": [[-2, 3, -4]], "expected": 24 },
+      { "input": [[0, 2]], "expected": 2 }
+    ],
+    "patternTag": "Dynamic Programming",
+    "patternExplanation": "We maintain both the maximum and minimum product ending at the current position because a negative number can turn a very small minimum into a very large maximum.",
+    "estimatedMinutes": 20
+  },
+  {
+    "id": "find-minimum-in-rotated-sorted-array",
+    "title": "Find Minimum in Rotated Sorted Array",
+    "type": "coding",
+    "category": "arrays",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "findMin",
+    "description": "Suppose an array of length `n` sorted in ascending order is **rotated** between `1` and `n` times. For example, the array `nums = [0,1,2,4,5,6,7]` might become:\n\n* `[4,5,6,7,0,1,2]` if it was rotated `4` times.\n* `[0,1,2,4,5,6,7]` if it was rotated `7` times.\n\nNotice that rotating an array `[a[0], a[1], a[2], ..., a[n-1]]` 1 time results in the array `[a[n-1], a[0], a[1], a[2], ..., a[n-2]]`.\n\nGiven the sorted rotated array `nums` of **unique** elements, return *the minimum element of this array*.\n\nYou must write an algorithm that runs in `O(log n) time`.",
+    "whatShouldHappen": [
+      "Find the pivot point where the array rotation occurs",
+      "Use binary search to achieve O(log n) complexity",
+      "Identify which side of the midpoint contains the minimum"
+    ],
+    "starterCode": "/**\n * @param {number[]} nums\n * @return {number}\n */\nfunction findMin(nums) {\n  // Your code here\n}",
+    "solution": "function findMin(nums) {\n  let left = 0;\n  let right = nums.length - 1;\n\n  while (left < right) {\n    const mid = Math.floor((left + right) / 2);\n    if (nums[mid] > nums[right]) {\n      left = mid + 1;\n    } else {\n      right = mid;\n    }\n  }\n\n  return nums[left];\n}",
+    "traceTable": {
+      "inputLabel": "nums = [3, 4, 5, 1, 2]",
+      "columns": ["left", "right", "mid", "nums[mid]", "action"],
+      "rows": [
+        { "left": 0, "right": 4, "mid": 2, "nums[mid]": 5, "action": "nums[mid] > nums[right], left = mid + 1" },
+        { "left": 3, "right": 4, "mid": 3, "nums[mid]": 1, "action": "nums[mid] <= nums[right], right = mid" },
+        { "left": 3, "right": 3, "mid": "-", "nums[mid]": "-", "action": "Loop ends, return nums[3]" }
+      ]
+    },
+    "skeletonHint": "Use binary search. At each step, compare `nums[mid]` with `nums[right]`. If `nums[mid] > nums[right]`, the minimum must be in the right half. Otherwise, it's in the left half (including `mid`).",
+    "tests": [
+      { "input": [[3, 4, 5, 1, 2]], "expected": 1 },
+      { "input": [[4, 5, 6, 7, 0, 1, 2]], "expected": 0 },
+      { "input": [[11, 13, 15, 17]], "expected": 11 },
+      { "input": [[2, 1]], "expected": 1 }
+    ],
+    "patternTag": "Binary Search",
+    "patternExplanation": "Binary search works here because the array is still somewhat sorted. By comparing the middle element with the rightmost element, we can consistently discard half of the array.",
+    "estimatedMinutes": 15
+  },
+  {
+    "id": "longest-consecutive-sequence",
+    "title": "Longest Consecutive Sequence",
+    "type": "coding",
+    "category": "arrays",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "longestConsecutive",
+    "description": "Given an unsorted array of integers `nums`, return *the length of the longest consecutive elements sequence*.\n\nYou must write an algorithm that runs in `O(n)` time.",
+    "whatShouldHappen": [
+      "Identify the start of a consecutive sequence",
+      "Count the length of each sequence starting from its first element",
+      "Return the maximum sequence length found"
+    ],
+    "starterCode": "/**\n * @param {number[]} nums\n * @return {number}\n */\nfunction longestConsecutive(nums) {\n  // Your code here\n}",
+    "solution": "function longestConsecutive(nums) {\n  const numSet = new Set(nums);\n  let longest = 0;\n\n  for (const n of numSet) {\n    // check if its the start of a sequence\n    if (!numSet.has(n - 1)) {\n      let length = 1;\n      while (numSet.has(n + length)) {\n        length++;\n      }\n      longest = Math.max(longest, length);\n    }\n  }\n\n  return longest;\n}",
+    "traceTable": {
+      "inputLabel": "nums = [100, 4, 200, 1, 3, 2]",
+      "columns": ["n", "isStart", "length", "longest"],
+      "rows": [
+        { "n": 100, "isStart": "true", "length": 1, "longest": 1 },
+        { "n": 4, "isStart": "false", "length": "-", "longest": 1 },
+        { "n": 200, "isStart": "true", "length": 1, "longest": 1 },
+        { "n": 1, "isStart": "true", "length": 4, "longest": 4 }
+      ]
+    },
+    "skeletonHint": "Use a Set for O(1) lookups. For each number `n`, check if `n - 1` exists. If not, `n` is the start of a potential sequence. Use a loop to find how many consecutive numbers follow `n`.",
+    "tests": [
+      { "input": [[100, 4, 200, 1, 3, 2]], "expected": 4 },
+      { "input": [[0, 3, 7, 2, 5, 8, 4, 6, 0, 1]], "expected": 9 },
+      { "input": [[]], "expected": 0 }
+    ],
+    "patternTag": "Hash Set",
+    "patternExplanation": "By storing all numbers in a Hash Set, we can check for the existence of the start of a sequence (num - 1) in O(1) time, allowing us to build sequences efficiently.",
+    "estimatedMinutes": 20
+  },
+  {
+    "id": "product-of-array-except-self",
+    "title": "Product of Array Except Self",
+    "type": "coding",
+    "category": "arrays",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "productExceptSelf",
+    "description": "Given an integer array `nums`, return an array `answer` such that `answer[i]` is equal to the product of all the elements of `nums` except `nums[i]`.\n\nThe product of any prefix or suffix of `nums` is guaranteed to fit in a 32-bit integer.\n\nYou must write an algorithm that runs in `O(n)` time and without using the division operation.",
+    "whatShouldHappen": [
+      "The output array must have the same length as the input array.",
+      "Each element at index `i` must be the product of all elements except `nums[i]`.",
+      "The algorithm should not use the division operator."
+    ],
+    "starterCode": "function productExceptSelf(nums) {\n  \n}",
+    "solution": "function productExceptSelf(nums) {\n  const n = nums.length;\n  const result = new Array(n).fill(1);\n\n  let leftProduct = 1;\n  for (let i = 0; i < n; i++) {\n    result[i] = leftProduct;\n    leftProduct *= nums[i];\n  }\n\n  let rightProduct = 1;\n  for (let i = n - 1; i >= 0; i--) {\n    result[i] *= rightProduct;\n    rightProduct *= nums[i];\n  }\n\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 2, 3, 4]",
+      "columns": [
+        "i",
+        "Left Product",
+        "Result (so far)",
+        "Right Product"
+      ],
+      "rows": [
+        {
+          "i": "0",
+          "Left Product": "1",
+          "Result (so far)": "[1, 1, 1, 1]",
+          "Right Product": "-"
+        },
+        {
+          "i": "1",
+          "Left Product": "1",
+          "Result (so far)": "[1, 1, 1, 1]",
+          "Right Product": "-"
+        },
+        {
+          "i": "2",
+          "Left Product": "2",
+          "Result (so far)": "[1, 1, 2, 1]",
+          "Right Product": "-"
+        },
+        {
+          "i": "3",
+          "Left Product": "6",
+          "Result (so far)": "[1, 1, 2, 6]",
+          "Right Product": "1"
+        }
+      ]
+    },
+    "skeletonHint": "Consider using two passes: one to calculate products of elements to the left, and another to multiply by products of elements to the right.",
+    "tests": [
+      {
+        "input": [
+          [1, 2, 3, 4]
+        ],
+        "expected": [
+          24,
+          12,
+          8,
+          6
+        ]
+      },
+      {
+        "input": [
+          [-1, 1, 0, -3, 3]
+        ],
+        "expected": [
+          0,
+          0,
+          9,
+          0,
+          0
+        ]
+      },
+      {
+        "input": [
+          [1, 1]
+        ],
+        "expected": [
+          1,
+          1
+        ]
+      }
+    ],
+    "patternTag": "Prefix/Suffix Product",
+    "patternExplanation": "By precalculating the product of all elements to the left (prefix) and all elements to the right (suffix) of each index, we can find the total product except self in O(n) time.",
+    "estimatedMinutes": 20
+  }
+]

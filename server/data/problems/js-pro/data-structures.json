@@ -1,0 +1,1211 @@
+[
+  {
+    "id": "ds1",
+    "title": "Map basic set/get",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "patternTag": "Maps & Sets Fundamentals",
+    "patternExplanation": "Maps allow you to store key-value pairs where keys can be of any type. Unlike objects, Maps maintain insertion order.",
+    "estimatedMinutes": 5,
+    "functionName": "getMapValue",
+    "description": "Implement a function that creates a Map, adds a list of key-value pairs (provided as an array of [key, value] pairs), and returns the value for a specific target key.",
+    "whatShouldHappen": [
+      "Initialize a new Map instance.",
+      "Iterate through the pairs array and set each key-value pair in the Map.",
+      "Return the value associated with the targetKey using the .get() method."
+    ],
+    "starterCode": "function getMapValue(pairs, targetKey) {\n  // your code here\n}",
+    "solution": "function getMapValue(pairs, targetKey) {\n  const myMap = new Map();\n  \n  for (const [key, value] of pairs) {\n    myMap.set(key, value);\n  }\n  \n  return myMap.get(targetKey);\n}",
+    "skeletonHint": "function getMapValue(pairs, targetKey) {\n  const map = new ____();\n  for (const [key, value] of ____) {\n    map.____(key, value);\n  }\n  return map.____(targetKey);\n}",
+    "traceTable": {
+      "inputLabel": "pairs = [['a', 1]], targetKey = 'a'",
+      "columns": ["key", "value", "map.has(key)", "result"],
+      "rows": [
+        { "key": "a", "value": 1, "map.has(key)": true, "result": 1 }
+      ]
+    },
+    "tests": [
+      {
+        "input": [[["a", 1], ["b", 2]], "a"],
+        "expected": 1,
+        "label": "Basic string keys"
+      },
+      {
+        "input": [[[1, "one"], [2, "two"]], 2],
+        "expected": "two",
+        "label": "Numeric keys"
+      },
+      {
+        "input": [[["x", "hidden"], ["y", "found"]], "z"],
+        "expected": null,
+        "label": "Missing key"
+      }
+    ]
+  },
+  {
+    "id": "ds2",
+    "title": "Map iteration (forEach)",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "patternTag": "Map Iteration",
+    "patternExplanation": "The Map.prototype.forEach() method executes a provided function once per each key-value pair in the Map, in insertion order.",
+    "estimatedMinutes": 8,
+    "functionName": "formatMapItems",
+    "description": "Given an array of [name, price] pairs, create a Map and then return a string that lists each item and its price in the format 'Item: $Price', each on a new line.",
+    "whatShouldHappen": [
+      "Create a Map from the input pairs.",
+      "Create a variable to store the formatted lines.",
+      "Use map.forEach((value, key) => { ... }) to iterate through the map.",
+      "Append a string 'key: $value' followed by a newline for each entry.",
+      "Return the final concatenated string (trimmed of the trailing newline)."
+    ],
+    "starterCode": "function formatMapItems(pairs) {\n  // your code here\n}",
+    "solution": "function formatMapItems(pairs) {\n  const itemMap = new Map(pairs);\n  let result = '';\n  itemMap.forEach((price, name) => {\n    result += `${name}: $${price}\\n`;\n  });\n  return result.trim();\n}",
+    "skeletonHint": "function formatMapItems(pairs) {\n  const itemMap = new Map(____);\n  let str = '';\n  itemMap.____((price, name) => {\n    str += `${____}: $${____}\\n`;\n  });\n  return str.trim();\n}",
+    "traceTable": {
+      "inputLabel": "pairs = [['Apple', 1.5]]",
+      "columns": ["name", "price", "result"],
+      "rows": [
+        { "name": "Apple", "price": 1.5, "result": "Apple: $1.5" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [[["Apple", 1.5], ["Banana", 0.75]]],
+        "expected": "Apple: $1.5\nBanana: $0.75",
+        "label": "Two items"
+      },
+      {
+        "input": [[["Coffee", 5]]],
+        "expected": "Coffee: $5",
+        "label": "Single item"
+      }
+    ]
+  },
+  {
+    "id": "ds3",
+    "title": "Object vs Map frequency check",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "patternTag": "Frequency Counting with Maps",
+    "patternExplanation": "Maps are often preferred over Objects for frequency counting because they handle non-string keys correctly and provide better performance for frequent additions/removals.",
+    "estimatedMinutes": 10,
+    "functionName": "countFrequencies",
+    "description": "Count the frequency of elements in an array using a Map. Since the test runner expects JSON-serializable output, return the map entries as an array of [key, value] pairs.",
+    "whatShouldHappen": [
+      "Initialize a new Map.",
+      "Iterate through the array and update counts in the Map.",
+      "Convert the Map to an array of entries using Array.from(map.entries()).",
+      "Return the entries array."
+    ],
+    "starterCode": "function countFrequencies(arr) {\n  // your code here\n}",
+    "solution": "function countFrequencies(arr) {\n  const freq = new Map();\n  for (const item of arr) {\n    freq.set(item, (freq.get(item) || 0) + 1);\n  }\n  return Array.from(freq.entries());\n}",
+    "skeletonHint": "function countFrequencies(arr) {\n  const map = new Map();\n  for (const item of arr) {\n    map.set(item, (map.get(item) || 0) + 1);\n  }\n  return Array.from(____.entries());\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 1, 2]",
+      "columns": ["item", "map.get(item)", "newCount"],
+      "rows": [
+        { "item": 1, "map.get(item)": "undefined", "newCount": 1 },
+        { "item": 1, "map.get(item)": 1, "newCount": 2 },
+        { "item": 2, "map.get(item)": "undefined", "newCount": 1 }
+      ]
+    },
+    "tests": [
+      {
+        "input": [[1, 2, 1, "1", true, true]],
+        "expected": [[1, 2], [2, 1], ["1", 1], [true, 2]],
+        "label": "Mixed types frequency"
+      }
+    ]
+  },
+  {
+    "id": "ds4",
+    "title": "Set basic add/has",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "patternTag": "Maps & Sets Fundamentals",
+    "patternExplanation": "Sets are collections of unique values. The .has() method provides an O(1) average time complexity for checking membership, which is much faster than .includes() on an array (O(N)).",
+    "estimatedMinutes": 5,
+    "functionName": "checkPresence",
+    "description": "Implement a function that takes an array and a target value. Add all array elements to a Set, then return true if the target exists in the Set, and false otherwise.",
+    "whatShouldHappen": [
+      "Create a new Set from the input array.",
+      "Use the .has() method of the Set to check for the target.",
+      "Return the boolean result."
+    ],
+    "starterCode": "function checkPresence(arr, target) {\n  // your code here\n}",
+    "solution": "function checkPresence(arr, target) {\n  const mySet = new Set(arr);\n  return mySet.has(target);\n}",
+    "skeletonHint": "function checkPresence(arr, target) {\n  const s = new ____(arr);\n  return s.____(target);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [10, 20], target = 10",
+      "columns": ["set.has(target)", "result"],
+      "rows": [
+        { "set.has(target)": true, "result": true }
+      ]
+    },
+    "tests": [
+      {
+        "input": [[10, 20, 30], 20],
+        "expected": true,
+        "label": "Target exists"
+      },
+      {
+        "input": [[10, 20, 30], 40],
+        "expected": false,
+        "label": "Target missing"
+      },
+      {
+        "input": [[], "any"],
+        "expected": false,
+        "label": "Empty array"
+      }
+    ]
+  },
+  {
+    "id": "ds5",
+    "title": "Set unique elements from array",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "patternTag": "Deduplication",
+    "patternExplanation": "Passing an array to the Set constructor is the most idiomatic way to remove duplicates in JavaScript. You can then convert the Set back to an array using the spread operator or Array.from().",
+    "estimatedMinutes": 7,
+    "functionName": "uniqueOnly",
+    "description": "Given an array with duplicate elements, return a new array containing only the unique elements in their original order using a Set.",
+    "whatShouldHappen": [
+      "Initialize a new Set using the input array to automatically filter duplicates.",
+      "Convert the Set back into an array using the spread operator [...set].",
+      "Return the resulting array."
+    ],
+    "starterCode": "function uniqueOnly(arr) {\n  // your code here\n}",
+    "solution": "function uniqueOnly(arr) {\n  return [...new Set(arr)];\n}",
+    "skeletonHint": "function uniqueOnly(arr) {\n  const uniqueSet = new ____(arr);\n  return [...____];\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 1, 2]",
+      "columns": ["item", "set.size"],
+      "rows": [
+        { "item": 1, "set.size": 1 },
+        { "item": 1, "set.size": 1 },
+        { "item": 2, "set.size": 2 }
+      ]
+    },
+    "tests": [
+      {
+        "input": [[1, 2, 2, 3, 4, 4, 5]],
+        "expected": [1, 2, 3, 4, 5],
+        "label": "Numbers deduplication"
+      },
+      {
+        "input": [["a", "b", "a", "c"]],
+        "expected": ["a", "b", "c"],
+        "label": "Strings deduplication"
+      }
+    ]
+  },
+  {
+    "id": "ds6",
+    "title": "WeakMap basic usage",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "patternTag": "WeakMap",
+    "patternExplanation": "WeakMap is a collection of key/value pairs in which the keys must be objects and are held weakly. This means that if there are no other strong references to a key object, it can be garbage collected.",
+    "estimatedMinutes": 5,
+    "functionName": "weakMapTest",
+    "description": "Implement a function that creates a WeakMap, associates an object key with a given value, and returns the value retrieved from the WeakMap using that same object.",
+    "whatShouldHappen": [
+      "Initialize a new WeakMap.",
+      "Use the provided 'obj' as a key and 'value' as the value in the WeakMap.",
+      "Return the result of weakMap.get(obj)."
+    ],
+    "starterCode": "function weakMapTest(obj, value) {\n  // your code here\n}",
+    "solution": "function weakMapTest(obj, value) {\n  const wm = new WeakMap();\n  wm.set(obj, value);\n  return wm.get(obj);\n}",
+    "skeletonHint": "function weakMapTest(obj, value) {\n  const wm = new ____();\n  wm.____(obj, value);\n  return wm.____(obj);\n}",
+    "traceTable": {
+      "inputLabel": "obj = {}, value = 'secret'",
+      "columns": ["wm.has(obj)", "result"],
+      "rows": [
+        { "wm.has(obj)": true, "result": "secret" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [{}, "data"],
+        "expected": "data",
+        "label": "Object as key"
+      },
+      {
+        "input": [[], 123],
+        "expected": 123,
+        "label": "Array as key (also an object)"
+      }
+    ]
+  },
+  {
+    "id": "ds7",
+    "title": "WeakSet for private data",
+    "category": "maps-and-sets",
+    "difficulty": "Medium",
+    "collectionId": "js-pro",
+    "patternTag": "WeakSet",
+    "patternExplanation": "WeakSet objects are collections of objects. Just like Set, each object in WeakSet may occur only once. The main differences are that WeakSets are collections of objects only, and they are held weakly.",
+    "estimatedMinutes": 8,
+    "functionName": "isObjectTracked",
+    "description": "Create a function that simulates object tracking. It should create a WeakSet, add the provided object to it, and then return whether the WeakSet contains that object.",
+    "whatShouldHappen": [
+      "Create a new WeakSet instance.",
+      "Add the input 'obj' to the WeakSet.",
+      "Check if 'obj' exists in the WeakSet using .has().",
+      "Return the boolean result."
+    ],
+    "starterCode": "function isObjectTracked(obj) {\n  // your code here\n}",
+    "solution": "function isObjectTracked(obj) {\n  const ws = new WeakSet();\n  ws.add(obj);\n  return ws.has(obj);\n}",
+    "skeletonHint": "function isObjectTracked(obj) {\n  const ws = new ____();\n  ws.____(obj);\n  return ws.____(obj);\n}",
+    "traceTable": {
+      "inputLabel": "obj = { id: 1 }",
+      "columns": ["ws.add(obj)", "ws.has(obj)"],
+      "rows": [
+        { "ws.add(obj)": "WeakSet", "ws.has(obj)": true }
+      ]
+    },
+    "tests": [
+      {
+        "input": [{}],
+        "expected": true,
+        "label": "Standard object"
+      },
+      {
+        "input": ["function() {}"],
+        "expected": true,
+        "label": "Function object",
+        "isEval": true
+      }
+    ]
+  },
+  {
+    "id": "ds8",
+    "title": "Map to Object conversion",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "patternTag": "Data Conversion",
+    "patternExplanation": "Object.fromEntries() can take an iterable of [key, value] pairs, such as the entries of a Map, and transform it back into a plain JavaScript object.",
+    "estimatedMinutes": 5,
+    "functionName": "mapToObject",
+    "description": "Given a Map, convert it into a plain JavaScript object where the Map keys become object properties.",
+    "whatShouldHappen": [
+      "Use Object.fromEntries() on the map's entries.",
+      "Return the resulting object."
+    ],
+    "starterCode": "function mapToObject(map) {\n  // your code here\n}",
+    "solution": "function mapToObject(map) {\n  return Object.fromEntries(map);\n}",
+    "skeletonHint": "function mapToObject(map) {\n  return ____.fromEntries(____);\n}",
+    "traceTable": {
+      "inputLabel": "map = new Map([['a', 1]])",
+      "columns": ["map.entries()", "result"],
+      "rows": [
+        { "map.entries()": "[['a', 1]]", "result": "{ a: 1 }" }
+      ]
+    },
+    "tests": [
+      {
+        "input": ["new Map([['name', 'Alice'], ['age', 25]])"],
+        "expected": { "name": "Alice", "age": 25 },
+        "label": "Basic Map conversion",
+        "isEval": true
+      },
+      {
+        "input": ["new Map([['active', true]])"],
+        "expected": { "active": true },
+        "label": "Boolean values",
+        "isEval": true
+      }
+    ]
+  },
+  {
+    "id": "ds9",
+    "title": "Object to Map conversion",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "patternTag": "Data Conversion",
+    "patternExplanation": "The Map constructor accepts an iterable of entries. Object.entries() provides exactly this format, making it easy to convert an object to a Map.",
+    "estimatedMinutes": 5,
+    "functionName": "objectToMapEntries",
+    "description": "Convert a plain JavaScript object into a Map. To verify the result in our test runner, return the entries of the Map as an array.",
+    "whatShouldHappen": [
+      "Get the entries of the object using Object.entries().",
+      "Pass these entries to the Map constructor.",
+      "Convert the resulting Map's entries back to an array using Array.from(map.entries()).",
+      "Return the array."
+    ],
+    "starterCode": "function objectToMapEntries(obj) {\n  // your code here\n}",
+    "solution": "function objectToMapEntries(obj) {\n  const map = new Map(Object.entries(obj));\n  return Array.from(map.entries());\n}",
+    "skeletonHint": "function objectToMapEntries(obj) {\n  const map = new Map(Object.____(obj));\n  return Array.from(map.____());\n}",
+    "traceTable": {
+      "inputLabel": "obj = { a: 1 }",
+      "columns": ["Object.entries(obj)", "map.size"],
+      "rows": [
+        { "Object.entries(obj)": "[['a', 1]]", "map.size": 1 }
+      ]
+    },
+    "tests": [
+      {
+        "input": [{ "x": 10, "y": 20 }],
+        "expected": [["x", 10], ["y", 20]],
+        "label": "Simple object"
+      }
+    ]
+  },
+  {
+    "id": "ds10",
+    "title": "WeakMap for caching/memoization",
+    "category": "maps-and-sets",
+    "difficulty": "Medium",
+    "collectionId": "js-pro",
+    "patternTag": "Memoization",
+    "patternExplanation": "WeakMaps are ideal for caching results associated with objects because they don't prevent those objects from being garbage collected if they are no longer used elsewhere in the application.",
+    "estimatedMinutes": 12,
+    "functionName": "getCachedResult",
+    "description": "Implement a caching mechanism using a WeakMap. The function takes a WeakMap (cache), an object (key), and a callback function (compute). If the object is in the cache, return the cached value. Otherwise, compute the value, store it in the cache, and return it.",
+    "whatShouldHappen": [
+      "Check if the cache contains the object using .has().",
+      "If it exists, return the cached value using .get().",
+      "If it doesn't exist, call the compute(obj) function to get the result.",
+      "Store the result in the cache using .set().",
+      "Return the computed result."
+    ],
+    "starterCode": "function getCachedResult(cache, obj, compute) {\n  // your code here\n}",
+    "solution": "function getCachedResult(cache, obj, compute) {\n  if (cache.has(obj)) {\n    return cache.get(obj);\n  }\n  \n  const result = compute(obj);\n  cache.set(obj, result);\n  return result;\n}",
+    "skeletonHint": "function getCachedResult(cache, obj, compute) {\n  if (cache.____(obj)) {\n    return cache.____(obj);\n  }\n  const res = ____(obj);\n  cache.____(obj, res);\n  return res;\n}",
+    "traceTable": {
+      "inputLabel": "obj = {}, cache.has(obj) = false",
+      "columns": ["cache.has(obj)", "compute(obj)", "cache.get(obj)"],
+      "rows": [
+        { "cache.has(obj)": false, "compute(obj)": "calculated", "cache.get(obj)": "calculated" }
+      ]
+    },
+    "tests": [
+      {
+        "input": ["new WeakMap()", {}, "(o) => 'computed'"],
+        "expected": "computed",
+        "label": "First compute",
+        "isEval": true
+      },
+      {
+        "input": ["(() => { const wm = new WeakMap(); const o = {}; wm.set(o, 'cached'); return [wm, o, () => 'new']; })()"],
+        "expected": "cached",
+        "label": "Return cached value",
+        "isEval": true,
+        "spreadInput": true
+      }
+    ]
+  },
+  {
+    "id": "ds11",
+    "title": "Generator function basics",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "patternTag": "Generators",
+    "patternExplanation": "Generator functions (function*) allow you to define an iterative algorithm by writing a single function whose execution is not continuous.",
+    "estimatedMinutes": 5,
+    "functionName": "helloWorldGenerator",
+    "description": "Create a generator function that yields the string 'hello' and then the string 'world'.",
+    "whatShouldHappen": [
+      "Define a generator function using the function* syntax.",
+      "Use the 'yield' keyword to return 'hello'.",
+      "Use the 'yield' keyword to return 'world'."
+    ],
+    "starterCode": "function* helloWorldGenerator() {\n  // your code here\n}",
+    "solution": "function* helloWorldGenerator() {\n  yield 'hello';\n  yield 'world';\n}",
+    "skeletonHint": "function* helloWorldGenerator() {\n  ____ 'hello';\n  ____ 'world';\n}",
+    "traceTable": {
+      "inputLabel": "gen = helloWorldGenerator()",
+      "columns": ["gen.next().value", "gen.next().value", "gen.next().done"],
+      "rows": [
+        { "gen.next().value": "hello", "gen.next().value": "world", "gen.next().done": true }
+      ]
+    },
+    "tests": [
+      {
+        "input": [],
+        "expected": ["hello", "world"],
+        "label": "Basic yield sequence",
+        "isGenerator": true
+      },
+      {
+        "input": [],
+        "expected": ["hello", "world"],
+        "label": "Verification 2",
+        "isGenerator": true
+      },
+      {
+        "input": [],
+        "expected": ["hello", "world"],
+        "label": "Verification 3",
+        "isGenerator": true
+      },
+      {
+        "input": [],
+        "expected": ["hello", "world"],
+        "label": "Verification 4",
+        "isGenerator": true
+      }
+    ]
+  },
+  {
+    "id": "ds12",
+    "title": "Yield infinite numbers",
+    "category": "maps-and-sets",
+    "difficulty": "Medium",
+    "collectionId": "js-pro",
+    "patternTag": "Generators",
+    "patternExplanation": "Generators are lazy-evaluated, meaning they only compute values as they are requested. This makes them perfect for representing infinite sequences without consuming infinite memory.",
+    "estimatedMinutes": 8,
+    "functionName": "infiniteCounter",
+    "description": "Create a generator function that takes a starting number and yields an infinite sequence of numbers, incrementing by 1 each time.",
+    "whatShouldHappen": [
+      "Initialize a variable with the start value.",
+      "Use a 'while (true)' loop to create an infinite loop.",
+      "Yield the current value.",
+      "Increment the value after each yield."
+    ],
+    "starterCode": "function* infiniteCounter(start) {\n  // your code here\n}",
+    "solution": "function* infiniteCounter(start) {\n  let current = start;\n  while (true) {\n    yield current++;\n  }\n}",
+    "skeletonHint": "function* infiniteCounter(start) {\n  let current = ____;\n  while (____) {\n    yield ____++;\n  }\n}",
+    "traceTable": {
+      "inputLabel": "start = 10",
+      "columns": ["current", "yielded", "nextCurrent"],
+      "rows": [
+        { "current": 10, "yielded": 10, "nextCurrent": 11 },
+        { "current": 11, "yielded": 11, "nextCurrent": 12 }
+      ]
+    },
+    "tests": [
+      {
+        "input": [5],
+        "expected": [5, 6, 7, 8, 9],
+        "label": "Start at 5",
+        "isGenerator": true,
+        "take": 5
+      },
+      {
+        "input": [0],
+        "expected": [0, 1, 2, 3, 4],
+        "label": "Start at 0",
+        "isGenerator": true,
+        "take": 5
+      },
+      {
+        "input": [-2],
+        "expected": [-2, -1, 0, 1],
+        "label": "Start at -2",
+        "isGenerator": true,
+        "take": 4
+      },
+      {
+        "input": [100],
+        "expected": [100, 101, 102],
+        "label": "Start at 100",
+        "isGenerator": true,
+        "take": 3
+      }
+    ]
+  },
+  {
+    "id": "ds13",
+    "title": "Iterable protocol implementation",
+    "category": "maps-and-sets",
+    "difficulty": "Medium",
+    "collectionId": "js-pro",
+    "patternTag": "Iterables",
+    "patternExplanation": "The iterable protocol allows JavaScript objects to define or customize their iteration behavior. To be iterable, an object must implement a method with the key [Symbol.iterator].",
+    "estimatedMinutes": 15,
+    "functionName": "makeRangeIterable",
+    "description": "Implement the iterable protocol on an object that represents a range from 'start' to 'end' (inclusive).",
+    "whatShouldHappen": [
+      "Return an object with a [Symbol.iterator] method.",
+      "The [Symbol.iterator] method must return an object with a next() method.",
+      "The next() method should return { value, done } objects.",
+      "Set 'done' to true when the current value exceeds 'end'."
+    ],
+    "starterCode": "function makeRangeIterable(start, end) {\n  return {\n    [Symbol.iterator]() {\n      // your code here\n    }\n  };\n}",
+    "solution": "function makeRangeIterable(start, end) {\n  return {\n    [Symbol.iterator]() {\n      let current = start;\n      return {\n        next() {\n          if (current <= end) {\n            return { value: current++, done: false };\n          }\n          return { done: true };\n        }\n      };\n    }\n  };\n}",
+    "skeletonHint": "return {\n  [Symbol.iterator]() {\n    let curr = start;\n    return {\n      next() {\n        return curr <= end ? { value: curr++, done: false } : { done: true };\n      }\n    };\n  }\n};",
+    "traceTable": {
+      "inputLabel": "start = 1, end = 2",
+      "columns": ["current", "value", "done"],
+      "rows": [
+        { "current": 1, "value": 1, "done": false },
+        { "current": 2, "value": 2, "done": false },
+        { "current": 3, "value": "undefined", "done": true }
+      ]
+    },
+    "tests": [
+      {
+        "input": [1, 3],
+        "expected": [1, 2, 3],
+        "label": "Range 1-3",
+        "isIterable": true
+      },
+      {
+        "input": [5, 5],
+        "expected": [5],
+        "label": "Range 5-5",
+        "isIterable": true
+      },
+      {
+        "input": [10, 12],
+        "expected": [10, 11, 12],
+        "label": "Range 10-12",
+        "isIterable": true
+      },
+      {
+        "input": [1, 0],
+        "expected": [],
+        "label": "Empty range",
+        "isIterable": true
+      }
+    ]
+  },
+  {
+    "id": "ds14",
+    "title": "Iterator next() method",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "patternTag": "Iterators",
+    "patternExplanation": "An iterator is an object which defines a sequence and potentially a return value upon its termination. It implements the next() method which returns an object with 'value' and 'done' properties.",
+    "estimatedMinutes": 5,
+    "functionName": "manualIteration",
+    "description": "Given an iterator, call its .next() method twice and return an array containing the 'value' property from both calls.",
+    "whatShouldHappen": [
+      "Call iterator.next() to get the first result.",
+      "Call iterator.next() again to get the second result.",
+      "Return an array [first.value, second.value]."
+    ],
+    "starterCode": "function manualIteration(iterator) {\n  // your code here\n}",
+    "solution": "function manualIteration(iterator) {\n  const first = iterator.next();\n  const second = iterator.next();\n  return [first.value, second.value];\n}",
+    "skeletonHint": "function manualIteration(iterator) {\n  const r1 = iterator.____();\n  const r2 = iterator.____();\n  return [r1.____, r2.____];\n}",
+    "traceTable": {
+      "inputLabel": "iterator from [1, 2, 3]",
+      "columns": ["iterator.next().value", "iterator.next().value"],
+      "rows": [
+        { "iterator.next().value": 1, "iterator.next().value": 2 }
+      ]
+    },
+    "tests": [
+      {
+        "input": ["[1, 2, 3][Symbol.iterator]()"],
+        "expected": [1, 2],
+        "label": "Array iterator",
+        "isEval": true
+      },
+      {
+        "input": ["'abc'[Symbol.iterator]()"],
+        "expected": ["a", "b"],
+        "label": "String iterator",
+        "isEval": true
+      },
+      {
+        "input": ["new Set([10, 20, 30])[Symbol.iterator]()"],
+        "expected": [10, 20],
+        "label": "Set iterator",
+        "isEval": true
+      },
+      {
+        "input": ["(function*(){ yield 'x'; yield 'y'; yield 'z'; })()"],
+        "expected": ["x", "y"],
+        "label": "Generator iterator",
+        "isEval": true
+      }
+    ]
+  },
+  {
+    "id": "ds15",
+    "title": "Generator for Fibonacci",
+    "category": "maps-and-sets",
+    "difficulty": "Medium",
+    "collectionId": "js-pro",
+    "patternTag": "Generators",
+    "patternExplanation": "Generators can maintain internal state between yields, making them ideal for sequences where the next value depends on previous ones, like Fibonacci.",
+    "estimatedMinutes": 10,
+    "functionName": "fibonacciGenerator",
+    "description": "Create a generator function that yields the Fibonacci sequence (0, 1, 1, 2, 3, 5, 8, ...).",
+    "whatShouldHappen": [
+      "Initialize two variables, prev and curr, to 0 and 1.",
+      "Use an infinite loop (while true).",
+      "Yield the current prev value.",
+      "Update prev and curr for the next iteration: [prev, curr] = [curr, prev + curr]."
+    ],
+    "starterCode": "function* fibonacciGenerator() {\n  // your code here\n}",
+    "solution": "function* fibonacciGenerator() {\n  let prev = 0;\n  let curr = 1;\n  while (true) {\n    yield prev;\n    [prev, curr] = [curr, prev + curr];\n  }\n}",
+    "skeletonHint": "function* fibonacciGenerator() {\n  let [a, b] = [0, 1];\n  while (true) {\n    yield ____;\n    [a, b] = [b, a + b];\n  }\n}",
+    "traceTable": {
+      "inputLabel": "gen = fibonacciGenerator()",
+      "columns": ["prev", "curr", "yielded"],
+      "rows": [
+        { "prev": 0, "curr": 1, "yielded": 0 },
+        { "prev": 1, "curr": 1, "yielded": 1 },
+        { "prev": 1, "curr": 2, "yielded": 1 },
+        { "prev": 2, "curr": 3, "yielded": 2 }
+      ]
+    },
+    "tests": [
+      {
+        "input": [],
+        "expected": [0, 1, 1, 2, 3],
+        "label": "First 5 numbers",
+        "isGenerator": true,
+        "take": 5
+      },
+      {
+        "input": [],
+        "expected": [0, 1, 1, 2, 3, 5, 8, 13],
+        "label": "First 8 numbers",
+        "isGenerator": true,
+        "take": 8
+      },
+      {
+        "input": [],
+        "expected": [0, 1, 1],
+        "label": "First 3 numbers",
+        "isGenerator": true,
+        "take": 3
+      },
+      {
+        "input": [],
+        "expected": [0, 1, 1, 2, 3, 5, 8, 13, 21, 34],
+        "label": "First 10 numbers",
+        "isGenerator": true,
+        "take": 10
+      }
+    ]
+  },
+  {
+    "id": "ds17",
+    "title": "Symbol.iterator usage",
+    "type": "coding",
+    "category": "maps-and-sets",
+    "difficulty": "Medium",
+    "collectionId": "js-pro",
+    "functionName": "getIteratorValues",
+    "description": "Objects that implement the iterable protocol must have a method with the `Symbol.iterator` key. This method returns an iterator that is used by `for...of` loops, spread syntax, and other built-in features. Implement a function that manually uses `Symbol.iterator` to get the first value from an iterable.",
+    "whatShouldHappen": [
+      "Accept an iterable (like an array, string, or Set).",
+      "Access the iterator by calling the method associated with `Symbol.iterator`.",
+      "Call the iterator's `.next()` method.",
+      "Return the `value` property from the first iteration result."
+    ],
+    "starterCode": "function getIteratorValues(iterable) {\n  // your code here\n}",
+    "skeletonHint": "function getIteratorValues(iterable) {\n  const iterator = iterable[Symbol.____]();\n  return iterator.next().____;\n}",
+    "solution": "function getIteratorValues(iterable) {\n  const iterator = iterable[Symbol.iterator]();\n  return iterator.next().value;\n}",
+    "tests": [
+      { "input": ["[10, 20, 30]"], "expected": 10, "label": "First element of array", "isEval": true },
+      { "input": ["'hello'"], "expected": "h", "label": "First character of string", "isEval": true },
+      { "input": ["new Set([1, 2])"], "expected": 1, "label": "First value of Set", "isEval": true }
+    ],
+    "traceTable": {
+      "inputLabel": "getIteratorValues([1, 2])",
+      "columns": ["iterable", "iterator", "result"],
+      "rows": [
+        { "iterable": "[1, 2]", "iterator": "Array Iterator", "result": 1 }
+      ]
+    },
+    "patternTag": "Iteration Protocol",
+    "patternExplanation": "Understanding `Symbol.iterator` is the key to creating custom iterables and understanding how modern JS features like `for...of` work under the hood.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "ds18",
+    "title": "Set intersection",
+    "type": "coding",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "functionName": "setIntersection",
+    "description": "Intersection of two sets creates a new set containing elements that exist in both sets. This is a common operation when finding common interests, overlapping schedules, or shared data points.",
+    "whatShouldHappen": [
+      "Accept two Set objects, `setA` and `setB`.",
+      "Create a new Set.",
+      "Iterate through elements of `setA` and check if they exist in `setB` using `.has()`.",
+      "If they do, add them to the new Set.",
+      "Return the resulting intersection Set."
+    ],
+    "starterCode": "function setIntersection(setA, setB) {\n  // your code here\n}",
+    "skeletonHint": "function setIntersection(setA, setB) {\n  return new Set([...setA].filter(x => setB.____(x)));\n}",
+    "solution": "function setIntersection(setA, setB) {\n  const intersection = new Set();\n  for (const item of setA) {\n    if (setB.has(item)) {\n      intersection.add(item);\n    }\n  }\n  return intersection;\n}",
+    "tests": [
+      { "input": ["new Set([1, 2, 3])", "new Set([2, 3, 4])"], "expected": [2, 3], "label": "Common numbers", "isEval": true, "isSetOutput": true },
+      { "input": ["new Set(['a', 'b'])", "new Set(['c', 'd'])"], "expected": [], "label": "No common elements", "isEval": true, "isSetOutput": true }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const result = fn(input[0], input[1]);\n  return Array.from(result).sort();\n}",
+    "traceTable": {
+      "inputLabel": "setIntersection({1, 2}, {2, 3})",
+      "columns": ["item", "setB.has(item)", "intersection"],
+      "rows": [
+        { "item": 1, "setB.has(item)": false, "intersection": "{}" },
+        { "item": 2, "setB.has(item)": true, "intersection": "{2}" }
+      ]
+    },
+    "patternTag": "Set Operations",
+    "patternExplanation": "Set intersection is efficiently implemented by filtering one set based on membership in the other set, leveraging the O(1) lookup of Sets.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "ds19",
+    "title": "Set union",
+    "type": "coding",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "functionName": "setUnion",
+    "description": "The union of two sets is a set containing all elements from both sets, with no duplicates. The spread operator makes this operation very concise in JavaScript.",
+    "whatShouldHappen": [
+      "Accept two Set objects, `setA` and `setB`.",
+      "Create a new Set containing all elements from both `setA` and `setB`.",
+      "Return the resulting union Set."
+    ],
+    "starterCode": "function setUnion(setA, setB) {\n  // your code here\n}",
+    "skeletonHint": "function setUnion(setA, setB) {\n  return new Set([...____, ...____]);\n}",
+    "solution": "function setUnion(setA, setB) {\n  return new Set([...setA, ...setB]);\n}",
+    "tests": [
+      { "input": ["new Set([1, 2])", "new Set([2, 3])"], "expected": [1, 2, 3], "label": "Union of numbers", "isEval": true, "isSetOutput": true },
+      { "input": ["new Set(['apple'])", "new Set(['banana', 'apple'])"], "expected": ["apple", "banana"], "label": "Union of strings", "isEval": true, "isSetOutput": true }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const result = fn(input[0], input[1]);\n  return Array.from(result).sort();\n}",
+    "traceTable": {
+      "inputLabel": "setUnion({1}, {2})",
+      "columns": ["setA", "setB", "result"],
+      "rows": [
+        { "setA": "{1}", "setB": "{2}", "result": "{1, 2}" }
+      ]
+    },
+    "patternTag": "Set Operations",
+    "patternExplanation": "Union is easily achieved by spreading both sets into a new Set constructor, which automatically handles deduplication.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "ds20",
+    "title": "Set difference",
+    "type": "coding",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "functionName": "setDifference",
+    "description": "The difference between two sets (A - B) is the set of elements that are in set A but not in set B.",
+    "whatShouldHappen": [
+      "Accept two Set objects, `setA` and `setB`.",
+      "Create a new Set containing elements from `setA` that are NOT in `setB`.",
+      "Return the resulting difference Set."
+    ],
+    "starterCode": "function setDifference(setA, setB) {\n  // your code here\n}",
+    "skeletonHint": "function setDifference(setA, setB) {\n  return new Set([...setA].filter(x => !setB.____(x)));\n}",
+    "solution": "function setDifference(setA, setB) {\n  const difference = new Set();\n  for (const item of setA) {\n    if (!setB.has(item)) {\n      difference.add(item);\n    }\n  }\n  return difference;\n}",
+    "tests": [
+      { "input": ["new Set([1, 2, 3])", "new Set([2, 4])"], "expected": [1, 3], "label": "Difference of numbers", "isEval": true, "isSetOutput": true },
+      { "input": ["new Set(['a', 'b'])", "new Set(['a', 'b'])"], "expected": [], "label": "Empty difference", "isEval": true, "isSetOutput": true }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const result = fn(input[0], input[1]);\n  return Array.from(result).sort();\n}",
+    "traceTable": {
+      "inputLabel": "setDifference({1, 2}, {2, 3})",
+      "columns": ["item", "setB.has(item)", "difference"],
+      "rows": [
+        { "item": 1, "setB.has(item)": false, "difference": "{1}" },
+        { "item": 2, "setB.has(item)": true, "difference": "{1}" }
+      ]
+    },
+    "patternTag": "Set Operations",
+    "patternExplanation": "Set difference is calculated by filtering set A to exclude any element that exists in set B.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "ds21",
+    "title": "Symmetric difference Sets",
+    "type": "coding",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "functionName": "symmetricDifference",
+    "description": "The symmetric difference of two sets is the set of elements which are in either of the sets, but not in their intersection.",
+    "whatShouldHappen": [
+      "Accept two Set objects, `setA` and `setB`.",
+      "Calculate elements in `setA` not in `setB`.",
+      "Calculate elements in `setB` not in `setA`.",
+      "Return a new Set containing the union of these two differences."
+    ],
+    "starterCode": "function symmetricDifference(setA, setB) {\n  // your code here\n}",
+    "skeletonHint": "function symmetricDifference(setA, setB) {\n  const diffA = [...setA].filter(x => !setB.____(x));\n  const diffB = [...setB].filter(x => !setA.____(x));\n  return new Set([...____, ...____]);\n}",
+    "solution": "function symmetricDifference(setA, setB) {\n  const diffA = [...setA].filter(x => !setB.has(x));\n  const diffB = [...setB].filter(x => !setA.has(x));\n  return new Set([...diffA, ...diffB]);\n}",
+    "tests": [
+      { "input": ["new Set([1, 2, 3])", "new Set([2, 3, 4])"], "expected": [1, 4], "label": "Symmetric difference of numbers", "isEval": true, "isSetOutput": true },
+      { "input": ["new Set(['a', 'b'])", "new Set(['b', 'c'])"], "expected": ["a", "c"], "label": "Symmetric difference of strings", "isEval": true, "isSetOutput": true }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const result = fn(input[0], input[1]);\n  return Array.from(result).sort();\n}",
+    "traceTable": {
+      "inputLabel": "symmetricDifference({1, 2}, {2, 3})",
+      "columns": ["diffA", "diffB", "result"],
+      "rows": [
+        { "diffA": "{1}", "diffB": "{3}", "result": "{1, 3}" }
+      ]
+    },
+    "patternTag": "Set Operations",
+    "patternExplanation": "Symmetric difference can be found by taking the union of the relative complements of each set with respect to the other.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "ds22",
+    "title": "Map values to Array",
+    "type": "coding",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "functionName": "mapValuesToArray",
+    "description": "Extracting all values from a Map into an array is a common task when you need to perform array-specific operations like sorting or filtering on the data stored in a Map.",
+    "whatShouldHappen": [
+      "Accept a Map object.",
+      "Access the Map's values using the `.values()` method.",
+      "Convert the resulting iterator into an array.",
+      "Return the array of values."
+    ],
+    "starterCode": "function mapValuesToArray(map) {\n  // your code here\n}",
+    "skeletonHint": "function mapValuesToArray(map) {\n  return Array.____(map.____());\n}",
+    "solution": "function mapValuesToArray(map) {\n  return Array.from(map.values());\n}",
+    "tests": [
+      { "input": ["new Map([['a', 1], ['b', 2]])"], "expected": [1, 2], "label": "Numeric values", "isEval": true },
+      { "input": ["new Map([['user', {id: 1}], ['admin', {id: 2}]])"], "expected": [{ "id": 1 }, { "id": 2 }], "label": "Object values", "isEval": true }
+    ],
+    "traceTable": {
+      "inputLabel": "mapValuesToArray(new Map([['k', 'v']]))",
+      "columns": ["map", "map.values()", "result"],
+      "rows": [
+        { "map": "{'k' => 'v'}", "map.values()": "MapIterator {'v'}", "result": "['v']" }
+      ]
+    },
+    "patternTag": "Map Manipulation",
+    "patternExplanation": "The `Map.prototype.values()` method returns a new iterator object that contains the values for each element in the Map, which can then be converted to an array.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "ds23",
+    "title": "Grouping items into Map",
+    "type": "coding",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "functionName": "groupToMap",
+    "description": "Grouping an array of items based on a property is a classic use case for Maps. Each key in the Map represents a group, and the value is an array of items belonging to that group.",
+    "whatShouldHappen": [
+      "Accept an array of objects and a key name.",
+      "Initialize a new Map.",
+      "Iterate through the array.",
+      "For each object, get the value of the specified key.",
+      "If the Map doesn't have that value as a key, set it with an empty array.",
+      "Push the current object into the array associated with that key in the Map.",
+      "Return the Map (converted to entries for testing)."
+    ],
+    "starterCode": "function groupToMap(arr, key) {\n  // your code here\n}",
+    "skeletonHint": "function groupToMap(arr, key) {\n  const map = new Map();\n  for (const item of arr) {\n    const groupKey = item[key];\n    if (!map.has(____)) map.set(____, []);\n    map.get(____).push(item);\n  }\n  return Array.from(map.entries());\n}",
+    "solution": "function groupToMap(arr, key) {\n  const map = new Map();\n  for (const item of arr) {\n    const groupKey = item[key];\n    if (!map.has(groupKey)) {\n      map.set(groupKey, []);\n    }\n    map.get(groupKey).push(item);\n  }\n  return Array.from(map.entries());\n}",
+    "tests": [
+      {
+        "input": [[{ "type": "fruit", "name": "apple" }, { "type": "veg", "name": "carrot" }, { "type": "fruit", "name": "pear" }], "type"],
+        "expected": [["fruit", [{ "type": "fruit", "name": "apple" }, { "type": "fruit", "name": "pear" }]], ["veg", [{ "type": "veg", "name": "carrot" }]]],
+        "label": "Group by type"
+      }
+    ],
+    "traceTable": {
+      "inputLabel": "groupToMap([{id:1}], 'id')",
+      "columns": ["item", "groupKey", "map"],
+      "rows": [
+        { "item": "{id:1}", "groupKey": 1, "map": "{1 => [{id:1}]}" }
+      ]
+    },
+    "patternTag": "Data Grouping",
+    "patternExplanation": "Maps are excellent for grouping logic because they can use any value as a key and maintain insertion order for the groups.",
+    "estimatedMinutes": 10,
+    "status": "published"
+  },
+  {
+    "id": "ds24",
+    "title": "Typed Arrays basics (Uint8Array)",
+    "type": "coding",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "functionName": "createUint8Array",
+    "description": "Typed arrays provide a way to work with raw binary data. `Uint8Array` represents an array of 8-bit unsigned integers. This is useful for handling binary formats, images, or network protocols.",
+    "whatShouldHappen": [
+      "Accept a length parameter.",
+      "Create a new `Uint8Array` of the specified length.",
+      "Fill the array with values from 0 to length - 1.",
+      "Return the array (converted to a regular array for testing)."
+    ],
+    "starterCode": "function createUint8Array(length) {\n  // your code here\n}",
+    "skeletonHint": "function createUint8Array(length) {\n  const arr = new ____(length);\n  for (let i = 0; i < length; i++) {\n    arr[i] = ____;\n  }\n  return Array.from(arr);\n}",
+    "solution": "function createUint8Array(length) {\n  const arr = new Uint8Array(length);\n  for (let i = 0; i < length; i++) {\n    arr[i] = i;\n  }\n  return Array.from(arr);\n}",
+    "tests": [
+      { "input": [5], "expected": [0, 1, 2, 3, 4], "label": "Length 5" },
+      { "input": [3], "expected": [0, 1, 2], "label": "Length 3" }
+    ],
+    "traceTable": {
+      "inputLabel": "createUint8Array(2)",
+      "columns": ["i", "arr[i]"],
+      "rows": [
+        { "i": 0, "arr[i]": 0 },
+        { "i": 1, "arr[i]": 1 }
+      ]
+    },
+    "patternTag": "Binary Data",
+    "patternExplanation": "Typed arrays offer fixed-length, contiguous memory buffers for numeric data, which is more memory-efficient and often faster than regular arrays for binary tasks.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "ds25",
+    "title": "DataView for binary buffer",
+    "type": "coding",
+    "category": "maps-and-sets",
+    "difficulty": "Medium",
+    "collectionId": "js-pro",
+    "functionName": "useDataView",
+    "description": "While Typed Arrays have a fixed 'view' of a buffer, `DataView` provides a low-level interface for reading and writing multiple number types in an `ArrayBuffer`, regardless of the platform's endianness.",
+    "whatShouldHappen": [
+      "Create an `ArrayBuffer` of 8 bytes.",
+      "Create a `DataView` for that buffer.",
+      "Set a Uint8 value of 255 at byte offset 0.",
+      "Set a Uint16 value of 65535 at byte offset 1.",
+      "Set a Float32 value of 3.14 at byte offset 3.",
+      "Return an object containing the values read back using the corresponding 'get' methods."
+    ],
+    "starterCode": "function useDataView() {\n  // your code here\n}",
+    "skeletonHint": "function useDataView() {\n  const buffer = new ArrayBuffer(8);\n  const view = new DataView(buffer);\n  view.setUint8(0, 255);\n  view.setUint16(1, 65535);\n  view.setFloat32(3, 3.14);\n  return {\n    u8: view.getUint8(0),\n    u16: view.getUint16(1),\n    f32: Number(view.getFloat32(3).toFixed(2))\n  };\n}",
+    "solution": "function useDataView() {\n  const buffer = new ArrayBuffer(8);\n  const view = new DataView(buffer);\n  view.setUint8(0, 255);\n  view.setUint16(1, 65535);\n  view.setFloat32(3, 3.14);\n  return {\n    u8: view.getUint8(0),\n    u16: view.getUint16(1),\n    f32: Number(view.getFloat32(3).toFixed(2))\n  };\n}",
+    "tests": [
+      { "input": [], "expected": { "u8": 255, "u16": 65535, "f32": 3.14 }, "label": "Check binary values" }
+    ],
+    "traceTable": {
+      "inputLabel": "useDataView()",
+      "columns": ["offset", "type", "value"],
+      "rows": [
+        { "offset": 0, "type": "Uint8", "value": 255 },
+        { "offset": 1, "type": "Uint16", "value": 65535 },
+        { "offset": 3, "type": "Float32", "value": 3.14 }
+      ]
+    },
+    "patternTag": "Binary Data",
+    "patternExplanation": "DataView allows precise control over how data is laid out in a buffer, making it indispensable for parsing complex binary formats.",
+    "estimatedMinutes": 12,
+    "status": "published"
+  },
+  {
+    "id": "ds26",
+    "title": "WeakRef usage basic",
+    "category": "maps-and-sets",
+    "difficulty": "Hard",
+    "collectionId": "js-pro",
+    "patternTag": "Weak References",
+    "patternExplanation": "WeakRef objects allow you to hold a weak reference to an object, which does not prevent that object from being reclaimed by the garbage collector.",
+    "estimatedMinutes": 10,
+    "functionName": "testWeakRef",
+    "description": "Implement a function that takes an object, creates a WeakRef for it, and then returns the object retrieved from that WeakRef using the .deref() method.",
+    "whatShouldHappen": [
+      "Create a new WeakRef instance for the input 'obj'.",
+      "Call the .deref() method on the WeakRef instance.",
+      "Return the result of .deref()."
+    ],
+    "starterCode": "function testWeakRef(obj) {\n  // your code here\n}",
+    "solution": "function testWeakRef(obj) {\n  const ref = new WeakRef(obj);\n  return ref.deref();\n}",
+    "skeletonHint": "function testWeakRef(obj) {\n  const ref = new ____(obj);\n  return ref.____();\n}",
+    "traceTable": {
+      "inputLabel": "obj = { id: 1 }",
+      "columns": ["new WeakRef(obj)", "ref.deref()"],
+      "rows": [
+        { "new WeakRef(obj)": "[WeakRef]", "ref.deref()": "{ id: 1 }" }
+      ]
+    },
+    "tests": [
+      {
+        "input": [{}],
+        "expected": {},
+        "label": "Basic object"
+      },
+      {
+        "input": [[1, 2]],
+        "expected": [1, 2],
+        "label": "Array object"
+      }
+    ],
+    "status": "published"
+  },
+  {
+    "id": "ds27",
+    "title": "FinalizationRegistry cleanup",
+    "category": "maps-and-sets",
+    "difficulty": "Hard",
+    "collectionId": "js-pro",
+    "patternTag": "Weak References",
+    "patternExplanation": "FinalizationRegistry provides a way to request a cleanup callback after an object has been garbage collected.",
+    "estimatedMinutes": 15,
+    "functionName": "createRegistry",
+    "description": "Implement a function that creates a FinalizationRegistry with a given cleanup callback. It should then register a target object with a held value and return the registry instance.",
+    "whatShouldHappen": [
+      "Create a new FinalizationRegistry with the provided 'cleanupCallback'.",
+      "Register the 'target' object with the 'heldValue' using .register().",
+      "Return the registry instance."
+    ],
+    "starterCode": "function createRegistry(cleanupCallback, target, heldValue) {\n  // your code here\n}",
+    "solution": "function createRegistry(cleanupCallback, target, heldValue) {\n  const registry = new FinalizationRegistry(cleanupCallback);\n  registry.register(target, heldValue);\n  return registry;\n}",
+    "skeletonHint": "function createRegistry(cleanupCallback, target, heldValue) {\n  const registry = new ____(cleanupCallback);\n  registry.____(target, heldValue);\n  return registry;\n}",
+    "traceTable": {
+      "inputLabel": "target = {}, heldValue = 'data'",
+      "columns": ["new FinalizationRegistry", "registry.register"],
+      "rows": [
+        { "new FinalizationRegistry": "[Registry]", "registry.register": "undefined" }
+      ]
+    },
+    "tests": [
+      {
+        "input": ["(val) => console.log(val)", {}, "metadata"],
+        "expected": "[object FinalizationRegistry]",
+        "label": "Registry creation",
+        "isEval": true,
+        "testRunnerWrapper": "function runner(fn, input) {\n  const result = fn(input[0], input[1], input[2]);\n  return Object.prototype.toString.call(result);\n}"
+      }
+    ],
+    "status": "published"
+  },
+  {
+    "id": "ds28",
+    "title": "Map keys iteration",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro",
+    "patternTag": "Map Iteration",
+    "patternExplanation": "The Map.prototype.keys() method returns a new iterator object that contains the keys for each element in the Map in insertion order.",
+    "estimatedMinutes": 5,
+    "functionName": "getMapKeys",
+    "description": "Implement a function that takes a Map and returns an array of all its keys.",
+    "whatShouldHappen": [
+      "Access the Map's keys using the .keys() method.",
+      "Convert the iterator to an array using the spread operator or Array.from().",
+      "Return the array of keys."
+    ],
+    "starterCode": "function getMapKeys(map) {\n  // your code here\n}",
+    "solution": "function getMapKeys(map) {\n  return Array.from(map.keys());\n}",
+    "skeletonHint": "function getMapKeys(map) {\n  return Array.____(map.____());\n}",
+    "traceTable": {
+      "inputLabel": "map = new Map([['a', 1]])",
+      "columns": ["map.keys()", "result"],
+      "rows": [
+        { "map.keys()": "['a']", "result": "['a']" }
+      ]
+    },
+    "tests": [
+      {
+        "input": ["new Map([['name', 'Alice'], ['age', 30]])"],
+        "expected": ["name", "age"],
+        "label": "Multiple keys",
+        "isEval": true
+      },
+      {
+        "input": ["new Map()"],
+        "expected": [],
+        "label": "Empty Map",
+        "isEval": true
+      }
+    ],
+    "status": "published"
+  },
+  {
+    "id": "ds29",
+    "title": "Generator delegated yield (yield*)",
+    "category": "maps-and-sets",
+    "difficulty": "Medium",
+    "collectionId": "js-pro",
+    "patternTag": "Generators",
+    "patternExplanation": "The yield* expression is used to delegate to another generator or iterable object.",
+    "estimatedMinutes": 10,
+    "functionName": "delegatedGenerator",
+    "description": "Create a generator function that first yields a prefix, then delegates to another iterable (like an array) using yield*, and finally yields a suffix.",
+    "whatShouldHappen": [
+      "Yield the 'prefix' string.",
+      "Use yield* to delegate to the 'iterable' object.",
+      "Yield the 'suffix' string."
+    ],
+    "starterCode": "function* delegatedGenerator(prefix, iterable, suffix) {\n  // your code here\n}",
+    "solution": "function* delegatedGenerator(prefix, iterable, suffix) {\n  yield prefix;\n  yield* iterable;\n  yield suffix;\n}",
+    "skeletonHint": "function* delegatedGenerator(prefix, iterable, suffix) {\n  yield prefix;\n  ____ iterable;\n  yield suffix;\n}",
+    "traceTable": {
+      "inputLabel": "prefix='start', iterable=[1, 2], suffix='end'",
+      "columns": ["yield prefix", "yield* iterable", "yield suffix"],
+      "rows": [
+        { "yield prefix": "'start'", "yield* iterable": "1, 2", "yield suffix": "'end'" }
+      ]
+    },
+    "tests": [
+      {
+        "input": ["START", [1, 2], "END"],
+        "expected": ["START", 1, 2, "END"],
+        "label": "Delegation to array",
+        "isGenerator": true
+      },
+      {
+        "input": ["A", "BC", "D"],
+        "expected": ["A", "B", "C", "D"],
+        "label": "Delegation to string",
+        "isGenerator": true
+      }
+    ],
+    "status": "published"
+  },
+  {
+    "id": "ds30",
+    "title": "Async Iterators basics",
+    "category": "maps-and-sets",
+    "difficulty": "Hard",
+    "collectionId": "js-pro",
+    "patternTag": "Async Iteration",
+    "patternExplanation": "Async iterators allow you to iterate over data that is available asynchronously. They implement the Symbol.asyncIterator method.",
+    "estimatedMinutes": 15,
+    "functionName": "createAsyncIterable",
+    "description": "Implement an async generator function that yields numbers from 1 to N with a small delay between each.",
+    "whatShouldHappen": [
+      "Define an async generator function using 'async function*'.",
+      "Loop from 1 to N.",
+      "Inside the loop, await a Promise that resolves after a timeout (e.g., 10ms).",
+      "Yield the current number."
+    ],
+    "starterCode": "async function* createAsyncIterable(n) {\n  // your code here\n}",
+    "solution": "async function* createAsyncIterable(n) {\n  for (let i = 1; i <= n; i++) {\n    await new Promise(resolve => setTimeout(resolve, 10));\n    yield i;\n  }\n}",
+    "skeletonHint": "async function* createAsyncIterable(n) {\n  for (let i = 1; i <= n; i++) {\n    await new Promise(res => ____(res, 10));\n    yield ____;\n  }\n}",
+    "traceTable": {
+      "inputLabel": "n = 2",
+      "columns": ["i", "await timeout", "yield i"],
+      "rows": [
+        { "i": 1, "await timeout": "done", "yield i": 1 },
+        { "i": 2, "await timeout": "done", "yield i": 2 }
+      ]
+    },
+    "tests": [
+      {
+        "input": [3],
+        "expected": [1, 2, 3],
+        "label": "Async yield 1 to 3",
+        "isAsyncGenerator": true
+      }
+    ],
+    "status": "published"
+  }
+]

@@ -1,0 +1,1436 @@
+[
+  {
+    "id": "js-a1-push-pop",
+    "title": "Array.push/pop simulation",
+    "type": "coding",
+    "category": "array-building",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "simulateStack",
+    "description": "The `push()` method adds one or more elements to the end of an array and returns the new length. The `pop()` method removes the **last** element from an array and returns that element. Together, they allow an array to act as a **Stack** (Last-In, First-Out).",
+    "whatShouldHappen": [
+      "The function receives an array and an element.",
+      "Push the element onto the array.",
+      "Pop an element from the array.",
+      "Push the element onto the array again.",
+      "Return the final array."
+    ],
+    "starterCode": "function simulateStack(arr, element) {\n  // 1. Push 'element' to 'arr'\n  // 2. Pop from 'arr'\n  // 3. Push 'element' again\n  // 4. Return arr\n}",
+    "solution": "function simulateStack(arr, element) {\n  arr.push(element);\n  arr.pop();\n  arr.push(element);\n  return arr;\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2], element = 3",
+      "columns": ["Operation", "Array State", "Returned Value"],
+      "rows": [
+        ["Initial", "[1, 2]", "-"],
+        ["push(3)", "[1, 2, 3]", "3 (new length)"],
+        ["pop()", "[1, 2]", "3 (removed element)"],
+        ["push(3)", "[1, 2, 3]", "3 (new length)"]
+      ]
+    },
+    "skeletonHint": "arr.push(val) adds to the end; arr.pop() removes from the end.",
+    "tests": [
+      { "input": [[1, 2], 3], "expected": [1, 2, 3] },
+      { "input": [[], "a"], "expected": ["a"] },
+      { "input": [["x"], "y"], "expected": ["x", "y"] }
+    ],
+    "patternTag": "Stack Operations",
+    "patternExplanation": "Push and Pop are O(1) operations that manage the end of the array.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-a2-unshift-shift",
+    "title": "Array.unshift/shift simulation",
+    "type": "coding",
+    "category": "array-building",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "simulateQueue",
+    "description": "The `unshift()` method adds elements to the **beginning** of an array, and `shift()` removes the **first** element. These methods are typically slower than push/pop because they require re-indexing all subsequent elements.",
+    "whatShouldHappen": [
+      "The function receives an array and an element.",
+      "Add the element to the beginning using `unshift()`.",
+      "Remove the first element using `shift()`.",
+      "Add the element to the beginning again.",
+      "Return the final array."
+    ],
+    "starterCode": "function simulateQueue(arr, element) {\n  // 1. Unshift 'element' to 'arr'\n  // 2. Shift from 'arr'\n  // 3. Unshift 'element' again\n  // 4. Return arr\n}",
+    "solution": "function simulateQueue(arr, element) {\n  arr.unshift(element);\n  arr.shift();\n  arr.unshift(element);\n  return arr;\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2], element = 3",
+      "columns": ["Operation", "Array State", "Returned Value"],
+      "rows": [
+        ["Initial", "[1, 2]", "-"],
+        ["unshift(3)", "[3, 1, 2]", "3 (new length)"],
+        ["shift()", "[1, 2]", "3 (removed element)"],
+        ["unshift(3)", "[3, 1, 2]", "3 (new length)"]
+      ]
+    },
+    "skeletonHint": "unshift(val) adds to the front; shift() removes from the front.",
+    "tests": [
+      { "input": [[1, 2], 3], "expected": [3, 1, 2] },
+      { "input": [[], "a"], "expected": ["a"] },
+      { "input": [["x"], "y"], "expected": ["y", "x"] }
+    ],
+    "patternTag": "Queue Operations",
+    "patternExplanation": "Shift and Unshift are O(n) operations because they modify the indices of all existing elements.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-a3-slice-basics",
+    "title": "Array.slice basics",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getSlice",
+    "description": "The `slice()` method returns a **shallow copy** of a portion of an array into a new array object. It takes two arguments: `start` (inclusive) and `end` (exclusive). The original array is **not** modified.",
+    "whatShouldHappen": [
+      "Return a slice of the array from index 1 to index 3 (not including index 3).",
+      "Return a second slice containing the last two elements of the array.",
+      "Return both slices in an array `[slice1, slice2]`."
+    ],
+    "starterCode": "function getSlice(arr) {\n  // 1. Get slice from index 1 to 3 (exclusive)\n  // 2. Get slice of last 2 elements (use negative index -2)\n  // 3. Return [slice1, slice2]\n}",
+    "solution": "function getSlice(arr) {\n  const slice1 = arr.slice(1, 3);\n  const slice2 = arr.slice(-2);\n  return [slice1, slice2];\n}",
+    "traceTable": {
+      "inputLabel": "arr = [10, 20, 30, 40, 50]",
+      "columns": ["Method", "Arguments", "Result"],
+      "rows": [
+        ["slice", "1, 3", "[20, 30]"],
+        ["slice", "-2", "[40, 50]"]
+      ]
+    },
+    "skeletonHint": "arr.slice(start, end) stops before the end index. arr.slice(-n) gets the last n items.",
+    "tests": [
+      { "input": [[10, 20, 30, 40, 50]], "expected": [[20, 30], [40, 50]] },
+      { "input": [["a", "b", "c", "d"]], "expected": [["b", "c"], ["c", "d"]] }
+    ],
+    "patternTag": "Array Slicing",
+    "patternExplanation": "Slice is a non-mutating way to extract data from an array.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-a4-splice-remove",
+    "title": "Array.splice to remove element",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "removeWithSplice",
+    "description": "The `splice()` method changes the contents of an array by removing or replacing existing elements. Unlike `slice()`, `splice()` **mutates** the original array.",
+    "whatShouldHappen": [
+      "The function receives an array and an index.",
+      "Use `splice()` to remove 1 element at the given index.",
+      "Return the modified array."
+    ],
+    "starterCode": "function removeWithSplice(arr, index) {\n  // Remove 1 element at 'index'\n  // Return arr\n}",
+    "solution": "function removeWithSplice(arr, index) {\n  arr.splice(index, 1);\n  return arr;\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['a', 'b', 'c'], index = 1",
+      "columns": ["index", "deleteCount", "Resulting Array"],
+      "rows": [
+        ["1", "1", "['a', 'c']"]
+      ]
+    },
+    "skeletonHint": "Syntax: arr.splice(start, deleteCount)",
+    "tests": [
+      { "input": [[1, 2, 3, 4], 2], "expected": [1, 2, 4] },
+      { "input": [["apple", "banana", "cherry"], 0], "expected": ["banana", "cherry"] },
+      { "input": [[10], 0], "expected": [] }
+    ],
+    "patternTag": "Array Mutation",
+    "patternExplanation": "Splice is the primary tool for in-place array modification.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-a5-splice-insert",
+    "title": "Array.splice to insert element",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "insertWithSplice",
+    "description": "By setting the `deleteCount` to `0`, `splice()` can be used to insert elements at any position without removing existing ones.",
+    "whatShouldHappen": [
+      "The function receives an array, an index, and an element.",
+      "Use `splice()` to insert 'element' at 'index' without deleting anything.",
+      "Return the modified array."
+    ],
+    "starterCode": "function insertWithSplice(arr, index, element) {\n  // Insert 'element' at 'index' with 0 deletions\n  // Return arr\n}",
+    "solution": "function insertWithSplice(arr, index, element) {\n  arr.splice(index, 0, element);\n  return arr;\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 3], index = 1, element = 2",
+      "columns": ["index", "deleteCount", "item", "Result"],
+      "rows": [
+        ["1", "0", "2", "[1, 2, 3]"]
+      ]
+    },
+    "skeletonHint": "The third argument to splice is the item to add.",
+    "tests": [
+      { "input": [[1, 3], 1, 2], "expected": [1, 2, 3] },
+      { "input": [[], 0, "first"], "expected": ["first"] },
+      { "input": [["a", "b"], 2, "c"], "expected": ["a", "b", "c"] }
+    ],
+    "patternTag": "Array Insertion",
+    "patternExplanation": "Splice allows flexible insertion at any point in the array.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-a6-indexof-findindex",
+    "title": "Array.indexOf vs findIndex",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "findIndices",
+    "description": "`indexOf` is great for simple values, but `findIndex` allows for complex conditions using a callback function.",
+    "whatShouldHappen": [
+      "Find the index of 'search' using `indexOf`.",
+      "Find the index of the first string that starts with 'search' using `findIndex`.",
+      "Return both as [index1, index2]."
+    ],
+    "starterCode": "function findIndices(arr, search) {\n  // 1. Get index of 'search'\n  // 2. Get index of first string starting with 'search'\n  // 3. Return [index1, index2]\n}",
+    "solution": "function findIndices(arr, search) {\n  const index1 = arr.indexOf(search);\n  const index2 = arr.findIndex(item => item.startsWith(search));\n  return [index1, index2];\n}",
+    "traceTable": {
+      "inputLabel": "arr=['apple', 'banana', 'apricot'], search='ap'",
+      "columns": ["Method", "Condition", "Result"],
+      "rows": [
+        ["indexOf", "exactly 'ap'", "-1"],
+        ["findIndex", "startsWith('ap')", "0"]
+      ]
+    },
+    "skeletonHint": "item.startsWith(search) can be used inside findIndex.",
+    "tests": [
+      { "input": [["apple", "banana", "apricot"], "ba"], "expected": [-1, 1] },
+      { "input": [["apple", "banana", "apricot"], "apple"], "expected": [0, 0] },
+      { "input": [["x", "y", "z"], "a"], "expected": [-1, -1] }
+    ],
+    "patternTag": "Searching Arrays",
+    "patternExplanation": "indexOf is for exact matches; findIndex is for predicate-based searches.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-a7-includes-objects",
+    "title": "Array.includes with objects",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "checkIncludes",
+    "description": "`Array.includes()` uses referential equality for objects. Two objects with the same properties are NOT considered equal unless they point to the same memory location.",
+    "whatShouldHappen": [
+      "Check if 'arr' includes the object 'obj' (the reference).",
+      "Check if 'arr' includes a new object `{ name: obj.name }`.",
+      "Return [result1, result2]."
+    ],
+    "starterCode": "function checkIncludes(arr, obj) {\n  // 1. Check includes(obj)\n  // 2. Check includes({ name: obj.name })\n  // 3. Return [res1, res2]\n}",
+    "solution": "function checkIncludes(arr, obj) {\n  const res1 = arr.includes(obj);\n  const res2 = arr.includes({ name: obj.name });\n  return [res1, res2];\n}",
+    "traceTable": {
+      "inputLabel": "arr=[{name:'A'}], obj=arr[0]",
+      "columns": ["Check", "Reason", "Result"],
+      "rows": [
+        ["includes(obj)", "Same reference", "true"],
+        ["includes({name:'A'})", "New reference", "false"]
+      ]
+    },
+    "skeletonHint": "Objects are compared by reference, not by content.",
+    "tests": [
+      { "input": [[{ "name": "Alice" }, { "name": "Bob" }], { "name": "Alice" }], "expected": [false, false] },
+      { "input": [[], { "name": "X" }], "expected": [false, false] }
+    ],
+    "patternTag": "Referential Equality",
+    "patternExplanation": "includes() fails for 'equal' objects that have different references.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-a8-reverse-inplace",
+    "title": "Array.reverse in-place",
+    "type": "coding",
+    "category": "reverse-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "reverseArray",
+    "description": "The `reverse()` method reverses an array in-place. This means it modifies the original array and returns a reference to it.",
+    "whatShouldHappen": [
+      "Reverse the input array 'arr'.",
+      "Return the reversed array."
+    ],
+    "starterCode": "function reverseArray(arr) {\n  // Reverse arr in-place\n  // Return arr\n}",
+    "solution": "function reverseArray(arr) {\n  arr.reverse();\n  return arr;\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3]",
+      "columns": ["Initial", "Action", "Final"],
+      "rows": [
+        ["[1, 2, 3]", "reverse()", "[3, 2, 1]"]
+      ]
+    },
+    "skeletonHint": "arr.reverse() modifies the original array.",
+    "tests": [
+      { "input": [[1, 2, 3]], "expected": [3, 2, 1] },
+      { "input": [["a", "b"]], "expected": ["b", "a"] },
+      { "input": [[]], "expected": [] }
+    ],
+    "patternTag": "In-place Mutation",
+    "patternExplanation": "Reversing an array in-place is O(n) and saves memory compared to creating a copy.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "js-a9-sort-numeric",
+    "title": "Array.sort (numeric)",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "sortNumbers",
+    "description": "By default, `sort()` converts elements to strings and sorts them lexicographically. To sort numbers correctly, you must provide a compare function.",
+    "whatShouldHappen": [
+      "Sort the array of numbers in ascending order.",
+      "Return the sorted array."
+    ],
+    "starterCode": "function sortNumbers(arr) {\n  // Sort arr numerically\n  // Return arr\n}",
+    "solution": "function sortNumbers(arr) {\n  arr.sort((a, b) => a - b);\n  return arr;\n}",
+    "traceTable": {
+      "inputLabel": "arr = [10, 2, 30, 4]",
+      "columns": ["Sorting Style", "Result"],
+      "rows": [
+        ["Default (String)", "[10, 2, 30, 4]"],
+        ["Numeric (a - b)", "[2, 4, 10, 30]"]
+      ]
+    },
+    "skeletonHint": "Use a compare function: (a, b) => a - b",
+    "tests": [
+      { "input": [[10, 2, 30, 4]], "expected": [2, 4, 10, 30] },
+      { "input": [[-1, -5, 0, 10]], "expected": [-5, -1, 0, 10] },
+      { "input": [[5, 5, 5]], "expected": [5, 5, 5] }
+    ],
+    "patternTag": "Custom Sorting",
+    "patternExplanation": "The compare function defines the sort order based on return value (negative, zero, or positive).",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-a10-concat-spread",
+    "title": "Array.concat vs Spread",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "combineArrays",
+    "description": "Both `concat()` and the spread operator (`...`) can be used to merge arrays into a new one without modifying the originals.",
+    "whatShouldHappen": [
+      "Combine 'arr1' and 'arr2' using `concat()`.",
+      "Combine 'arr1' and 'arr2' using the spread operator in a new array literal.",
+      "Return [res1, res2]."
+    ],
+    "starterCode": "function combineArrays(arr1, arr2) {\n  // 1. res1 = arr1.concat(arr2)\n  // 2. res2 = [...arr1, ...arr2]\n  // 3. Return [res1, res2]\n}",
+    "solution": "function combineArrays(arr1, arr2) {\n  const res1 = arr1.concat(arr2);\n  const res2 = [...arr1, ...arr2];\n  return [res1, res2];\n}",
+    "traceTable": {
+      "inputLabel": "arr1=[1], arr2=[2]",
+      "columns": ["Method", "Result"],
+      "rows": [
+        ["concat", "[1, 2]"],
+        ["spread", "[1, 2]"]
+      ]
+    },
+    "skeletonHint": "Spread syntax: [...arr1, ...arr2]",
+    "tests": [
+      { "input": [[1, 2], [3, 4]], "expected": [[1, 2, 3, 4], [1, 2, 3, 4]] },
+      { "input": [[], ["a"]], "expected": [["a"], ["a"]] },
+      { "input": [["x"], []], "expected": [["x"], ["x"]] }
+    ],
+    "patternTag": "Array Combination",
+    "patternExplanation": "Merging arrays creates a new array while preserving the original inputs.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "js-a11-join-delimiter",
+    "title": "Array.join custom delimiter",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "joinWithDelimiter",
+    "description": "The `join()` method creates and returns a new string by concatenating all of the elements in an array, separated by a specified separator string. If no separator is provided, it defaults to a comma.",
+    "whatShouldHappen": [
+      "The function receives an array of strings and a delimiter.",
+      "Join the array elements using the delimiter.",
+      "Return the resulting string."
+    ],
+    "starterCode": "function joinWithDelimiter(words, delimiter) {\n  // Join 'words' with 'delimiter'\n  // Return the string\n}",
+    "solution": "function joinWithDelimiter(words, delimiter) {\n  return words.join(delimiter);\n}",
+    "traceTable": {
+      "inputLabel": "words=['A', 'B'], delimiter='-'",
+      "columns": ["Method", "Delimiter", "Result"],
+      "rows": [
+        ["join", "'-'", "'A-B'"]
+      ]
+    },
+    "skeletonHint": "Syntax: arr.join(separator)",
+    "tests": [
+      { "input": [["Hello", "World"], " "], "expected": "Hello World" },
+      { "input": [["a", "b", "c"], "-"], "expected": "a-b-c" },
+      { "input": [["1", "2", "3"], ""], "expected": "123" }
+    ],
+    "patternTag": "String Conversion",
+    "patternExplanation": "Join is the standard way to convert an array into a single formatted string.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "js-a12-foreach-basic",
+    "title": "Array.forEach basic",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "sumWithForEach",
+    "description": "The `forEach()` method executes a provided function once for each array element. Unlike `map()`, it returns `undefined` and is typically used for side effects (like updating an external variable).",
+    "whatShouldHappen": [
+      "The function receives an array of numbers.",
+      "Initialize a `sum` variable to 0.",
+      "Use `forEach()` to add each number to `sum`.",
+      "Return the total sum."
+    ],
+    "starterCode": "function sumWithForEach(arr) {\n  let sum = 0;\n  // Use forEach to add elements to sum\n  // Return sum\n}",
+    "solution": "function sumWithForEach(arr) {\n  let sum = 0;\n  arr.forEach(num => {\n    sum += num;\n  });\n  return sum;\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3]",
+      "columns": ["Iteration", "Current Element", "Running Sum"],
+      "rows": [
+        ["1", "1", "1"],
+        ["2", "2", "3"],
+        ["3", "3", "6"]
+      ]
+    },
+    "skeletonHint": "arr.forEach(element => { ... })",
+    "tests": [
+      { "input": [[1, 2, 3, 4]], "expected": 10 },
+      { "input": [[10, -5, 5]], "expected": 10 },
+      { "input": [[]], "expected": 0 }
+    ],
+    "patternTag": "Array Iteration",
+    "patternExplanation": "forEach provides a clean, declarative way to iterate over all elements.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-a13-map-transformation",
+    "title": "Array.map transformation",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "doubleValues",
+    "description": "The `map()` method creates a **new** array populated with the results of calling a provided function on every element in the calling array. It does not modify the original array.",
+    "whatShouldHappen": [
+      "The function receives an array of numbers.",
+      "Use `map()` to create a new array where each element is multiplied by 2.",
+      "Return the new array."
+    ],
+    "starterCode": "function doubleValues(arr) {\n  // Use map to return a new array with doubled values\n}",
+    "solution": "function doubleValues(arr) {\n  return arr.map(num => num * 2);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3]",
+      "columns": ["Input Element", "Transformation", "Output Element"],
+      "rows": [
+        ["1", "1 * 2", "2"],
+        ["2", "2 * 2", "4"],
+        ["3", "3 * 2", "6"]
+      ]
+    },
+    "skeletonHint": "arr.map(x => x * 2)",
+    "tests": [
+      { "input": [[1, 2, 3]], "expected": [2, 4, 6] },
+      { "input": [[0, -1, 10]], "expected": [0, -2, 20] },
+      { "input": [[]], "expected": [] }
+    ],
+    "patternTag": "Functional Transformation",
+    "patternExplanation": "Map is the foundation of functional programming in JS, allowing for immutable transformations.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "js-a14-filter-evens",
+    "title": "Array.filter even numbers",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getEvens",
+    "description": "The `filter()` method creates a **shallow copy** of a portion of an array, containing only the elements that pass the test implemented by the provided function.",
+    "whatShouldHappen": [
+      "The function receives an array of numbers.",
+      "Use `filter()` to extract only the even numbers.",
+      "Return the new array."
+    ],
+    "starterCode": "function getEvens(arr) {\n  // Use filter to return only even numbers\n}",
+    "solution": "function getEvens(arr) {\n  return arr.filter(num => num % 2 === 0);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4]",
+      "columns": ["Element", "Condition (num % 2 === 0)", "Included?"],
+      "rows": [
+        ["1", "false", "No"],
+        ["2", "true", "Yes"],
+        ["3", "false", "No"],
+        ["4", "true", "Yes"]
+      ]
+    },
+    "skeletonHint": "Use the modulo operator (%) to check for evenness.",
+    "tests": [
+      { "input": [[1, 2, 3, 4, 5, 6]], "expected": [2, 4, 6] },
+      { "input": [[1, 3, 5]], "expected": [] },
+      { "input": [[2, 4, 8]], "expected": [2, 4, 8] }
+    ],
+    "patternTag": "Array Filtering",
+    "patternExplanation": "Filter allows you to selectively extract data based on specific criteria.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "js-a15-reduce-sum",
+    "title": "Array.reduce sum",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "calculateSum",
+    "description": "The `reduce()` method executes a user-supplied 'reducer' callback function on each element of the array, passing in the return value from the calculation on the preceding element. It reduces the entire array into a **single value**.",
+    "whatShouldHappen": [
+      "The function receives an array of numbers.",
+      "Use `reduce()` to sum all numbers in the array.",
+      "Provide `0` as the initial value.",
+      "Return the final sum."
+    ],
+    "starterCode": "function calculateSum(arr) {\n  // Use reduce to sum the array starting from 0\n}",
+    "solution": "function calculateSum(arr) {\n  return arr.reduce((acc, curr) => acc + curr, 0);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3], initial = 0",
+      "columns": ["Accumulator (acc)", "Current (curr)", "Next Accumulator"],
+      "rows": [
+        ["0", "1", "1"],
+        ["1", "2", "3"],
+        ["3", "3", "6"]
+      ]
+    },
+    "skeletonHint": "arr.reduce((accumulator, currentValue) => { ... }, initialValue)",
+    "tests": [
+      { "input": [[1, 2, 3, 4]], "expected": 10 },
+      { "input": [[10, 20, 30]], "expected": 60 },
+      { "input": [[]], "expected": 0 }
+    ],
+    "patternTag": "Array Reduction",
+    "patternExplanation": "Reduce is a powerful tool for aggregating array data into a single output.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "js-a16-reduce-to-object",
+    "title": "Array.reduce to object map",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "mapById",
+    "description": "The `reduce()` method can be used to transform an array into an object. This is common when you want to create a lookup map (dictionary) from an array of objects for O(1) access by ID.",
+    "whatShouldHappen": [
+      "The function receives an array of user objects (each having an `id` and `name`).",
+      "Use `reduce()` to create an object where keys are the user IDs and values are the full user objects.",
+      "Provide an empty object `{}` as the initial value.",
+      "Return the resulting map."
+    ],
+    "starterCode": "function mapById(users) {\n  // Use reduce to create a map of users by id\n}",
+    "solution": "function mapById(users) {\n  return users.reduce((acc, user) => {\n    acc[user.id] = user;\n    return acc;\n  }, {});\n}",
+    "traceTable": {
+      "inputLabel": "users = [{id: 1, name: 'Alice'}, {id: 2, name: 'Bob'}]",
+      "columns": ["Accumulator", "Current User", "Next Accumulator"],
+      "rows": [
+        ["{}", "{id: 1, name: 'Alice'}", "{1: {id: 1, name: 'Alice'}}"],
+        ["{1: ...}", "{id: 2, name: 'Bob'}", "{1: ..., 2: {id: 2, name: 'Bob'}}"]
+      ]
+    },
+    "skeletonHint": "Return the accumulator (acc) in every iteration of reduce.",
+    "tests": [
+      {
+        "input": [[{ "id": "u1", "name": "Alice" }, { "id": "u2", "name": "Bob" }]],
+        "expected": { "u1": { "id": "u1", "name": "Alice" }, "u2": { "id": "u2", "name": "Bob" } }
+      },
+      { "input": [[]], "expected": {} }
+    ],
+    "patternTag": "Data Transformation",
+    "patternExplanation": "Mapping arrays to objects is a key performance optimization for frequent data lookups.",
+    "estimatedMinutes": 7,
+    "status": "published"
+  },
+  {
+    "id": "js-a17-every-validation",
+    "title": "Array.every validation",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "allPositive",
+    "description": "The `every()` method tests whether **all** elements in the array pass the test implemented by the provided function. It returns a Boolean value.",
+    "whatShouldHappen": [
+      "The function receives an array of numbers.",
+      "Use `every()` to check if every number is greater than 0.",
+      "Return the boolean result."
+    ],
+    "starterCode": "function allPositive(nums) {\n  // Return true if every number in 'nums' is > 0\n}",
+    "solution": "function allPositive(nums) {\n  return nums.every(num => num > 0);\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 2, -1]",
+      "columns": ["Element", "Check (> 0)", "Short-circuit?"],
+      "rows": [
+        ["1", "true", "No"],
+        ["2", "true", "No"],
+        ["-1", "false", "Yes (Returns false)"]
+      ]
+    },
+    "skeletonHint": "every() stops as soon as it finds one element that fails the test.",
+    "tests": [
+      { "input": [[1, 2, 3]], "expected": true },
+      { "input": [[1, -1, 2]], "expected": false },
+      { "input": [[]], "expected": true }
+    ],
+    "patternTag": "Array Validation",
+    "patternExplanation": "Every is used for universal quantification (checking if a rule applies to everything).",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "js-a18-some-check",
+    "title": "Array.some check",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "hasAdmin",
+    "description": "The `some()` method tests whether **at least one** element in the array passes the test implemented by the provided function. It returns true if it finds an element for which the provided function returns true.",
+    "whatShouldHappen": [
+      "The function receives an array of user objects (with a `role` property).",
+      "Use `some()` to check if at least one user has the role 'admin'.",
+      "Return the boolean result."
+    ],
+    "starterCode": "function hasAdmin(users) {\n  // Return true if some user has role === 'admin'\n}",
+    "solution": "function hasAdmin(users) {\n  return users.some(user => user.role === 'admin');\n}",
+    "traceTable": {
+      "inputLabel": "users = [{role: 'user'}, {role: 'admin'}]",
+      "columns": ["Element", "Check (role === 'admin')", "Short-circuit?"],
+      "rows": [
+        ["{role: 'user'}", "false", "No"],
+        ["{role: 'admin'}", "true", "Yes (Returns true)"]
+      ]
+    },
+    "skeletonHint": "some() stops as soon as it finds one element that passes the test.",
+    "tests": [
+      { "input": [[{ "role": "user" }, { "role": "admin" }]], "expected": true },
+      { "input": [[{ "role": "user" }, { "role": "guest" }]], "expected": false },
+      { "input": [[]], "expected": false }
+    ],
+    "patternTag": "Array Searching",
+    "patternExplanation": "Some is used for existential quantification (checking if at least one item exists).",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "js-a19-find-match",
+    "title": "Array.find match",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "findFirstAdmin",
+    "description": "The `find()` method returns the **first element** in the provided array that satisfies the provided testing function. If no values satisfy the testing function, `undefined` is returned.",
+    "whatShouldHappen": [
+      "The function receives an array of user objects.",
+      "Use `find()` to retrieve the first user object where `role === 'admin'`.",
+      "Return the user object (or undefined)."
+    ],
+    "starterCode": "function findFirstAdmin(users) {\n  // Use find to get the first admin user\n}",
+    "solution": "function findFirstAdmin(users) {\n  return users.find(user => user.role === 'admin');\n}",
+    "traceTable": {
+      "inputLabel": "users = [{id: 1, role: 'user'}, {id: 2, role: 'admin'}]",
+      "columns": ["Element", "Check (role === 'admin')", "Result"],
+      "rows": [
+        ["{id: 1, ...}", "false", "Continue"],
+        ["{id: 2, ...}", "true", "Return this object"]
+      ]
+    },
+    "skeletonHint": "find() returns the value itself, not its index.",
+    "tests": [
+      {
+        "input": [[{ "id": 1, "role": "user" }, { "id": 2, "role": "admin" }]],
+        "expected": { "id": 2, "role": "admin" }
+      },
+      { "input": [[{ "id": 1, "role": "user" }]], "expected": null }
+    ],
+    "patternTag": "Element Retrieval",
+    "patternExplanation": "Find is perfect for retrieving a specific record from a collection based on a unique property.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "js-a20-fill-value",
+    "title": "Array.fill specific value",
+    "type": "coding",
+    "category": "array-building",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "createSequence",
+    "description": "The `fill()` method changes all elements in an array to a static value, from a start index to an end index. It is often used with `Array(n)` to initialize an array of size `n` with a default value.",
+    "whatShouldHappen": [
+      "Create a new array of size 'n'.",
+      "Use `fill()` to populate the entire array with the value 'val'.",
+      "Return the new array."
+    ],
+    "starterCode": "function createSequence(n, val) {\n  // Create array of size n and fill with val\n}",
+    "solution": "function createSequence(n, val) {\n  return Array(n).fill(val);\n}",
+    "traceTable": {
+      "inputLabel": "n = 3, val = 'x'",
+      "columns": ["Operation", "State"],
+      "rows": [
+        ["Array(3)", "[empty × 3]"],
+        ["fill('x')", "['x', 'x', 'x']"]
+      ]
+    },
+    "skeletonHint": "Array(n) creates an empty array of length n.",
+    "tests": [
+      { "input": [3, "a"], "expected": ["a", "a", "a"] },
+      { "input": [2, 0], "expected": [0, 0] },
+      { "input": [0, "empty"], "expected": [] }
+    ],
+    "patternTag": "Array Initialization",
+    "patternExplanation": "Fill is a fast way to pre-allocate and initialize an array with a constant value.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "js-a21-from-set",
+    "title": "Array.from with Set",
+    "type": "coding",
+    "category": "array-building",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "uniqueArray",
+    "description": "The `Array.from()` static method creates a new Array instance from an iterable or array-like object. A very common pattern is to use it with `Set` to remove duplicates from an array and convert it back.",
+    "whatShouldHappen": [
+      "The function receives an array with potential duplicates.",
+      "Create a `new Set` from the array to extract unique values.",
+      "Use `Array.from()` to convert that `Set` back into an array.",
+      "Return the unique array."
+    ],
+    "starterCode": "function uniqueArray(arr) {\n  // 1. Create a Set from arr\n  // 2. Convert Set back to Array using Array.from\n  // 3. Return the result\n}",
+    "solution": "function uniqueArray(arr) {\n  return Array.from(new Set(arr));\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 2, 3]",
+      "columns": ["Operation", "Result"],
+      "rows": [
+        ["new Set(arr)", "Set {1, 2, 3}"],
+        ["Array.from(set)", "[1, 2, 3]"]
+      ]
+    },
+    "skeletonHint": "Array.from(iterable) is the official way to convert Sets to Arrays.",
+    "tests": [
+      { "input": [[1, 2, 2, 3, 3]], "expected": [1, 2, 3] },
+      { "input": [["a", "b", "a"]], "expected": ["a", "b"] },
+      { "input": [[]], "expected": [] }
+    ],
+    "patternTag": "Uniqueness Pattern",
+    "patternExplanation": "Combining Set and Array.from is the most concise way to get unique elements in JS.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "js-a22-flat-level-1",
+    "title": "Array.flat (level 1)",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "flattenOnce",
+    "description": "The `flat()` method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth. By default, it flattens one level deep.",
+    "whatShouldHappen": [
+      "The function receives a nested array.",
+      "Use `flat()` to flatten it by 1 level.",
+      "Return the flattened array."
+    ],
+    "starterCode": "function flattenOnce(arr) {\n  // Use flat() to flatten by 1 level\n}",
+    "solution": "function flattenOnce(arr) {\n  return arr.flat();\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, [2, 3], [[4]]]",
+      "columns": ["Operation", "Result"],
+      "rows": [
+        ["flat() (depth 1)", "[1, 2, 3, [4]]"]
+      ]
+    },
+    "skeletonHint": "arr.flat() is equivalent to arr.flat(1).",
+    "tests": [
+      { "input": [[1, [2, 3], 4]], "expected": [1, 2, 3, 4] },
+      { "input": [[[1], [2], [3]]], "expected": [1, 2, 3] },
+      { "input": [[1, [2, [3]]]], "expected": [1, 2, [3]] }
+    ],
+    "patternTag": "Array Flattening",
+    "patternExplanation": "Flat simplifies nested array structures into a more linear form.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "js-a23-flatmap-usage",
+    "title": "Array.flatMap usage",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "splitAndFlat",
+    "description": "The `flatMap()` method returns a new array formed by applying a given callback function to each element of the array, and then flattening the result by one level. It is identical to a `map()` followed by a `flat(1)`.",
+    "whatShouldHappen": [
+      "The function receives an array of sentences.",
+      "Use `flatMap()` to split each sentence into words (using space as delimiter).",
+      "Return a single array containing all words."
+    ],
+    "starterCode": "function splitAndFlat(sentences) {\n  // Use flatMap to split sentences into words\n}",
+    "solution": "function splitAndFlat(sentences) {\n  return sentences.flatMap(s => s.split(' '));\n}",
+    "traceTable": {
+      "inputLabel": "sentences = ['Hello world', 'JS is fun']",
+      "columns": ["Element", "map(split)", "Resulting flatMap"],
+      "rows": [
+        ["'Hello world'", "['Hello', 'world']", "-"],
+        ["'JS is fun'", "['JS', 'is', 'fun']", "['Hello', 'world', 'JS', 'is', 'fun']"]
+      ]
+    },
+    "skeletonHint": "s.split(' ') returns an array of words.",
+    "tests": [
+      { "input": [["a b", "c d"]], "expected": ["a", "b", "c", "d"] },
+      { "input": [["one", "two three"]], "expected": ["one", "two", "three"] }
+    ],
+    "patternTag": "Mapping & Flattening",
+    "patternExplanation": "flatMap is efficient for operations that produce an array for each element and need a combined result.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-a24-keys-iteration",
+    "title": "Array.keys iteration",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getIndices",
+    "description": "The `keys()` method returns a new **array iterator** object that contains the keys for each index in the array. You can convert this iterator into an array using the spread operator or `Array.from()`.",
+    "whatShouldHappen": [
+      "The function receives an array.",
+      "Get the iterator from `arr.keys()`.",
+      "Convert the iterator to an array and return it."
+    ],
+    "starterCode": "function getIndices(arr) {\n  // 1. Get keys iterator\n  // 2. Convert to array and return\n}",
+    "solution": "function getIndices(arr) {\n  return [...arr.keys()];\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['a', 'b', 'c']",
+      "columns": ["Operation", "Result"],
+      "rows": [
+        ["arr.keys()", "Array Iterator {}"],
+        ["[...keys]", "[0, 1, 2]"]
+      ]
+    },
+    "skeletonHint": "[...arr.keys()] is a quick way to get all indices of an array.",
+    "tests": [
+      { "input": [["x", "y", "z"]], "expected": [0, 1, 2] },
+      { "input": [[10, 20]], "expected": [0, 1] },
+      { "input": [[]], "expected": [] }
+    ],
+    "patternTag": "Array Metadata",
+    "patternExplanation": "Keys provides access to the structural indices of the array independently of its values.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "js-a25-entries-iteration",
+    "title": "Array.entries iteration",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getEntries",
+    "description": "The `entries()` method returns a new array iterator object that contains key/value pairs for each index in the array as `[index, value]` arrays.",
+    "whatShouldHappen": [
+      "The function receives an array.",
+      "Get the iterator from `arr.entries()`.",
+      "Convert the iterator to an array and return it."
+    ],
+    "starterCode": "function getEntries(arr) {\n  // 1. Get entries iterator\n  // 2. Convert to array and return\n}",
+    "solution": "function getEntries(arr) {\n  return [...arr.entries()];\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['a', 'b']",
+      "columns": ["Operation", "Result"],
+      "rows": [
+        ["arr.entries()", "Array Iterator {}"],
+        ["[...entries]", "[[0, 'a'], [1, 'b']]"]
+      ]
+    },
+    "skeletonHint": "Each entry is a [key, value] pair.",
+    "tests": [
+      { "input": [["x", "y"]], "expected": [[0, "x"], [1, "y"]] },
+      { "input": [[10]], "expected": [[0, 10]] },
+      { "input": [[]], "expected": [] }
+    ],
+    "patternTag": "Array Metadata",
+    "patternExplanation": "Entries allows for simultaneous access to both index and value during iteration.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "js-a26-multi-access",
+    "title": "Multidimensional array access",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "accessElement",
+    "description": "Accessing elements in multidimensional arrays (arrays of arrays) requires multiple sets of brackets `[][]`. Each set of brackets moves one level deeper into the structure.",
+    "whatShouldHappen": [
+      "The function receives a 2D array, a row index, and a column index.",
+      "Access the element at `arr[row][col]`.",
+      "Return the element."
+    ],
+    "starterCode": "function accessElement(arr, row, col) {\n  // Access element at row and col\n}",
+    "solution": "function accessElement(arr, row, col) {\n  return arr[row][col];\n}",
+    "traceTable": {
+      "inputLabel": "arr=[[1,2],[3,4]], row=1, col=0",
+      "columns": ["row", "col", "Access", "Result"],
+      "rows": [
+        ["1", "0", "arr[1][0]", "3"]
+      ]
+    },
+    "skeletonHint": "arr[row] gets the inner array; [col] gets the item from it.",
+    "tests": [
+      { "input": [[[1, 2], [3, 4]], 0, 1], "expected": 2 },
+      { "input": [[[1, 2], [3, 4]], 1, 0], "expected": 3 },
+      { "input": [[["a", "b"], ["c", "d"]], 1, 1], "expected": "d" }
+    ],
+    "patternTag": "Multidimensional Arrays",
+    "patternExplanation": "2D arrays are simply arrays where each element is itself an array. Row-major order is standard in JS.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "js-a27-diagonal-sum",
+    "title": "Sum of diagonal in 2D array",
+    "type": "coding",
+    "category": "nested-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "sumDiagonal",
+    "description": "In a square matrix, the main diagonal consists of elements where the row index equals the column index (`arr[i][i]`).",
+    "whatShouldHappen": [
+      "The function receives a square 2D array.",
+      "Calculate the sum of the elements on the main diagonal.",
+      "Return the sum."
+    ],
+    "starterCode": "function sumDiagonal(matrix) {\n  let sum = 0;\n  // Use a loop to sum matrix[i][i]\n  return sum;\n}",
+    "solution": "function sumDiagonal(matrix) {\n  let sum = 0;\n  for (let i = 0; i < matrix.length; i++) {\n    if (matrix[i][i] !== undefined) {\n      sum += matrix[i][i];\n    }\n  }\n  return sum;\n}",
+    "traceTable": {
+      "inputLabel": "matrix=[[1,0],[0,1]]",
+      "columns": ["i", "matrix[i][i]", "sum"],
+      "rows": [
+        ["0", "1", "1"],
+        ["1", "1", "2"]
+      ]
+    },
+    "skeletonHint": "A single loop can access the diagonal by using the same index for both dimensions.",
+    "tests": [
+      { "input": [[[1, 2], [3, 4]]], "expected": 5 },
+      { "input": [[[1, 0, 0], [0, 1, 0], [0, 0, 1]]], "expected": 3 },
+      { "input": [[[]]], "expected": 0 }
+    ],
+    "patternTag": "Diagonal Traversal",
+    "patternExplanation": "Main diagonal elements share the same index for both dimensions.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-a28-transpose",
+    "title": "Transpose a matrix",
+    "type": "coding",
+    "category": "nested-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "transpose",
+    "description": "Transposing a matrix means swapping its rows and columns. The element at `[i][j]` moves to `[j][i]`.",
+    "whatShouldHappen": [
+      "The function receives a 2D array.",
+      "Create a new 2D array that is the transpose of the input.",
+      "Return the new array."
+    ],
+    "starterCode": "function transpose(matrix) {\n  if (matrix.length === 0) return [];\n  // Create a new matrix where rows become columns\n}",
+    "solution": "function transpose(matrix) {\n  if (matrix.length === 0) return [];\n  const rows = matrix.length;\n  const cols = matrix[0].length;\n  const result = Array.from({ length: cols }, () => Array(rows).fill(0));\n  for (let i = 0; i < rows; i++) {\n    for (let j = 0; j < cols; j++) {\n      result[j][i] = matrix[i][j];\n    }\n  }\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "matrix=[[1,2],[3,4]]",
+      "columns": ["i", "j", "matrix[i][j]", "result[j][i]"],
+      "rows": [
+        ["0", "0", "1", "result[0][0]=1"],
+        ["0", "1", "2", "result[1][0]=2"],
+        ["1", "0", "3", "result[0][1]=3"],
+        ["1", "1", "4", "result[1][1]=4"]
+      ]
+    },
+    "skeletonHint": "Initialize the result matrix with 'cols' rows and 'rows' columns.",
+    "tests": [
+      { "input": [[[1, 2], [3, 4]]], "expected": [[1, 3], [2, 4]] },
+      { "input": [[[1, 2, 3], [4, 5, 6]]], "expected": [[1, 4], [2, 5], [3, 6]] },
+      { "input": [[]], "expected": [] }
+    ],
+    "patternTag": "Matrix Transformation",
+    "patternExplanation": "Transposition flips a matrix over its diagonal.",
+    "estimatedMinutes": 7,
+    "status": "published"
+  },
+  {
+    "id": "js-a29-remove-duplicates",
+    "title": "Remove duplicates from array",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "removeDuplicates",
+    "description": "Removing duplicates can be done using `filter` and `indexOf`. An element is a duplicate if its current index is not the same as its first occurrence index.",
+    "whatShouldHappen": [
+      "The function receives an array.",
+      "Use `filter` to return a new array with all duplicates removed.",
+      "Return the new array."
+    ],
+    "starterCode": "function removeDuplicates(arr) {\n  // Use filter and indexOf to remove duplicates\n}",
+    "solution": "function removeDuplicates(arr) {\n  return arr.filter((item, index) => arr.indexOf(item) === index);\n}",
+    "traceTable": {
+      "inputLabel": "arr=[1, 2, 1]",
+      "columns": ["item", "index", "indexOf(item)", "Keep?"],
+      "rows": [
+        ["1", "0", "0", "Yes"],
+        ["2", "1", "1", "Yes"],
+        ["1", "2", "0", "No"]
+      ]
+    },
+    "skeletonHint": "indexOf always returns the first index where a value is found.",
+    "tests": [
+      { "input": [[1, 2, 2, 3, 1]], "expected": [1, 2, 3] },
+      { "input": [["a", "b", "a"]], "expected": ["a", "b"] },
+      { "input": [[]], "expected": [] }
+    ],
+    "patternTag": "Deduplication",
+    "patternExplanation": "indexOf always returns the first occurrence, so if index !== indexOf(item), it's a duplicate.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-a30-intersection",
+    "title": "Intersection of two arrays",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "intersection",
+    "description": "The intersection of two arrays contains only the elements that are present in both arrays.",
+    "whatShouldHappen": [
+      "The function receives two arrays.",
+      "Use `filter` and `includes` to find common elements.",
+      "Ensure the result has no duplicates.",
+      "Return the intersection."
+    ],
+    "starterCode": "function intersection(arr1, arr2) {\n  // Return unique elements present in both arr1 and arr2\n}",
+    "solution": "function intersection(arr1, arr2) {\n  const intersect = arr1.filter(item => arr2.includes(item));\n  return Array.from(new Set(intersect));\n}",
+    "traceTable": {
+      "inputLabel": "arr1=[1,2,2], arr2=[2,3]",
+      "columns": ["item", "arr2.includes?", "intersect", "Final (Unique)"],
+      "rows": [
+        ["1", "No", "[]", "-"],
+        ["2", "Yes", "[2]", "-"],
+        ["2", "Yes", "[2, 2]", "[2]"]
+      ]
+    },
+    "skeletonHint": "Filter elements from arr1 that exist in arr2, then unique them.",
+    "tests": [
+      { "input": [[1, 2, 3], [2, 3, 4]], "expected": [2, 3] },
+      { "input": [[1, 1], [1, 2]], "expected": [1] },
+      { "input": [[1, 2], [3, 4]], "expected": [] }
+    ],
+    "patternTag": "Set Operations",
+    "patternExplanation": "Intersection finds the commonality between two collections.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "js-a31-difference",
+    "title": "Difference between two arrays",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "difference",
+    "description": "The difference of two arrays consists of elements that are in the first array but not in the second. This is a common set operation.",
+    "whatShouldHappen": [
+      "The function receives two arrays, 'arr1' and 'arr2'.",
+      "Use `filter()` on 'arr1' to keep only the elements that are NOT in 'arr2'.",
+      "Use `includes()` to check for existence in 'arr2'.",
+      "Return the resulting array."
+    ],
+    "starterCode": "function difference(arr1, arr2) {\n  // Return elements in arr1 that are not in arr2\n}",
+    "solution": "function difference(arr1, arr2) {\n  return arr1.filter(item => !arr2.includes(item));\n}",
+    "traceTable": {
+      "inputLabel": "arr1=[1, 2, 3], arr2=[2, 4]",
+      "columns": ["item", "arr2.includes?", "Result"],
+      "rows": [
+        ["1", "false", "Keep"],
+        ["2", "true", "Discard"],
+        ["3", "false", "Keep"]
+      ]
+    },
+    "skeletonHint": "arr1.filter(x => !arr2.includes(x))",
+    "tests": [
+      { "input": [[1, 2, 3], [2, 4]], "expected": [1, 3] },
+      { "input": [["a", "b"], ["c"]], "expected": ["a", "b"] },
+      { "input": [[1, 2], [1, 2]], "expected": [] }
+    ],
+    "patternTag": "Set Operations",
+    "patternExplanation": "Difference identifies unique elements in the source collection that don't exist in the target.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-a32-chunk",
+    "title": "Chunk an array into N sizes",
+    "type": "coding",
+    "category": "array-building",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "chunkArray",
+    "description": "Chunking an array means splitting it into multiple smaller arrays of a specified size. This is useful for pagination or processing data in batches.",
+    "whatShouldHappen": [
+      "The function receives an array 'arr' and a number 'size'.",
+      "Create an empty array to hold the chunks.",
+      "Loop through the array, incrementing by 'size' each time.",
+      "Use `slice()` to extract each chunk and push it to the results.",
+      "Return the array of chunks."
+    ],
+    "starterCode": "function chunkArray(arr, size) {\n  const chunks = [];\n  // Use a loop and slice to create chunks\n  return chunks;\n}",
+    "solution": "function chunkArray(arr, size) {\n  const chunks = [];\n  for (let i = 0; i < arr.length; i += size) {\n    chunks.push(arr.slice(i, i + size));\n  }\n  return chunks;\n}",
+    "traceTable": {
+      "inputLabel": "arr=[1, 2, 3, 4, 5], size=2",
+      "columns": ["i", "slice(i, i+size)", "chunks"],
+      "rows": [
+        ["0", "[1, 2]", "[[1, 2]]"],
+        ["2", "[3, 4]", "[[1, 2], [3, 4]]"],
+        ["4", "[5]", "[[1, 2], [3, 4], [5]]"]
+      ]
+    },
+    "skeletonHint": "Use a for loop where the increment is 'size'.",
+    "tests": [
+      { "input": [[1, 2, 3, 4], 2], "expected": [[1, 2], [3, 4]] },
+      { "input": [[1, 2, 3, 4, 5], 2], "expected": [[1, 2], [3, 4], [5]] },
+      { "input": [[1], 5], "expected": [[1]] }
+    ],
+    "patternTag": "Array Chunking",
+    "patternExplanation": "Chunking transforms a flat list into a nested structure for batched processing.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "js-a33-shuffle",
+    "title": "Shuffle an array (Fisher-Yates)",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "shuffle",
+    "description": "The Fisher-Yates (or Knuth) shuffle is an O(n) algorithm for generating a random permutation of a finite sequence. It works by iterating backwards through the array and swapping each element with a randomly selected one before it.",
+    "whatShouldHappen": [
+      "Iterate from the last index down to the first index.",
+      "Pick a random index `j` such that `0 <= j <= i`.",
+      "Swap the elements at index `i` and index `j`.",
+      "Return the mutated array."
+    ],
+    "starterCode": "function shuffle(arr) {\n  for (let i = arr.length - 1; i > 0; i--) {\n    const j = Math.floor(Math.random() * (i + 1));\n    // Swap arr[i] and arr[j]\n  }\n  return arr;\n}",
+    "solution": "function shuffle(arr) {\n  for (let i = arr.length - 1; i > 0; i--) {\n    const j = Math.floor(Math.random() * (i + 1));\n    [arr[i], arr[j]] = [arr[j], arr[i]];\n  }\n  return arr;\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3]",
+      "columns": ["i", "j (random)", "Action", "Array State"],
+      "rows": [
+        ["2", "0", "Swap arr[2], arr[0]", "[3, 2, 1]"],
+        ["1", "1", "Swap arr[1], arr[1]", "[3, 2, 1]"]
+      ]
+    },
+    "skeletonHint": "Use destructuring assignment for a clean swap: [a, b] = [b, a].",
+    "tests": [
+      { "input": [[]], "expected": [] },
+      { "input": [[100]], "expected": [100] }
+    ],
+    "patternTag": "Randomization",
+    "patternExplanation": "Fisher-Yates ensures every permutation is equally likely by choosing from the remaining unshuffled elements.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "js-a34-rotate",
+    "title": "Rotate an array by K steps",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "rotateArray",
+    "description": "Rotating an array to the right by `k` steps means that elements at the end move to the beginning. For example, rotating `[1, 2, 3]` by 1 step results in `[3, 1, 2]`.",
+    "whatShouldHappen": [
+      "Normalize `k` using `k % arr.length` to handle cases where `k > length`.",
+      "Remove the last `k` elements from the array.",
+      "Add those elements to the front of the array.",
+      "Return the modified array."
+    ],
+    "starterCode": "function rotateArray(arr, k) {\n  if (arr.length === 0) return arr;\n  // 1. k = k % arr.length\n  // 2. splice the last k elements\n  // 3. unshift them back\n  // 4. return arr\n}",
+    "solution": "function rotateArray(arr, k) {\n  if (arr.length === 0) return arr;\n  const steps = k % arr.length;\n  const rightPart = arr.splice(-steps);\n  arr.unshift(...rightPart);\n  return arr;\n}",
+    "traceTable": {
+      "inputLabel": "arr=[1,2,3], k=1",
+      "columns": ["steps", "splice(-1)", "unshift", "Result"],
+      "rows": [
+        ["1", "[3]", "arr=[1,2]", "[3,1,2]"]
+      ]
+    },
+    "skeletonHint": "arr.splice(-k) removes and returns the last k elements.",
+    "tests": [
+      { "input": [[1, 2, 3, 4, 5], 2], "expected": [4, 5, 1, 2, 3] },
+      { "input": [[1, 2], 3], "expected": [2, 1] },
+      { "input": [[], 5], "expected": [] }
+    ],
+    "patternTag": "Array Rotation",
+    "patternExplanation": "Rotation can be performed in-place using splice/unshift or by reversing sub-sections.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-a35-flatten-recursive",
+    "title": "Flatten nested array (recursive)",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "flattenRecursive",
+    "description": "Flattening a nested array into a single-level array can be achieved recursively. For each element, if it is an array, flatten it; otherwise, keep it.",
+    "whatShouldHappen": [
+      "Use `reduce()` to iterate through the array.",
+      "If the current element is an array (check with `Array.isArray()`), call the function recursively.",
+      "If it is not an array, concat it to the accumulator.",
+      "Return the final flattened array."
+    ],
+    "starterCode": "function flattenRecursive(arr) {\n  return arr.reduce((acc, val) => {\n    // If val is array, recurse and concat\n    // Else, concat val\n    return acc;\n  }, []);\n}",
+    "solution": "function flattenRecursive(arr) {\n  return arr.reduce((acc, val) => {\n    return acc.concat(Array.isArray(val) ? flattenRecursive(val) : val);\n  }, []);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, [2]]",
+      "columns": ["val", "isArray?", "Action", "acc"],
+      "rows": [
+        ["1", "false", "concat(1)", "[1]"],
+        ["[2]", "true", "recurse([2])", "[1, 2]"]
+      ]
+    },
+    "skeletonHint": "acc.concat() can take either a single value or an array.",
+    "tests": [
+      { "input": [[1, [2, [3]], 4]], "expected": [1, 2, 3, 4] },
+      { "input": [[[1], [[2]]]], "expected": [1, 2] },
+      { "input": [[1, 2, 3]], "expected": [1, 2, 3] }
+    ],
+    "patternTag": "Recursion",
+    "patternExplanation": "Recursive flattening allows handling arrays with arbitrary levels of nesting.",
+    "estimatedMinutes": 7,
+    "status": "published"
+  },
+  {
+    "id": "js-a36-second-largest",
+    "title": "Find second largest number",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "findSecondLargest",
+    "description": "To find the second largest number, you first need to remove duplicates and then find the second highest value. This can be done by sorting the unique values in descending order.",
+    "whatShouldHappen": [
+      "The function receives an array of numbers.",
+      "Remove duplicates from the array.",
+      "If there are fewer than 2 unique numbers, return `null`.",
+      "Sort the unique numbers in descending order.",
+      "Return the second element (index 1)."
+    ],
+    "starterCode": "function findSecondLargest(arr) {\n  // 1. Get unique numbers\n  // 2. Handle cases with < 2 unique numbers\n  // 3. Sort descending\n  // 4. Return index 1\n}",
+    "solution": "function findSecondLargest(arr) {\n  const unique = Array.from(new Set(arr));\n  if (unique.length < 2) return null;\n  unique.sort((a, b) => b - a);\n  return unique[1];\n}",
+    "traceTable": {
+      "inputLabel": "arr = [10, 5, 10, 8]",
+      "columns": ["Unique Set", "Sorted Desc", "Result"],
+      "rows": [
+        ["[10, 5, 8]", "[10, 8, 5]", "8"]
+      ]
+    },
+    "skeletonHint": "Use new Set(arr) to easily remove duplicates.",
+    "tests": [
+      { "input": [[10, 20, 4, 45, 99, 99]], "expected": 45 },
+      { "input": [[1, 1, 1]], "expected": null },
+      { "input": [[5, 10]], "expected": 5 }
+    ],
+    "patternTag": "Array Statistics",
+    "patternExplanation": "Finding rank-based statistics often requires deduplication and sorting.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-a37-move-zeros",
+    "title": "Move all zeros to end",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "moveZeros",
+    "description": "Moving elements to the end while preserving order is a common task. You can achieve this by filtering the non-zero elements and the zero elements separately, then combining them.",
+    "whatShouldHappen": [
+      "The function receives an array 'arr'.",
+      "Filter all elements that are not zero.",
+      "Filter all elements that are zero.",
+      "Combine them so non-zeros come first.",
+      "Return the new array."
+    ],
+    "starterCode": "function moveZeros(arr) {\n  // Filter non-zeros and zeros, then combine\n}",
+    "solution": "function moveZeros(arr) {\n  const nonZeros = arr.filter(x => x !== 0);\n  const zeros = arr.filter(x => x === 0);\n  return [...nonZeros, ...zeros];\n}",
+    "traceTable": {
+      "inputLabel": "arr = [0, 1, 0, 3, 12]",
+      "columns": ["Non-zeros", "Zeros", "Combined"],
+      "rows": [
+        ["[1, 3, 12]", "[0, 0]", "[1, 3, 12, 0, 0]"]
+      ]
+    },
+    "skeletonHint": "The spread operator (...) is useful for combining arrays.",
+    "tests": [
+      { "input": [[0, 1, 0, 3, 12]], "expected": [1, 3, 12, 0, 0] },
+      { "input": [[0, 0, 1]], "expected": [1, 0, 0] },
+      { "input": [[1, 2, 3]], "expected": [1, 2, 3] }
+    ],
+    "patternTag": "Array Partitioning",
+    "patternExplanation": "Partitioning allows you to reorder elements based on a predicate while maintaining stability.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-a38-sort-objects",
+    "title": "Array of objects sorting",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "sortUsersByAge",
+    "description": "When sorting arrays of objects, your compare function should access the specific property you want to sort by.",
+    "whatShouldHappen": [
+      "The function receives an array of user objects.",
+      "Sort the users by the `age` property in ascending order.",
+      "Return the sorted array."
+    ],
+    "starterCode": "function sortUsersByAge(users) {\n  // Sort users by age property\n}",
+    "solution": "function sortUsersByAge(users) {\n  return users.sort((a, b) => a.age - b.age);\n}",
+    "traceTable": {
+      "inputLabel": "users = [{age: 30}, {age: 20}]",
+      "columns": ["a.age", "b.age", "Comparison (a-b)", "Order"],
+      "rows": [
+        ["30", "20", "10 (positive)", "Swap"]
+      ]
+    },
+    "skeletonHint": "The compare function (a, b) => a.age - b.age works for ascending numbers.",
+    "tests": [
+      {
+        "input": [[{ "name": "A", "age": 25 }, { "name": "B", "age": 20 }]],
+        "expected": [{ "name": "B", "age": 20 }, { "name": "A", "age": 25 }]
+      },
+      {
+        "input": [[{ "age": 40 }, { "age": 40 }]],
+        "expected": [{ "age": 40 }, { "age": 40 }]
+      }
+    ],
+    "patternTag": "Object Sorting",
+    "patternExplanation": "Accessing nested properties in a sort callback is standard for ordering data collections.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "js-a39-group-by",
+    "title": "Group by category (Reduce)",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "groupByCategory",
+    "description": "Grouping data into categories is a classic use case for `reduce()`. You build an object where each key is a category name and each value is an array of items belonging to it.",
+    "whatShouldHappen": [
+      "The function receives an array of items (each with a `category` property).",
+      "Use `reduce()` with an initial empty object `{}`.",
+      "For each item, if its category doesn't exist in the accumulator, create an empty array.",
+      "Push the item into its respective category array.",
+      "Return the accumulator object."
+    ],
+    "starterCode": "function groupByCategory(items) {\n  // Use reduce to group items by category\n}",
+    "solution": "function groupByCategory(items) {\n  return items.reduce((acc, item) => {\n    if (!acc[item.category]) {\n      acc[item.category] = [];\n    }\n    acc[item.category].push(item);\n    return acc;\n  }, {});\n}",
+    "traceTable": {
+      "inputLabel": "items = [{id: 1, category: 'A'}, {id: 2, category: 'A'}]",
+      "columns": ["Item Category", "Accumulator State", "Action"],
+      "rows": [
+        ["'A'", "{}", "acc['A'] = [{id:1}]"],
+        ["'A'", "{'A': [...]}", "acc['A'].push({id:2})"]
+      ]
+    },
+    "skeletonHint": "Don't forget to return 'acc' at the end of the reduce callback.",
+    "tests": [
+      {
+        "input": [[{ "id": 1, "category": "fruit" }, { "id": 2, "category": "veg" }, { "id": 3, "category": "fruit" }]],
+        "expected": {
+          "fruit": [{ "id": 1, "category": "fruit" }, { "id": 3, "category": "fruit" }],
+          "veg": [{ "id": 2, "category": "veg" }]
+        }
+      },
+      { "input": [[]], "expected": {} }
+    ],
+    "patternTag": "Grouping Data",
+    "patternExplanation": "Reducing an array to a grouped object is essential for data organization and visualization.",
+    "estimatedMinutes": 7,
+    "status": "published"
+  },
+  {
+    "id": "js-a40-last-index-of",
+    "title": "Last index of element",
+    "type": "coding",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "findLastIndex",
+    "description": "While `indexOf()` searches from the beginning, `lastIndexOf()` searches from the end of the array, returning the index of the last occurrence of a value.",
+    "whatShouldHappen": [
+      "The function receives an array 'arr' and a 'target' value.",
+      "Use `lastIndexOf()` to find the last position of 'target'.",
+      "Return the index."
+    ],
+    "starterCode": "function findLastIndex(arr, target) {\n  // Return the last index of target in arr\n}",
+    "solution": "function findLastIndex(arr, target) {\n  return arr.lastIndexOf(target);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 1, 2], target = 1",
+      "columns": ["Method", "Target", "Result"],
+      "rows": [
+        ["lastIndexOf", "1", "3"]
+      ]
+    },
+    "skeletonHint": "lastIndexOf returns -1 if the value is not found.",
+    "tests": [
+      { "input": [[1, 2, 3, 1, 2, 3], 2], "expected": 4 },
+      { "input": [[5, 5, 5], 5], "expected": 2 },
+      { "input": [[1, 2, 3], 4], "expected": -1 }
+    ],
+    "patternTag": "Searching Arrays",
+    "patternExplanation": "Searching from the end is useful when you need the most recent occurrence of an item.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  }
+]
