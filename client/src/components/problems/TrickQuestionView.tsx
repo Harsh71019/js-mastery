@@ -5,9 +5,11 @@ import type { TrickProblem } from '@/types/problem'
 import { useProgressStore } from '@/store/useProgressStore'
 import { useProgress } from '@/hooks/useProgress'
 import { McqOptions } from './McqOptions'
-import { DifficultyBadge } from '@/components/ui/Badge'
 import { Divider } from '@/components/ui/Divider'
 import { MarkdownContent } from '@/components/ui/MarkdownContent'
+import { Button } from '@/components/ui/Button'
+import { PageContainer } from '@/components/ui/PageContainer'
+import { Card } from '@/components/ui/Card'
 
 const selectMarkSolved = (state: ReturnType<typeof useProgressStore.getState>) =>
   state.markSolved
@@ -60,32 +62,35 @@ export const TrickQuestionView = ({
   }
 
   return (
-    <div className="flex justify-center px-4 py-8 overflow-y-auto h-[calc(100vh-3rem)]">
-      <div className="w-full max-w-2xl flex flex-col gap-6">
-
-        <div className="flex items-start justify-between gap-4">
-          <h1 className="text-text-primary text-lg font-medium">
-            {problem.title}
-            {isSolved(problem.id) && (
-              <span className="ml-2 text-accent-green text-sm font-normal">✓ Solved</span>
-            )}
-          </h1>
-          <DifficultyBadge difficulty={problem.difficulty} />
+    <PageContainer className="max-w-3xl">
+      <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-2">
+            <span className="text-accent-amber text-[10px] font-bold uppercase tracking-widest bg-accent-amber/10 px-2 py-0.5 rounded border border-accent-amber/20">Trick Question</span>
+            <span className="text-text-tertiary text-[10px] font-bold uppercase tracking-widest">{problem.difficulty}</span>
+          </div>
+          <div className="flex items-start justify-between gap-4">
+            <h1 className="text-text-primary text-2xl font-bold flex items-center gap-3">
+              {problem.title}
+              {isSolved(problem.id) && (
+                <span className="text-accent-green bg-accent-green/10 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest border border-accent-green/20">Solved</span>
+              )}
+            </h1>
+          </div>
+          {problem.description && (
+            <MarkdownContent content={problem.description} />
+          )}
         </div>
 
-        {problem.description && (
-          <MarkdownContent content={problem.description} />
-        )}
-
-        <div className="relative rounded border border-border-default bg-bg-secondary overflow-hidden">
-          <div className="flex items-center justify-between px-4 py-2 border-b border-border-default">
-            <span className="text-text-tertiary text-xs uppercase tracking-wide">What does this output?</span>
-            <span className="text-xs font-medium text-accent-amber bg-accent-amber/10 px-2 py-0.5 rounded">JS</span>
+        <Card className="bg-bg-tertiary shadow-inner border border-border-default overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-2 border-b border-border-default/50 bg-bg-secondary/50">
+            <span className="text-text-tertiary text-[10px] font-bold uppercase tracking-widest">Output prediction</span>
+            <span className="text-[10px] font-bold text-accent-amber bg-accent-amber/10 px-2 py-0.5 rounded border border-accent-amber/20">JS</span>
           </div>
-          <pre className="px-4 py-4 text-sm font-jetbrains text-text-primary overflow-x-auto leading-relaxed whitespace-pre">
+          <pre className="px-6 py-6 text-sm font-jetbrains text-text-primary overflow-x-auto leading-relaxed whitespace-pre">
             {problem.codeSnippet}
           </pre>
-        </div>
+        </Card>
 
         <McqOptions
           options={problem.options}
@@ -96,53 +101,57 @@ export const TrickQuestionView = ({
         />
 
         {!isSubmitted && (
-          <button
-            type="button"
+          <Button
             onClick={handleSubmit}
             disabled={selectedIndex === null}
-            className="w-full py-3 bg-bg-tertiary border border-border-default text-text-primary text-sm font-medium rounded hover:bg-border-default transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+            variant="primary"
+            size="lg"
+            className="w-full"
           >
             Submit Answer
-          </button>
+          </Button>
         )}
 
         {isSubmitted && (
-          <div className={`rounded border px-4 py-4 flex flex-col gap-2 ${
-            isCorrect ? 'border-accent-green/30 bg-[#052e16]' : 'border-accent-red/30 bg-[#2d0a0a]'
+          <Card className={`p-6 border-l-4 ${
+            isCorrect ? 'border-l-accent-green bg-accent-green/5' : 'border-l-accent-red bg-accent-red/5'
           }`}>
-            <p className={`text-sm font-medium ${isCorrect ? 'text-accent-green' : 'text-accent-red'}`}>
-              {isCorrect ? '✓ Correct!' : '✗ Wrong answer'}
+            <p className={`text-base font-bold mb-2 ${isCorrect ? 'text-accent-green' : 'text-accent-red'}`}>
+              {isCorrect ? '✓ Correct Answer' : '✗ Incorrect Answer'}
             </p>
             <p className="text-text-secondary text-sm leading-relaxed">{problem.gotchaExplanation}</p>
-          </div>
+          </Card>
         )}
 
         {isSubmitted && (
-          <>
-            <Divider />
-            <div className="flex flex-col gap-1">
-              <p className="text-text-tertiary text-xs uppercase tracking-wide">The Gotcha</p>
-              <Link
-                to={`/patterns/${encodeURIComponent(problem.patternTag)}`}
-                className="text-accent-amber text-sm font-medium hover:underline"
-              >
-                {problem.patternTag}
-              </Link>
-              <p className="text-text-secondary text-sm leading-relaxed">{problem.patternExplanation}</p>
+          <div className="flex flex-col gap-6">
+            <Divider className="opacity-50" />
+            <div className="flex flex-col gap-3">
+              <h2 className="text-text-primary text-sm font-bold uppercase tracking-wider">Concept Analysis</h2>
+              <div className="bg-bg-secondary border border-border-default rounded-xl p-5">
+                <Link
+                  to={`/patterns/${encodeURIComponent(problem.patternTag)}`}
+                  className="text-accent-amber text-sm font-bold hover:underline mb-2 inline-block"
+                >
+                  {problem.patternTag}
+                </Link>
+                <p className="text-text-secondary text-sm leading-relaxed">{problem.patternExplanation}</p>
+              </div>
             </div>
+            
             {nextId && (
-              <button
-                type="button"
+              <Button
+                variant="secondary"
+                size="lg"
                 onClick={() => navigate(`/problem/${nextId}`)}
-                className="w-full py-3 bg-accent-blue/10 border border-accent-blue/30 text-accent-blue text-sm font-medium rounded hover:bg-accent-blue/20 transition-colors duration-150 cursor-pointer"
+                className="w-full"
               >
                 Next Problem →
-              </button>
+              </Button>
             )}
-          </>
+          </div>
         )}
-
       </div>
-    </div>
+    </PageContainer>
   )
 }

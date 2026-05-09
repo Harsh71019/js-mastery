@@ -11,16 +11,16 @@ type SortMode = 'date' | 'time' | 'difficulty'
 const DIFFICULTY_ORDER: Record<Difficulty, number> = { Beginner: 0, Easy: 1, Medium: 2, Hard: 3 }
 
 const DIFFICULTY_COLOR: Record<Difficulty, string> = {
-  Beginner: '#22c55e',
-  Easy:     '#38bdf8',
-  Medium:   '#f59e0b',
-  Hard:     '#f43f5e',
+  Beginner: 'var(--color-accent-green)',
+  Easy:     'var(--color-accent-blue)',
+  Medium:   'var(--color-accent-amber)',
+  Hard:     'var(--color-accent-red)',
 }
 
 const SORT_LABELS: Record<SortMode, string> = {
-  date:       'By date',
-  time:       'By speed',
-  difficulty: 'By difficulty',
+  date:       'TEMPORAL_SEQ',
+  time:       'VELOCITY_LOG',
+  difficulty: 'INTEL_RANK',
 }
 
 const sortEntries = (entries: readonly ExecutionTimeEntry[], mode: SortMode): ExecutionTimeEntry[] => {
@@ -54,70 +54,81 @@ export const ExecutionTimeChart = ({ entries }: ExecutionTimeChartProps): React.
 
   if (entries.length === 0) {
     return (
-      <p className="text-sm text-text-tertiary py-4 text-center">
-        No timing data yet — solve a coding problem to see execution times here.
-      </p>
+      <div className="flex items-center justify-center py-10">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-text-tertiary font-geist animate-pulse">
+          No latency data found in registry...
+        </p>
+      </div>
     )
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-wrap items-center gap-2">
-        <div className="flex items-center gap-1">
-          {(Object.keys(SORT_LABELS) as SortMode[]).map((mode) => (
-            <button
-              key={mode}
-              type="button"
-              onClick={() => setSortMode(mode)}
-              className={[
-                'px-2.5 py-1 text-xs rounded transition-colors duration-150 cursor-pointer',
-                sortMode === mode
-                  ? 'bg-bg-tertiary text-text-primary border border-accent-blue'
-                  : 'text-text-tertiary hover:text-text-secondary border border-border-default',
-              ].join(' ')}
-            >
-              {SORT_LABELS[mode]}
-            </button>
-          ))}
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center p-1 bg-white/5 border border-white/5 rounded-xl w-fit">
+          {(Object.keys(SORT_LABELS) as SortMode[]).map((mode) => {
+            const isActive = sortMode === mode
+            return (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => setSortMode(mode)}
+                className={`
+                  px-4 py-1.5 text-[9px] font-bold uppercase tracking-widest transition-all duration-300 rounded-lg cursor-pointer font-geist
+                  ${isActive 
+                    ? 'bg-white/10 text-text-primary shadow-glow-sm border border-white/10' 
+                    : 'text-text-tertiary hover:text-text-secondary hover:bg-white/[0.02]'
+                  }
+                `}
+              >
+                {SORT_LABELS[mode]}
+              </button>
+            )
+          })}
         </div>
 
-        <div className="flex items-center gap-1 flex-wrap">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => setCategoryFilter(cat)}
-              className={[
-                'px-2 py-0.5 text-xs rounded capitalize cursor-pointer transition-colors duration-150',
-                categoryFilter === cat
-                  ? 'bg-bg-tertiary text-text-primary border border-accent-blue'
-                  : 'text-text-tertiary hover:text-text-secondary border border-border-default',
-              ].join(' ')}
-            >
-              {cat}
-            </button>
-          ))}
+        <div className="flex items-center gap-2 flex-wrap max-w-md md:justify-end">
+          {categories.map((cat) => {
+            const isActive = categoryFilter === cat
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setCategoryFilter(cat)}
+                className={`
+                  px-2.5 py-1 text-[9px] font-bold uppercase tracking-tighter transition-all duration-300 rounded-md cursor-pointer font-geist border
+                  ${isActive 
+                    ? 'bg-accent-blue/10 text-accent-blue border-accent-blue/40 shadow-glow-sm' 
+                    : 'bg-white/5 text-text-tertiary border-white/5 hover:border-white/20 hover:text-text-secondary'
+                  }
+                `}
+              >
+                {cat.replace(/-/g, '_')}
+              </button>
+            )
+          })}
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-4">
         {visible.map((entry) => (
-          <div key={entry.id} className="flex items-center gap-3">
-            <span className="w-40 text-xs text-text-secondary truncate text-right shrink-0">
-              {entry.title}
+          <div key={entry.id} className="group/row flex items-center gap-6">
+            <span className="w-48 text-[11px] font-bold text-text-secondary truncate text-right shrink-0 font-geist tracking-tight group-hover/row:text-text-primary transition-colors">
+              {entry.title.toUpperCase()}
             </span>
-            <div className="flex-1 flex items-center gap-2 min-w-0">
-              <div className="flex-1 h-2 bg-bg-tertiary rounded-sm overflow-hidden">
+            <div className="flex-1 flex items-center gap-4 min-w-0">
+              <div className="flex-1 h-3 bg-white/5 rounded-sm overflow-hidden relative border border-white/[0.03]">
                 <div
-                  className="h-full rounded-sm transition-[width] duration-300"
+                  className="h-full rounded-sm transition-all duration-1000 ease-out shadow-[0_0_12px_rgba(255,255,255,0.1)]"
                   style={{
                     width: `${(entry.executionTimeMs / maxTime) * 100}%`,
                     backgroundColor: DIFFICULTY_COLOR[entry.difficulty] ?? '#6b7280',
+                    boxShadow: `0 0 10px ${DIFFICULTY_COLOR[entry.difficulty]}44`
                   }}
                 />
               </div>
-              <span className="text-xs text-text-tertiary whitespace-nowrap w-14 text-right">
-                {entry.executionTimeMs}ms
+              <span className="text-[10px] font-bold text-text-tertiary whitespace-nowrap w-16 text-right font-geist tracking-tighter tabular-nums group-hover/row:text-text-secondary transition-colors">
+                {entry.executionTimeMs.toFixed(2)} MS
               </span>
             </div>
           </div>
@@ -128,9 +139,9 @@ export const ExecutionTimeChart = ({ entries }: ExecutionTimeChartProps): React.
         <button
           type="button"
           onClick={() => setShowAll((prev) => !prev)}
-          className="text-xs text-accent-blue hover:underline cursor-pointer self-start"
+          className="text-[9px] font-bold uppercase tracking-[0.2em] text-accent-blue hover:text-white transition-colors cursor-pointer self-center font-geist py-2 px-4 rounded border border-accent-blue/20 hover:bg-accent-blue/10"
         >
-          {showAll ? 'Show less' : `Show all ${filtered.length} entries`}
+          {showAll ? 'Collapse_Registry' : `Access_Full_Registry (${filtered.length}_Nodes)`}
         </button>
       )}
     </div>

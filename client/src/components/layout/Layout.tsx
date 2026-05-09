@@ -8,9 +8,7 @@ export const Layout = (): React.JSX.Element => (
     <Navbar />
     <Sidebar />
     <main className="pl-60 pt-12">
-      <div className="max-w-[1200px] mx-auto">
-        <Outlet />
-      </div>
+      <Outlet />
     </main>
   </div>
 )

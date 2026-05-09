@@ -23,10 +23,10 @@ const getCategoryColor = (slug: string): string =>
 const getCategoryTitle = (slug: string): string =>
   CATEGORIES.find((c) => c.slug === slug)?.title ?? slug
 
-export const SolveHistory = ({ solvedProblems }: SolveHistoryProps): React.JSX.Element => {
+export const SolveHistory = ({ solvedProblems = {} }: SolveHistoryProps): React.JSX.Element => {
   const navigate = useNavigate()
 
-  const entries = Object.entries(solvedProblems)
+  const entries = Object.entries(solvedProblems || {})
     .filter(([, entry]) => entry.solvedAt)
     .sort((a, b) => new Date(b[1].solvedAt).getTime() - new Date(a[1].solvedAt).getTime())
     .map(([id, entry]): GroupedEntry => ({

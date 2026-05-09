@@ -39,6 +39,7 @@ export interface TestCase {
   readonly input: unknown
   readonly expected: unknown
   readonly label?: string
+  readonly hidden?: boolean
   readonly isEval?: boolean
   readonly isGenerator?: boolean
   readonly isIterable?: boolean

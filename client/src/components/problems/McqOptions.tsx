@@ -14,19 +14,19 @@ const getOptionClass = (
   correctIndex: number | null,
   isSubmitted: boolean,
 ): string => {
-  const base = 'w-full text-left px-4 py-3 rounded border text-sm transition-colors duration-150 '
+  const base = 'w-full text-left px-5 py-4 rounded-xl border text-[13px] font-medium transition-all duration-300 '
   const isSelected = selectedIndex === index
   const isCorrect = correctIndex !== null && correctIndex === index
   const isWrongSelection = isSubmitted && isSelected && !isCorrect
 
   if (!isSubmitted) {
     return base + (isSelected
-      ? 'border-accent-blue bg-accent-blue/10 text-text-primary cursor-pointer'
-      : 'border-border-default bg-bg-tertiary text-text-secondary hover:border-text-tertiary hover:text-text-primary cursor-pointer')
+      ? 'border-accent-blue/40 bg-accent-blue/10 text-text-primary cursor-pointer shadow-glow-sm scale-[1.01]'
+      : 'border-white/5 bg-white/[0.02] text-text-secondary hover:border-white/20 hover:bg-white/[0.04] cursor-pointer')
   }
-  if (isCorrect)        return base + 'border-accent-green bg-accent-green/10 text-accent-green'
-  if (isWrongSelection) return base + 'border-accent-red bg-accent-red/10 text-accent-red'
-  return base + 'border-border-default bg-bg-tertiary text-text-tertiary opacity-40'
+  if (isCorrect)        return base + 'border-accent-green/40 bg-accent-green/10 text-accent-green shadow-[0_0_15px_rgba(34,197,94,0.15)]'
+  if (isWrongSelection) return base + 'border-accent-red/40 bg-accent-red/10 text-accent-red shadow-[0_0_15px_rgba(239,68,68,0.15)]'
+  return base + 'border-white/5 bg-white/[0.01] text-text-tertiary opacity-40 grayscale'
 }
 
 const getOptionIcon = (
@@ -47,7 +47,7 @@ const formatOption = (text: string): React.ReactNode => {
   return parts.map((part, index) => {
     if (part.startsWith('`')) {
       return (
-        <code key={index} className="px-1 py-0.5 rounded bg-bg-primary/50 text-accent-amber font-jetbrains text-[12px] border border-border-default/30">
+        <code key={index} className="px-1.5 py-0.5 rounded bg-white/[0.05] text-accent-amber font-geist text-[11px] border border-white/10">
           {part.replace(/^`|`$/g, '')}
         </code>
       )
@@ -63,7 +63,7 @@ export const McqOptions = ({
   onSelect,
   isSubmitted,
 }: McqOptionsProps): React.JSX.Element => (
-  <div className="flex flex-col gap-2">
+  <div className="flex flex-col gap-3">
     {options.map((option, index) => (
       <button
         key={index}
@@ -72,11 +72,11 @@ export const McqOptions = ({
         onClick={() => onSelect(index)}
         className={getOptionClass(index, selectedIndex, correctIndex, isSubmitted)}
       >
-        <span className="flex items-center gap-3">
-          <span className="shrink-0 w-6 h-6 rounded-full border border-current flex items-center justify-center text-xs font-medium">
+        <span className="flex items-center gap-4">
+          <span className={`shrink-0 w-7 h-7 rounded-lg border border-current/20 flex items-center justify-center text-[10px] font-bold font-geist transition-all duration-300 ${selectedIndex === index ? 'bg-current/10 border-current/40' : 'bg-white/5'}`}>
             {getOptionIcon(index, selectedIndex, correctIndex, isSubmitted)}
           </span>
-          <span className="flex-1 leading-relaxed">
+          <span className="flex-1 leading-relaxed font-geist tracking-tight">
             {formatOption(option)}
           </span>
         </span>

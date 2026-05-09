@@ -1,17 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Geist+Mono:wght@100..900&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-bg-primary: #0a0a0a;
-  --color-bg-secondary: #111111;
-  --color-bg-tertiary: #1a1a1a;
-  --color-border-default: #2a2a2a;
-  --color-border-hover: #3a3a3a;
+  --color-bg-primary: #050505;
+  --color-bg-secondary: #0a0a0a;
+  --color-bg-tertiary: #121212;
+  --color-border-default: rgba(255, 255, 255, 0.06);
+  --color-border-hover: rgba(255, 255, 255, 0.12);
   --color-text-primary: #ffffff;
   --color-text-secondary: #a1a1aa;
   --color-text-tertiary: #52525b;
+  
   --color-accent-blue: #3b82f6;
   --color-accent-green: #22c55e;
   --color-accent-amber: #f59e0b;
@@ -19,18 +20,54 @@
   --color-accent-purple: #a855f7;
 
   --font-inter: 'Inter', sans-serif;
+  --font-geist: 'Geist Mono', monospace;
   --font-jetbrains: 'JetBrains Mono', monospace;
+
+  --shadow-glow: 0 0 20px -5px var(--color-accent-blue);
+  --shadow-glow-sm: 0 0 10px -2px var(--color-accent-blue);
+  --shadow-green-glow: 0 0 12px -3px var(--color-accent-green);
+  --ui-glass: blur(12px);
 }
 
 html {
   font-size: 14px;
+  letter-spacing: -0.01em;
 }
 
 body {
   margin: 0;
   font-family: var(--font-inter);
-  background-color: #0a0a0a;
+  background-color: #050505;
   color: #ffffff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: var(--ui-glass);
+  border: 1px solid var(--color-border-default);
+}
+
+.glass-panel:hover {
+  border-color: var(--color-border-hover);
+}
+
+/* Custom scrollbar for terminal feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
 }

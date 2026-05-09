@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { Button } from './Button'
 
 interface ModalProps {
   readonly isOpen: boolean
@@ -32,30 +33,31 @@ export const Modal = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-bg-primary/80 backdrop-blur-sm"
       onClick={onCancel}
     >
       <div
-        className="bg-bg-secondary border border-border-default rounded-lg p-6 w-full max-w-sm mx-4"
+        className="glass-panel rounded-2xl p-8 w-full max-w-md mx-4 shadow-2xl relative overflow-hidden"
         onClick={(event) => event.stopPropagation()}
       >
-        <h3 className="text-text-primary text-base font-medium mb-2">{title}</h3>
-        <p className="text-text-secondary text-sm mb-6 leading-relaxed">{message}</p>
-        <div className="flex gap-3 justify-end">
-          <button
-            type="button"
+        <div className="absolute top-0 left-0 w-full h-1 bg-accent-blue/40" />
+        <h3 className="text-text-primary text-xl font-bold font-geist tracking-tight uppercase mb-3">{title}</h3>
+        <p className="text-text-secondary text-sm font-medium mb-8 leading-relaxed">{message}</p>
+        <div className="flex gap-4 justify-end">
+          <Button
+            variant="ghost"
             onClick={onCancel}
-            className="px-4 py-2 text-sm text-text-secondary bg-bg-tertiary border border-border-default rounded hover:border-border-hover transition-colors duration-150 cursor-pointer"
+            className="text-[10px] uppercase tracking-widest font-geist px-6 border border-white/5"
           >
             {cancelLabel}
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
+            variant="danger"
             onClick={onConfirm}
-            className="px-4 py-2 text-sm text-white bg-accent-red/20 border border-accent-red/40 rounded hover:bg-accent-red/30 transition-colors duration-150 cursor-pointer"
+            className="text-[10px] uppercase tracking-widest font-geist px-8 shadow-glow-sm"
           >
             {confirmLabel}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

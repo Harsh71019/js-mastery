@@ -2,15 +2,16 @@ import { Schema, model } from 'mongoose'
 
 const TestCaseSchema = new Schema(
   {
-    input: { type: Schema.Types.Mixed, required: true },
-    expected: { type: Schema.Types.Mixed },
-    label: { type: String },
-    isEval: { type: Boolean },
-    isGenerator: { type: Boolean },
-    isIterable: { type: Boolean },
+    input:            { type: Schema.Types.Mixed, required: true },
+    expected:         { type: Schema.Types.Mixed },
+    label:            { type: String },
+    hidden:           { type: Boolean },
+    isEval:           { type: Boolean },
+    isGenerator:      { type: Boolean },
+    isIterable:       { type: Boolean },
     isAsyncGenerator: { type: Boolean },
-    isAsyncIterable: { type: Boolean },
-    take: { type: Number },
+    isAsyncIterable:  { type: Boolean },
+    take:             { type: Number },
   },
   { _id: false },
 )

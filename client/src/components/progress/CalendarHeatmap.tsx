@@ -67,7 +67,7 @@ export const CalendarHeatmap = ({ dayData }: CalendarHeatmapProps): React.JSX.El
   const svgH = HEADER_H + totalRows * STEP - GAP
 
   const monthSolveCount = days.reduce((sum, day) => {
-    return sum + (dayData.get(format(day, 'yyyy-MM-dd'))?.count ?? 0)
+    return sum + (dayData?.get(format(day, 'yyyy-MM-dd'))?.count ?? 0)
   }, 0)
 
   return (
@@ -145,7 +145,7 @@ export const CalendarHeatmap = ({ dayData }: CalendarHeatmapProps): React.JSX.El
           const dateStr = format(day, 'yyyy-MM-dd')
           const col = getDay(day)
           const row = Math.floor((firstOffset + day.getDate() - 1) / 7)
-          const data = dayData.get(dateStr)
+          const data = dayData?.get(dateStr)
           const count = data?.count ?? 0
           const titles = data?.titles ?? []
 

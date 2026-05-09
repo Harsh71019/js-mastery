@@ -25,11 +25,12 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
 
 router.post('/solve/:problemId', async (req: Request, res: Response): Promise<void> => {
   const { problemId } = req.params
-  const { title, category, difficulty, executionTimeMs } = req.body as {
+  const { title, category, difficulty, executionTimeMs, acceptedCode } = req.body as {
     title?: string
     category?: string
     difficulty?: string
     executionTimeMs?: number
+    acceptedCode?: string
   }
 
   const validExecutionTimeMs =
@@ -41,6 +42,12 @@ router.post('/solve/:problemId', async (req: Request, res: Response): Promise<vo
   const today = new Date().toISOString().split('T')[0]
   const existing = doc.solvedProblems.get(problemId)
   const isFirstSolve = !existing?.solvedAt
+
+  type RT = { ms: number; accepted: boolean }
+  const prevTimings = (existing?.runTimings ?? []) as RT[]
+  const nextTimings: RT[] = validExecutionTimeMs
+    ? [...prevTimings, { ms: validExecutionTimeMs, accepted: true }].slice(-20)
+    : prevTimings
 
   const review = computeNextReview(
     isFirstSolve ? 1 : (existing?.reviewInterval ?? 1),
@@ -59,9 +66,8 @@ router.post('/solve/:problemId', async (req: Request, res: Response): Promise<vo
     nextReviewDue:   review.nextReviewDue,
     executionTimeMs: validExecutionTimeMs ?? existing?.executionTimeMs,
     runCount:        (existing?.runCount ?? 0) + 1,
-    runTimings:      validExecutionTimeMs
-      ? [...((existing?.runTimings as number[]) ?? []), validExecutionTimeMs].slice(-20)
-      : ((existing?.runTimings as number[]) ?? []),
+    runTimings:      nextTimings,
+    acceptedCode:    existing?.acceptedCode ?? acceptedCode,
   })
 
   const streak = getUpdatedStreak(
@@ -89,6 +95,12 @@ router.post('/attempt/:problemId', async (req: Request, res: Response): Promise<
   const doc = await getOrCreateProgress()
   const existing = doc.solvedProblems.get(problemId)
 
+  type RT = { ms: number; accepted: boolean }
+  const prevTimingsA = (existing?.runTimings ?? []) as RT[]
+  const nextTimingsA: RT[] = validMs
+    ? [...prevTimingsA, { ms: validMs, accepted: false }].slice(-20)
+    : prevTimingsA
+
   doc.solvedProblems.set(problemId, {
     solvedAt:        existing?.solvedAt ?? '',
     attempts:        (existing?.attempts ?? 0) + 1,
@@ -100,9 +112,7 @@ router.post('/attempt/:problemId', async (req: Request, res: Response): Promise<
     nextReviewDue:   existing?.nextReviewDue,
     executionTimeMs: existing?.executionTimeMs,
     runCount:        (existing?.runCount ?? 0) + 1,
-    runTimings:      validMs
-      ? [...((existing?.runTimings as number[]) ?? []), validMs].slice(-20)
-      : ((existing?.runTimings as number[]) ?? []),
+    runTimings:      nextTimingsA,
   })
   doc.markModified('solvedProblems')
 

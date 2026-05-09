@@ -1,7 +1,8 @@
 import React from 'react'
+import type { RunTiming } from '@/store/useProgressStore'
 
 interface RunTimingGraphProps {
-  readonly timings: readonly number[]
+  readonly timings: readonly RunTiming[]
 }
 
 const GRAPH_H = 40
@@ -13,9 +14,10 @@ const getBarHeight = (ms: number, maxMs: number, minMs: number): number => {
   return ((ms - minMs) / (maxMs - minMs)) * GRAPH_H * 0.8 + GRAPH_H * 0.15
 }
 
-const getBarColor = (ms: number, minMs: number, index: number, total: number): string => {
+const getBarColor = (t: RunTiming, minMs: number, index: number, total: number): string => {
   const isLatest = index === total - 1
-  const isBest = ms === minMs
+  const isBest = t.ms === minMs && total > 1
+  if (!t.accepted) return isLatest ? '#ef4444' : '#3f1111'
   if (isBest && isLatest) return '#22c55e'
   if (isLatest) return '#3b82f6'
   if (isBest) return '#16a34a'
@@ -25,43 +27,55 @@ const getBarColor = (ms: number, minMs: number, index: number, total: number): s
 export const RunTimingGraph = ({ timings }: RunTimingGraphProps): React.JSX.Element | null => {
   if (timings.length === 0) return null
 
-  const maxMs = Math.max(...timings)
-  const minMs = Math.min(...timings)
+  const accepted = timings.filter((t) => t.accepted)
+  const maxMs = Math.max(...timings.map((t) => t.ms))
+  const minAcceptedMs = accepted.length > 0 ? Math.min(...accepted.map((t) => t.ms)) : null
   const latest = timings[timings.length - 1]
-  const isPersonalBest = latest === minMs && timings.length > 1
+  const isPersonalBest = latest.accepted && minAcceptedMs !== null && latest.ms === minAcceptedMs && accepted.length > 1
 
   return (
     <div className="flex flex-col gap-2 py-3 px-4 bg-bg-tertiary rounded-md border border-border-default">
       <div className="flex items-center justify-between">
         <span className="text-[10px] uppercase tracking-widest text-text-tertiary">Run history</span>
         <div className="flex items-center gap-3 text-[10px]">
-          {timings.length > 1 && (
-            <span className="text-accent-green">best {minMs}ms</span>
+          {minAcceptedMs !== null && accepted.length > 1 && (
+            <span className="text-accent-green">best {minAcceptedMs}ms</span>
           )}
-          <span className={isPersonalBest ? 'text-accent-green font-medium' : 'text-text-secondary'}>
-            {isPersonalBest ? '🏆 ' : ''}latest {latest}ms
-          </span>
+          {latest.accepted ? (
+            <span className={isPersonalBest ? 'text-accent-green font-medium' : 'text-text-secondary'}>
+              {isPersonalBest ? '🏆 ' : ''}latest {latest.ms}ms
+            </span>
+          ) : (
+            <span className="text-accent-red">latest failed</span>
+          )}
         </div>
       </div>
 
       <div className="flex items-end overflow-x-auto" style={{ height: GRAPH_H, gap: BAR_GAP }}>
-        {timings.map((ms, i) => (
+        {timings.map((t, i) => (
           <div
             key={i}
             className="rounded-t-sm shrink-0 transition-all duration-300"
             style={{
               width: BAR_W,
-              height: getBarHeight(ms, maxMs, minMs),
-              backgroundColor: getBarColor(ms, minMs, i, timings.length),
+              height: getBarHeight(t.ms, maxMs, Math.min(...timings.map((x) => x.ms))),
+              backgroundColor: getBarColor(t, Math.min(...timings.map((x) => x.ms)), i, timings.length),
             }}
-            title={`Run ${i + 1}: ${ms}ms`}
+            title={`Run ${i + 1}: ${t.ms}ms ${t.accepted ? '✓' : '✗'}`}
           />
         ))}
       </div>
 
       <div className="flex items-center justify-between text-[9px] text-text-tertiary">
         <span>oldest</span>
-        <span>{timings.length} run{timings.length !== 1 ? 's' : ''}</span>
+        <div className="flex items-center gap-2">
+          <span className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded-sm inline-block bg-[#22c55e]" />accepted
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded-sm inline-block bg-[#3f1111]" />failed
+          </span>
+        </div>
         <span>latest</span>
       </div>
     </div>

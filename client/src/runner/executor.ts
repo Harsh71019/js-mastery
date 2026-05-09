@@ -1,3 +1,10 @@
+export type Verdict =
+  | 'Accepted'
+  | 'Wrong Answer'
+  | 'Runtime Error'
+  | 'Compile Error'
+  | 'Time Limit Exceeded'
+
 export interface TestResult {
   readonly input: unknown
   readonly expected: unknown
@@ -10,6 +17,7 @@ export interface ExecutionResult {
   readonly results: readonly TestResult[]
   readonly timedOut: boolean
   readonly executionTimeMs: number
+  readonly verdict: Verdict
 }
 
 interface TestCase {
@@ -25,6 +33,40 @@ interface TestCase {
 }
 
 const TIMEOUT_MS = 5000
+
+const deriveVerdict = (results: readonly TestResult[], timedOut: boolean): Verdict => {
+  if (timedOut) return 'Time Limit Exceeded'
+  if (results.length === 0) return 'Wrong Answer'
+  if (results.every((r) => r.passed)) return 'Accepted'
+  const errored = results.filter((r) => r.error !== null)
+  if (errored.length === 0) return 'Wrong Answer'
+  const isCompileError = results.every((r) => r.error === errored[0].error)
+  return isCompileError ? 'Compile Error' : 'Runtime Error'
+}
+
+// Injected into the sandbox — key-order-independent, NaN-aware, null/undefined-strict
+const DEEP_EQUAL_FN = `function deepEqual(a,b){
+  if(a===b)return true;
+  if(typeof a==='number'&&typeof b==='number'&&isNaN(a)&&isNaN(b))return true;
+  if(a===null||a===undefined||b===null||b===undefined)return false;
+  if(typeof a!==typeof b)return false;
+  if(Array.isArray(a)!==Array.isArray(b))return false;
+  if(Array.isArray(a)){
+    if(a.length!==b.length)return false;
+    for(var di=0;di<a.length;di++){if(!deepEqual(a[di],b[di]))return false;}
+    return true;
+  }
+  if(typeof a==='object'){
+    var ak=Object.keys(a).sort(),bk=Object.keys(b).sort();
+    if(ak.length!==bk.length)return false;
+    for(var di=0;di<ak.length;di++){
+      if(ak[di]!==bk[di])return false;
+      if(!deepEqual(a[ak[di]],b[bk[di]]))return false;
+    }
+    return true;
+  }
+  return false;
+}`
 
 const buildSandboxHtml = (
   userCode: string,
@@ -49,6 +91,7 @@ ${userCode}
 }
 <\/script>
 <script>
+${DEEP_EQUAL_FN}
 (async function () {
   var tests = window.__tests__;
   var fnName = window.__fnName__;
@@ -58,7 +101,7 @@ ${userCode}
     tests.forEach(function (t) {
       results.push({ input: t.input, expected: t.expected, actual: null, passed: false, error: window.__error__ });
     });
-    window.parent.postMessage({ type: 'results', results: results }, '*');
+    window.parent.postMessage({ type: 'results', results: results, executionMs: 0 }, '*');
     return;
   }
 
@@ -66,23 +109,21 @@ ${userCode}
     tests.forEach(function (t) {
       results.push({ input: t.input, expected: t.expected, actual: null, passed: false, error: 'Function "' + fnName + '" is not defined. Check the function name matches the starter code.' });
     });
-    window.parent.postMessage({ type: 'results', results: results }, '*');
+    window.parent.postMessage({ type: 'results', results: results, executionMs: 0 }, '*');
     return;
   }
+
+  var execStart = performance.now();
 
   for (var i = 0; i < tests.length; i++) {
     var t = tests[i];
     try {
       var args = Array.isArray(t.input) ? t.input : [t.input];
-      
+
       if (t.isEval) {
         args = args.map(function(arg) {
           if (typeof arg === 'string') {
-            try {
-              return new Function('return ' + arg)();
-            } catch (e) {
-              return arg;
-            }
+            try { return new Function('return ' + arg)(); } catch (e) { return arg; }
           }
           return arg;
         });
@@ -95,45 +136,39 @@ ${userCode}
       } else {
         actual = await window[fnName].apply(null, args);
       }
-      
+
       if (actual && typeof actual === 'object') {
         var isGen = t.isGenerator;
         var isIter = t.isIterable || (typeof actual[Symbol.iterator] === 'function' && (isGen || t.take));
         var isAsyncGen = t.isAsyncGenerator;
         var isAsyncIter = t.isAsyncIterable || (typeof actual[Symbol.asyncIterator] === 'function' && (isAsyncGen || t.take));
-        
+
         if (isGen || isIter) {
-          var arr = [];
-          var count = 0;
-          var limit = t.take || 100;
-          for (var item of actual) {
-            arr.push(item);
-            if (++count >= limit) break;
+          var iterArr = [], iterCount = 0, iterLimit = t.take || 100;
+          for (var iterItem of actual) {
+            iterArr.push(iterItem);
+            if (++iterCount >= iterLimit) break;
           }
-          actual = arr;
+          actual = iterArr;
         } else if (isAsyncGen || isAsyncIter) {
-          var arr = [];
-          var count = 0;
-          var limit = t.take || 100;
-          for await (var item of actual) {
-            arr.push(item);
-            if (++count >= limit) break;
+          var iterArr = [], iterCount = 0, iterLimit = t.take || 100;
+          for await (var iterItem of actual) {
+            iterArr.push(iterItem);
+            if (++iterCount >= iterLimit) break;
           }
-          actual = arr;
+          actual = iterArr;
         }
       }
-      
-      var normalizedActual = actual === undefined ? null : actual;
-      var normalizedExpected = t.expected === undefined ? null : t.expected;
-      
-      var passed = JSON.stringify(normalizedActual) === JSON.stringify(normalizedExpected);
+
+      var passed = deepEqual(actual, t.expected);
       results.push({ input: t.input, expected: t.expected, actual: actual, passed: passed, error: null });
     } catch (runtimeErr) {
       results.push({ input: t.input, expected: t.expected, actual: null, passed: false, error: runtimeErr.message });
     }
   }
 
-  window.parent.postMessage({ type: 'results', results: results }, '*');
+  var executionMs = Math.round(performance.now() - execStart);
+  window.parent.postMessage({ type: 'results', results: results, executionMs: executionMs }, '*');
 })();
 <\/script>
 </body></html>`
@@ -153,8 +188,8 @@ export const runTests = (
     let settled = false
 
     const cleanup = (): void => {
-      if (document.body.contains(iframe)) document.body.removeChild(iframe)
       window.removeEventListener('message', onMessage)
+      if (document.body.contains(iframe)) document.body.removeChild(iframe)
     }
 
     const settle = (result: ExecutionResult): void => {
@@ -165,22 +200,35 @@ export const runTests = (
     }
 
     const onMessage = (event: MessageEvent): void => {
-      if (event.source !== (iframe.contentWindow as unknown)) return
+      const source = iframe.contentWindow
+      if (source === null || event.source !== (source as unknown)) return
       if (event.data?.type !== 'results') return
-      settle({ results: event.data.results as TestResult[], timedOut: false, executionTimeMs: Math.max(1, Date.now() - startTime) })
+      const rawResults = event.data.results as TestResult[]
+      const codeExecutionMs =
+        typeof event.data.executionMs === 'number' && event.data.executionMs >= 0
+          ? event.data.executionMs
+          : Math.max(1, Date.now() - startTime)
+      settle({
+        results: rawResults,
+        timedOut: false,
+        executionTimeMs: codeExecutionMs,
+        verdict: deriveVerdict(rawResults, false),
+      })
     }
 
     const timeoutId = setTimeout(() => {
+      const timeoutResults: TestResult[] = tests.map((test) => ({
+        input: test.input,
+        expected: test.expected,
+        actual: null,
+        passed: false,
+        error: 'Execution timed out — check for an infinite loop',
+      }))
       settle({
-        results: tests.map((test) => ({
-          input: test.input,
-          expected: test.expected,
-          actual: null,
-          passed: false,
-          error: 'Execution timed out — check for an infinite loop',
-        })),
+        results: timeoutResults,
         timedOut: true,
         executionTimeMs: 0,
+        verdict: 'Time Limit Exceeded',
       })
     }, TIMEOUT_MS)
 

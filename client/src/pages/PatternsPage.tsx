@@ -1,46 +1,43 @@
 import React from 'react'
 import { usePatterns } from '@/hooks/usePatterns'
 import { PatternCard } from '@/components/patterns/PatternCard'
-
-const LoadingSkeleton = (): React.JSX.Element => (
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-    {Array.from({ length: 9 }).map((_, i) => (
-      <div key={i} className="h-16 bg-bg-secondary rounded border border-border-default animate-pulse" />
-    ))}
-  </div>
-)
+import { PageContainer } from '@/components/ui/PageContainer'
+import { Glow } from '@/components/ui/Glow'
 
 export const PatternsPage = (): React.JSX.Element => {
-  const { patterns, isLoading, error } = usePatterns()
+  const { patterns, isLoading } = usePatterns()
 
-  if (error) {
+  if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-16 text-text-tertiary text-sm">
-        Failed to load patterns — is the server running?
-      </div>
+      <PageContainer className="flex flex-col gap-10 relative">
+        <div className="flex items-center justify-between px-1 opacity-20">
+          <div className="h-4 w-48 bg-white/10 rounded-full animate-pulse" />
+          <div className="h-4 w-32 bg-white/10 rounded-full animate-pulse" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="h-48 glass-panel rounded-2xl animate-pulse" />
+          ))}
+        </div>
+      </PageContainer>
     )
   }
 
   return (
-    <div className="px-6 py-8 flex flex-col gap-6">
-      <div>
-        <h1 className="text-text-primary font-medium">
-          {isLoading ? 'Patterns' : `${patterns.length} Patterns`}
-        </h1>
-        <p className="text-text-tertiary text-sm mt-1">
-          Browse problems grouped by the JavaScript concept they test
-        </p>
+    <PageContainer className="flex flex-col gap-10 relative pb-20">
+      <Glow color="var(--color-accent-amber)" size="xl" className="-top-40 -right-20 opacity-[0.06]" />
+
+      <div className="flex items-center justify-between px-1 relative z-10">
+        <h1 className="text-text-primary text-[10px] font-bold uppercase tracking-[0.3em] font-geist opacity-60">Pattern Architecture Library</h1>
+        <div className="h-px bg-white/5 flex-1 mx-6" />
+        <span className="text-[9px] font-bold text-text-tertiary uppercase font-geist whitespace-nowrap">Status: Logic_Indexed</span>
       </div>
 
-      {isLoading ? (
-        <LoadingSkeleton />
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {patterns.map((pattern) => (
-            <PatternCard key={pattern.tag} pattern={pattern} />
-          ))}
-        </div>
-      )}
-    </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
+        {patterns.map((pattern) => (
+          <PatternCard key={pattern.tag} pattern={pattern} />
+        ))}
+      </div>
+    </PageContainer>
   )
 }

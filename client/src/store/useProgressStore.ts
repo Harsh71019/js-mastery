@@ -1,6 +1,11 @@
 import { create } from 'zustand'
 import type { CategorySlug, Difficulty } from '@/types/problem'
 
+export interface RunTiming {
+  readonly ms: number
+  readonly accepted: boolean
+}
+
 export interface SolvedEntry {
   readonly solvedAt:         string
   readonly attempts:         number
@@ -12,7 +17,8 @@ export interface SolvedEntry {
   readonly nextReviewDue?:   string
   readonly executionTimeMs?: number
   readonly runCount?:        number
-  readonly runTimings?:      readonly number[]
+  readonly runTimings?:      readonly RunTiming[]
+  readonly acceptedCode?:    string
 }
 
 export interface ProblemMeta {
@@ -35,7 +41,7 @@ interface ProgressState {
 
 interface ProgressActions {
   loadProgress:           () => Promise<void>
-  markSolved:             (id: string, meta?: ProblemMeta, executionTimeMs?: number) => void
+  markSolved:             (id: string, meta?: ProblemMeta, executionTimeMs?: number, code?: string) => void
   incrementAttempts:      (id: string, executionTimeMs?: number) => void
   resetProgress:          () => void
   dismissBackupBanner:    (milestone: number) => void
@@ -75,14 +81,14 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
     }
   },
 
-  markSolved: (id, meta, executionTimeMs) => {
+  markSolved: (id, meta, executionTimeMs, code) => {
     const state = get()
     const existing = state.solvedProblems[id]
 
-    const newTimings =
+    const newTimings: RunTiming[] =
       executionTimeMs && executionTimeMs > 0
-        ? [...(existing?.runTimings ?? []), executionTimeMs].slice(-20)
-        : existing?.runTimings ?? []
+        ? [...(existing?.runTimings ?? []), { ms: executionTimeMs, accepted: true }].slice(-20)
+        : [...(existing?.runTimings ?? [])]
 
     const optimistic: SolvedEntry = {
       solvedAt:        existing?.solvedAt || new Date().toISOString(),
@@ -93,16 +99,26 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
       executionTimeMs: executionTimeMs ?? existing?.executionTimeMs,
       runCount:        (existing?.runCount ?? 0) + 1,
       runTimings:      newTimings,
+      acceptedCode:    existing?.acceptedCode ?? code,
     }
     set({ solvedProblems: { ...state.solvedProblems, [id]: optimistic } })
 
     fetch(`/api/progress/solve/${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...(meta ?? {}), executionTimeMs }),
+      body: JSON.stringify({ ...(meta ?? {}), executionTimeMs, acceptedCode: code }),
     })
       .then((r) => r.json() as Promise<Omit<ProgressState, 'isLoaded'>>)
-      .then((data) => set({ ...applyServerState(data), isLoaded: true }))
+      .then((serverData) => {
+        const localSolved = get().solvedProblems
+        const mergedSolved = Object.fromEntries(
+          Object.entries(serverData.solvedProblems as Record<string, SolvedEntry>).map(([k, v]) => [
+            k,
+            { ...v, acceptedCode: v.acceptedCode ?? localSolved[k]?.acceptedCode },
+          ]),
+        )
+        set({ ...applyServerState(serverData), solvedProblems: mergedSolved, isLoaded: true })
+      })
       .catch((error: unknown) => console.error('Failed to sync solve:', error))
   },
 
@@ -110,10 +126,10 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
     const state = get()
     const existing = state.solvedProblems[id]
 
-    const newTimings =
+    const newTimings: RunTiming[] =
       executionTimeMs && executionTimeMs > 0
-        ? [...(existing?.runTimings ?? []), executionTimeMs].slice(-20)
-        : existing?.runTimings ?? []
+        ? [...(existing?.runTimings ?? []), { ms: executionTimeMs, accepted: false }].slice(-20)
+        : [...(existing?.runTimings ?? [])]
 
     const optimistic: SolvedEntry = {
       solvedAt:   existing?.solvedAt ?? '',
