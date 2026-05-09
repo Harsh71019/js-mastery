@@ -1,0 +1,257 @@
+[
+  {
+    "id": "spiral-matrix",
+    "title": "Spiral Matrix",
+    "type": "coding",
+    "category": "matrix",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "spiralOrder",
+    "description": "Given an `m x n` matrix, return all elements of the matrix in spiral order.",
+    "whatShouldHappen": [
+      "Traverse the matrix in a clockwise spiral direction",
+      "Maintain boundaries for top, bottom, left, and right",
+      "Return a flat array of all elements in the traversed order"
+    ],
+    "starterCode": "function spiralOrder(matrix) {\n  // Your code here\n}",
+    "solution": "function spiralOrder(matrix) {\n  const result = [];\n  if (matrix.length === 0) return result;\n\n  let top = 0;\n  let bottom = matrix.length - 1;\n  let left = 0;\n  let right = matrix[0].length - 1;\n\n  while (top <= bottom && left <= right) {\n    // Traverse Right\n    for (let i = left; i <= right; i++) {\n      result.push(matrix[top][i]);\n    }\n    top++;\n\n    // Traverse Down\n    for (let i = top; i <= bottom; i++) {\n      result.push(matrix[i][right]);\n    }\n    right--;\n\n    if (top <= bottom) {\n      // Traverse Left\n      for (let i = right; i >= left; i--) {\n        result.push(matrix[bottom][i]);\n      }\n      bottom--;\n    }\n\n    if (left <= right) {\n      // Traverse Up\n      for (let i = bottom; i >= top; i--) {\n        result.push(matrix[i][left]);\n      }\n      left++;\n    }\n  }\n\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]",
+      "columns": ["top", "bottom", "left", "right", "action", "result"],
+      "rows": [
+        { "top": 0, "bottom": 2, "left": 0, "right": 2, "action": "Right", "result": "[1, 2, 3]" },
+        { "top": 1, "bottom": 2, "left": 0, "right": 2, "action": "Down", "result": "[1, 2, 3, 6, 9]" },
+        { "top": 1, "bottom": 2, "left": 0, "right": 1, "action": "Left", "result": "[1, 2, 3, 6, 9, 8, 7]" },
+        { "top": 1, "bottom": 1, "left": 0, "right": 1, "action": "Up", "result": "[1, 2, 3, 6, 9, 8, 7, 4]" }
+      ]
+    },
+    "skeletonHint": "Use four boundaries: `top`, `bottom`, `left`, and `right`. Increment/decrement these boundaries as you traverse each side of the matrix in a clockwise direction. Be careful to check `top <= bottom` and `left <= right` before traversing left and up.",
+    "tests": [
+      { "input": [[[1, 2, 3], [4, 5, 6], [7, 8, 9]]], "expected": [1, 2, 3, 6, 9, 8, 7, 4, 5] },
+      { "input": [[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]], "expected": [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7] },
+      { "input": [[[7], [9], [6]]], "expected": [7, 9, 6] }
+    ],
+    "patternTag": "Simulation",
+    "patternExplanation": "The problem is solved by simulating the clockwise traversal process, keeping track of boundaries to know when to turn and when the traversal is complete.",
+    "estimatedMinutes": 25
+  },
+  {
+    "id": "set-matrix-zeroes",
+    "title": "Set Matrix Zeroes",
+    "type": "coding",
+    "category": "matrix",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "setZeroes",
+    "description": "Given an `m x n` integer matrix `matrix`, if an element is `0`, set its entire row and column to `0`'s. You must do it **in place**.\n\n### Examples\n\n**Input:** `matrix = [[1,1,1],[1,0,1],[1,1,1]]`  \n**Output:** `[[1,0,1],[0,0,0],[1,0,1]]`  \n\n**Input:** `matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]`  \n**Output:** `[[0,0,0,0],[0,4,5,0],[0,3,1,0]]`",
+    "whatShouldHappen": [
+      "Identify all rows and columns that contain at least one zero",
+      "Update the matrix in-place so that those entire rows and columns are zeroed",
+      "Use O(1) extra space if possible (by using the first row and column as markers)"
+    ],
+    "starterCode": "/**\n * @param {number[][]} matrix\n * @return {void} Do not return anything, modify matrix in-place instead.\n */\nfunction setZeroes(matrix) {\n  // Your code here\n}",
+    "solution": "function setZeroes(matrix) {\n  const rows = matrix.length;\n  const cols = matrix[0].length;\n  let firstRowZero = false;\n  let firstColZero = false;\n\n  // Check if first row should be zeroed\n  for (let j = 0; j < cols; j++) {\n    if (matrix[0][j] === 0) firstRowZero = true;\n  }\n\n  // Check if first column should be zeroed\n  for (let i = 0; i < rows; i++) {\n    if (matrix[i][0] === 0) firstColZero = true;\n  }\n\n  // Use first row and column as markers\n  for (let i = 1; i < rows; i++) {\n    for (let j = 1; j < cols; j++) {\n      if (matrix[i][j] === 0) {\n        matrix[i][0] = 0;\n        matrix[0][j] = 0;\n      }\n    }\n  }\n\n  // Zero out based on markers\n  for (let i = 1; i < rows; i++) {\n    for (let j = 1; j < cols; j++) {\n      if (matrix[i][0] === 0 || matrix[0][j] === 0) {\n        matrix[i][j] = 0;\n      }\n    }\n  }\n\n  // Zero out first row if needed\n  if (firstRowZero) {\n    for (let j = 0; j < cols; j++) matrix[0][j] = 0;\n  }\n\n  // Zero out first column if needed\n  if (firstColZero) {\n    for (let i = 0; i < rows; i++) matrix[i][0] = 0;\n  }\n\n  return matrix;\n}",
+    "traceTable": {
+      "inputLabel": "matrix = [[1,1,1],[1,0,1],[1,1,1]]",
+      "columns": ["firstRowZero", "firstColZero", "markers", "Final Result"],
+      "rows": [
+        { "firstRowZero": "false", "firstColZero": "false", "markers": "matrix[1][0]=0, matrix[0][1]=0", "Final Result": "[[1,0,1],[0,0,0],[1,0,1]]" },
+        { "firstRowZero": "...", "firstColZero": "...", "markers": "...", "Final Result": "..." }
+      ]
+    },
+    "skeletonHint": "To achieve O(1) space, use the first row and first column of the matrix itself to store whether a row or column should be zeroed. You'll need two boolean variables to separately track if the very first row and first column originally contained any zeros.",
+    "tests": [
+      { "input": [[[1,1,1],[1,0,1],[1,1,1]]], "expected": [[1,0,1],[0,0,0],[1,0,1]] },
+      { "input": [[[0,1,2,0],[3,4,5,2],[1,3,1,5]]], "expected": [[0,0,0,0],[0,4,5,0],[0,3,1,0]] },
+      { "input": [[[1,2,3],[4,0,6],[7,8,9]]], "expected": [[1,0,3],[0,0,0],[7,0,9]] }
+    ],
+    "patternTag": "Matrix Manipulation",
+    "patternExplanation": "This problem uses the matrix itself to store state markers to achieve optimal space complexity. We use the first row and column to flag other rows/cols, then handle the first row/col separately.",
+    "estimatedMinutes": 20
+  },
+  {
+    "id": "search-a-2d-matrix",
+    "title": "Search a 2D Matrix",
+    "type": "coding",
+    "category": "matrix",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "searchMatrix",
+    "description": "Write an efficient algorithm that searches for a value `target` in an `m x n` integer matrix `matrix`. This matrix has the following properties:\n\n1. Integers in each row are sorted from left to right.\n2. The first integer of each row is greater than the last integer of the previous row.\n\n### Examples\n\n**Input:** `matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3`  \n**Output:** `true`  \n\n**Input:** `matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13`  \n**Output:** `false`",
+    "whatShouldHappen": [
+      "Treat the 2D matrix as a virtual 1D sorted array",
+      "Perform a standard binary search on this virtual array",
+      "Map the 1D index back to 2D coordinates `(row = idx / cols, col = idx % cols)`"
+    ],
+    "starterCode": "/**\n * @param {number[][]} matrix\n * @param {number} target\n * @return {boolean}\n */\nfunction searchMatrix(matrix, target) {\n  // Your code here\n}",
+    "solution": "function searchMatrix(matrix, target) {\n  if (!matrix.length || !matrix[0].length) return false;\n\n  const rows = matrix.length;\n  const cols = matrix[0].length;\n  let left = 0;\n  let right = rows * cols - 1;\n\n  while (left <= right) {\n    const mid = Math.floor((left + right) / 2);\n    const midVal = matrix[Math.floor(mid / cols)][mid % cols];\n\n    if (midVal === target) {\n      return true;\n    } else if (midVal < target) {\n      left = mid + 1;\n    } else {\n      right = mid - 1;\n    }\n  }\n\n  return false;\n}",
+    "traceTable": {
+      "inputLabel": "matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3",
+      "columns": ["left", "right", "mid", "midVal", "action"],
+      "rows": [
+        { "left": 0, "right": 11, "mid": 5, "midVal": 11, "action": "Search Left" },
+        { "left": 0, "right": 4, "mid": 2, "midVal": 5, "action": "Search Left" },
+        { "left": 0, "right": 1, "mid": 1, "midVal": 3, "action": "Found true" }
+      ]
+    },
+    "skeletonHint": "Since the matrix is fully sorted (as if it were a single 1D array), you can use binary search. To convert a 1D index `i` into 2D coordinates for an `m x n` matrix: `row = Math.floor(i / n)` and `col = i % n`.",
+    "tests": [
+      { "input": [[[1,3,5,7],[10,11,16,20],[23,30,34,60]], 3], "expected": true },
+      { "input": [[[1,3,5,7],[10,11,16,20],[23,30,34,60]], 13], "expected": false },
+      { "input": [[[1]], 1], "expected": true }
+    ],
+    "patternTag": "Binary Search",
+    "patternExplanation": "The matrix properties allow us to treat the entire structure as one continuous sorted array, making binary search the most efficient O(log(m*n)) approach.",
+    "estimatedMinutes": 15
+  },
+  {
+    "id": "word-search",
+    "title": "Word Search",
+    "type": "coding",
+    "category": "matrix",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "exist",
+    "description": "Given an `m x n` grid of characters `board` and a string `word`, return `true` if `word` exists in the grid. \n\nThe word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once in a single word path.\n\n### Examples\n\n**Input:** `board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCCED\"`  \n**Output:** `true`  \n\n**Input:** `board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"SEE\"`  \n**Output:** `true`  \n\n**Input:** `board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCB\"`  \n**Output:** `false`",
+    "whatShouldHappen": [
+      "Iterate through every cell in the grid to find a starting character match",
+      "From each match, use Depth First Search (DFS) to explore neighbors (Up, Down, Left, Right)",
+      "Mark cells as visited during the DFS to avoid reuse, then unmark them (Backtracking)"
+    ],
+    "starterCode": "/**\n * @param {character[][]} board\n * @param {string} word\n * @return {boolean}\n */\nfunction exist(board, word) {\n  // Your code here\n}",
+    "solution": "function exist(board, word) {\n  const rows = board.length;\n  const cols = board[0].length;\n\n  function dfs(r, c, index) {\n    if (index === word.length) return true;\n    if (r < 0 || r >= rows || c < 0 || c >= cols || board[r][c] !== word[index]) {\n      return false;\n    }\n\n    const temp = board[r][c];\n    board[r][c] = '#'; // Mark as visited\n\n    const found = dfs(r + 1, c, index + 1) ||\n                  dfs(r - 1, c, index + 1) ||\n                  dfs(r, c + 1, index + 1) ||\n                  dfs(r, c - 1, index + 1);\n\n    board[r][c] = temp; // Backtrack\n    return found;\n  }\n\n  for (let i = 0; i < rows; i++) {\n    for (let j = 0; j < cols; j++) {\n      if (dfs(i, j, 0)) return true;\n    }\n  }\n\n  return false;\n}",
+    "traceTable": {
+      "inputLabel": "board = [['A','B'],['C','D']], word = 'ABD'",
+      "columns": ["r", "c", "index", "char", "action"],
+      "rows": [
+        { "r": 0, "c": 0, "index": 0, "char": "A", "action": "Match! Check neighbors" },
+        { "r": 0, "c": 1, "index": 1, "char": "B", "action": "Match! Check neighbors" },
+        { "r": 1, "c": 1, "index": 2, "char": "D", "action": "Match! Word Found" }
+      ]
+    },
+    "skeletonHint": "Use a helper function for Depth First Search (DFS). When checking a cell, ensure it's within bounds and matches the current character of the word. Temporarily mark the cell (e.g., by changing its value to a special character) to avoid using it twice in the same path, and restore it before returning (backtracking).",
+    "tests": [
+      { "input": [[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], "ABCCED"], "expected": true },
+      { "input": [[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], "SEE"], "expected": true },
+      { "input": [[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], "ABCB"], "expected": false }
+    ],
+    "patternTag": "Backtracking / DFS",
+    "patternExplanation": "We explore all possible paths using DFS and backtrack when a path doesn't lead to the solution, ensuring each cell is only used once per path.",
+    "estimatedMinutes": 30
+  },
+  {
+    "id": "word-search-ii",
+    "title": "Word Search II",
+    "type": "coding",
+    "category": "matrix",
+    "difficulty": "Hard",
+    "collectionId": "blind75",
+    "functionName": "findWords",
+    "description": "Given an `m x n` `board` of characters and a list of strings `words`, return *all words on the board*.\n\nEach word must be constructed from letters of sequentially adjacent cells, where **adjacent cells** are horizontally or vertically neighboring. The same letter cell may not be used more than once in a word.\n\n### Examples\n\n**Input:** `board = [[\"o\",\"a\",\"a\",\"n\"],[\"e\",\"t\",\"a\",\"e\"],[\"i\",\"h\",\"k\",\"r\"],[\"i\",\"f\",\"l\",\"v\"]], words = [\"oath\",\"pea\",\"eat\",\"rain\"]`  \n**Output:** `[\"eat\",\"oath\"]`",
+    "whatShouldHappen": [
+      "Build a Trie of all input words to allow simultaneous searching",
+      "Use Backtracking (DFS) from each cell on the board to find words in the Trie",
+      "Remove found words from the Trie to avoid duplicates and improve performance (Pruning)"
+    ],
+    "starterCode": "/**\n * @param {character[][]} board\n * @param {string[]} words\n * @return {string[]}\n */\nfunction findWords(board, words) {\n  // Your code here\n}",
+    "solution": "function findWords(board, words) {\n  const res = [];\n  const root = buildTrie(words);\n\n  for (let i = 0; i < board.length; i++) {\n    for (let j = 0; j < board[0].length; j++) {\n      dfs(board, i, j, root, res);\n    }\n  }\n  return res.sort();\n\n  function buildTrie(words) {\n    const root = {};\n    for (const w of words) {\n      let node = root;\n      for (const c of w) {\n        if (!node[c]) node[c] = {};\n        node = node[c];\n      }\n      node.word = w;\n    }\n    return root;\n  }\n\n  function dfs(board, i, j, node, res) {\n    if (node.word) {\n      res.push(node.word);\n      node.word = null; // Prevent duplicates\n    }\n\n    if (i < 0 || i >= board.length || j < 0 || j >= board[0].length) return;\n    if (!node[board[i][j]]) return;\n\n    const c = board[i][j];\n    board[i][j] = '#'; // Mark as visited\n    for (const [di, dj] of [[0, 1], [0, -1], [1, 0], [-1, 0]]) {\n      dfs(board, i + di, j + dj, node[c], res);\n    }\n    board[i][j] = c; // Backtrack\n\n    // Optimization: Pruning leaf nodes\n    if (Object.keys(node[c]).length === 0) {\n      delete node[c];\n    }\n  }\n}",
+    "traceTable": {
+      "inputLabel": "board = [['a','b'],['c','d']], words = ['ab', 'ac']",
+      "columns": ["Cell", "Char", "Trie Node Path", "Action", "Found"],
+      "rows": [
+        { "Cell": "(0,0)", "Char": "a", "Trie Node Path": "root -> a", "Action": "Check neighbors", "Found": "null" },
+        { "Cell": "(0,1)", "Char": "b", "Trie Node Path": "root -> a -> b", "Action": "Found Word", "Found": "'ab'" },
+        { "Cell": "(1,0)", "Char": "c", "Trie Node Path": "root -> a -> c", "Action": "Found Word", "Found": "'ac'" }
+      ]
+    },
+    "skeletonHint": "First, insert all `words` into a Trie. Then, iterate through every cell on the board and start a DFS. If the character exists as a child of the current Trie node, continue exploring neighbors. If a Trie node has a `word` property, you've found a word!",
+    "tests": [
+      { "input": [[["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]], ["oath","pea","eat","rain"]], "expected": ["eat","oath"] },
+      { "input": [[["a","b"],["c","d"]], ["abcb"]], "expected": [] },
+      { "input": [[["a","a"]], ["aaa"]], "expected": [] }
+    ],
+    "patternTag": "Trie / Backtracking",
+    "patternExplanation": "Using a Trie allows us to prune the search space significantly. Instead of searching for each word individually (Word Search I style), we can check all words simultaneously as we traverse the board.",
+    "estimatedMinutes": 45
+  },
+  {
+    "id": "rotate-image",
+    "title": "Rotate Image",
+    "type": "coding",
+    "category": "matrix",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "rotate",
+    "description": "You are given an `n x n` 2D matrix representing an image, rotate the image by 90 degrees (clockwise).\n\nYou have to rotate the image **in-place**, which means you have to modify the input 2D matrix directly. **DO NOT** allocate another 2D matrix and do the rotation.",
+    "whatShouldHappen": [
+      "The input matrix should be modified in-place.",
+      "The matrix should be rotated 90 degrees clockwise.",
+      "The function should return the modified matrix."
+    ],
+    "starterCode": "function rotate(matrix) {\n  \n}",
+    "solution": "function rotate(matrix) {\n  const n = matrix.length;\n\n  // Transpose the matrix\n  for (let i = 0; i < n; i++) {\n    for (let j = i + 1; j < n; j++) {\n      [matrix[i][j], matrix[j][i]] = [matrix[j][i], matrix[i][j]];\n    }\n  }\n\n  // Reverse each row\n  for (let i = 0; i < n; i++) {\n    matrix[i].reverse();\n  }\n\n  return matrix;\n}",
+    "traceTable": {
+      "inputLabel": "matrix = [[1,2],[3,4]]",
+      "columns": [
+        "Step",
+        "Matrix State"
+      ],
+      "rows": [
+        {
+          "Step": "Transpose",
+          "Matrix State": "[[1,3],[2,4]]"
+        },
+        {
+          "Step": "Reverse Rows",
+          "Matrix State": "[[3,1],[4,2]]"
+        }
+      ]
+    },
+    "skeletonHint": "A 90-degree clockwise rotation can be achieved by first transposing the matrix (swapping `matrix[i][j]` with `matrix[j][i]`) and then reversing each row.",
+    "tests": [
+      {
+        "input": [
+          [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]
+          ]
+        ],
+        "expected": [
+          [7, 4, 1],
+          [8, 5, 2],
+          [9, 6, 3]
+        ]
+      },
+      {
+        "input": [
+          [
+            [5, 1, 9, 11],
+            [2, 4, 8, 10],
+            [13, 3, 6, 7],
+            [15, 14, 12, 16]
+          ]
+        ],
+        "expected": [
+          [15, 13, 2, 5],
+          [14, 3, 4, 1],
+          [12, 6, 8, 9],
+          [16, 7, 10, 11]
+        ]
+      },
+      {
+        "input": [
+          [
+            [1]
+          ]
+        ],
+        "expected": [
+          [1]
+        ]
+      }
+    ],
+    "patternTag": "Matrix / In-place",
+    "patternExplanation": "Rotating a matrix in-place often involves a combination of transposing (flipping over the diagonal) and reflecting (reversing rows or columns).",
+    "estimatedMinutes": 20
+  }
+]

@@ -5,6 +5,12 @@ const TestCaseSchema = new Schema(
     input: { type: Schema.Types.Mixed, required: true },
     expected: { type: Schema.Types.Mixed },
     label: { type: String },
+    isEval: { type: Boolean },
+    isGenerator: { type: Boolean },
+    isIterable: { type: Boolean },
+    isAsyncGenerator: { type: Boolean },
+    isAsyncIterable: { type: Boolean },
+    take: { type: Number },
   },
   { _id: false },
 )
@@ -34,6 +40,7 @@ const ProblemSchema = new Schema(
     patternExplanation: { type: String, required: true },
     estimatedMinutes:   { type: Number, required: true },
     status: { type: String, enum: ['draft', 'published'], default: 'published' },
+    collectionId: { type: String, default: 'general' },
 
     // Coding-only (optional for mcq/trick)
     functionName:    { type: String },
@@ -42,6 +49,7 @@ const ProblemSchema = new Schema(
     solution:        { type: String },
     traceTable:      { type: TraceTableSchema },
     skeletonHint:    { type: String },
+    testRunnerWrapper: { type: String },
     tests:           { type: [TestCaseSchema] },
 
     // MCQ / trick fields

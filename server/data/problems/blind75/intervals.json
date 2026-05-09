@@ -1,0 +1,173 @@
+[
+  {
+    "id": "merge-intervals",
+    "title": "Merge Intervals",
+    "type": "coding",
+    "category": "intervals",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "merge",
+    "description": "Given an array of `intervals` where `intervals[i] = [starti, endi]`, merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.",
+    "whatShouldHappen": [
+      "Sort the intervals by their start times",
+      "Iterate through the sorted intervals and merge overlapping ones",
+      "An interval `[a, b]` overlaps with `[c, d]` if `c <= b` (assuming sorted by start)"
+    ],
+    "starterCode": "function merge(intervals) {\n  // Your code here\n}",
+    "solution": "function merge(intervals) {\n  if (intervals.length <= 1) return intervals;\n\n  intervals.sort((a, b) => a[0] - b[0]);\n\n  const result = [intervals[0]];\n\n  for (let i = 1; i < intervals.length; i++) {\n    const current = intervals[i];\n    const lastMerged = result[result.length - 1];\n\n    if (current[0] <= lastMerged[1]) {\n      lastMerged[1] = Math.max(lastMerged[1], current[1]);\n    } else {\n      result.push(current);\n    }\n  }\n\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "intervals = [[1, 3], [2, 6], [8, 10], [15, 18]]",
+      "columns": ["i", "current", "lastMerged", "action", "result"],
+      "rows": [
+        { "i": 1, "current": "[2, 6]", "lastMerged": "[1, 3]", "action": "Merge", "result": "[[1, 6]]" },
+        { "i": 2, "current": "[8, 10]", "lastMerged": "[1, 6]", "action": "Push", "result": "[[1, 6], [8, 10]]" }
+      ]
+    },
+    "skeletonHint": "First, sort the intervals by their start value. Then, initialize your result array with the first interval. For each subsequent interval, check if it overlaps with the last interval in your result. If it does, update the end of the last interval; if not, push the current interval to the result.",
+    "tests": [
+      { "input": [[[1, 3], [2, 6], [8, 10], [15, 18]]], "expected": [[1, 6], [8, 10], [15, 18]] },
+      { "input": [[[1, 4], [4, 5]]], "expected": [[1, 5]] },
+      { "input": [[[1, 4], [2, 3]]], "expected": [[1, 4]] }
+    ],
+    "patternTag": "Sorting",
+    "patternExplanation": "Sorting the intervals by start time allows us to process them in a single pass and easily identify overlaps with the most recently merged interval.",
+    "estimatedMinutes": 20
+  },
+  {
+    "id": "insert-interval",
+    "title": "Insert Interval",
+    "type": "coding",
+    "category": "intervals",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "insert",
+    "description": "You are given an array of non-overlapping intervals `intervals` where `intervals[i] = [starti, endi]` sorted in ascending order by `starti`. You are also given an interval `newInterval = [start, end]` that represents the start and end of another interval.\n\nInsert `newInterval` into `intervals` such that `intervals` is still sorted in ascending order by `starti` and `intervals` still does not have any overlapping intervals (merge overlapping intervals if necessary).\n\nReturn `intervals` after the insertion.",
+    "whatShouldHappen": [
+      "Insert the new interval while maintaining the sorted order",
+      "Merge all overlapping intervals that result from the insertion",
+      "Ensure the final array contains non-overlapping intervals"
+    ],
+    "starterCode": "function insert(intervals, newInterval) {\n  // Your code here\n}",
+    "solution": "function insert(intervals, newInterval) {\n  const result = [];\n  let i = 0;\n  const n = intervals.length;\n\n  // Add all intervals that come before the new interval\n  while (i < n && intervals[i][1] < newInterval[0]) {\n    result.push(intervals[i]);\n    i++;\n  }\n\n  // Merge overlapping intervals\n  while (i < n && intervals[i][0] <= newInterval[1]) {\n    newInterval[0] = Math.min(newInterval[0], intervals[i][0]);\n    newInterval[1] = Math.max(newInterval[1], intervals[i][1]);\n    i++;\n  }\n  result.push(newInterval);\n\n  // Add remaining intervals\n  while (i < n) {\n    result.push(intervals[i]);\n    i++;\n  }\n\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "intervals = [[1,3],[6,9]], newInterval = [2,5]",
+      "columns": ["i", "current", "newInterval", "action", "result"],
+      "rows": [
+        { "i": 0, "current": "[1,3]", "newInterval": "[2,5]", "action": "Overlap detected, merge", "result": "[]" },
+        { "i": 1, "current": "[6,9]", "newInterval": "[1,5]", "action": "No overlap, push merged and remaining", "result": "[[1,5],[6,9]]" }
+      ]
+    },
+    "skeletonHint": "You can solve this in three parts: first, add all intervals that end before the new interval starts. Second, merge the new interval with any overlapping intervals by updating its start and end. Finally, add all remaining intervals that start after the merged interval ends.",
+    "tests": [
+      { "input": [[[1,3],[6,9]], [2,5]], "expected": [[1,5],[6,9]] },
+      { "input": [[[1,2],[3,5],[6,7],[8,10],[12,16]], [4,8]], "expected": [[1,2],[3,10],[12,16]] },
+      { "input": [[], [5,7]], "expected": [[5,7]] }
+    ],
+    "patternTag": "Array Manipulation",
+    "patternExplanation": "The problem requires traversing the sorted intervals and making decisions based on overlap conditions, efficiently handled in a single O(n) pass.",
+    "estimatedMinutes": 25
+  },
+  {
+    "id": "meeting-rooms",
+    "title": "Meeting Rooms",
+    "type": "coding",
+    "category": "intervals",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "canAttendMeetings",
+    "description": "Given an array of meeting time intervals where `intervals[i] = [starti, endi]`, determine if a person could attend all meetings.",
+    "whatShouldHappen": [
+      "Sort the intervals by their start times",
+      "Check if any adjacent intervals overlap",
+      "An overlap occurs if the start of the next meeting is before the end of the current meeting"
+    ],
+    "starterCode": "function canAttendMeetings(intervals) {\n  // Your code here\n}",
+    "solution": "function canAttendMeetings(intervals) {\n  intervals.sort((a, b) => a[0] - b[0]);\n  for (let i = 1; i < intervals.length; i++) {\n    if (intervals[i][0] < intervals[i - 1][1]) {\n      return false;\n    }\n  }\n  return true;\n}",
+    "traceTable": {
+      "inputLabel": "intervals = [[0,30],[5,10],[15,20]]",
+      "columns": ["i", "current", "previous", "action"],
+      "rows": [
+        { "i": "1", "current": "[5,10]", "previous": "[0,30]", "action": "Overlap detected (5 < 30)" }
+      ]
+    },
+    "skeletonHint": "To attend all meetings, no two meetings can overlap. Start by sorting the meetings by their start time. Then, iterate through the sorted list and compare each meeting with the one immediately preceding it.",
+    "tests": [
+      { "input": [[[0,30],[5,10],[15,20]]], "expected": false },
+      { "input": [[[7,10],[2,4]]], "expected": true },
+      { "input": [[]], "expected": true }
+    ],
+    "patternTag": "Sorting",
+    "patternExplanation": "Sorting by start time simplifies the problem because we only need to check adjacent intervals for overlaps.",
+    "estimatedMinutes": 15
+  },
+  {
+    "id": "meeting-rooms-ii",
+    "title": "Meeting Rooms II",
+    "type": "coding",
+    "category": "intervals",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "minMeetingRooms",
+    "description": "Given an array of meeting time intervals `intervals` where `intervals[i] = [starti, endi]`, return *the minimum number of conference rooms required*.",
+    "whatShouldHappen": [
+      "Separate and sort the start times and end times",
+      "Use two pointers to iterate through the start times and end times",
+      "If a meeting starts before the earliest ending meeting finishes, we need a new room"
+    ],
+    "starterCode": "function minMeetingRooms(intervals) {\n  // Your code here\n}",
+    "solution": "function minMeetingRooms(intervals) {\n  if (intervals.length === 0) return 0;\n  const starts = intervals.map(i => i[0]).sort((a, b) => a - b);\n  const ends = intervals.map(i => i[1]).sort((a, b) => a - b);\n\n  let rooms = 0;\n  let endPtr = 0;\n\n  for (let startPtr = 0; startPtr < intervals.length; startPtr++) {\n    if (starts[startPtr] < ends[endPtr]) {\n      rooms++;\n    } else {\n      endPtr++;\n    }\n  }\n\n  return rooms;\n}",
+    "traceTable": {
+      "inputLabel": "intervals = [[0,30],[5,10],[15,20]]",
+      "columns": ["startPtr", "starts[startPtr]", "ends[endPtr]", "rooms", "endPtr"],
+      "rows": [
+        { "startPtr": "0", "starts[startPtr]": "0", "ends[endPtr]": "10", "rooms": "1", "endPtr": "0" },
+        { "startPtr": "1", "starts[startPtr]": "5", "ends[endPtr]": "10", "rooms": "2", "endPtr": "0" },
+        { "startPtr": "2", "starts[startPtr]": "15", "ends[endPtr]": "10", "rooms": "2", "endPtr": "1" }
+      ]
+    },
+    "skeletonHint": "We need to know how many meetings are happening at the same time. You can use a min-heap to keep track of end times, or you can sort start and end times separately and use two pointers. If a start time is less than the smallest end time, it means we need another room.",
+    "tests": [
+      { "input": [[[0,30],[5,10],[15,20]]], "expected": 2 },
+      { "input": [[[7,10],[2,4]]], "expected": 1 },
+      { "input": [[[1,5],[8,10],[2,6],[9,11]]], "expected": 2 }
+    ],
+    "patternTag": "Sorting / Greedy",
+    "patternExplanation": "By sorting start and end times separately, we can greedily track how many rooms are occupied at any given time.",
+    "estimatedMinutes": 25
+  },
+  {
+    "id": "non-overlapping-intervals",
+    "title": "Non-overlapping Intervals",
+    "type": "coding",
+    "category": "intervals",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "eraseOverlapIntervals",
+    "description": "Given an array of intervals `intervals` where `intervals[i] = [starti, endi]`, return *the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping*.",
+    "whatShouldHappen": [
+      "Sort intervals by their end times to greedily pack as many intervals as possible",
+      "Track the end time of the last added non-overlapping interval",
+      "If a current interval starts before the previous one ends, it must be removed to minimize total removals"
+    ],
+    "starterCode": "function eraseOverlapIntervals(intervals) {\n  // Your code here\n}",
+    "solution": "function eraseOverlapIntervals(intervals) {\n  if (intervals.length === 0) return 0;\n\n  // Sort by end time\n  intervals.sort((a, b) => a[1] - b[1]);\n\n  let count = 0;\n  let lastEnd = intervals[0][1];\n\n  for (let i = 1; i < intervals.length; i++) {\n    if (intervals[i][0] < lastEnd) {\n      // Overlap detected, remove this interval\n      count++;\n    } else {\n      // No overlap, update the last non-overlapping end time\n      lastEnd = intervals[i][1];\n    }\n  }\n\n  return count;\n}",
+    "traceTable": {
+      "inputLabel": "intervals = [[1,2],[2,3],[3,4],[1,3]]",
+      "columns": ["i", "current", "lastEnd", "action", "count"],
+      "rows": [
+        { "i": 1, "current": "[1,3]", "lastEnd": "2", "action": "Overlap (1 < 2), remove", "count": "1" },
+        { "i": 2, "current": "[2,3]", "lastEnd": "2", "action": "No overlap (2 >= 2), update lastEnd", "count": "1" }
+      ]
+    },
+    "skeletonHint": "To minimize removals, we want to keep intervals that end as early as possible. Sort the intervals by their end times. Then, iterate through and keep track of the end time of the last non-overlapping interval you kept.",
+    "tests": [
+      { "input": [[[1,2],[2,3],[3,4],[1,3]]], "expected": 1 },
+      { "input": [[[1,2],[1,2],[1,2]]], "expected": 2 },
+      { "input": [[[1,2],[2,3]]], "expected": 0 }
+    ],
+    "patternTag": "Greedy / Sorting",
+    "patternExplanation": "By sorting by end times, we always choose the interval that finishes earliest, leaving the maximum possible room for subsequent intervals.",
+    "estimatedMinutes": 20
+  }
+]
+

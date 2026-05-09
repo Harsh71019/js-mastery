@@ -1,0 +1,774 @@
+[
+  {
+    "id": "js-s1-reverse",
+    "title": "Reverse a string",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "reverseString",
+    "description": "Reversing a string involves rearranging its characters so that the last character becomes the first, and so on. In JavaScript, strings are **immutable**, so you typically convert them to an array, reverse the array, and join it back.",
+    "whatShouldHappen": [
+      "The function receives a string 'str'.",
+      "Convert the string to an array of characters.",
+      "Reverse the array.",
+      "Join the characters back into a string.",
+      "Return the reversed string."
+    ],
+    "starterCode": "function reverseString(str) {\n  // 1. Convert str to array\n  // 2. Reverse array\n  // 3. Join array\n  // 4. Return result\n}",
+    "solution": "function reverseString(str) {\n  return str.split('').reverse().join('');\n}",
+    "traceTable": {
+      "inputLabel": "str = 'abc'",
+      "columns": ["Method", "Result", "Type"],
+      "rows": [
+        ["split('')", "['a', 'b', 'c']", "Array"],
+        ["reverse()", "['c', 'b', 'a']", "Array"],
+        ["join('')", "'cba'", "String"]
+      ]
+    },
+    "skeletonHint": "str.split('') turns a string into an array; arr.reverse() reverses it; arr.join('') turns it back to a string.",
+    "tests": [
+      { "input": ["hello"], "expected": "olleh" },
+      { "input": ["JS"], "expected": "SJ" },
+      { "input": [""], "expected": "" },
+      { "input": ["12345"], "expected": "54321" }
+    ],
+    "patternTag": "String Manipulation",
+    "patternExplanation": "Strings are immutable in JS. We must convert them to arrays to use array methods like reverse(), or use a manual loop to build a new string.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-s2-palindrome",
+    "title": "Check palindrome string",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "isPalindrome",
+    "description": "A **palindrome** is a word, phrase, or sequence that reads the same backward as forward (e.g., 'madam' or 'racecar').",
+    "whatShouldHappen": [
+      "The function receives a string 'str'.",
+      "Create a reversed version of the string.",
+      "Compare the original string with the reversed one.",
+      "Return true if they are equal, otherwise false."
+    ],
+    "starterCode": "function isPalindrome(str) {\n  // 1. Reverse the string\n  // 2. Check if original === reversed\n  // 3. Return the result\n}",
+    "solution": "function isPalindrome(str) {\n  const reversed = str.split('').reverse().join('');\n  return str === reversed;\n}",
+    "traceTable": {
+      "inputLabel": "str = 'racecar'",
+      "columns": ["Value", "Result"],
+      "rows": [
+        ["str", "'racecar'"],
+        ["reversed", "'racecar'"],
+        ["str === reversed", "true"]
+      ]
+    },
+    "skeletonHint": "Reverse the string first, then use the equality operator (===) to compare.",
+    "tests": [
+      { "input": ["racecar"], "expected": true },
+      { "input": ["hello"], "expected": false },
+      { "input": ["madam"], "expected": true },
+      { "input": ["a"], "expected": true },
+      { "input": [""], "expected": true }
+    ],
+    "patternTag": "String Matching",
+    "patternExplanation": "Palindromes can be checked by comparing a string to its reverse, or by using two pointers starting from both ends.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-s3-vowels",
+    "title": "Count vowels in string",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "countVowels",
+    "description": "Count the number of **vowels** (a, e, i, o, u) in a given string. The search should be case-insensitive.",
+    "whatShouldHappen": [
+      "The function receives a string 'str'.",
+      "Initialize a counter to 0.",
+      "Define a string or array containing all vowels (a, e, i, o, u).",
+      "Loop through each character of the string.",
+      "If the character (lowercase) is a vowel, increment the counter.",
+      "Return the final count."
+    ],
+    "starterCode": "function countVowels(str) {\n  const vowels = 'aeiou';\n  let count = 0;\n  // Loop through str and check if each char is in vowels\n  return count;\n}",
+    "solution": "function countVowels(str) {\n  const vowels = 'aeiouAEIOU';\n  let count = 0;\n  for (let char of str) {\n    if (vowels.includes(char)) {\n      count++;\n    }\n  }\n  return count;\n}",
+    "traceTable": {
+      "inputLabel": "str = 'Hello'",
+      "columns": ["Char", "is Vowel?", "Count"],
+      "rows": [
+        ["'H'", "false", "0"],
+        ["'e'", "true", "1"],
+        ["'l'", "false", "1"],
+        ["'l'", "false", "1"],
+        ["'o'", "true", "2"]
+      ]
+    },
+    "skeletonHint": "Use a for...of loop to iterate through characters and 'aeiou'.includes(char) to check for vowels.",
+    "tests": [
+      { "input": ["hello"], "expected": 2 },
+      { "input": ["javascript"], "expected": 3 },
+      { "input": ["AEIOU"], "expected": 5 },
+      { "input": ["xyz"], "expected": 0 },
+      { "input": [""], "expected": 0 }
+    ],
+    "patternTag": "Character Analysis",
+    "patternExplanation": "Iterating over a string allows us to analyze each character individually using conditional checks.",
+    "estimatedMinutes": 7,
+    "status": "published"
+  },
+  {
+    "id": "js-s4-slice",
+    "title": "Extract substring (slice)",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "extractPart",
+    "description": "The `slice()` method extracts a section of a string and returns it as a new string, without modifying the original string. It takes a `start` index and an optional `end` index.",
+    "whatShouldHappen": [
+      "The function receives a string 'str', a 'start' index, and an 'end' index.",
+      "Use `str.slice(start, end)` to extract the substring.",
+      "Return the extracted substring."
+    ],
+    "starterCode": "function extractPart(str, start, end) {\n  // Use str.slice() with start and end\n}",
+    "solution": "function extractPart(str, start, end) {\n  return str.slice(start, end);\n}",
+    "traceTable": {
+      "inputLabel": "str = 'JavaScript', start = 0, end = 4",
+      "columns": ["Method", "Args", "Result"],
+      "rows": [
+        ["slice", "0, 4", "'Java'"],
+        ["slice", "4, 10", "'Script'"]
+      ]
+    },
+    "skeletonHint": "str.slice(start, end) returns characters from 'start' up to (but not including) 'end'.",
+    "tests": [
+      { "input": ["Hello World", 0, 5], "expected": "Hello" },
+      { "input": ["JavaScript", 4, 10], "expected": "Script" },
+      { "input": ["SliceMe", 0], "expected": "SliceMe" },
+      { "input": ["Negative", -3], "expected": "ive" }
+    ],
+    "patternTag": "Sub-string Extraction",
+    "patternExplanation": "Slice is a versatile method for getting parts of strings using positive or negative indices.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-s5-repeat",
+    "title": "String repeat simulation",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "repeatString",
+    "description": "The `repeat()` method returns a new string which contains the specified number of copies of the string it was called on. If the count is 0, it returns an empty string.",
+    "whatShouldHappen": [
+      "The function receives a string 'str' and a number 'n'.",
+      "Use `str.repeat(n)` to create the repeated string.",
+      "Return the result."
+    ],
+    "starterCode": "function repeatString(str, n) {\n  // Use str.repeat(n)\n}",
+    "solution": "function repeatString(str, n) {\n  return str.repeat(n);\n}",
+    "traceTable": {
+      "inputLabel": "str = 'abc', n = 3",
+      "columns": ["Iteration", "Accumulated String"],
+      "rows": [
+        ["1", "'abc'"],
+        ["2", "'abcabc'"],
+        ["3", "'abcabcabc'"]
+      ]
+    },
+    "skeletonHint": "str.repeat(n) is the built-in way to repeat a string 'n' times.",
+    "tests": [
+      { "input": ["abc", 3], "expected": "abcabcabc" },
+      { "input": ["hi", 0], "expected": "" },
+      { "input": ["!", 5], "expected": "!!!!!" },
+      { "input": [" ", 4], "expected": "    " }
+    ],
+    "patternTag": "String Generation",
+    "patternExplanation": "The repeat() method is an ES6 feature that simplifies string duplication.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "js-s6-starts-ends",
+    "title": "Check startsWith/endsWith",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "checkBoundaries",
+    "description": "Verify if a string starts with a specific prefix and ends with a specific suffix using built-in methods.",
+    "whatShouldHappen": [
+      "The function receives a string 'str', a 'prefix', and a 'suffix'.",
+      "Use `str.startsWith(prefix)` to check the start.",
+      "Use `str.endsWith(suffix)` to check the end.",
+      "Return true if both conditions are met, otherwise false."
+    ],
+    "starterCode": "function checkBoundaries(str, prefix, suffix) {\n  // Check if str starts with prefix AND ends with suffix\n}",
+    "solution": "function checkBoundaries(str, prefix, suffix) {\n  return str.startsWith(prefix) && str.endsWith(suffix);\n}",
+    "traceTable": {
+      "inputLabel": "str='Hello World', prefix='He', suffix='ld'",
+      "columns": ["Method", "Arg", "Result"],
+      "rows": [
+        ["startsWith", "'He'", "true"],
+        ["endsWith", "'ld'", "true"],
+        ["Combined", "-", "true"]
+      ]
+    },
+    "skeletonHint": "Use str.startsWith(prefix) and str.endsWith(suffix) with the logical AND (&&) operator.",
+    "tests": [
+      { "input": ["Hello World", "He", "ld"], "expected": true },
+      { "input": ["JavaScript", "Java", "Script"], "expected": true },
+      { "input": ["Frontend", "Back", "end"], "expected": false },
+      { "input": ["App", "A", "p"], "expected": true }
+    ],
+    "patternTag": "Boundary Checking",
+    "patternExplanation": "startsWith() and endsWith() are ES6 methods that provide a clean way to inspect string boundaries without slicing or regex.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "js-s7-capitalize",
+    "title": "Capitalize first letter",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "capitalize",
+    "description": "Convert the first character of a string to uppercase and keep the rest of the string unchanged.",
+    "whatShouldHappen": [
+      "The function receives a string 'str'.",
+      "If the string is empty, return it as is.",
+      "Take the first character using `charAt(0)` and convert to uppercase.",
+      "Take the rest of the string using `slice(1)`.",
+      "Concatenate them and return the result."
+    ],
+    "starterCode": "function capitalize(str) {\n  if (!str) return str;\n  // Uppercase first char + slice the rest\n}",
+    "solution": "function capitalize(str) {\n  if (!str) return str;\n  return str.charAt(0).toUpperCase() + str.slice(1);\n}",
+    "traceTable": {
+      "inputLabel": "str = 'hello'",
+      "columns": ["Step", "Value"],
+      "rows": [
+        ["str.charAt(0)", "'h'"],
+        ["toUpperCase()", "'H'"],
+        ["str.slice(1)", "'ello'"],
+        ["Result", "'Hello'"]
+      ]
+    },
+    "skeletonHint": "Use str.charAt(0).toUpperCase() to get the first letter and str.slice(1) for the remaining part.",
+    "tests": [
+      { "input": ["hello"], "expected": "Hello" },
+      { "input": ["world"], "expected": "World" },
+      { "input": ["javascript"], "expected": "Javascript" },
+      { "input": ["A"], "expected": "A" },
+      { "input": [""], "expected": "" }
+    ],
+    "patternTag": "String Formatting",
+    "patternExplanation": "Capitalization requires isolating the first character, transforming it, and re-attaching the original tail of the string.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-s8-replace-all",
+    "title": "Replace all occurrences",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "replaceAllOccurrences",
+    "description": "Replace every instance of a target substring with a new string. While `replace()` only replaces the first match (unless using regex), `replaceAll()` handles all matches.",
+    "whatShouldHappen": [
+      "The function receives a string 'str', a 'find' string, and a 'replace' string.",
+      "Use the `replaceAll()` method to swap all occurrences of 'find' with 'replace'.",
+      "Return the updated string."
+    ],
+    "starterCode": "function replaceAllOccurrences(str, find, replace) {\n  // Use str.replaceAll()\n}",
+    "solution": "function replaceAllOccurrences(str, find, replace) {\n  return str.replaceAll(find, replace);\n}",
+    "traceTable": {
+      "inputLabel": "str='red green red', find='red', replace='blue'",
+      "columns": ["Match Index", "Action", "Result"],
+      "rows": [
+        ["0", "Replace 'red'", "'blue green red'"],
+        ["11", "Replace 'red'", "'blue green blue'"]
+      ]
+    },
+    "skeletonHint": "The modern replaceAll() method is the easiest way to replace all matches without needing a Global Regular Expression.",
+    "tests": [
+      { "input": ["apple banana apple", "apple", "orange"], "expected": "orange banana orange" },
+      { "input": ["1-2-3-4", "-", "/"], "expected": "1/2/3/4" },
+      { "input": ["hello", "l", "z"], "expected": "hezzo" },
+      { "input": ["nothing", "x", "y"], "expected": "nothing" }
+    ],
+    "patternTag": "Text Substitution",
+    "patternExplanation": "Replacing multiple occurrences used to require regex with the /g flag, but replaceAll() provides a simpler string-based API.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "js-s9-split-words",
+    "title": "Split string into words",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "splitIntoWords",
+    "description": "Break a sentence down into an array where each element is a single word. We assume words are separated by a single space.",
+    "whatShouldHappen": [
+      "The function receives a string 'str'.",
+      "Use the `split()` method with a space (' ') as the separator.",
+      "Return the resulting array of words."
+    ],
+    "starterCode": "function splitIntoWords(str) {\n  // Use str.split(' ')\n}",
+    "solution": "function splitIntoWords(str) {\n  if (str === \"\") return [];\n  return str.split(\" \");\n}",
+    "traceTable": {
+      "inputLabel": "str = 'JS is fun'",
+      "columns": ["Method", "Separator", "Result"],
+      "rows": [
+        ["split", "' '", "['JS', 'is', 'fun']"]
+      ]
+    },
+    "skeletonHint": "str.split(' ') creates an array by breaking the string at every space character.",
+    "tests": [
+      { "input": ["Hello World"], "expected": ["Hello", "World"] },
+      { "input": ["JavaScript is awesome"], "expected": ["JavaScript", "is", "awesome"] },
+      { "input": ["OneWord"], "expected": ["OneWord"] },
+      { "input": [""], "expected": [] }
+    ],
+    "patternTag": "String Tokenization",
+    "patternExplanation": "Splitting is the primary way to tokenize strings into smaller parts for processing or analysis.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-s10-trim-manual",
+    "title": "Trim whitespace manual",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "trimString",
+    "description": "Remove leading and trailing whitespace from a string. While `trim()` is built-in, knowing how to do it manually or via regex is useful.",
+    "whatShouldHappen": [
+      "The function receives a string 'str'.",
+      "Use a Regular Expression to match whitespace at the start and end.",
+      "Replace those matches with an empty string.",
+      "Return the trimmed string."
+    ],
+    "starterCode": "function trimString(str) {\n  // Use regex to remove start/end spaces\n  // return str.replace(..., '');\n}",
+    "solution": "function trimString(str) {\n  return str.replace(/^\\s+|\\s+$/g, '');\n}",
+    "traceTable": {
+      "inputLabel": "str = '  hello  '",
+      "columns": ["Match", "Position", "Result"],
+      "rows": [
+        ["/^\\s+/", "Start", "'hello  '"],
+        ["/\\s+$/", "End", "'hello'"]
+      ]
+    },
+    "skeletonHint": "The regex /^\\s+|\\s+$/g matches spaces at the beginning (^) or (|) the end ($).",
+    "tests": [
+      { "input": ["  hello  "], "expected": "hello" },
+      { "input": ["world  "], "expected": "world" },
+      { "input": ["  javascript"], "expected": "javascript" },
+      { "input": ["   "], "expected": "" },
+      { "input": ["a b"], "expected": "a b" }
+    ],
+    "patternTag": "Regex Cleaning",
+    "patternExplanation": "Trimming is often implemented using the 'global' flag in regex to catch both ends of the string efficiently.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "js-s11-pad-start",
+    "title": "Pad start with zeros",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "padZeros",
+    "description": "The `padStart()` method pads the current string with another string (multiple times, if needed) until the resulting string reaches the given length. The padding is applied from the start of the current string.",
+    "whatShouldHappen": [
+      "The function receives a string 'str' and a 'targetLength'.",
+      "Use `str.padStart(targetLength, '0')` to add leading zeros.",
+      "Return the padded string."
+    ],
+    "starterCode": "function padZeros(str, targetLength) {\n  // Use str.padStart()\n}",
+    "solution": "function padZeros(str, targetLength) {\n  return String(str).padStart(targetLength, '0');\n}",
+    "traceTable": {
+      "inputLabel": "str = '5', targetLength = 3",
+      "columns": ["Input", "Target", "Result"],
+      "rows": [
+        ["'5'", "3", "'005'"],
+        ["'42'", "4", "'0042'"]
+      ]
+    },
+    "skeletonHint": "str.padStart(length, char) is the modern way to ensure a string has a minimum length by adding characters to the front.",
+    "tests": [
+      { "input": ["5", 3], "expected": "005" },
+      { "input": ["42", 4], "expected": "0042" },
+      { "input": ["123", 2], "expected": "123" },
+      { "input": ["7", 1], "expected": "7" }
+    ],
+    "patternTag": "String Padding",
+    "patternExplanation": "Padding is useful for formatting numbers, dates, or creating aligned text outputs.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "js-s12-email-regex",
+    "title": "Check valid email (Regex)",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "isValidEmail",
+    "description": "Use a Regular Expression to check if a string follows a basic email format (something@something.something).",
+    "whatShouldHappen": [
+      "The function receives a string 'email'.",
+      "Define a regex pattern for a basic email check.",
+      "Use `regex.test(email)` to verify the format.",
+      "Return true if valid, false otherwise."
+    ],
+    "starterCode": "function isValidEmail(email) {\n  const regex = /^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$/;\n  // return regex.test(email);\n}",
+    "solution": "function isValidEmail(email) {\n  const regex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\n  return regex.test(email);\n}",
+    "traceTable": {
+      "inputLabel": "email = 'test@example.com'",
+      "columns": ["Part", "Regex Match", "Result"],
+      "rows": [
+        ["'test'", "[^\\s@]+", "Matches"],
+        ["'@'", "@", "Matches"],
+        ["'example.com'", "[^\\s@]+\\.[^\\s@]+", "Matches"],
+        ["Whole", "Full Regex", "true"]
+      ]
+    },
+    "skeletonHint": "The test() method of a regular expression returns true if the pattern matches the string.",
+    "tests": [
+      { "input": ["test@example.com"], "expected": true },
+      { "input": ["user.name@domain.co"], "expected": true },
+      { "input": ["invalid-email"], "expected": false },
+      { "input": ["@missing-start.com"], "expected": false },
+      { "input": ["test@missing-dot"], "expected": false }
+    ],
+    "patternTag": "Pattern Validation",
+    "patternExplanation": "Regex is the standard tool for validating complex string formats like emails, phone numbers, and URLs.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "js-s13-extract-digits",
+    "title": "Extract digits from string",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "extractDigits",
+    "description": "Extract all numerical digits from a mixed alphanumeric string and return them as a single string.",
+    "whatShouldHappen": [
+      "The function receives a string 'str'.",
+      "Use `replace()` with a regex to remove all non-digit characters (`\\D`).",
+      "Return the resulting string of digits."
+    ],
+    "starterCode": "function extractDigits(str) {\n  // Use str.replace() with regex /\\D/g\n}",
+    "solution": "function extractDigits(str) {\n  return str.replace(/\\D/g, '');\n}",
+    "traceTable": {
+      "inputLabel": "str = 'abc123def45'",
+      "columns": ["Regex", "Target", "Replacement", "Result"],
+      "rows": [
+        ["/\\D/g", "Non-digits", "''", "'12345'"]
+      ]
+    },
+    "skeletonHint": "The regex /\\D/ matches any character that is NOT a digit. Using the 'g' (global) flag replaces all of them.",
+    "tests": [
+      { "input": ["abc123def45"], "expected": "12345" },
+      { "input": ["(123) 456-7890"], "expected": "1234567890" },
+      { "input": ["no digits here"], "expected": "" },
+      { "input": ["1a2b3c"], "expected": "123" }
+    ],
+    "patternTag": "Data Extraction",
+    "patternExplanation": "Replacing unwanted characters via regex is a common way to 'clean' or 'sanitize' string data.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-s14-remove-html",
+    "title": "Remove all HTML tags",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "stripHTML",
+    "description": "Remove all HTML tags (e.g., `<p>`, `</div>`, `<b>`) from a string, leaving only the text content.",
+    "whatShouldHappen": [
+      "The function receives a string 'html'.",
+      "Use `replace()` with a regex that matches anything between `<` and `>`.",
+      "Replace matches with an empty string.",
+      "Return the clean text."
+    ],
+    "starterCode": "function stripHTML(html) {\n  // Use regex /<[^>]*>/g\n}",
+    "solution": "function stripHTML(html) {\n  return html.replace(/<[^>]*>/g, '');\n}",
+    "traceTable": {
+      "inputLabel": "html = '<p>Hello <b>JS</b></p>'",
+      "columns": ["Tag Match", "Action", "Result"],
+      "rows": [
+        ["'<p>'", "Remove", "'Hello <b>JS</b></p>'"],
+        ["'<b>'", "Remove", "'Hello JS</b></p>'"],
+        ["'</b>'", "Remove", "'Hello JS</p>'"],
+        ["'</p>'", "Remove", "'Hello JS'"]
+      ]
+    },
+    "skeletonHint": "/<[^>]*>/g matches a '<', followed by any characters that are NOT '>', followed by a '>'.",
+    "tests": [
+      { "input": ["<p>Hello World</p>"], "expected": "Hello World" },
+      { "input": ["<div><span>Inner</span></div>"], "expected": "Inner" },
+      { "input": ["No tags here"], "expected": "No tags here" },
+      { "input": ["<br/>Single tag"], "expected": "Single tag" }
+    ],
+    "patternTag": "Content Sanitization",
+    "patternExplanation": "Removing HTML tags is essential when processing user input to prevent XSS or when extracting plain text from web sources.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "js-s15-anagram",
+    "title": "Anagram check strings",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "areAnagrams",
+    "description": "Two strings are anagrams if they contain the same characters in the same frequency, but in a different order (e.g., 'listen' and 'silent').",
+    "whatShouldHappen": [
+      "The function receives 'str1' and 'str2'.",
+      "Convert both to lowercase.",
+      "Sort the characters of both strings.",
+      "Compare the sorted results.",
+      "Return true if they match, otherwise false."
+    ],
+    "starterCode": "function areAnagrams(str1, str2) {\n  // 1. Normalize (lowercase, sort)\n  // 2. Compare\n}",
+    "solution": "function areAnagrams(str1, str2) {\n  const normalize = str => str.toLowerCase().split('').sort().join('');\n  return normalize(str1) === normalize(str2);\n}",
+    "traceTable": {
+      "inputLabel": "str1='listen', str2='silent'",
+      "columns": ["String", "Normalized", "Result"],
+      "rows": [
+        ["'listen'", "'eilnst'", "-"],
+        ["'silent'", "'eilnst'", "-"],
+        ["Compare", "-", "true"]
+      ]
+    },
+    "skeletonHint": "Sort both strings alphabetically; if they are anagrams, their sorted versions will be identical.",
+    "tests": [
+      { "input": ["listen", "silent"], "expected": true },
+      { "input": ["hello", "world"], "expected": false },
+      { "input": ["rail safety", "fairy tales"], "expected": true },
+      { "input": ["abc", "cba"], "expected": true },
+      { "input": ["a", "b"], "expected": false }
+    ],
+    "patternTag": "Structural Comparison",
+    "patternExplanation": "Sorting is a powerful way to compare if two collections contain the same elements, regardless of order.",
+    "estimatedMinutes": 7,
+    "status": "published"
+  },
+  {
+    "id": "js-s16-compression",
+    "title": "String compression (aaab -> a3b1)",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Easy",
+    "collectionId": "js-pro-mastery",
+    "functionName": "compressString",
+    "description": "Basic string compression: replace consecutive duplicate characters with the character followed by the number of occurrences.",
+    "whatShouldHappen": [
+      "The function receives a string 'str'.",
+      "Iterate through the string while keeping a count of consecutive identical characters.",
+      "Append the character and its count to a result string whenever the character changes.",
+      "Return the compressed string."
+    ],
+    "starterCode": "function compressString(str) {\n  if (!str) return \"\";\n  let compressed = \"\";\n  let count = 1;\n  // Iterate and count consecutive chars\n  return compressed;\n}",
+    "solution": "function compressString(str) {\n  if (!str) return \"\";\n  let compressed = \"\";\n  let count = 1;\n  for (let i = 0; i < str.length; i++) {\n    if (str[i] === str[i + 1]) {\n      count++;\n    } else {\n      compressed += str[i] + count;\n      count = 1;\n    }\n  }\n  return compressed;\n}",
+    "traceTable": {
+      "inputLabel": "str = 'aaab'",
+      "columns": ["i", "str[i]", "Count", "Compressed"],
+      "rows": [
+        ["0", "'a'", "1", "''"],
+        ["1", "'a'", "2", "''"],
+        ["2", "'a'", "3", "''"],
+        ["3", "'b'", "1", "'a3'"],
+        ["End", "-", "-", "'a3b1'"]
+      ]
+    },
+    "skeletonHint": "Use a loop to compare the current character with the next one (str[i] === str[i+1]) to manage the counter.",
+    "tests": [
+      { "input": ["aaab"], "expected": "a3b1" },
+      { "input": ["aabbcc"], "expected": "a2b2c2" },
+      { "input": ["a"], "expected": "a1" },
+      { "input": ["abc"], "expected": "a1b1c1" },
+      { "input": [""], "expected": "" }
+    ],
+    "patternTag": "Run-Length Encoding",
+    "patternExplanation": "Run-length encoding is a simple form of data compression where runs of data are stored as a single data value and count.",
+    "estimatedMinutes": 10,
+    "status": "published"
+  },
+  {
+    "id": "js-s17-longest-word",
+    "title": "Longest word in string",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "findLongestWord",
+    "description": "Identify and return the longest word within a provided sentence. If multiple words have the same maximum length, return the first one encountered.",
+    "whatShouldHappen": [
+      "The function receives a sentence 'str'.",
+      "Split the sentence into an array of words using spaces as delimiters.",
+      "Initialize a variable to track the 'longest' word found so far.",
+      "Iterate through the array, updating 'longest' if a word's length is greater.",
+      "Return the longest word."
+    ],
+    "starterCode": "function findLongestWord(str) {\n  // Split into words\n  // Find word with max length\n}",
+    "solution": "function findLongestWord(str) {\n  if (!str) return \"\";\n  const words = str.split(\" \");\n  let longest = \"\";\n  for (let word of words) {\n    if (word.length > longest.length) {\n      longest = word;\n    }\n  }\n  return longest;\n}",
+    "traceTable": {
+      "inputLabel": "str = 'Coding is awesome'",
+      "columns": ["Word", "Length", "Longest"],
+      "rows": [
+        ["'Coding'", "6", "'Coding'"],
+        ["'is'", "2", "'Coding'"],
+        ["'awesome'", "7", "'awesome'"]
+      ]
+    },
+    "skeletonHint": "Use split(' ') to get the words and a simple loop with a length check to track the winner.",
+    "tests": [
+      { "input": ["The quick brown fox"], "expected": "quick" },
+      { "input": ["Coding is awesome"], "expected": "awesome" },
+      { "input": ["JavaScript"], "expected": "JavaScript" },
+      { "input": [""], "expected": "" }
+    ],
+    "patternTag": "Extremum Search",
+    "patternExplanation": "Finding the longest or shortest element in a collection follows the standard pattern of iterating and maintaining a 'current best' variable.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "js-s18-char-frequency",
+    "title": "Character frequency count",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getCharFrequency",
+    "description": "Create a frequency map (object) that counts how many times each character appears in a string.",
+    "whatShouldHappen": [
+      "The function receives a string 'str'.",
+      "Initialize an empty object 'frequency'.",
+      "Iterate through every character of the string.",
+      "If the character exists as a key in 'frequency', increment its value; otherwise, set it to 1.",
+      "Return the 'frequency' object."
+    ],
+    "starterCode": "function getCharFrequency(str) {\n  const freq = {};\n  // Loop through str and update freq object\n  return freq;\n}",
+    "solution": "function getCharFrequency(str) {\n  const freq = {};\n  for (let char of str) {\n    freq[char] = (freq[char] || 0) + 1;\n  }\n  return freq;\n}",
+    "traceTable": {
+      "inputLabel": "str = 'aba'",
+      "columns": ["Char", "Object State"],
+      "rows": [
+        ["'a'", "{ a: 1 }"],
+        ["'b'", "{ a: 1, b: 1 }"],
+        ["'a'", "{ a: 2, b: 1 }"]
+      ]
+    },
+    "skeletonHint": "Use an object as a hash map and the syntax freq[char] = (freq[char] || 0) + 1 for concise counting.",
+    "tests": [
+      { "input": ["hello"], "expected": { "h": 1, "e": 1, "l": 2, "o": 1 } },
+      { "input": ["aba"], "expected": { "a": 2, "b": 1 } },
+      { "input": [""], "expected": {} },
+      { "input": ["aabbcc"], "expected": { "a": 2, "b": 2, "c": 2 } }
+    ],
+    "patternTag": "Frequency Counter",
+    "patternExplanation": "Using an object or Map to count occurrences is a fundamental technique for solving many algorithmic problems.",
+    "estimatedMinutes": 7,
+    "status": "published"
+  },
+  {
+    "id": "js-s19-mask-card",
+    "title": "Mask credit card number",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "maskCreditCard",
+    "description": "Hide all characters of a string (like a credit card number) except for the last four, replacing them with '#'.",
+    "whatShouldHappen": [
+      "The function receives a string 'cardNumber'.",
+      "Extract the last 4 characters using `slice(-4)`.",
+      "Create a string of '#' characters with a length equal to the original string minus 4.",
+      "Concatenate the '#' string with the last 4 characters and return it."
+    ],
+    "starterCode": "function maskCreditCard(cardNumber) {\n  // 1. Get last 4 chars\n  // 2. Create mask of #\n  // 3. Return masked + last4\n}",
+    "solution": "function maskCreditCard(cardNumber) {\n  if (cardNumber.length <= 4) return cardNumber;\n  const lastFour = cardNumber.slice(-4);\n  const maskedPart = \"#\".repeat(cardNumber.length - 4);\n  return maskedPart + lastFour;\n}",
+    "traceTable": {
+      "inputLabel": "cardNumber = '12345678'",
+      "columns": ["Step", "Result"],
+      "rows": [
+        ["cardNumber.slice(-4)", "'5678'"],
+        ["cardNumber.length - 4", "4"],
+        ["'#'.repeat(4)", "'####'"],
+        ["Result", "'####5678'"]
+      ]
+    },
+    "skeletonHint": "Use slice(-4) to get the tail and repeat() to generate the mask string.",
+    "tests": [
+      { "input": ["1234567890123456"], "expected": "############3456" },
+      { "input": ["12345678"], "expected": "####5678" },
+      { "input": ["12345"], "expected": "#2345" },
+      { "input": ["1234"], "expected": "1234" }
+    ],
+    "patternTag": "Data Masking",
+    "patternExplanation": "Masking sensitive data involves isolating a small public portion and obscuring the rest while maintaining the original string length.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-s20-slugify",
+    "title": "Slugify a string",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "slugify",
+    "description": "Transform a title or sentence into a URL-friendly slug (lowercase, hyphen-separated, special characters removed).",
+    "whatShouldHappen": [
+      "The function receives a string 'str'.",
+      "Convert the string to lowercase.",
+      "Trim whitespace from both ends.",
+      "Remove non-word characters (except spaces and hyphens).",
+      "Replace spaces or underscores with a single hyphen.",
+      "Remove leading/trailing hyphens.",
+      "Return the resulting slug."
+    ],
+    "starterCode": "function slugify(str) {\n  return str\n    .toLowerCase()\n    // Chain .trim(), .replace() for regex\n}",
+    "solution": "function slugify(str) {\n  return str\n    .toLowerCase()\n    .trim()\n    .replace(/[^\\w\\s-]/g, \"\")\n    .replace(/[\\s_-]+/g, \"-\")\n    .replace(/^-+|-+$/g, \"\");\n}",
+    "traceTable": {
+      "inputLabel": "str = ' Hello World! '",
+      "columns": ["Step", "Result"],
+      "rows": [
+        ["toLowerCase()", "' hello world! '"],
+        ["trim()", "'hello world!'"],
+        ["replace(/[^\\w\\s-]/g, '')", "'hello world'"],
+        ["replace(/[\\s_-]+/g, '-')", "'hello-world'"]
+      ]
+    },
+    "skeletonHint": "Chain string methods: toLowerCase(), trim(), and use regex with replace() for the transformations.",
+    "tests": [
+      { "input": ["Hello World"], "expected": "hello-world" },
+      { "input": ["  JS is Awesome!  "], "expected": "js-is-awesome" },
+      { "input": ["Learning_JavaScript_2024"], "expected": "learning-javascript-2024" },
+      { "input": ["---Too many hyphens---"], "expected": "too-many-hyphens" }
+    ],
+    "patternTag": "URL Slug Generation",
+    "patternExplanation": "Generating slugs involves normalization (lowercase/trimming) and sanitation (removing illegal URL characters and collapsing whitespace).",
+    "estimatedMinutes": 10,
+    "status": "published"
+  }
+]

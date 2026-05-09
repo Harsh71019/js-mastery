@@ -1,0 +1,81 @@
+[
+  {
+    "id": "top-k-frequent-elements",
+    "title": "Top K Frequent Elements",
+    "type": "coding",
+    "category": "heaps",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "topKFrequent",
+    "description": "Given an integer array `nums` and an integer `k`, return *the* `k` *most frequent elements*. You may return the answer in **any order**.",
+    "whatShouldHappen": [
+      "Count frequencies of all elements using a Hash Map",
+      "Use a Min-Heap to keep track of the top k elements",
+      "Alternatively, use Bucket Sort for an O(n) solution"
+    ],
+    "starterCode": "/**\n * @param {number[]} nums\n * @param {number} k\n * @return {number[]}\n */\nfunction topKFrequent(nums, k) {\n  // Your code here\n}",
+    "solution": "function topKFrequent(nums, k) {\n  const map = new Map();\n  for (let num of nums) {\n    map.set(num, (map.get(num) || 0) + 1);\n  }\n\n  const buckets = Array.from({ length: nums.length + 1 }, () => []);\n  for (let [num, freq] of map) {\n    buckets[freq].push(num);\n  }\n\n  const result = [];\n  for (let i = buckets.length - 1; i >= 0 && result.length < k; i--) {\n    if (buckets[i].length > 0) {\n      result.push(...buckets[i]);\n    }\n  }\n\n  return result.slice(0, k);\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1,1,1,2,2,3], k = 2",
+      "columns": ["Step", "Map State", "Buckets", "Result"],
+      "rows": [
+        { "Step": "Freq Count", "Map State": "{1:3, 2:2, 3:1}", "Buckets": "-", "Result": "-" },
+        { "Step": "Bucketing", "Map State": "-", "Buckets": "B[1]:[3], B[2]:[2], B[3]:[1]", "Result": "-" },
+        { "Step": "Collect", "Map State": "-", "Buckets": "-", "Result": "[1, 2]" }
+      ]
+    },
+    "skeletonHint": "First, count the frequency of each number. Then, you can use a heap to find the k most frequent, or use 'bucket sort' where the index of the bucket is the frequency and the value is a list of numbers with that frequency.",
+    "tests": [
+      { "input": [[1, 1, 1, 2, 2, 3], 2], "expected": [1, 2] },
+      { "input": [[1], 1], "expected": [1] },
+      { "input": [[4, 1, -1, 2, -1, 2, 3], 2], "expected": [-1, 2] }
+    ],
+    "patternTag": "Heap / Hash Map",
+    "patternExplanation": "Hashing provides O(n) frequency counting. Using a heap allows us to find the top k in O(n log k), while bucket sort can achieve O(n) by using frequencies as array indices.",
+    "estimatedMinutes": 20
+  },
+  {
+    "id": "find-median-from-data-stream",
+    "title": "Find Median from Data Stream",
+    "type": "coding",
+    "category": "heaps",
+    "difficulty": "Hard",
+    "collectionId": "blind75",
+    "functionName": "medianFinderHandler",
+    "description": "The **median** is the middle value in an ordered integer list. If the size of the list is even, there is no middle value, and the median is the mean of the two middle values.\n\nImplement the MedianFinder class:\n\n- `MedianFinder()` initializes the MedianFinder object.\n- `void addNum(int num)` adds the integer `num` from the data stream to the data structure.\n- `double findMedian()` returns the median of all elements so far.",
+    "whatShouldHappen": [
+      "Maintain two heaps: a max-heap for the lower half and a min-heap for the upper half",
+      "Balance the heaps so their size difference is at most 1",
+      "Calculate the median from the tops of the heaps"
+    ],
+    "starterCode": "class MedianFinder {\n  constructor() {\n    // Use two arrays to simulate heaps for this exercise\n    // (In a real scenario, you'd use a proper Heap implementation)\n    this.small = []; // Max-heap (lower half)\n    this.large = []; // Min-heap (upper half)\n  }\n\n  /** \n   * @param {number} num\n   * @return {void}\n   */\n  addNum(num) {\n    // Your code here\n  }\n\n  /**\n   * @return {number}\n   */\n  findMedian() {\n    // Your code here\n  }\n}\n\n/**\n * @param {string[]} ops\n * @param {any[][]} params\n * @return {any[]}\n */\nfunction medianFinderHandler(ops, params) {\n  let mf = null;\n  return ops.map((op, i) => {\n    if (op === 'MedianFinder') {\n      mf = new MedianFinder();\n      return null;\n    }\n    return mf[op](...params[i]);\n  });\n}",
+    "solution": "class MedianFinder {\n  constructor() {\n    this.small = []; // Max-heap\n    this.large = []; // Min-heap\n  }\n\n  addNum(num) {\n    this.insert(this.small, num, (a, b) => b - a);\n    this.insert(this.large, this.small.shift(), (a, b) => a - b);\n\n    if (this.large.length > this.small.length) {\n      this.insert(this.small, this.large.shift(), (a, b) => b - a);\n    }\n  }\n\n  insert(arr, val, compare) {\n    let low = 0, high = arr.length;\n    while (low < high) {\n      let mid = (low + high) >>> 1;\n      if (compare(arr[mid], val) < 0) low = mid + 1;\n      else high = mid;\n    }\n    arr.splice(low, 0, val);\n  }\n\n  findMedian() {\n    if (this.small.length > this.large.length) {\n      return this.small[0];\n    }\n    return (this.small[0] + this.large[0]) / 2;\n  }\n}\n\nfunction medianFinderHandler(ops, params) {\n  let mf = null;\n  return ops.map((op, i) => {\n    if (op === 'MedianFinder') {\n      mf = new MedianFinder();\n      return null;\n    }\n    return mf[op](...params[i]);\n  });\n}",
+    "traceTable": {
+      "inputLabel": "addNum(1), addNum(2), findMedian()",
+      "columns": ["Operation", "Small Heap (Max)", "Large Heap (Min)", "Median"],
+      "rows": [
+        { "Operation": "addNum(1)", "Small Heap (Max)": "[1]", "Large Heap (Min)": "[]", "Median": "-" },
+        { "Operation": "addNum(2)", "Small Heap (Max)": "[1]", "Large Heap (Min)": "[2]", "Median": "1.5" },
+        { "Operation": "addNum(3)", "Small Heap (Max)": "[2, 1]", "Large Heap (Min)": "[3]", "Median": "2" }
+      ]
+    },
+    "skeletonHint": "Use two heaps to divide the numbers into two halves. A Max-Heap for the smaller half and a Min-Heap for the larger half. When adding a number, first push it to one heap, then rebalance by moving the 'peak' element to the other. The median is either the peak of the larger heap or the average of both peaks.",
+    "tests": [
+      {
+        "input": [["MedianFinder", "addNum", "addNum", "findMedian", "addNum", "findMedian"], [[], [1], [2], [], [3], []]],
+        "expected": [null, null, null, 1.5, null, 2.0]
+      },
+      {
+        "input": [["MedianFinder", "addNum", "findMedian"], [[], [5], []]],
+        "expected": [null, null, 5.0]
+      },
+      {
+        "input": [["MedianFinder", "addNum", "addNum", "addNum", "findMedian"], [[], [10], [20], [30], []]],
+        "expected": [null, null, null, null, 20.0]
+      }
+    ],
+    "patternTag": "Two Heaps",
+    "patternExplanation": "Two heaps allow us to efficiently track the middle elements of a dynamic data stream. Max-heap keeps the smaller half and Min-heap keeps the larger half, making median retrieval O(1) and insertion O(log n).",
+    "estimatedMinutes": 35
+  }
+]

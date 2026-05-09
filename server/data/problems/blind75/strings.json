@@ -1,0 +1,323 @@
+[
+  {
+    "id": "valid-anagram",
+    "title": "Valid Anagram",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "isAnagram",
+    "description": "Given two strings `s` and `t`, return `true` if `t` is an anagram of `s`, and `false` otherwise.\n\nAn **Anagram** is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.",
+    "whatShouldHappen": [
+      "Check if two strings have the same characters with the same frequencies",
+      "Return true if they are anagrams, false otherwise"
+    ],
+    "starterCode": "function isAnagram(s, t) {\n  // Your code here\n}",
+    "solution": "function isAnagram(s, t) {\n  if (s.length !== t.length) return false;\n  const count = {};\n  for (let char of s) {\n    count[char] = (count[char] || 0) + 1;\n  }\n  for (let char of t) {\n    if (!count[char]) return false;\n    count[char]--;\n  }\n  return true;\n}",
+    "traceTable": {
+      "inputLabel": "s = 'anagram', t = 'nagaram'",
+      "columns": ["char", "count", "result"],
+      "rows": [
+        { "char": "a", "count": "{a: 1}", "result": "continue" },
+        { "char": "n", "count": "{a: 1, n: 1}", "result": "continue" },
+        { "char": "n (from t)", "count": "{a: 1, n: 0}", "result": "continue" }
+      ]
+    },
+    "skeletonHint": "First, check if the lengths are equal. Then, use a frequency map (object) to count characters in the first string and decrement counts for characters in the second string.",
+    "tests": [
+      { "input": ["anagram", "nagaram"], "expected": true },
+      { "input": ["rat", "car"], "expected": false },
+      { "input": ["a", "ab"], "expected": false }
+    ],
+    "patternTag": "Frequency Map",
+    "patternExplanation": "Comparing frequency maps of characters is an O(n) approach to check if one string is a permutation of another.",
+    "estimatedMinutes": 10
+  },
+  {
+    "id": "longest-substring-without-repeating-characters",
+    "title": "Longest Substring Without Repeating Characters",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "lengthOfLongestSubstring",
+    "description": "Given a string `s`, find the length of the **longest substring** without repeating characters.",
+    "whatShouldHappen": [
+      "Identify the longest contiguous sequence of unique characters",
+      "Return the length of this substring",
+      "Handle empty strings and strings with all identical characters"
+    ],
+    "starterCode": "function lengthOfLongestSubstring(s) {\n  // Your code here\n}",
+    "solution": "function lengthOfLongestSubstring(s) {\n  let maxLen = 0;\n  let left = 0;\n  const charSet = new Set();\n\n  for (let right = 0; right < s.length; right++) {\n    while (charSet.has(s[right])) {\n      charSet.delete(s[left]);\n      left++;\n    }\n    charSet.add(s[right]);\n    maxLen = Math.max(maxLen, right - left + 1);\n  }\n\n  return maxLen;\n}",
+    "traceTable": {
+      "inputLabel": "s = 'abcabcbb'",
+      "columns": ["right", "char", "left", "charSet", "maxLen"],
+      "rows": [
+        { "right": 0, "char": "a", "left": 0, "charSet": "{'a'}", "maxLen": 1 },
+        { "right": 1, "char": "b", "left": 0, "charSet": "{'a', 'b'}", "maxLen": 2 },
+        { "right": 2, "char": "c", "left": 0, "charSet": "{'a', 'b', 'c'}", "maxLen": 3 },
+        { "right": 3, "char": "a", "left": 1, "charSet": "{'b', 'c', 'a'}", "maxLen": 3 }
+      ]
+    },
+    "skeletonHint": "Use a sliding window with two pointers (`left` and `right`). Expand the window by moving `right`, and if you hit a duplicate character, shrink the window from the `left` until the duplicate is removed.",
+    "tests": [
+      { "input": ["abcabcbb"], "expected": 3 },
+      { "input": ["bbbbb"], "expected": 1 },
+      { "input": ["pwwkew"], "expected": 3 },
+      { "input": [""], "expected": 0 }
+    ],
+    "patternTag": "Sliding Window",
+    "patternExplanation": "The sliding window pattern is ideal here because we are looking for a contiguous range (substring) that satisfies a specific condition (no repeating characters).",
+    "estimatedMinutes": 20
+  },
+  {
+    "id": "longest-palindromic-substring",
+    "title": "Longest Palindromic Substring",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "longestPalindrome",
+    "description": "Given a string `s`, return the longest **palindromic substring** in `s`.\n\nA string is palindromic if it reads the same forward and backward.",
+    "whatShouldHappen": [
+      "Identify the longest contiguous sequence that is a palindrome",
+      "Return the substring itself, not just its length",
+      "Handle single character strings and strings with multiple palindromes of the same length"
+    ],
+    "starterCode": "function longestPalindrome(s) {\n  // Your code here\n}",
+    "solution": "function longestPalindrome(s) {\n  if (s.length < 1) return \"\";\n  let start = 0, end = 0;\n\n  function expandAroundCenter(left, right) {\n    while (left >= 0 && right < s.length && s[left] === s[right]) {\n      left--;\n      right++;\n    }\n    return right - left - 1;\n  }\n\n  for (let i = 0; i < s.length; i++) {\n    let len1 = expandAroundCenter(i, i);\n    let len2 = expandAroundCenter(i, i + 1);\n    let len = Math.max(len1, len2);\n    if (len > end - start) {\n      start = i - Math.floor((len - 1) / 2);\n      end = i + Math.floor(len / 2);\n    }\n  }\n\n  return s.substring(start, end + 1);\n}",
+    "traceTable": {
+      "inputLabel": "s = 'babad'",
+      "columns": ["i", "center type", "len", "start", "end", "current longest"],
+      "rows": [
+        { "i": 0, "center type": "single", "len": 1, "start": 0, "end": 0, "current longest": "b" },
+        { "i": 1, "center type": "single", "len": 3, "start": 0, "end": 2, "current longest": "bab" },
+        { "i": 2, "center type": "single", "len": 3, "start": 1, "end": 3, "current longest": "aba" }
+      ]
+    },
+    "skeletonHint": "Consider every character (and the gap between characters) as a potential center of a palindrome. Expand outwards from the center as long as the characters match.",
+    "tests": [
+      { "input": ["babad"], "expected": "bab" },
+      { "input": ["cbbd"], "expected": "bb" },
+      { "input": ["a"], "expected": "a" },
+      { "input": ["ac"], "expected": "a" }
+    ],
+    "patternTag": "Expand Around Center",
+    "patternExplanation": "Expanding around the center avoids the O(n³) brute force approach and allows us to find palindromes in O(n²) time by checking all 2n-1 potential centers.",
+    "estimatedMinutes": 25
+  },
+  {
+    "id": "valid-parentheses",
+    "title": "Valid Parentheses",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "isValid",
+    "description": "Given a string `s` containing just the characters `'('`, `')'`, `'{'`, `'}'`, `'['` and `']'`, determine if the input string is valid.\n\nAn input string is valid if:\n1. Open brackets must be closed by the same type of brackets.\n2. Open brackets must be closed in the correct order.\n3. Every close bracket has a corresponding open bracket of the same type.",
+    "whatShouldHappen": [
+      "Use a stack to keep track of opening brackets",
+      "Match closing brackets with the top of the stack",
+      "Ensure the stack is empty at the end"
+    ],
+    "starterCode": "function isValid(s) {\n  // Your code here\n}",
+    "solution": "function isValid(s) {\n  const stack = [];\n  const pairs = {\n    ')': '(',\n    '}': '{',\n    ']': '['\n  };\n\n  for (let char of s) {\n    if (pairs[char]) {\n      if (stack.pop() !== pairs[char]) return false;\n    } else {\n      stack.push(char);\n    }\n  }\n\n  return stack.length === 0;\n}",
+    "traceTable": {
+      "inputLabel": "s = '()[]{}'",
+      "columns": ["char", "stack", "action", "result"],
+      "rows": [
+        { "char": "(", "stack": "['(']", "action": "Push", "result": "continue" },
+        { "char": ")", "stack": "[]", "action": "Pop & Match", "result": "continue" },
+        { "char": "[", "stack": "['[']", "action": "Push", "result": "continue" }
+      ]
+    },
+    "skeletonHint": "Use a stack to store opening brackets. When you encounter a closing bracket, check if it matches the bracket at the top of the stack. If it doesn't, or if the stack is empty, the string is invalid.",
+    "tests": [
+      { "input": ["()"], "expected": true },
+      { "input": ["()[]{}"], "expected": true },
+      { "input": ["(]"], "expected": false },
+      { "input": ["([)]"], "expected": false }
+    ],
+    "patternTag": "Stack",
+    "patternExplanation": "A stack is perfect for this problem because it follows the Last-In-First-Out (LIFO) principle, which matches the nested nature of parentheses.",
+    "estimatedMinutes": 15
+  },
+  {
+    "id": "group-anagrams",
+    "title": "Group Anagrams",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "groupAnagrams",
+    "description": "Given an array of strings `strs`, group the **anagrams** together. You can return the answer in **any order**.\n\nAn **Anagram** is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.",
+    "whatShouldHappen": [
+      "Group strings that contain the exact same characters",
+      "Use a sorted version of the string or a frequency count as a key in a map",
+      "Return an array of arrays, where each inner array contains grouped anagrams"
+    ],
+    "starterCode": "function groupAnagrams(strs) {\n  // Your code here\n}",
+    "solution": "function groupAnagrams(strs) {\n  const map = new Map();\n\n  for (const str of strs) {\n    const sortedStr = str.split('').sort().join('');\n    if (!map.has(sortedStr)) {\n      map.set(sortedStr, []);\n    }\n    map.get(sortedStr).push(str);\n  }\n\n  return Array.from(map.values());\n}",
+    "traceTable": {
+      "inputLabel": "strs = ['eat', 'tea', 'tan', 'ate', 'nat', 'bat']",
+      "columns": ["str", "sortedStr", "map state"],
+      "rows": [
+        { "str": "eat", "sortedStr": "aet", "map state": "{'aet': ['eat']}" },
+        { "str": "tea", "sortedStr": "aet", "map state": "{'aet': ['eat', 'tea']}" },
+        { "str": "tan", "sortedStr": "ant", "map state": "{'aet': [...], 'ant': ['tan']}" }
+      ]
+    },
+    "skeletonHint": "Anagrams will have the same characters. If you sort the characters of each string, all anagrams will result in the same sorted string. Use this sorted string as a key in a Hash Map to group the original strings.",
+    "tests": [
+      { "input": [["eat", "tea", "tan", "ate", "nat", "bat"]], "expected": [["eat", "tea", "ate"], ["tan", "nat"], ["bat"]] },
+      { "input": [[""]], "expected": [[""]] },
+      { "input": [["a"]], "expected": [["a"]] }
+    ],
+    "patternTag": "Hash Map",
+    "patternExplanation": "A Hash Map allows us to group items by a common property (in this case, the sorted character sequence) in O(N * K log K) time, where N is the number of strings and K is the maximum length of a string.",
+    "estimatedMinutes": 25
+  },
+  {
+    "id": "longest-repeating-character-replacement",
+    "title": "Longest Repeating Character Replacement",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "characterReplacement",
+    "description": "You are given a string `s` and an integer `k`. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most `k` times.\n\nReturn the length of the longest substring containing the same letter you can get after performing the above operations.",
+    "whatShouldHappen": [
+      "Maintain a sliding window and count character frequencies within it",
+      "Identify the most frequent character in the current window",
+      "Shrink the window if the number of characters to replace (window size - max frequency) exceeds k",
+      "Return the maximum window size achieved"
+    ],
+    "starterCode": "function characterReplacement(s, k) {\n  // Your code here\n}",
+    "solution": "function characterReplacement(s, k) {\n  let left = 0;\n  let maxCount = 0;\n  let maxLength = 0;\n  const count = {};\n\n  for (let right = 0; right < s.length; right++) {\n    const char = s[right];\n    count[char] = (count[char] || 0) + 1;\n    maxCount = Math.max(maxCount, count[char]);\n\n    if (right - left + 1 - maxCount > k) {\n      count[s[left]]--;\n      left++;\n    }\n\n    maxLength = Math.max(maxLength, right - left + 1);\n  }\n\n  return maxLength;\n}",
+    "traceTable": {
+      "inputLabel": "s = 'AABABBA', k = 1",
+      "columns": ["right", "char", "count", "maxCount", "left", "window", "maxLength"],
+      "rows": [
+        { "right": 0, "char": "A", "count": "{A: 1}", "maxCount": 1, "left": 0, "window": "A", "maxLength": 1 },
+        { "right": 1, "char": "A", "count": "{A: 2}", "maxCount": 2, "left": 0, "window": "AA", "maxLength": 2 },
+        { "right": 2, "char": "B", "count": "{A: 2, B: 1}", "maxCount": 2, "left": 0, "window": "AAB", "maxLength": 3 },
+        { "right": 3, "char": "A", "count": "{A: 3, B: 1}", "maxCount": 3, "left": 0, "window": "AABA", "maxLength": 4 },
+        { "right": 4, "char": "B", "count": "{A: 3, B: 2}", "maxCount": 3, "left": 1, "window": "ABAB", "maxLength": 4 }
+      ]
+    },
+    "skeletonHint": "Use a sliding window. Keep track of the frequency of characters in the window and the count of the most frequent character. The condition `windowLength - maxFrequency <= k` must hold.",
+    "tests": [
+      { "input": ["ABAB", 2], "expected": 4 },
+      { "input": ["AABABBA", 1], "expected": 4 },
+      { "input": ["AAAA", 0], "expected": 4 }
+    ],
+    "patternTag": "Sliding Window",
+    "patternExplanation": "The sliding window allows us to find the maximum range where we can replace at most 'k' characters to make all characters in the range the same.",
+    "estimatedMinutes": 20
+  },
+  {
+    "id": "minimum-window-substring",
+    "title": "Minimum Window Substring",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Hard",
+    "collectionId": "blind75",
+    "functionName": "minWindow",
+    "description": "Given two strings `s` and `t` of lengths `m` and `n` respectively, return the **minimum window substring** of `s` such that every character in `t` (including duplicates) is included in the window. If there is no such substring, return the empty string `\"\"`.\n\nThe testcases will be generated such that the answer is **unique**.",
+    "whatShouldHappen": [
+      "Use a sliding window to find substrings containing all characters of t",
+      "Shrink the window from the left to find the smallest valid substring",
+      "Return the shortest such substring found"
+    ],
+    "starterCode": "function minWindow(s, t) {\n  // Your code here\n}",
+    "solution": "function minWindow(s, t) {\n  if (t.length > s.length) return \"\";\n\n  const tCount = {};\n  for (let char of t) {\n    tCount[char] = (tCount[char] || 0) + 1;\n  }\n\n  let left = 0;\n  let right = 0;\n  let required = Object.keys(tCount).length;\n  let formed = 0;\n  const windowCount = {};\n  let ans = [-1, 0, 0];\n\n  while (right < s.length) {\n    let char = s[right];\n    windowCount[char] = (windowCount[char] || 0) + 1;\n\n    if (tCount[char] && windowCount[char] === tCount[char]) {\n      formed++;\n    }\n\n    while (left <= right && formed === required) {\n      char = s[left];\n\n      if (ans[0] === -1 || right - left + 1 < ans[0]) {\n        ans = [right - left + 1, left, right];\n      }\n\n      windowCount[char]--;\n      if (tCount[char] && windowCount[char] < tCount[char]) {\n        formed--;\n      }\n      left++;\n    }\n    right++;\n  }\n\n  return ans[0] === -1 ? \"\" : s.substring(ans[1], ans[2] + 1);\n}",
+    "traceTable": {
+      "inputLabel": "s = 'ADOBECODEBANC', t = 'ABC'",
+      "columns": ["right", "char", "formed", "left", "window", "minLen"],
+      "rows": [
+        { "right": 5, "char": "C", "formed": 3, "left": 0, "window": "ADOBEC", "minLen": 6 },
+        { "right": 10, "char": "A", "formed": 3, "left": 6, "window": "ODEBANC", "minLen": 6 },
+        { "right": 12, "char": "C", "formed": 3, "left": 9, "window": "BANC", "minLen": 4 }
+      ]
+    },
+    "skeletonHint": "Use two pointers for a sliding window. Maintain a frequency map for string `t` and another for the current window. Expand `right` until the window is valid, then contract `left` to minimize the window.",
+    "tests": [
+      { "input": ["ADOBECODEBANC", "ABC"], "expected": "BANC" },
+      { "input": ["a", "a"], "expected": "a" },
+      { "input": ["a", "aa"], "expected": "" }
+    ],
+    "patternTag": "Sliding Window",
+    "patternExplanation": "The sliding window is the most efficient way to find a substring meeting specific constraints by expanding and contracting pointers in O(n) time.",
+    "estimatedMinutes": 35
+  },
+  {
+    "id": "valid-palindrome",
+    "title": "Valid Palindrome",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "isPalindrome",
+    "description": "A phrase is a **palindrome** if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.\n\nGiven a string `s`, return `true` if it is a **palindrome**, or `false` otherwise.",
+    "whatShouldHappen": [
+      "Clean the string by removing non-alphanumeric characters and lowercasing",
+      "Use two pointers (start and end) to compare characters",
+      "Return true if all characters match, false otherwise"
+    ],
+    "starterCode": "function isPalindrome(s) {\n  // Your code here\n}",
+    "solution": "function isPalindrome(s) {\n  let left = 0;\n  let right = s.length - 1;\n\n  while (left < right) {\n    while (left < right && !isAlphanumeric(s[left])) left++;\n    while (left < right && !isAlphanumeric(s[right])) right--;\n\n    if (s[left].toLowerCase() !== s[right].toLowerCase()) {\n      return false;\n    }\n    left++;\n    right--;\n  }\n  return true;\n\n  function isAlphanumeric(char) {\n    return /[a-z0-9]/i.test(char);\n  }\n}",
+    "traceTable": {
+      "inputLabel": "s = 'A man, a plan, a canal: Panama'",
+      "columns": ["left", "leftChar", "right", "rightChar", "match?"],
+      "rows": [
+        { "left": 0, "leftChar": "A", "right": 29, "rightChar": "a", "match?": "true" },
+        { "left": 2, "leftChar": "m", "right": 27, "rightChar": "m", "match?": "true" },
+        { "left": 4, "leftChar": "n", "right": 25, "rightChar": "n", "match?": "true" }
+      ]
+    },
+    "skeletonHint": "Use two pointers, one starting at the beginning and one at the end. Move them towards each other, skipping any non-alphanumeric characters. Compare the characters at each step (case-insensitive).",
+    "tests": [
+      { "input": ["A man, a plan, a canal: Panama"], "expected": true },
+      { "input": ["race a car"], "expected": false },
+      { "input": [" "], "expected": true }
+    ],
+    "patternTag": "Two Pointers",
+    "patternExplanation": "The two-pointer technique allows us to compare elements from both ends of the string efficiently without extra space.",
+    "estimatedMinutes": 10
+  },
+  {
+    "id": "palindromic-substrings",
+    "title": "Palindromic Substrings",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "countSubstrings",
+    "description": "Given a string `s`, return the number of **palindromic substrings** in it.\n\nA string is a **palindrome** when it reads the same backward as forward.\n\nA **substring** is a contiguous sequence of characters within the string.",
+    "whatShouldHappen": [
+      "Identify all possible palindromic substrings",
+      "Count both odd-length and even-length palindromes",
+      "Return the total count"
+    ],
+    "starterCode": "function countSubstrings(s) {\n  // Your code here\n}",
+    "solution": "function countSubstrings(s) {\n  let count = 0;\n\n  function expand(l, r) {\n    while (l >= 0 && r < s.length && s[l] === s[r]) {\n      count++;\n      l--;\n      r++;\n    }\n  }\n\n  for (let i = 0; i < s.length; i++) {\n    expand(i, i);\n    expand(i, i + 1);\n  }\n\n  return count;\n}",
+    "traceTable": {
+      "inputLabel": "s = 'aaa'",
+      "columns": ["i", "type", "palindromes found", "total count"],
+      "rows": [
+        { "i": 0, "type": "odd", "palindromes": "a", "total count": 1 },
+        { "i": 1, "type": "odd", "palindromes": "a, aaa", "total count": 3 },
+        { "i": 1, "type": "even", "palindromes": "aa", "total count": 4 }
+      ]
+    },
+    "skeletonHint": "Each character and each gap between characters can be the center of a palindrome. Expand outwards from each center as long as the characters match.",
+    "tests": [
+      { "input": ["abc"], "expected": 3 },
+      { "input": ["aaa"], "expected": 6 },
+      { "input": ["fdsklf"], "expected": 6 }
+    ],
+    "patternTag": "Expansion from Center",
+    "patternExplanation": "Expansion from center allows us to find all palindromes by checking each potential center in O(n²) time, which is more efficient than checking all O(n²) substrings.",
+    "estimatedMinutes": 15
+  }
+]

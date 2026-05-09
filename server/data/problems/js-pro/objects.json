@@ -1,0 +1,1093 @@
+[
+  {
+    "id": "js-o1-accessing-properties",
+    "title": "Accessing Properties (Dot vs Bracket)",
+    "type": "coding",
+    "category": "object-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getProperty",
+    "description": "In JavaScript, you can access object properties using either **dot notation** (`obj.key`) or **bracket notation** (`obj[key]`). Dot notation is used when you know the property name ahead of time. Bracket notation is required when the property name is stored in a variable or contains special characters. Implement a function that retrieves a value from an object using a dynamic key string.",
+    "whatShouldHappen": [
+      "Accept an object and a key string as arguments.",
+      "Use bracket notation to access the property since the key is a variable.",
+      "Return the value of that property."
+    ],
+    "starterCode": "function getProperty(obj, key) {\n  // your code here\n}",
+    "skeletonHint": "function getProperty(obj, key) {\n  return obj[____];\n}",
+    "solution": "function getProperty(obj, key) {\n  // Use bracket notation for dynamic keys\n  return obj[key];\n}",
+    "tests": [
+      { "input": [{ "a": 1, "b": 2 }, "a"], "expected": 1, "label": "Retrieve key 'a'" },
+      { "input": [{ "name": "JS Mastery", "active": true }, "name"], "expected": "JS Mastery", "label": "Retrieve key 'name'" },
+      { "input": [{ "123": "numbers" }, "123"], "expected": "numbers", "label": "Numeric key string" }
+    ],
+    "traceTable": {
+      "inputLabel": "getProperty({ a: 1 }, 'a')",
+      "columns": ["obj", "key", "result"],
+      "rows": [
+        { "obj": "{ a: 1 }", "key": "'a'", "result": 1 }
+      ]
+    },
+    "patternTag": "Dynamic Property Access",
+    "patternExplanation": "Bracket notation `obj[key]` is essential when the property name is not a literal identifier, allowing for dynamic property access at runtime.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "js-o2-dynamic-keys",
+    "title": "Dynamic Property Keys",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "createObject",
+    "description": "Modern JavaScript (ES6+) allows you to use **computed property names** when creating an object literal. By wrapping a variable in square brackets `[]` inside the object literal, you can set the key dynamically. Create a function that returns an object with a single key-value pair where the key is provided as a variable.",
+    "whatShouldHappen": [
+      "Accept a key string and a value as arguments.",
+      "Return a new object literal.",
+      "Use computed property syntax `[key]` to set the property name dynamicially.",
+      "Assign the provided value to that key."
+    ],
+    "starterCode": "function createObject(key, value) {\n  // your code here\n}",
+    "skeletonHint": "function createObject(key, value) {\n  return {\n    [____]: ____\n  };\n}",
+    "solution": "function createObject(key, value) {\n  // Computed property names allow dynamic keys in object literals\n  return {\n    [key]: value\n  };\n}",
+    "tests": [
+      { "input": ["id", 101], "expected": { "id": 101 }, "label": "Key 'id'" },
+      { "input": ["status", "active"], "expected": { "status": "active" }, "label": "Key 'status'" },
+      { "input": ["user_name", "alex"], "expected": { "user_name": "alex" }, "label": "Key 'user_name'" }
+    ],
+    "traceTable": {
+      "inputLabel": "createObject('color', 'blue')",
+      "columns": ["key", "value", "result"],
+      "rows": [
+        { "key": "'color'", "value": "'blue'", "result": "{ color: 'blue' }" }
+      ]
+    },
+    "patternTag": "Computed Property Names",
+    "patternExplanation": "Computed property names `{[variable]: value}` eliminate the need to create an object first and then assign properties using bracket notation separately.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "js-o3-check-key",
+    "title": "Check if Key Exists (in operator)",
+    "type": "coding",
+    "category": "object-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "hasKey",
+    "description": "To check if a property exists in an object, the `in` operator is the most reliable method. It returns `true` if the property exists (even if its value is `undefined` or `null`). Implement a function that checks if a key exists in an object.",
+    "whatShouldHappen": [
+      "Accept an object and a key string.",
+      "Use the `key in obj` syntax to check for existence.",
+      "Return the boolean result."
+    ],
+    "starterCode": "function hasKey(obj, key) {\n  // your code here\n}",
+    "skeletonHint": "function hasKey(obj, key) {\n  return ____ in ____;\n}",
+    "solution": "function hasKey(obj, key) {\n  // The 'in' operator checks for property existence\n  return key in obj;\n}",
+    "tests": [
+      { "input": [{ "a": 1 }, "a"], "expected": true, "label": "Key exists" },
+      { "input": [{ "a": 1 }, "b"], "expected": false, "label": "Key does not exist" },
+      { "input": [{ "x": null }, "x"], "expected": true, "label": "Key exists with null value" }
+    ],
+    "traceTable": {
+      "inputLabel": "hasKey({ a: 1 }, 'a')",
+      "columns": ["obj", "key", "exists"],
+      "rows": [
+        { "obj": "{ a: 1 }", "key": "'a'", "exists": true }
+      ]
+    },
+    "patternTag": "Property Existence",
+    "patternExplanation": "Using `key in obj` is often safer than `obj[key] !== undefined` because the property might exist but explicitly hold the value `undefined`.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "js-o4-object-keys",
+    "title": "Object.keys Loop",
+    "type": "coding",
+    "category": "object-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getAllKeys",
+    "description": "The `Object.keys()` method returns an array of a given object's own enumerable property names. This is the standard way to iterate over keys or get the count of properties in an object. Implement a function that returns all keys of an object.",
+    "whatShouldHappen": [
+      "Accept an object.",
+      "Use `Object.keys()` to extract the property names.",
+      "Return the resulting array of strings."
+    ],
+    "starterCode": "function getAllKeys(obj) {\n  // your code here\n}",
+    "skeletonHint": "function getAllKeys(obj) {\n  return Object.____(obj);\n}",
+    "solution": "function getAllKeys(obj) {\n  // Object.keys returns an array of strings\n  return Object.keys(obj);\n}",
+    "tests": [
+      { "input": [{ "a": 1, "b": 2 }], "expected": ["a", "b"], "label": "Multiple keys" },
+      { "input": [{ "name": "Alice" }], "expected": ["name"], "label": "Single key" },
+      { "input": [{}], "expected": [], "label": "Empty object" }
+    ],
+    "traceTable": {
+      "inputLabel": "getAllKeys({ a: 1, b: 2 })",
+      "columns": ["obj", "keys"],
+      "rows": [
+        { "obj": "{ a: 1, b: 2 }", "keys": "['a', 'b']" }
+      ]
+    },
+    "patternTag": "Object Reflection",
+    "patternExplanation": "Object static methods like `keys()`, `values()`, and `entries()` are the modern way to bridge the gap between objects and array iteration methods.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "js-o5-object-values-sum",
+    "title": "Object.values Sum",
+    "type": "coding",
+    "category": "object-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "sumValues",
+    "description": "The `Object.values()` method returns an array of a given object's own enumerable property values. This allows you to perform array operations like `reduce` or `forEach` directly on object data. Calculate the sum of all numeric values in an object.",
+    "whatShouldHappen": [
+      "Accept an object where all values are numbers.",
+      "Use `Object.values()` to get the numbers as an array.",
+      "Sum the numbers in the array.",
+      "Return the total."
+    ],
+    "starterCode": "function sumValues(obj) {\n  // your code here\n}",
+    "skeletonHint": "function sumValues(obj) {\n  const values = Object.____(obj);\n  return values.reduce((sum, val) => ____ + ____, 0);\n}",
+    "solution": "function sumValues(obj) {\n  // Get array of values and reduce them to a sum\n  return Object.values(obj).reduce((sum, val) => sum + val, 0);\n}",
+    "tests": [
+      { "input": [{ "a": 10, "b": 20, "c": 30 }], "expected": 60, "label": "Sum three values" },
+      { "input": [{ "price": 5.99, "tax": 0.41 }], "expected": 6.4, "label": "Decimals" },
+      { "input": [{}], "expected": 0, "label": "Empty object" }
+    ],
+    "traceTable": {
+      "inputLabel": "sumValues({ a: 10, b: 20 })",
+      "columns": ["obj", "values", "sum"],
+      "rows": [
+        { "obj": "{ a: 10, b: 20 }", "values": "[10, 20]", "sum": 30 }
+      ]
+    },
+    "patternTag": "Object Value Processing",
+    "patternExplanation": "By extracting values into an array, we can leverage powerful array methods like `reduce` to aggregate object data efficiently.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-o6-object-entries",
+    "title": "Object.entries to Array",
+    "type": "coding",
+    "category": "object-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "objectToArray",
+    "description": "The `Object.entries()` method returns an array of a given object's own enumerable string-keyed property `[key, value]` pairs. This is useful for transforming an object into an array structure that can be easily manipulated with array methods.",
+    "whatShouldHappen": [
+      "Accept an object as an argument.",
+      "Use `Object.entries()` to get the entries.",
+      "Return the resulting array of pairs."
+    ],
+    "starterCode": "function objectToArray(obj) {\n  // your code here\n}",
+    "skeletonHint": "function objectToArray(obj) {\n  return Object.____(obj);\n}",
+    "solution": "function objectToArray(obj) {\n  // Object.entries returns an array of [key, value] arrays\n  return Object.entries(obj);\n}",
+    "tests": [
+      { "input": [{ "a": 1, "b": 2 }], "expected": [["a", 1], ["b", 2]], "label": "Two pairs" },
+      { "input": [{ "name": "JS" }], "expected": [["name", "JS"]], "label": "Single pair" },
+      { "input": [{}], "expected": [], "label": "Empty object" }
+    ],
+    "traceTable": {
+      "inputLabel": "objectToArray({ x: 10 })",
+      "columns": ["obj", "entries"],
+      "rows": [
+        { "obj": "{ x: 10 }", "entries": "[['x', 10]]" }
+      ]
+    },
+    "patternTag": "Object Transformation",
+    "patternExplanation": "Transforming objects into entries is a common pattern when you need to sort an object by its values or perform complex filtering that isn't easy with `for...in`.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "js-o7-destructuring-defaults",
+    "title": "Object Destructuring with Defaults",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getUserInfo",
+    "description": "Object destructuring allows you to extract multiple properties from an object into variables in a single statement. You can provide default values using the `=` syntax, which are used if the property is missing or `undefined`.",
+    "whatShouldHappen": [
+      "Accept a user object with optional `name` and `role` properties.",
+      "Destructure `name` with a default of 'Anonymous'.",
+      "Destructure `role` with a default of 'User'.",
+      "Return a string in the format: 'Name: [name], Role: [role]'."
+    ],
+    "starterCode": "function getUserInfo(user) {\n  // your code here\n}",
+    "skeletonHint": "function getUserInfo(user) {\n  const { name = '____', role = '____' } = user;\n  return `Name: ${name}, Role: ${role}`;\n}",
+    "solution": "function getUserInfo(user) {\n  // Destructure with default values\n  const { name = 'Anonymous', role = 'User' } = user;\n  return `Name: ${name}, Role: ${role}`;\n}",
+    "tests": [
+      { "input": [{ "name": "Alice", "role": "Admin" }], "expected": "Name: Alice, Role: Admin", "label": "Both properties provided" },
+      { "input": [{ "name": "Bob" }], "expected": "Name: Bob, Role: User", "label": "One property missing" },
+      { "input": [{}], "expected": "Name: Anonymous, Role: User", "label": "Empty object" }
+    ],
+    "traceTable": {
+      "inputLabel": "getUserInfo({ name: 'Eve' })",
+      "columns": ["user", "name", "role", "result"],
+      "rows": [
+        { "user": "{ name: 'Eve' }", "name": "'Eve'", "role": "'User'", "result": "'Name: Eve, Role: User'" }
+      ]
+    },
+    "patternTag": "Object Destructuring",
+    "patternExplanation": "Destructuring with defaults is a clean way to handle optional configuration objects or API responses that might have missing fields.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-o8-deep-merge",
+    "title": "Deep Merge Two Objects",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "deepMerge",
+    "description": "A shallow merge (like spread `{...obj}`) only copies top-level properties. If a property is an object itself, both the original and the copy will share the same reference. A deep merge recursively merges nested objects to ensure they are independent.",
+    "whatShouldHappen": [
+      "Accept two objects `target` and `source`.",
+      "Iterate through the keys of the `source` object.",
+      "If a value in `source` is an object (and not null), and the corresponding value in `target` is also an object, merge them recursively.",
+      "Otherwise, overwrite the value in `target` with the value from `source`.",
+      "Return the modified `target` object."
+    ],
+    "starterCode": "function deepMerge(target, source) {\n  // your code here\n}",
+    "skeletonHint": "function deepMerge(target, source) {\n  for (const key in source) {\n    if (source[key] instanceof Object && key in target) {\n      deepMerge(target[key], source[key]);\n    } else {\n      target[key] = source[key];\n    }\n  }\n  return target;\n}",
+    "solution": "function deepMerge(target, source) {\n  for (const key in source) {\n    // Check if both values are objects to recurse\n    if (source[key] !== null && typeof source[key] === 'object' && \n        target[key] !== null && typeof target[key] === 'object') {\n      deepMerge(target[key], source[key]);\n    } else {\n      // Otherwise perform simple assignment\n      target[key] = source[key];\n    }\n  }\n  return target;\n}",
+    "tests": [
+      { "input": [{ "a": 1, "b": { "x": 1 } }, { "b": { "y": 2 }, "c": 3 }], "expected": { "a": 1, "b": { "x": 1, "y": 2 }, "c": 3 }, "label": "Nested merge" },
+      { "input": [{ "settings": { "theme": "dark" } }, { "settings": { "theme": "light" } }], "expected": { "settings": { "theme": "light" } }, "label": "Overwrite nested property" },
+      { "input": [{ "a": 1 }, { "b": 2 }], "expected": { "a": 1, "b": 2 }, "label": "Simple shallow merge" }
+    ],
+    "traceTable": {
+      "inputLabel": "deepMerge({ a: { x: 1 } }, { a: { y: 2 } })",
+      "columns": ["target", "source", "key", "result"],
+      "rows": [
+        { "target": "{ a: { x: 1 } }", "source": "{ a: { y: 2 } }", "key": "'a'", "result": "{ a: { x: 1, y: 2 } }" }
+      ]
+    },
+    "patternTag": "Recursive Merging",
+    "patternExplanation": "Deep merging is essential for combining configuration objects where you don't want to lose nested default values.",
+    "estimatedMinutes": 12,
+    "status": "published"
+  },
+  {
+    "id": "js-o9-shallow-vs-deep-clone",
+    "title": "Deep Clone Object",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "deepClone",
+    "description": "Cloning an object means creating a copy so that modifying the copy doesn't affect the original. A shallow clone only copies the first level, while a deep clone copies all nested levels. A manual recursive approach is the most robust way to ensure a full independent copy.",
+    "whatShouldHappen": [
+      "Accept an object or array.",
+      "If the input is not an object or is null, return it as is.",
+      "Create a new container (object or array) based on the input type.",
+      "Recursively clone each property/element into the new container.",
+      "Return the new deep copy."
+    ],
+    "starterCode": "function deepClone(obj) {\n  // your code here\n}",
+    "skeletonHint": "function deepClone(obj) {\n  if (typeof obj !== 'object' || obj === null) return obj;\n  const copy = Array.isArray(obj) ? [] : {};\n  for (const key in obj) {\n    copy[key] = ____(obj[key]);\n  }\n  return copy;\n}",
+    "solution": "function deepClone(obj) {\n  // Primitive types and null\n  if (typeof obj !== 'object' || obj === null) {\n    return obj;\n  }\n\n  // Handle Array\n  if (Array.isArray(obj)) {\n    return obj.map(item => deepClone(item));\n  }\n\n  // Handle Object\n  const clonedObj = {};\n  for (const key in obj) {\n    if (Object.prototype.hasOwnProperty.call(obj, key)) {\n      clonedObj[key] = deepClone(obj[key]);\n    }\n  }\n  return clonedObj;\n}",
+    "tests": [
+      { "input": [{ "a": 1, "b": { "c": 2 } }], "expected": { "a": 1, "b": { "c": 2 } }, "label": "Nested object clone" },
+      { "input": [[1, [2, 3]]], "expected": [1, [2, 3]], "label": "Nested array clone" },
+      { "input": [{ "x": 10 }], "expected": { "x": 10 }, "label": "Simple object" }
+    ],
+    "traceTable": {
+      "inputLabel": "deepClone({ a: [1] })",
+      "columns": ["obj", "isObject", "result"],
+      "rows": [
+        { "obj": "{ a: [1] }", "isObject": "true", "result": "new reference { a: [1] }" }
+      ]
+    },
+    "patternTag": "Deep Copying",
+    "patternExplanation": "Deep cloning is critical in state management (like React or Redux) to ensure immutability and prevent accidental side effects.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "js-o10-assign-vs-spread",
+    "title": "Object.assign vs Spread",
+    "type": "coding",
+    "category": "object-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "shallowMerge",
+    "description": "Both `Object.assign()` and the object spread syntax `{...obj}` are used to merge objects or create shallow copies. While they look similar, spread creates a new object literal, whereas `Object.assign()` modifies a target object (usually the first argument). Implement a function that merges two objects into a new object using the spread operator.",
+    "whatShouldHappen": [
+      "Accept two objects `obj1` and `obj2`.",
+      "Use the spread operator `...` to merge them into a new object literal.",
+      "Properties in `obj2` should overwrite those in `obj1` if they share the same key.",
+      "Return the new object."
+    ],
+    "starterCode": "function shallowMerge(obj1, obj2) {\n  // your code here\n}",
+    "skeletonHint": "function shallowMerge(obj1, obj2) {\n  return { ...____, ...____ };\n}",
+    "solution": "function shallowMerge(obj1, obj2) {\n  // Spread operator creates a new object and merges properties\n  return { ...obj1, ...obj2 };\n}",
+    "tests": [
+      { "input": [{ "a": 1 }, { "b": 2 }], "expected": { "a": 1, "b": 2 }, "label": "Merge distinct keys" },
+      { "input": [{ "a": 1, "b": 1 }, { "b": 2 }], "expected": { "a": 1, "b": 2 }, "label": "Overwrite existing key" },
+      { "input": [{}, { "x": 10 }], "expected": { "x": 10 }, "label": "Merge with empty object" }
+    ],
+    "traceTable": {
+      "inputLabel": "shallowMerge({ a: 1 }, { b: 2 })",
+      "columns": ["obj1", "obj2", "result"],
+      "rows": [
+        { "obj1": "{ a: 1 }", "obj2": "{ b: 2 }", "result": "{ a: 1, b: 2 }" }
+      ]
+    },
+    "patternTag": "Object Merging",
+    "patternExplanation": "The spread operator is generally preferred for merging as it is more concise and always returns a new object, encouraging immutability.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "js-o11-object-freeze",
+    "title": "Object.freeze (Immutability)",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "makeImmutable",
+    "description": "The `Object.freeze()` method freezes an object. A frozen object can no longer be changed: you cannot add new properties, remove existing ones, or change the values of existing properties. It is the highest level of integrity for an object in JavaScript.",
+    "whatShouldHappen": [
+      "Accept an object `obj`.",
+      "Use `Object.freeze()` to make the object immutable.",
+      "Return the frozen object."
+    ],
+    "starterCode": "function makeImmutable(obj) {\n  // your code here\n}",
+    "skeletonHint": "function makeImmutable(obj) {\n  return Object.____(obj);\n}",
+    "solution": "function makeImmutable(obj) {\n  // Object.freeze prevents all modifications\n  return Object.freeze(obj);\n}",
+    "tests": [
+      { "input": [{ "a": 1 }], "expected": true, "label": "Verify object is frozen", "isFrozenCheck": true },
+      { "input": [{ "status": "active" }], "expected": true, "label": "Verify status object is frozen", "isFrozenCheck": true }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const result = fn(input);\n  return Object.isFrozen(result);\n}",
+    "traceTable": {
+      "inputLabel": "makeImmutable({ a: 1 })",
+      "columns": ["obj", "isFrozen"],
+      "rows": [
+        { "obj": "{ a: 1 }", "isFrozen": true }
+      ]
+    },
+    "patternTag": "Immutability",
+    "patternExplanation": "Freezing objects is a core technique for ensuring that shared configuration or state remains constant throughout an application's lifecycle.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "js-o12-object-seal",
+    "title": "Object.seal (Restricted Mutation)",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "makeSealed",
+    "description": "The `Object.seal()` method seals an object. Sealing prevents new properties from being added and marks all existing properties as non-configurable. However, the values of existing properties can still be changed if they are writable.",
+    "whatShouldHappen": [
+      "Accept an object `obj`.",
+      "Use `Object.seal()` to seal the object.",
+      "Return the sealed object."
+    ],
+    "starterCode": "function makeSealed(obj) {\n  // your code here\n}",
+    "skeletonHint": "function makeSealed(obj) {\n  return Object.____(obj);\n}",
+    "solution": "function makeSealed(obj) {\n  // Object.seal prevents adding/removing but allows value updates\n  return Object.seal(obj);\n}",
+    "tests": [
+      { "input": [{ "a": 1 }], "expected": true, "label": "Verify object is sealed", "isSealedCheck": true },
+      { "input": [{ "x": 10, "y": 20 }], "expected": true, "label": "Verify coordinates are sealed", "isSealedCheck": true }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const result = fn(input);\n  return Object.isSealed(result) && !Object.isFrozen(result);\n}",
+    "traceTable": {
+      "inputLabel": "makeSealed({ a: 1 })",
+      "columns": ["obj", "isSealed"],
+      "rows": [
+        { "obj": "{ a: 1 }", "isSealed": true }
+      ]
+    },
+    "patternTag": "Object Integrity",
+    "patternExplanation": "Sealing is useful when you want to fix the 'shape' of an object (its keys) but still allow its values to be updated.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "js-o13-object-create",
+    "title": "Object.create with Prototype",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "createWithProto",
+    "description": "The `Object.create()` method creates a new object, using an existing object as the prototype of the newly created object. This is a powerful way to implement inheritance without using classes.",
+    "whatShouldHappen": [
+      "Accept a prototype object `proto`.",
+      "Use `Object.create()` to create a new object with `proto` as its prototype.",
+      "Return the new object."
+    ],
+    "starterCode": "function createWithProto(proto) {\n  // your code here\n}",
+    "skeletonHint": "function createWithProto(proto) {\n  return Object.____(proto);\n}",
+    "solution": "function createWithProto(proto) {\n  // Object.create links the new object to the prototype\n  return Object.create(proto);\n}",
+    "tests": [
+      { "input": [{ "greet": "hello" }], "expected": "hello", "label": "Access prototype property" },
+      { "input": [{ "type": "animal" }], "expected": "animal", "label": "Inherited type" }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const result = fn(input);\n  return result.greet || result.type;\n}",
+    "traceTable": {
+      "inputLabel": "createWithProto({ x: 1 })",
+      "columns": ["proto", "resultHasProto"],
+      "rows": [
+        { "proto": "{ x: 1 }", "resultHasProto": true }
+      ]
+    },
+    "patternTag": "Prototypal Inheritance",
+    "patternExplanation": "Direct prototypal inheritance allows objects to share behavior without the overhead of class-based hierarchies.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "js-o14-class-constructor",
+    "title": "Class Constructor Basics",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "createPerson",
+    "description": "Classes are templates for creating objects. The `constructor` method is a special method for creating and initializing an object created with a class. Implement a function that defines a `Person` class and returns a string from one of its methods.",
+    "whatShouldHappen": [
+      "Inside the function, define a class named `Person`.",
+      "The `constructor` should accept `name` and `age`.",
+      "Add a method `getInfo` that returns the string: '[name] is [age] years old'.",
+      "Instantiate the class and return the result of `getInfo()`."
+    ],
+    "starterCode": "function createPerson(name, age) {\n  // your code here\n}",
+    "skeletonHint": "function createPerson(name, age) {\n  class Person {\n    constructor(name, age) {\n      this.name = name;\n      this.age = age;\n    }\n    getInfo() {\n      return `${this.name} is ${this.age} years old`;\n    }\n  }\n  const p = new Person(name, age);\n  return p.____();\n}",
+    "solution": "function createPerson(name, age) {\n  class Person {\n    constructor(name, age) {\n      this.name = name;\n      this.age = age;\n    }\n    getInfo() {\n      return `${this.name} is ${this.age} years old`;\n    }\n  }\n  const person = new Person(name, age);\n  return person.getInfo();\n}",
+    "tests": [
+      { "input": ["Alice", 25], "expected": "Alice is 25 years old", "label": "Alice's info" },
+      { "input": ["Bob", 30], "expected": "Bob is 30 years old", "label": "Bob's info" }
+    ],
+    "traceTable": {
+      "inputLabel": "createPerson('Alice', 25)",
+      "columns": ["name", "age", "result"],
+      "rows": [
+        { "name": "'Alice'", "age": 25, "result": "'Alice is 25 years old'" }
+      ]
+    },
+    "patternTag": "Class Encapsulation",
+    "patternExplanation": "Classes provide a clean syntax for grouping data and the behavior that operates on that data together.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "js-o15-class-inheritance",
+    "title": "Class Inheritance (extends)",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "createStudent",
+    "description": "Inheritance allows a class to inherit properties and methods from another class. The `extends` keyword is used for inheritance, and the `super()` keyword is used to call the parent class's constructor.",
+    "whatShouldHappen": [
+      "Define a `User` class that takes `name` in its constructor.",
+      "Define a `Student` class that `extends User`.",
+      "The `Student` constructor should take `name` and `grade`.",
+      "Call `super(name)` in the `Student` constructor.",
+      "Add a `getStudentInfo` method to `Student` that returns '[name] is in grade [grade]'.",
+      "Instantiate `Student` and return the result of `getStudentInfo()`."
+    ],
+    "starterCode": "function createStudent(name, grade) {\n  // your code here\n}",
+    "skeletonHint": "function createStudent(name, grade) {\n  class User {\n    constructor(name) { this.name = name; }\n  }\n  class Student extends User {\n    constructor(name, grade) {\n      super(____);\n      this.grade = grade;\n    }\n    getStudentInfo() {\n      return `${this.name} is in grade ${this.grade}`;\n    }\n  }\n  return new Student(name, grade).____();\n}",
+    "solution": "function createStudent(name, grade) {\n  class User {\n    constructor(name) {\n      this.name = name;\n    }\n  }\n\n  class Student extends User {\n    constructor(name, grade) {\n      super(name);\n      this.grade = grade;\n    }\n    getStudentInfo() {\n      return `${this.name} is in grade ${this.grade}`;\n    }\n  }\n\n  const student = new Student(name, grade);\n  return student.getStudentInfo();\n}",
+    "tests": [
+      { "input": ["Charlie", 10], "expected": "Charlie is in grade 10", "label": "Charlie's grade" },
+      { "input": ["Dana", 12], "expected": "Dana is in grade 12", "label": "Dana's grade" }
+    ],
+    "traceTable": {
+      "inputLabel": "createStudent('Charlie', 10)",
+      "columns": ["name", "grade", "result"],
+      "rows": [
+        { "name": "'Charlie'", "grade": 10, "result": "'Charlie is in grade 10'" }
+      ]
+    },
+    "patternTag": "Class Inheritance",
+    "patternExplanation": "Inheritance promotes code reuse by allowing specialized classes to build upon the functionality of more general base classes.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "js-o16-private-fields",
+    "title": "Private Class Fields (#)",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "usePrivateField",
+    "description": "JavaScript classes support private fields using the `#` prefix. Private fields cannot be accessed or modified from outside the class, providing true encapsulation. Implement a `Counter` class with a private field `#count` that can only be incremented and retrieved through methods.",
+    "whatShouldHappen": [
+      "Define a class `Counter`.",
+      "Declare a private field `#count` and initialize it to 0.",
+      "Add an `increment()` method that increases `#count` by 1.",
+      "Add a `getCount()` method that returns the current value of `#count`.",
+      "Instantiate the class, increment it twice, and return the count."
+    ],
+    "starterCode": "function usePrivateField() {\n  // your code here\n}",
+    "skeletonHint": "function usePrivateField() {\n  class Counter {\n    #count = 0;\n    increment() {\n      this.____++;\n    }\n    getCount() {\n      return this.____;\n    }\n  }\n  const c = new Counter();\n  c.increment();\n  c.increment();\n  return c.getCount();\n}",
+    "solution": "function usePrivateField() {\n  class Counter {\n    #count = 0;\n\n    increment() {\n      this.#count++;\n    }\n\n    getCount() {\n      return this.#count;\n    }\n  }\n\n  const counter = new Counter();\n  counter.increment();\n  counter.increment();\n  return counter.getCount();\n}",
+    "tests": [
+      { "input": [], "expected": 2, "label": "Private counter incremented twice" }
+    ],
+    "traceTable": {
+      "inputLabel": "usePrivateField()",
+      "columns": ["action", "countValue"],
+      "rows": [
+        { "action": "init", "countValue": 0 },
+        { "action": "increment", "countValue": 1 },
+        { "action": "increment", "countValue": 2 }
+      ]
+    },
+    "patternTag": "Encapsulation",
+    "patternExplanation": "Private fields (#) prevent external code from accidentally modifying internal state, ensuring that the class maintains control over its own data.",
+    "estimatedMinutes": 7,
+    "status": "published"
+  },
+  {
+    "id": "js-o17-getters-setters",
+    "title": "Getters and Setters in Class",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "useGetSet",
+    "description": "Getters and setters allow you to define methods that look like properties. A `get` method retrieves a value, and a `set` method updates it, often including validation logic. Implement a `Temperature` class that stores Celsius but allows getting and setting in Fahrenheit.",
+    "whatShouldHappen": [
+      "Define a class `Temperature` that takes `celsius` in the constructor.",
+      "Add a getter `fahrenheit` that returns `(celsius * 9/5) + 32`.",
+      "Add a setter `fahrenheit` that takes a value and updates `celsius` using `(value - 32) * 5/9`.",
+      "Instantiate with 25°C, then set fahrenheit to 86, and return the new celsius value."
+    ],
+    "starterCode": "function useGetSet(initialCelsius, newFahrenheit) {\n  // your code here\n}",
+    "skeletonHint": "function useGetSet(initialCelsius, newFahrenheit) {\n  class Temperature {\n    constructor(celsius) { this.celsius = celsius; }\n    get fahrenheit() { return (this.celsius * 9/5) + 32; }\n    set fahrenheit(val) { this.celsius = (val - 32) * 5/9; }\n  }\n  const t = new Temperature(initialCelsius);\n  t.fahrenheit = newFahrenheit;\n  return t.celsius;\n}",
+    "solution": "function useGetSet(initialCelsius, newFahrenheit) {\n  class Temperature {\n    constructor(celsius) {\n      this.celsius = celsius;\n    }\n\n    get fahrenheit() {\n      return (this.celsius * 9 / 5) + 32;\n    }\n\n    set fahrenheit(value) {\n      this.celsius = (value - 32) * 5 / 9;\n    }\n  }\n\n  const temp = new Temperature(initialCelsius);\n  temp.fahrenheit = newFahrenheit;\n  return temp.celsius;\n}",
+    "tests": [
+      { "input": [25, 86], "expected": 30, "label": "Convert 86F to 30C" },
+      { "input": [0, 32], "expected": 0, "label": "Freezing point check" }
+    ],
+    "traceTable": {
+      "inputLabel": "useGetSet(25, 86)",
+      "columns": ["celsius", "fahrenheitSetter", "finalCelsius"],
+      "rows": [
+        { "celsius": 25, "fahrenheitSetter": 86, "finalCelsius": 30 }
+      ]
+    },
+    "patternTag": "Accessor Properties",
+    "patternExplanation": "Getters and setters provide a way to intercept property access and assignment, allowing for computed properties and data validation.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "js-o18-static-methods",
+    "title": "Static Methods in Class",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "useStaticMethod",
+    "description": "Static methods are defined on the class itself, not on the instances. They are often used for utility functions related to the class. Implement a `MathUtil` class with a static method `square` that returns the square of a number.",
+    "whatShouldHappen": [
+      "Define a class `MathUtil`.",
+      "Add a static method `square(n)` that returns `n * n`.",
+      "Call the static method without instantiating the class.",
+      "Return the result of `MathUtil.square(val)`."
+    ],
+    "starterCode": "function useStaticMethod(val) {\n  // your code here\n}",
+    "skeletonHint": "function useStaticMethod(val) {\n  class MathUtil {\n    static square(n) {\n      return ____ * ____;\n    }\n  }\n  return MathUtil.____(val);\n}",
+    "solution": "function useStaticMethod(val) {\n  class MathUtil {\n    static square(n) {\n      return n * n;\n    }\n  }\n\n  return MathUtil.square(val);\n}",
+    "tests": [
+      { "input": [5], "expected": 25, "label": "Square of 5" },
+      { "input": [10], "expected": 100, "label": "Square of 10" }
+    ],
+    "traceTable": {
+      "inputLabel": "useStaticMethod(4)",
+      "columns": ["val", "result"],
+      "rows": [
+        { "val": 4, "result": 16 }
+      ]
+    },
+    "patternTag": "Static Members",
+    "patternExplanation": "Static methods are useful for organizing logic that belongs to a class's domain but doesn't require state from a specific instance.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-o19-this-in-constructor",
+    "title": "this in Constructor",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "verifyConstructor",
+    "description": "In a class constructor, `this` refers to the new object being created. It is used to assign initial values to the object's properties. Implement a `Car` class that assigns `brand` and `model` using `this`.",
+    "whatShouldHappen": [
+      "Define a class `Car`.",
+      "The constructor should take `brand` and `model`.",
+      "Assign them to `this.brand` and `this.model`.",
+      "Return the brand of a new `Car` instance."
+    ],
+    "starterCode": "function verifyConstructor(brand, model) {\n  // your code here\n}",
+    "skeletonHint": "function verifyConstructor(brand, model) {\n  class Car {\n    constructor(brand, model) {\n      this.____ = brand;\n      this.____ = model;\n    }\n  }\n  const myCar = new Car(brand, model);\n  return myCar.brand;\n}",
+    "solution": "function verifyConstructor(brand, model) {\n  class Car {\n    constructor(brand, model) {\n      this.brand = brand;\n      this.model = model;\n    }\n  }\n\n  const myCar = new Car(brand, model);\n  return myCar.brand;\n}",
+    "tests": [
+      { "input": ["Tesla", "Model 3"], "expected": "Tesla", "label": "Tesla brand" },
+      { "input": ["Toyota", "Corolla"], "expected": "Toyota", "label": "Toyota brand" }
+    ],
+    "traceTable": {
+      "inputLabel": "verifyConstructor('Ford', 'Mustang')",
+      "columns": ["brand", "model", "instance.brand"],
+      "rows": [
+        { "brand": "'Ford'", "model": "'Mustang'", "instance.brand": "'Ford'" }
+      ]
+    },
+    "patternTag": "Constructor Assignment",
+    "patternExplanation": "The constructor is the initialization phase of an object where `this` provides the context for the new instance's properties.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "js-o20-method-overriding",
+    "title": "Method Overriding in Inheritance",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "testOverriding",
+    "description": "When a child class defines a method with the same name as a method in its parent class, it 'overrides' the parent's method. The child's method will be called instead of the parent's. You can still call the parent's method using `super.methodName()`.",
+    "whatShouldHappen": [
+      "Define a `Bird` class with a `speak()` method that returns 'Tweet'.",
+      "Define a `Duck` class that `extends Bird`.",
+      "Override the `speak()` method in `Duck` to return 'Quack'.",
+      "Instantiate `Duck` and return the result of its `speak()` method."
+    ],
+    "starterCode": "function testOverriding() {\n  // your code here\n}",
+    "skeletonHint": "function testOverriding() {\n  class Bird {\n    speak() { return 'Tweet'; }\n  }\n  class Duck extends Bird {\n    speak() {\n      return '____';\n    }\n  }\n  return new Duck().speak();\n}",
+    "solution": "function testOverriding() {\n  class Bird {\n    speak() {\n      return 'Tweet';\n    }\n  }\n\n  class Duck extends Bird {\n    speak() {\n      return 'Quack';\n    }\n  }\n\n  const duck = new Duck();\n  return duck.speak();\n}",
+    "tests": [
+      { "input": [], "expected": "Quack", "label": "Duck overrides Bird's speak" }
+    ],
+    "traceTable": {
+      "inputLabel": "testOverriding()",
+      "columns": ["class", "method", "result"],
+      "rows": [
+        { "class": "Duck", "method": "speak()", "result": "'Quack'" }
+      ]
+    },
+    "patternTag": "Polymorphism",
+    "patternExplanation": "Method overriding allows child classes to provide specific implementations of behaviors defined in their parent classes.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "js-o21-prototype-traversal",
+    "title": "Prototype Chain Traversal",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getPrototypeChain",
+    "description": "Every JavaScript object (except those created with `Object.create(null)`) has a prototype. These prototypes themselves can have prototypes, forming a 'prototype chain'. Implement a function that returns an array of all prototype objects in the chain of a given object, up to but not including `null`.",
+    "whatShouldHappen": [
+      "Accept an object `obj`.",
+      "Traverse the prototype chain using `Object.getPrototypeOf()`.",
+      "Collect each prototype object into an array.",
+      "Stop when the prototype is `null`.",
+      "Return the array of prototype objects."
+    ],
+    "starterCode": "function getPrototypeChain(obj) {\n  // your code here\n}",
+    "skeletonHint": "function getPrototypeChain(obj) {\n  const chain = [];\n  let proto = Object.getPrototypeOf(____);\n  while (proto !== ____) {\n    chain.push(proto);\n    proto = Object.getPrototypeOf(____);\n  }\n  return chain;\n}",
+    "solution": "function getPrototypeChain(obj) {\n  const chain = [];\n  let proto = Object.getPrototypeOf(obj);\n  while (proto !== null) {\n    chain.push(proto);\n    proto = Object.getPrototypeOf(proto);\n  }\n  return chain;\n}",
+    "tests": [
+      { "input": [{}], "expected": true, "label": "Plain object has Object.prototype", "isChainCheck": true },
+      { "input": [[]], "expected": true, "label": "Array has Array.prototype and Object.prototype", "isChainCheck": true }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const chain = fn(input);\n  if (Array.isArray(input)) {\n    return chain.length >= 2 && chain[0] === Array.prototype && chain[1] === Object.prototype;\n  }\n  return chain.length >= 1 && chain[0] === Object.prototype;\n}",
+    "traceTable": {
+      "inputLabel": "getPrototypeChain({})",
+      "columns": ["current", "proto", "chain"],
+      "rows": [
+        { "current": "{}", "proto": "Object.prototype", "chain": "[Object.prototype]" },
+        { "current": "Object.prototype", "proto": "null", "chain": "[Object.prototype]" }
+      ]
+    },
+    "patternTag": "Prototype Chain",
+    "patternExplanation": "Understanding the prototype chain is fundamental to how inheritance and property lookup work in JavaScript.",
+    "estimatedMinutes": 10,
+    "status": "published"
+  },
+  {
+    "id": "js-o22-instanceof-simulation",
+    "title": "Instanceof Operator Simulation",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "myInstanceof",
+    "description": "The `instanceof` operator checks if an object's prototype chain contains the `.prototype` property of a constructor. Implement a function `myInstanceof(obj, target)` that mimics this behavior manually.",
+    "whatShouldHappen": [
+      "Accept an object `obj` and a constructor function `target`.",
+      "If `obj` is null or not an object, return `false`.",
+      "Traverse the prototype chain of `obj`.",
+      "Check if any prototype in the chain is strictly equal to `target.prototype`.",
+      "Return `true` if found, `false` otherwise."
+    ],
+    "starterCode": "function myInstanceof(obj, target) {\n  // your code here\n}",
+    "skeletonHint": "function myInstanceof(obj, target) {\n  if (obj === null || typeof obj !== 'object') return false;\n  let proto = Object.getPrototypeOf(obj);\n  while (proto !== null) {\n    if (proto === target.____) return true;\n    proto = Object.getPrototypeOf(____);\n  }\n  return false;\n}",
+    "solution": "function myInstanceof(obj, target) {\n  if (obj === null || (typeof obj !== 'object' && typeof obj !== 'function')) return false;\n  \n  let proto = Object.getPrototypeOf(obj);\n  const targetProto = target.prototype;\n  \n  while (proto !== null) {\n    if (proto === targetProto) return true;\n    proto = Object.getPrototypeOf(proto);\n  }\n  \n  return false;\n}",
+    "tests": [
+      { "input": [[], "Array"], "expected": true, "label": "[] instanceof Array" },
+      { "input": [[], "Object"], "expected": true, "label": "[] instanceof Object" },
+      { "input": [{}, "Array"], "expected": false, "label": "{} instanceof Array" }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const targets = { 'Array': Array, 'Object': Object };\n  return fn(input[0], targets[input[1]]);\n}",
+    "traceTable": {
+      "inputLabel": "myInstanceof([], Array)",
+      "columns": ["proto", "target.prototype", "match"],
+      "rows": [
+        { "proto": "Array.prototype", "target.prototype": "Array.prototype", "match": "true" }
+      ]
+    },
+    "patternTag": "Type Checking",
+    "patternExplanation": "Simulating internal operators like `instanceof` deepens understanding of the JavaScript object model.",
+    "estimatedMinutes": 12,
+    "status": "published"
+  },
+  {
+    "id": "js-o23-constructor-prototype",
+    "title": "Function Constructor Prototype",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "setupConstructor",
+    "description": "Before the `class` keyword, constructor functions were the primary way to create multiple objects with shared behavior. Methods were added to the constructor's `prototype` property to ensure they were shared by all instances, saving memory.",
+    "whatShouldHappen": [
+      "Define a constructor function `Animal(name)`.",
+      "Assign `name` to `this.name`.",
+      "Add a method `eat` to `Animal.prototype` that returns '[name] is eating'.",
+      "Return the `Animal` constructor itself."
+    ],
+    "starterCode": "function setupConstructor() {\n  // your code here\n}",
+    "skeletonHint": "function setupConstructor() {\n  function Animal(name) {\n    this.name = name;\n  }\n  Animal.prototype.____ = function() {\n    return `${this.name} is eating`;\n  };\n  return Animal;\n}",
+    "solution": "function setupConstructor() {\n  function Animal(name) {\n    this.name = name;\n  }\n\n  Animal.prototype.eat = function() {\n    return `${this.name} is eating`;\n  };\n\n  return Animal;\n}",
+    "tests": [
+      { "input": ["Lion"], "expected": "Lion is eating", "label": "Lion instance eats" }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const Animal = fn();\n  const instance = new Animal(input);\n  return instance.eat();\n}",
+    "traceTable": {
+      "inputLabel": "setupConstructor()",
+      "columns": ["operation", "result"],
+      "rows": [
+        { "operation": "new Animal('Lion')", "result": "{ name: 'Lion' }" },
+        { "operation": "instance.eat()", "result": "'Lion is eating'" }
+      ]
+    },
+    "patternTag": "Constructor Pattern",
+    "patternExplanation": "The constructor pattern uses `new` to create objects and `prototype` to share methods efficiently across all instances.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "js-o24-factory-vs-class",
+    "title": "Factory Functions vs Classes",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "createUserFactory",
+    "description": "Factory functions are plain functions that return objects. They are often simpler than classes because they don't use `this` or `new`, and they can use closures to create truly private variables.",
+    "whatShouldHappen": [
+      "Implement a factory function `createUser(username)`.",
+      "It should return an object with two methods: `getUsername()` and `setUsername(newUsername)`.",
+      "The `username` should be stored in a closure, making it private (not accessible directly on the returned object).",
+      "Return the result of `createUser(username)`."
+    ],
+    "starterCode": "function createUserFactory(initialUsername) {\n  // your code here\n}",
+    "skeletonHint": "function createUserFactory(initialUsername) {\n  function createUser(name) {\n    let _name = name;\n    return {\n      getUsername: () => ____,\n      setUsername: (newName) => { ____ = newName; }\n    };\n  }\n  return createUser(initialUsername);\n}",
+    "solution": "function createUserFactory(initialUsername) {\n  function createUser(username) {\n    let _username = username;\n    \n    return {\n      getUsername: () => _username,\n      setUsername: (newUsername) => {\n        _username = newUsername;\n      }\n    };\n  }\n  \n  return createUser(initialUsername);\n}",
+    "tests": [
+      { "input": ["alice"], "expected": "alice", "label": "Get initial username" },
+      { "input": ["alice", "bob"], "expected": "bob", "label": "Update username via setter" }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const user = fn(input[0]);\n  if (input.length > 1) {\n    user.setUsername(input[1]);\n  }\n  return user.getUsername();\n}",
+    "traceTable": {
+      "inputLabel": "createUserFactory('alice')",
+      "columns": ["action", "internal_state", "result"],
+      "rows": [
+        { "action": "getUsername()", "internal_state": "'alice'", "result": "'alice'" },
+        { "action": "setUsername('bob')", "internal_state": "'bob'", "result": "undefined" }
+      ]
+    },
+    "patternTag": "Factory Pattern",
+    "patternExplanation": "Factory functions leverage closures to provide encapsulation without the complexity of classes or the `this` keyword.",
+    "estimatedMinutes": 10,
+    "status": "published"
+  },
+  {
+    "id": "js-o25-property-descriptors",
+    "title": "Property Descriptors",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "defineSecretProp",
+    "description": "`Object.defineProperty()` allows you to set metadata for object properties. You can control if a property is writable, enumerable (shows up in loops), or configurable (can be deleted or changed).",
+    "whatShouldHappen": [
+      "Accept an object `obj`, a `key`, and a `value`.",
+      "Use `Object.defineProperty()` to add the `key` to `obj` with the given `value`.",
+      "The property should be **non-enumerable** (it shouldn't show up in `Object.keys()`).",
+      "The property should be **read-only** (writable: false).",
+      "Return the object."
+    ],
+    "starterCode": "function defineSecretProp(obj, key, value) {\n  // your code here\n}",
+    "skeletonHint": "function defineSecretProp(obj, key, value) {\n  Object.defineProperty(obj, key, {\n    value: ____,\n    enumerable: ____,\n    writable: ____\n  });\n  return obj;\n}",
+    "solution": "function defineSecretProp(obj, key, value) {\n  Object.defineProperty(obj, key, {\n    value: value,\n    enumerable: false,\n    writable: false,\n    configurable: true\n  });\n  return obj;\n}",
+    "tests": [
+      { "input": [{}, "secret", "123", "enumerable"], "expected": true, "label": "Property is non-enumerable" },
+      { "input": [{}, "secret", "123", "value"], "expected": "123", "label": "Property has correct value" },
+      { "input": [{}, "secret", "123", "writable"], "expected": true, "label": "Property is read-only" }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const target = input[0];\n  const key = input[1];\n  const val = input[2];\n  const checkType = input[3];\n  const obj = fn(target, key, val);\n  \n  if (checkType === 'enumerable') {\n    return !Object.keys(obj).includes(key);\n  }\n  if (checkType === 'writable') {\n    try {\n      obj[key] = 'changed';\n    } catch (e) {}\n    return obj[key] === val;\n  }\n  return obj[key];\n}",
+    "traceTable": {
+      "inputLabel": "defineSecretProp({}, 'id', 1)",
+      "columns": ["property", "enumerable", "writable", "visible in keys"],
+      "rows": [
+        { "property": "'id'", "enumerable": "false", "writable": "false", "visible in keys": "false" }
+      ]
+    },
+    "patternTag": "Property Descriptors",
+    "patternExplanation": "Property descriptors provide fine-grained control over how object properties behave, which is essential for building robust APIs and libraries.",
+    "estimatedMinutes": 12,
+    "status": "published"
+  },
+  {
+    "id": "js-o26-object-to-query-string",
+    "title": "Object to Query String",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "toQueryString",
+    "description": "When making HTTP GET requests, data is often passed in the URL as a query string. A query string starts with a `?` (though the function should only return the key-value pairs) and consists of `key=value` pairs separated by `&`. Values must be URI-encoded to handle special characters like spaces.",
+    "whatShouldHappen": [
+      "Accept an object with key-value pairs.",
+      "Iterate through the object properties.",
+      "Use `encodeURIComponent()` for both keys and values.",
+      "Join the pairs with `&` and return the resulting string."
+    ],
+    "starterCode": "function toQueryString(params) {\n  // your code here\n}",
+    "skeletonHint": "function toQueryString(params) {\n  return Object.entries(params)\n    .map(([key, val]) => `${encodeURIComponent(____)}=${encodeURIComponent(____)}`)\n    .join('____');\n}",
+    "solution": "function toQueryString(params) {\n  return Object.entries(params)\n    .map(([key, val]) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)\n    .join('&');\n}",
+    "tests": [
+      { "input": [{ "name": "JS", "type": "pro" }], "expected": "name=JS&type=pro", "label": "Simple object" },
+      { "input": [{ "search": "hello world", "page": 1 }], "expected": "search=hello%20world&page=1", "label": "Encoding spaces" },
+      { "input": [{}], "expected": "", "label": "Empty object" }
+    ],
+    "traceTable": {
+      "inputLabel": "toQueryString({ a: 1, b: 2 })",
+      "columns": ["params", "entries", "result"],
+      "rows": [
+        { "params": "{ a: 1, b: 2 }", "entries": "[['a', 1], ['b', 2]]", "result": "'a=1&b=2'" }
+      ]
+    },
+    "patternTag": "URL Encoding",
+    "patternExplanation": "Transforming objects to query strings is a common task in frontend development for constructing API requests and managing browser history.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "js-o27-query-string-to-object",
+    "title": "Query String to Object",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "parseQueryString",
+    "description": "Parsing a query string back into an object is the inverse of creating one. You need to split the string by `&`, then split each part by `=`, and decode the keys and values using `decodeURIComponent()`.",
+    "whatShouldHappen": [
+      "Accept a query string (without the leading `?`).",
+      "If the string is empty, return an empty object.",
+      "Split the string by `&` to get individual pairs.",
+      "For each pair, split by `=` to get key and value.",
+      "Decode both key and value.",
+      "Return an object containing these pairs."
+    ],
+    "starterCode": "function parseQueryString(str) {\n  // your code here\n}",
+    "skeletonHint": "function parseQueryString(str) {\n  if (!str) return {};\n  const result = {};\n  str.split('&').forEach(pair => {\n    const [key, val] = pair.split('=');\n    result[decodeURIComponent(____)] = decodeURIComponent(____);\n  });\n  return result;\n}",
+    "solution": "function parseQueryString(str) {\n  if (!str) return {};\n  return str.split('&').reduce((acc, pair) => {\n    const [key, val] = pair.split('=');\n    acc[decodeURIComponent(key)] = decodeURIComponent(val || '');\n    return acc;\n  }, {});\n}",
+    "tests": [
+      { "input": ["name=JS&type=pro"], "expected": { "name": "JS", "type": "pro" }, "label": "Simple string" },
+      { "input": ["search=hello%20world&page=1"], "expected": { "search": "hello world", "page": "1" }, "label": "Decoding spaces" },
+      { "input": [""], "expected": {}, "label": "Empty string" }
+    ],
+    "traceTable": {
+      "inputLabel": "parseQueryString('a=1&b=2')",
+      "columns": ["str", "pairs", "result"],
+      "rows": [
+        { "str": "'a=1&b=2'", "pairs": "['a=1', 'b=2']", "result": "{ a: '1', b: '2' }" }
+      ]
+    },
+    "patternTag": "Data Parsing",
+    "patternExplanation": "Extracting data from URLs requires robust parsing to handle encoding and potentially missing values.",
+    "estimatedMinutes": 10,
+    "status": "published"
+  },
+  {
+    "id": "js-o28-json-stringify-replacer",
+    "title": "JSON.stringify Custom Replacer",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "stringifyWithoutNumbers",
+    "description": "The `JSON.stringify()` method accepts an optional second argument called a `replacer`. This can be an array of keys to include, or a function that transforms the value for each key. Implement a function that stringifies an object but completely removes any properties that have numeric values.",
+    "whatShouldHappen": [
+      "Accept an object as an argument.",
+      "Call `JSON.stringify(obj, replacer)`.",
+      "The `replacer` function should return `undefined` if the value is a number (this removes the key).",
+      "Otherwise, return the value as is.",
+      "Return the JSON string."
+    ],
+    "starterCode": "function stringifyWithoutNumbers(obj) {\n  // your code here\n}",
+    "skeletonHint": "function stringifyWithoutNumbers(obj) {\n  return JSON.stringify(obj, (key, value) => {\n    if (typeof value === '____') return undefined;\n    return value;\n  });\n}",
+    "solution": "function stringifyWithoutNumbers(obj) {\n  return JSON.stringify(obj, (key, value) => {\n    // If value is a number, returning undefined removes it from the JSON\n    if (typeof value === 'number') {\n      return undefined;\n    }\n    return value;\n  });\n}",
+    "tests": [
+      { "input": [{ "name": "Alice", "age": 25, "active": true }], "expected": "{\"name\":\"Alice\",\"active\":true}", "label": "Exclude age" },
+      { "input": [{ "count": 10, "items": [] }], "expected": "{\"items\":[]}", "label": "Exclude count" },
+      { "input": [{ "id": "user_1", "meta": { "score": 100 } }], "expected": "{\"id\":\"user_1\",\"meta\":{}}", "label": "Nested exclusion" }
+    ],
+    "traceTable": {
+      "inputLabel": "stringifyWithoutNumbers({ a: 1, b: 'hi' })",
+      "columns": ["key", "value", "replacer_result"],
+      "rows": [
+        { "key": "''", "value": "{ a: 1, b: 'hi' }", "replacer_result": "{ a: 1, b: 'hi' }" },
+        { "key": "'a'", "value": "1", "replacer_result": "undefined" },
+        { "key": "'b'", "value": "'hi'", "replacer_result": "'hi'" }
+      ]
+    },
+    "patternTag": "Serialization Control",
+    "patternExplanation": "The JSON replacer function is a powerful tool for filtering sensitive data or pruning complex objects before storage or transmission.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "js-o29-circular-reference-check",
+    "title": "Circular Reference Check",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Hard",
+    "collectionId": "js-pro-mastery",
+    "functionName": "isCircular",
+    "description": "A circular reference occurs when an object refers to itself directly or indirectly through other objects. This causes `JSON.stringify` to crash and can lead to infinite loops in recursive functions. Implement a function to detect if an object contains a circular reference.",
+    "whatShouldHappen": [
+      "Accept an object `obj`.",
+      "Use a recursive helper function to traverse the object tree.",
+      "Keep track of visited objects using a `WeakSet` or `Set`.",
+      "If you encounter an object that is already in the visited set, return `true`.",
+      "Otherwise, return `false` if the entire tree is traversed without cycles."
+    ],
+    "starterCode": "function isCircular(obj) {\n  // your code here\n}",
+    "skeletonHint": "function isCircular(obj) {\n  const seen = new WeakSet();\n  function detect(current) {\n    if (current && typeof current === 'object') {\n      if (seen.has(current)) return ____;\n      seen.add(____);\n      return Object.values(current).some(____);\n    }\n    return false;\n  }\n  return detect(obj);\n}",
+    "solution": "function isCircular(obj) {\n  const seen = new WeakSet();\n\n  function check(value) {\n    if (value !== null && typeof value === 'object') {\n      if (seen.has(value)) {\n        return true;\n      }\n      seen.add(value);\n      for (const key in value) {\n        if (Object.prototype.hasOwnProperty.call(value, key)) {\n          if (check(value[key])) return true;\n        }\n      }\n    }\n    return false;\n  }\n\n  return check(obj);\n}",
+    "tests": [
+      { "input": [{ "a": 1 }], "expected": false, "label": "No circle" },
+      { "input": "circular", "expected": true, "label": "Direct circle" },
+      { "input": "indirect", "expected": true, "label": "Indirect circle" }
+    ],
+    "testRunnerWrapper": "function runner(fn, type) {\n  if (type === 'circular') {\n    const obj = {};\n    obj.self = obj;\n    return fn(obj);\n  }\n  if (type === 'indirect') {\n    const a = { b: {} };\n    a.b.a = a;\n    return fn(a);\n  }\n  return fn({ a: 1 });\n}",
+    "traceTable": {
+      "inputLabel": "isCircular(obj_with_cycle)",
+      "columns": ["current_obj", "seen_set", "is_circular"],
+      "rows": [
+        { "current_obj": "obj_a", "seen_set": "{obj_a}", "is_circular": "false" },
+        { "current_obj": "obj_a", "seen_set": "{obj_a}", "is_circular": "true" }
+      ]
+    },
+    "patternTag": "Cycle Detection",
+    "patternExplanation": "Detecting cycles is essential for graph algorithms and for preventing infinite recursion when processing nested data structures.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "js-o30-prototype-pollution-check",
+    "title": "Safe Merge (Prototype Pollution)",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Hard",
+    "collectionId": "js-pro-mastery",
+    "functionName": "safeMerge",
+    "description": "Prototype Pollution is a security vulnerability where an attacker can overwrite properties on `Object.prototype`, affecting all objects in the application. This often happens during unsafe recursive merges where keys like `__proto__` are not filtered. Implement a safe deep merge that ignores dangerous keys.",
+    "whatShouldHappen": [
+      "Accept a `target` and a `source` object.",
+      "Recursively merge `source` into `target`.",
+      "CRITICAL: If a key is `__proto__`, `constructor`, or `prototype`, ignore it and do not merge it.",
+      "Return the modified `target`."
+    ],
+    "starterCode": "function safeMerge(target, source) {\n  // your code here\n}",
+    "skeletonHint": "function safeMerge(target, source) {\n  for (const key in source) {\n    if (key === '____' || key === '____' || key === '____') continue;\n    // recursive merge logic here\n  }\n  return target;\n}",
+    "solution": "function safeMerge(target, source) {\n  for (const key in source) {\n    if (key === '__proto__' || key === 'constructor' || key === 'prototype') {\n      continue;\n    }\n\n    if (source[key] !== null && typeof source[key] === 'object' &&\n        target[key] !== null && typeof target[key] === 'object') {\n      safeMerge(target[key], source[key]);\n    } else {\n      target[key] = source[key];\n    }\n  }\n  return target;\n}",
+    "tests": [
+      { "input": [{ "a": 1 }, { "b": 2 }], "expected": { "a": 1, "b": 2 }, "label": "Normal merge" },
+      { "input": [{}, "pollute"], "expected": true, "label": "Block prototype pollution" }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  if (input === 'pollute') {\n    const malicious = JSON.parse('{\"__proto__\": {\"polluted\": true}}');\n    const target = {};\n    fn(target, malicious);\n    return ({}).polluted === undefined;\n  }\n  return fn(input[0], input[1]);\n}",
+    "traceTable": {
+      "inputLabel": "safeMerge({}, { __proto__: { x: 1 } })",
+      "columns": ["key", "is_dangerous", "action"],
+      "rows": [
+        { "key": "'__proto__'", "is_dangerous": "true", "action": "skip" }
+      ]
+    },
+    "patternTag": "Security / Defending",
+    "patternExplanation": "Sanitizing keys during object manipulation is a critical security practice to prevent attackers from manipulating global object behavior.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "ds16",
+    "title": "Symbol unique key",
+    "type": "coding",
+    "category": "objects-and-classes",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "useSymbolKey",
+    "description": "Symbols are unique and immutable primitive values that may be used as the key of an object property. Unlike string keys, Symbols are guaranteed to be unique, preventing property name collisions even if different parts of code use the same Symbol description. Implement a function that adds a value to an object using a Symbol as the key.",
+    "whatShouldHappen": [
+      "Accept an object `obj`, a `description` string for the Symbol, and a `value`.",
+      "Create a new Symbol using the `description`.",
+      "Add the `value` to `obj` using the newly created Symbol as the key.",
+      "Return the object."
+    ],
+    "starterCode": "function useSymbolKey(obj, description, value) {\n  // your code here\n}",
+    "skeletonHint": "function useSymbolKey(obj, description, value) {\n  const sym = Symbol(____);\n  obj[____] = value;\n  return obj;\n}",
+    "solution": "function useSymbolKey(obj, description, value) {\n  const sym = Symbol(description);\n  obj[sym] = value;\n  return obj;\n}",
+    "tests": [
+      { "input": [{}, "myKey", "secret"], "expected": "secret", "label": "Symbol property value match" },
+      { "input": [{}, "unique", 123], "expected": true, "label": "Symbol key is not a string", "isSymbolCheck": true }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const obj = fn(input[0], input[1], input[2]);\n  const symbols = Object.getOwnPropertySymbols(obj);\n  if (input[3] === true || (typeof input[2] === 'boolean' && input[2] === true)) {\n      return symbols.length > 0 && typeof symbols[0] === 'symbol';\n  }\n  return symbols.length > 0 ? obj[symbols[0]] : null;\n}",
+    "traceTable": {
+      "inputLabel": "useSymbolKey({}, 'id', 101)",
+      "columns": ["description", "value", "symbol_created", "obj_has_symbol"],
+      "rows": [
+        { "description": "'id'", "value": 101, "symbol_created": "Symbol(id)", "obj_has_symbol": true }
+      ]
+    },
+    "patternTag": "Unique Identifiers",
+    "patternExplanation": "Symbols provide a way to add 'hidden' or non-colliding properties to objects, which is useful for internal library state or metadata.",
+    "estimatedMinutes": 6,
+    "status": "published"
+  }
+]

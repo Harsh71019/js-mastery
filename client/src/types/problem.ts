@@ -15,6 +15,19 @@ export type CategorySlug =
   | 'sliding-window'
   | 'polyfills'
   | 'tricky-patterns'
+  | 'arrays'
+  | 'strings'
+  | 'linked-lists'
+  | 'trees'
+  | 'graphs'
+  | 'dp'
+  | 'intervals'
+  | 'matrix'
+  | 'binary'
+  | 'heaps'
+  | 'objects-and-classes'
+  | 'maps-and-sets'
+  | 'functions-and-closures'
 
 export interface TraceTable {
   readonly inputLabel: string
@@ -26,6 +39,12 @@ export interface TestCase {
   readonly input: unknown
   readonly expected: unknown
   readonly label?: string
+  readonly isEval?: boolean
+  readonly isGenerator?: boolean
+  readonly isIterable?: boolean
+  readonly isAsyncGenerator?: boolean
+  readonly isAsyncIterable?: boolean
+  readonly take?: number
 }
 
 export interface ProblemSummary {
@@ -36,6 +55,7 @@ export interface ProblemSummary {
   readonly patternTag: string
   readonly estimatedMinutes: number
   readonly type?: ProblemType
+  readonly collectionId?: string
 }
 
 export interface Problem {
@@ -50,11 +70,13 @@ export interface Problem {
   readonly starterCode: string
   readonly traceTable: TraceTable
   readonly skeletonHint: string
+  readonly testRunnerWrapper?: string
   readonly solution: string
   readonly tests: readonly TestCase[]
   readonly patternTag: string
   readonly patternExplanation: string
   readonly estimatedMinutes: number
+  readonly collectionId?: string
 }
 
 export interface McqProblem {
@@ -70,6 +92,7 @@ export interface McqProblem {
   readonly patternTag: string
   readonly patternExplanation: string
   readonly estimatedMinutes: number
+  readonly collectionId?: string
 }
 
 export interface TrickProblem {
@@ -86,6 +109,7 @@ export interface TrickProblem {
   readonly patternTag: string
   readonly patternExplanation: string
   readonly estimatedMinutes: number
+  readonly collectionId?: string
 }
 
 export type AnyProblem = Problem | McqProblem | TrickProblem

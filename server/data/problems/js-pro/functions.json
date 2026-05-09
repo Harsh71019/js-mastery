@@ -1,0 +1,857 @@
+[
+  {
+    "id": "fn-1",
+    "title": "Closures: Basic counter",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "createCounter",
+    "description": "Create a function `createCounter` that returns another function. The returned function should increment and return a private counter variable each time it is called.",
+    "whatShouldHappen": [
+      "Initialize a `count` variable to 0 inside `createCounter`.",
+      "Return an anonymous function.",
+      "Inside the returned function, increment `count` and return it."
+    ],
+    "starterCode": "function createCounter() {\n  // your code here\n}",
+    "skeletonHint": "function createCounter() {\n  let count = ____;\n  return function() {\n    count++;\n    return ____;\n  };\n}",
+    "solution": "function createCounter() {\n  let count = 0;\n  return function() {\n    count++;\n    return count;\n  };\n}",
+    "tests": [
+      {
+        "input": [],
+        "expected": [1, 2, 3],
+        "label": "Call counter 3 times"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const counter = fn();\n  return [counter(), counter(), counter()];\n}",
+    "traceTable": {
+      "inputLabel": "const count = createCounter()",
+      "columns": ["Call", "Internal count", "Return value"],
+      "rows": [
+        { "Call": "1st", "Internal count": 1, "Return value": 1 },
+        { "Call": "2nd", "Internal count": 2, "Return value": 2 },
+        { "Call": "3rd", "Internal count": 3, "Return value": 3 }
+      ]
+    },
+    "patternTag": "Closure",
+    "patternExplanation": "Closures allow a function to access and manipulate variables from its outer scope even after the outer function has finished executing.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "fn-2",
+    "title": "Closures: Private variables",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "createSecretHolder",
+    "description": "Implement a function `createSecretHolder(secret)` that uses closures to create private state. It should return an object with two methods: `getSecret()` and `setSecret(newSecret)`.",
+    "whatShouldHappen": [
+      "Accept an initial `secret` value.",
+      "Store the secret in a private variable (closure).",
+      "Return an object with `getSecret` and `setSecret` methods.",
+      "Methods should correctly interact with the private variable."
+    ],
+    "starterCode": "function createSecretHolder(secret) {\n  // your code here\n}",
+    "skeletonHint": "function createSecretHolder(secret) {\n  let _secret = secret;\n  return {\n    getSecret: () => ____,\n    setSecret: (val) => { ____ = val; }\n  };\n}",
+    "solution": "function createSecretHolder(secret) {\n  let _secret = secret;\n  return {\n    getSecret: () => _secret,\n    setSecret: (newSecret) => {\n      _secret = newSecret;\n    }\n  };\n}",
+    "tests": [
+      {
+        "input": ["initial"],
+        "expected": "initial",
+        "label": "Initial secret"
+      },
+      {
+        "input": ["initial", "updated"],
+        "expected": "updated",
+        "label": "Updated secret"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const holder = fn(input[0]);\n  if (input.length > 1) {\n    holder.setSecret(input[1]);\n  }\n  return holder.getSecret();\n}",
+    "traceTable": {
+      "inputLabel": "const h = createSecretHolder('top-secret')",
+      "columns": ["Method", "Argument", "Internal secret"],
+      "rows": [
+        { "Method": "getSecret", "Argument": "none", "Internal secret": "'top-secret'" },
+        { "Method": "setSecret", "Argument": "'new-code'", "Internal secret": "'new-code'" }
+      ]
+    },
+    "patternTag": "Encapsulation",
+    "patternExplanation": "Closures provide a way to create private variables that cannot be accessed directly from outside the function scope, only through provided methods.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "fn-3",
+    "title": "Higher-Order Functions: Execution",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "executeTwice",
+    "description": "Create a function `executeTwice` that takes a function `fn` and a value `x`. It should return the result of applying `fn` to `x` twice. For example, `executeTwice(x => x + 1, 5)` should return `7`.",
+    "whatShouldHappen": [
+      "Accept a function `fn` and a starting value `x`.",
+      "Call `fn(x)` to get the first result.",
+      "Call `fn` again, passing the first result.",
+      "Return the final result."
+    ],
+    "starterCode": "function executeTwice(fn, x) {\n  // your code here\n}",
+    "skeletonHint": "function executeTwice(fn, x) {\n  const first = fn(____);\n  return fn(____);\n}",
+    "solution": "function executeTwice(fn, x) {\n  return fn(fn(x));\n}",
+    "tests": [
+      {
+        "input": ["x => x + 1", 5],
+        "expected": 7,
+        "label": "Add 1 twice"
+      },
+      {
+        "input": ["x => x * 2", 3],
+        "expected": 12,
+        "label": "Multiply 2 twice"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const callback = new Function('x', 'return ' + input[0]);\n  return fn(callback, input[1]);\n}",
+    "traceTable": {
+      "inputLabel": "executeTwice(x => x * 2, 3)",
+      "columns": ["Step", "Action", "Result"],
+      "rows": [
+        { "Step": 1, "Action": "fn(3)", "Result": 6 },
+        { "Step": 2, "Action": "fn(6)", "Result": 12 }
+      ]
+    },
+    "patternTag": "Higher-Order Function",
+    "patternExplanation": "A higher-order function is a function that takes one or more functions as arguments, returns a function as its result, or both.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "fn-4",
+    "title": "Call method with context",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "invokeWithContext",
+    "description": "Use the `call()` method to invoke a function with a specific `this` context. The provided function `fn` expects `this.name` to be defined.",
+    "whatShouldHappen": [
+      "Accept a function `fn` and a `context` object.",
+      "Use `fn.call(context)` to execute the function.",
+      "Return the result of the function call."
+    ],
+    "starterCode": "function invokeWithContext(fn, context) {\n  // your code here\n}",
+    "skeletonHint": "function invokeWithContext(fn, context) {\n  return fn.____(context);\n}",
+    "solution": "function invokeWithContext(fn, context) {\n  return fn.call(context);\n}",
+    "tests": [
+      {
+        "input": ["function() { return 'Hello ' + this.name; }", { "name": "Alice" }],
+        "expected": "Hello Alice",
+        "label": "Call with Alice context"
+      },
+      {
+        "input": ["function() { return this.id; }", { "id": 123 }],
+        "expected": 123,
+        "label": "Call with ID context"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const callback = new Function('return ' + input[0])();\n  return fn(callback, input[1]);\n}",
+    "traceTable": {
+      "inputLabel": "invokeWithContext(greet, { name: 'Alice' })",
+      "columns": ["Method", "Context object", "this.name inside fn", "Result"],
+      "rows": [
+        { "Method": "call", "Context object": "{ name: 'Alice' }", "this.name inside fn": "'Alice'", "Result": "'Hello Alice'" }
+      ]
+    },
+    "patternTag": "Function Context",
+    "patternExplanation": "The call() method calls a function with a given 'this' value and arguments provided individually.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "fn-5",
+    "title": "Apply method with arguments",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "invokeWithApply",
+    "description": "Use the `apply()` method to invoke a function with a specific `this` context and an array of arguments.",
+    "whatShouldHappen": [
+      "Accept a function `fn`, a `context` object, and an `args` array.",
+      "Use `fn.apply(context, args)` to execute the function.",
+      "Return the result of the function call."
+    ],
+    "starterCode": "function invokeWithApply(fn, context, args) {\n  // your code here\n}",
+    "skeletonHint": "function invokeWithApply(fn, context, args) {\n  return fn.____(context, args);\n}",
+    "solution": "function invokeWithApply(fn, context, args) {\n  return fn.apply(context, args);\n}",
+    "tests": [
+      {
+        "input": ["function(a, b) { return this.prefix + (a + b); }", { "prefix": "Sum: " }, [10, 20]],
+        "expected": "Sum: 30",
+        "label": "Apply with prefix and numbers"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const callback = new Function('return ' + input[0])();\n  return fn(callback, input[1], input[2]);\n}",
+    "traceTable": {
+      "inputLabel": "invokeWithApply(add, context, [10, 20])",
+      "columns": ["Method", "Context", "Args Array", "Result"],
+      "rows": [
+        { "Method": "apply", "Context": "{ prefix: 'Sum: ' }", "Args Array": "[10, 20]", "Result": "'Sum: 30'" }
+      ]
+    },
+    "patternTag": "Function Context",
+    "patternExplanation": "The apply() method calls a function with a given 'this' value, and arguments provided as an array (or an array-like object).",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "fn-6",
+    "title": "Bind method for late binding",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "createBoundFunction",
+    "description": "Use the `bind()` method to create a new function that, when called, has its `this` keyword set to the provided value.",
+    "whatShouldHappen": [
+      "Accept a function `fn` and a `context` object.",
+      "Return a new function created using `fn.bind(context)`.",
+      "The returned function should be executable later without passing the context again."
+    ],
+    "starterCode": "function createBoundFunction(fn, context) {\n  // your code here\n}",
+    "skeletonHint": "function createBoundFunction(fn, context) {\n  return fn.____(context);\n}",
+    "solution": "function createBoundFunction(fn, context) {\n  return fn.bind(context);\n}",
+    "tests": [
+      {
+        "input": ["function() { return this.user; }", { "user": "Bob" }],
+        "expected": "Bob",
+        "label": "Bind and execute"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const callback = new Function('return ' + input[0])();\n  const bound = fn(callback, input[1]);\n  return bound();\n}",
+    "traceTable": {
+      "inputLabel": "const bound = createBoundFunction(fn, { user: 'Bob' })",
+      "columns": ["Step", "Action", "Context Bound", "Result of bound()"],
+      "rows": [
+        { "Step": 1, "Action": "bind", "Context Bound": "{ user: 'Bob' }", "Result of bound()": "N/A" },
+        { "Step": 2, "Action": "call bound()", "Context Bound": "Inherited", "Result of bound()": "'Bob'" }
+      ]
+    },
+    "patternTag": "Function Context",
+    "patternExplanation": "The bind() method creates a new function that, when called, has its 'this' keyword set to the provided value.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "fn-7",
+    "title": "Arrow functions vs context",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getContextObject",
+    "description": "Demonstrate the difference between regular functions and arrow functions regarding `this`. Create an object where the regular function correctly accesses the object's property via `this`, while the arrow function does not (it inherits `this` from the lexical scope).",
+    "whatShouldHappen": [
+      "Return an object with a `value` property equal to the input `val`.",
+      "Add a `regular` method using a standard `function()` that returns `this.value`.",
+      "Add an `arrow` method using an arrow `() =>` that returns `this.value`."
+    ],
+    "starterCode": "function getContextObject(val) {\n  // your code here\n}",
+    "skeletonHint": "function getContextObject(val) {\n  return {\n    value: val,\n    regular: function() { return ____; },\n    arrow: () => ____\n  };\n}",
+    "solution": "function getContextObject(val) {\n  return {\n    value: val,\n    regular: function() {\n      return this.value;\n    },\n    arrow: () => {\n      return this.value;\n    }\n  };\n}",
+    "tests": [
+      {
+        "input": [42],
+        "expected": [42, null],
+        "label": "Check regular vs arrow"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const obj = fn(input[0]);\n  const regResult = obj.regular();\n  const arrowResult = obj.arrow();\n  // In most test environments, arrowResult will be undefined/null\n  return [regResult, arrowResult === undefined ? null : arrowResult];\n}",
+    "traceTable": {
+      "inputLabel": "const obj = getContextObject(42)",
+      "columns": ["Method", "Type", "this binding", "Result"],
+      "rows": [
+        { "Method": "obj.regular()", "Type": "Regular", "this binding": "The object 'obj'", "Result": "42" },
+        { "Method": "obj.arrow()", "Type": "Arrow", "this binding": "Lexical scope", "Result": "undefined" }
+      ]
+    },
+    "patternTag": "Lexical this",
+    "patternExplanation": "Arrow functions do not have their own 'this'. They inherit 'this' from the enclosing lexical scope, which is useful for callbacks but not for defining object methods.",
+    "estimatedMinutes": 7,
+    "status": "published"
+  },
+  {
+    "id": "fn-8",
+    "title": "Currying basics (add(1)(2))",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "add",
+    "description": "Implement a curried version of an addition function. `add(x)(y)` should return the sum of `x` and `y`.",
+    "whatShouldHappen": [
+      "Accept the first argument `x`.",
+      "Return a second function that accepts `y`.",
+      "The inner function should return the sum of `x` and `y`."
+    ],
+    "starterCode": "function add(x) {\n  // your code here\n}",
+    "skeletonHint": "function add(x) {\n  return function(y) {\n    return ____;\n  };\n}",
+    "solution": "function add(x) {\n  return function(y) {\n    return x + y;\n  };\n}",
+    "tests": [
+      {
+        "input": [1, 2],
+        "expected": 3,
+        "label": "add(1)(2)"
+      },
+      {
+        "input": [10, 20],
+        "expected": 30,
+        "label": "add(10)(20)"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  return fn(input[0])(input[1]);\n}",
+    "traceTable": {
+      "inputLabel": "add(1)(2)",
+      "columns": ["Call", "Argument", "Scope Context", "Return Value"],
+      "rows": [
+        { "Call": "add(1)", "Argument": "x=1", "Scope Context": "Outer", "Return Value": "[Function]" },
+        { "Call": "(2)", "Argument": "y=2", "Scope Context": "Inner (sees x=1)", "Return Value": "3" }
+      ]
+    },
+    "patternTag": "Currying",
+    "patternExplanation": "Currying is a transformation of functions that translates a function from callable as f(a, b, c) into callable as f(a)(b)(c).",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "fn-9",
+    "title": "Partial application",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "partial",
+    "description": "Implement a function `partial(fn, ...args)` that takes a function `fn` and some arguments, and returns a new function that takes the remaining arguments and calls `fn` with all of them combined.",
+    "whatShouldHappen": [
+      "Accept a function `fn` and a set of initial arguments `args`.",
+      "Return a new function.",
+      "When the new function is called with `moreArgs`, it should call `fn(...args, ...moreArgs)` and return the result."
+    ],
+    "starterCode": "function partial(fn, ...args) {\n  // your code here\n}",
+    "skeletonHint": "function partial(fn, ...args) {\n  return function(...moreArgs) {\n    return fn(____);\n  };\n}",
+    "solution": "function partial(fn, ...args) {\n  return function(...moreArgs) {\n    return fn(...args, ...moreArgs);\n  };\n}",
+    "tests": [
+      {
+        "input": ["(a, b, c) => a + b + c", 1, 2, 3],
+        "expected": 6,
+        "label": "Partial add with 1, 2 then 3"
+      },
+      {
+        "input": ["(greet, name) => greet + ' ' + name", "Hello", "World"],
+        "expected": "Hello World",
+        "label": "Partial greeting"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const callback = new Function('...args', 'return (' + input[0] + ')(...args)');\n  const initialArgs = input.slice(1, input.length - 1);\n  const lastArg = input[input.length - 1];\n  const partiallyApplied = fn(callback, ...initialArgs);\n  return partiallyApplied(lastArg);\n}",
+    "traceTable": {
+      "inputLabel": "partial(add3, 1, 2)(3)",
+      "columns": ["Function", "Initial Args", "New Args", "Final Call", "Result"],
+      "rows": [
+        { "Function": "add3", "Initial Args": "[1, 2]", "New Args": "[3]", "Final Call": "add3(1, 2, 3)", "Result": "6" }
+      ]
+    },
+    "patternTag": "Partial Application",
+    "patternExplanation": "Partial application refers to the process of fixing a number of arguments to a function, producing another function of smaller arity.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "fn-10",
+    "title": "Function memoization",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "memoize",
+    "description": "Implement a `memoize(fn)` function that takes a function and returns a version of it that caches results based on arguments. If the same arguments are provided again, it should return the cached result instead of re-executing `fn`.",
+    "whatShouldHappen": [
+      "Initialize a cache (like an object or Map).",
+      "Return a new function.",
+      "Inside the returned function, stringify or key the arguments.",
+      "Check if the result is in the cache.",
+      "If yes, return it. If no, call `fn`, store the result, and return it."
+    ],
+    "starterCode": "function memoize(fn) {\n  // your code here\n}",
+    "skeletonHint": "function memoize(fn) {\n  const cache = {};\n  return function(...args) {\n    const key = JSON.stringify(args);\n    if (____) return cache[key];\n    const result = fn(...args);\n    cache[key] = result;\n    return result;\n  };\n}",
+    "solution": "function memoize(fn) {\n  const cache = new Map();\n  return function(...args) {\n    const key = JSON.stringify(args);\n    if (cache.has(key)) {\n      return cache.get(key);\n    }\n    const result = fn(...args);\n    cache.set(key, result);\n    return result;\n  };\n}",
+    "tests": [
+      {
+        "input": ["(n) => n * n", [5, 5, 2]],
+        "expected": [25, 25, 4, 1],
+        "label": "Memoize square function (called with 5 twice, then 2)"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  let callCount = 0;\n  const originalFn = new Function('n', 'this.calls++; return ' + input[0]);\n  const context = { calls: 0 };\n  const boundFn = originalFn.bind(context);\n  const memoized = fn(boundFn);\n  \n  const results = input[1].map(arg => memoized(arg));\n  return [...results, context.calls];\n}",
+    "traceTable": {
+      "inputLabel": "memoizedSquare(5)",
+      "columns": ["Call", "Arg", "Cache Hit", "Internal Calls", "Result"],
+      "rows": [
+        { "Call": "1st", "Arg": "5", "Cache Hit": "No", "Internal Calls": "1", "Result": "25" },
+        { "Call": "2nd", "Arg": "5", "Cache Hit": "Yes", "Internal Calls": "1", "Result": "25" },
+        { "Call": "3rd", "Arg": "2", "Cache Hit": "No", "Internal Calls": "2", "Result": "4" }
+      ]
+    },
+    "patternTag": "Memoization",
+    "patternExplanation": "Memoization is an optimization technique used primarily to speed up computer programs by storing the results of expensive function calls and returning the cached result when the same inputs occur again.",
+    "estimatedMinutes": 12,
+    "status": "published"
+  },
+  {
+    "id": "fn-11",
+    "title": "Recursion: Factorial",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "factorial",
+    "description": "Implement a recursive function `factorial(n)` that returns the factorial of a non-negative integer `n`. Remember the base case: factorial of 0 is 1.",
+    "whatShouldHappen": [
+      "Define the base case: if `n` is 0, return 1.",
+      "Define the recursive step: return `n` multiplied by `factorial(n - 1)`.",
+      "Ensure the function calls itself."
+    ],
+    "starterCode": "function factorial(n) {\n  // your code here\n}",
+    "skeletonHint": "function factorial(n) {\n  if (n === 0) return ____;\n  return n * factorial(____);\n}",
+    "solution": "function factorial(n) {\n  if (n === 0) return 1;\n  return n * factorial(n - 1);\n}",
+    "tests": [
+      {
+        "input": [5],
+        "expected": 120,
+        "label": "Factorial of 5"
+      },
+      {
+        "input": [0],
+        "expected": 1,
+        "label": "Factorial of 0"
+      },
+      {
+        "input": [3],
+        "expected": 6,
+        "label": "Factorial of 3"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  return fn(input[0]);\n}",
+    "traceTable": {
+      "inputLabel": "factorial(3)",
+      "columns": ["Step", "Call", "Expression", "Return"],
+      "rows": [
+        { "Step": 1, "Call": "factorial(3)", "Expression": "3 * factorial(2)", "Return": "6" },
+        { "Step": 2, "Call": "factorial(2)", "Expression": "2 * factorial(1)", "Return": "2" },
+        { "Step": 3, "Call": "factorial(1)", "Expression": "1 * factorial(0)", "Return": "1" },
+        { "Step": 4, "Call": "factorial(0)", "Expression": "Base Case", "Return": "1" }
+      ]
+    },
+    "patternTag": "Recursion",
+    "patternExplanation": "Recursion is a process in which a function calls itself as a subroutine. This allows the function to be repeated several times, as it can be reduced to a base case.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "fn-12",
+    "title": "Recursion: Fibonacci",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "fibonacci",
+    "description": "Implement a recursive function `fibonacci(n)` that returns the nth number in the Fibonacci sequence (starting from 0). The sequence starts: 0, 1, 1, 2, 3, 5, 8, 13...",
+    "whatShouldHappen": [
+      "Define base cases: if `n` is 0 return 0, if `n` is 1 return 1.",
+      "Define recursive step: return `fibonacci(n - 1) + fibonacci(n - 2)`.",
+      "Handle the sequence correctly for small values of `n`."
+    ],
+    "starterCode": "function fibonacci(n) {\n  // your code here\n}",
+    "skeletonHint": "function fibonacci(n) {\n  if (n <= 1) return ____;\n  return fibonacci(____) + fibonacci(____);\n}",
+    "solution": "function fibonacci(n) {\n  if (n <= 1) return n;\n  return fibonacci(n - 1) + fibonacci(n - 2);\n}",
+    "tests": [
+      {
+        "input": [0],
+        "expected": 0,
+        "label": "Fibonacci(0)"
+      },
+      {
+        "input": [1],
+        "expected": 1,
+        "label": "Fibonacci(1)"
+      },
+      {
+        "input": [6],
+        "expected": 8,
+        "label": "Fibonacci(6)"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  return fn(input[0]);\n}",
+    "traceTable": {
+      "inputLabel": "fibonacci(4)",
+      "columns": ["Call", "Result Calculation", "Final Value"],
+      "rows": [
+        { "Call": "fib(4)", "Result Calculation": "fib(3) + fib(2)", "Final Value": "3" },
+        { "Call": "fib(3)", "Result Calculation": "fib(2) + fib(1)", "Final Value": "2" },
+        { "Call": "fib(2)", "Result Calculation": "fib(1) + fib(0)", "Final Value": "1" },
+        { "Call": "fib(1)", "Result Calculation": "Base Case", "Final Value": "1" },
+        { "Call": "fib(0)", "Result Calculation": "Base Case", "Final Value": "0" }
+      ]
+    },
+    "patternTag": "Recursion",
+    "patternExplanation": "The Fibonacci sequence is a classic example of recursion where each number is the sum of the two preceding ones.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "fn-13",
+    "title": "IIFE (Immediately Invoked Func)",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getIIFEResult",
+    "description": "Write a function `getIIFEResult` that returns the result of an Immediately Invoked Function Expression (IIFE). The IIFE should return the string 'Success'.",
+    "whatShouldHappen": [
+      "Inside `getIIFEResult`, define an IIFE using the `(function() { ... })()` pattern.",
+      "The IIFE should return the string 'Success'.",
+      "The `getIIFEResult` function should return the result of that IIFE."
+    ],
+    "starterCode": "function getIIFEResult() {\n  // return an IIFE result here\n}",
+    "skeletonHint": "function getIIFEResult() {\n  return (function() {\n    return '____';\n  })____;\n}",
+    "solution": "function getIIFEResult() {\n  return (function() {\n    return 'Success';\n  })();\n}",
+    "tests": [
+      {
+        "input": [],
+        "expected": "Success",
+        "label": "Basic IIFE check"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  return fn();\n}",
+    "traceTable": {
+      "inputLabel": "getIIFEResult()",
+      "columns": ["Phase", "Action", "Result"],
+      "rows": [
+        { "Phase": "Definition", "Action": "Define anonymous function", "Result": "Function Object" },
+        { "Phase": "Invocation", "Action": "() immediately follows", "Result": "'Success'" }
+      ]
+    },
+    "patternTag": "IIFE",
+    "patternExplanation": "An IIFE is a JavaScript function that runs as soon as it is defined. It's often used to create a private scope.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "fn-14",
+    "title": "Compose functions (pipe)",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "pipe",
+    "description": "Implement a `pipe` function that performs left-to-right function composition. It should take any number of functions as arguments and return a new function. This new function takes one argument and passes it through the chain of functions.",
+    "whatShouldHappen": [
+      "Accept multiple functions using rest parameters `...fns`.",
+      "Return a new function that takes an initial value `x`.",
+      "Use `reduce` to apply each function in `fns` to the value, starting with `x`.",
+      "The result of one function becomes the input to the next."
+    ],
+    "starterCode": "function pipe(...fns) {\n  // your code here\n}",
+    "skeletonHint": "function pipe(...fns) {\n  return function(x) {\n    return fns.reduce((acc, fn) => ____, ____);\n  };\n}",
+    "solution": "function pipe(...fns) {\n  return function(x) {\n    return fns.reduce((v, f) => f(v), x);\n  };\n}",
+    "tests": [
+      {
+        "input": ["x => x + 1", "x => x * 2", 5],
+        "expected": 12,
+        "label": "pipe(add1, double)(5) -> (5+1)*2 = 12"
+      },
+      {
+        "input": ["x => x.toUpperCase()", "x => x + '!'", "hello"],
+        "expected": "HELLO!",
+        "label": "pipe(upper, exclaim)('hello')"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const functions = input.slice(0, input.length - 1).map(s => new Function('x', 'return ' + s));\n  const initialValue = input[input.length - 1];\n  return fn(...functions)(initialValue);\n}",
+    "traceTable": {
+      "inputLabel": "pipe(add1, double)(5)",
+      "columns": ["Function", "Input", "Output"],
+      "rows": [
+        { "Function": "add1", "Input": "5", "Output": "6" },
+        { "Function": "double", "Input": "6", "Output": "12" }
+      ]
+    },
+    "patternTag": "Composition",
+    "patternExplanation": "Function composition is the process of combining two or more functions to produce a new function. 'Piping' specifically refers to left-to-right composition.",
+    "estimatedMinutes": 10,
+    "status": "published"
+  },
+  {
+    "id": "fn-15",
+    "title": "Function overloading simulation",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "flexibleAdd",
+    "description": "JavaScript doesn't support traditional function overloading. Simulate it by checking `arguments.length`. Implement `flexibleAdd` such that:\n- 0 args: returns 0\n- 1 arg: returns arg + 10\n- 2 args: returns sum of both args",
+    "whatShouldHappen": [
+      "Use `arguments.length` or rest parameters `...args` to check how many arguments were passed.",
+      "If 0 arguments, return 0.",
+      "If 1 argument, return that argument plus 10.",
+      "If 2 arguments, return their sum."
+    ],
+    "starterCode": "function flexibleAdd() {\n  // your code here\n}",
+    "skeletonHint": "function flexibleAdd() {\n  if (arguments.length === 0) return ____;\n  if (arguments.length === 1) return ____ + 10;\n  return arguments[0] + arguments[1];\n}",
+    "solution": "function flexibleAdd() {\n  if (arguments.length === 0) return 0;\n  if (arguments.length === 1) return arguments[0] + 10;\n  return arguments[0] + arguments[1];\n}",
+    "tests": [
+      {
+        "input": [],
+        "expected": 0,
+        "label": "0 arguments"
+      },
+      {
+        "input": [5],
+        "expected": 15,
+        "label": "1 argument (5 + 10)"
+      },
+      {
+        "input": [10, 20],
+        "expected": 30,
+        "label": "2 arguments (10 + 20)"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  return fn(...input);\n}",
+    "traceTable": {
+      "inputLabel": "flexibleAdd(...args)",
+      "columns": ["Args Passed", "Length", "Logic Applied", "Result"],
+      "rows": [
+        { "Args Passed": "[]", "Length": "0", "Logic Applied": "Return 0", "Result": "0" },
+        { "Args Passed": "[5]", "Length": "1", "Logic Applied": "5 + 10", "Result": "15" },
+        { "Args Passed": "[10, 20]", "Length": "2", "Logic Applied": "10 + 20", "Result": "30" }
+      ]
+    },
+    "patternTag": "Overloading",
+    "patternExplanation": "Function overloading can be simulated in JavaScript by inspecting the number and types of arguments passed at runtime.",
+    "estimatedMinutes": 7,
+    "status": "published"
+  },
+  {
+    "id": "fn-16",
+    "title": "Once function",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "once",
+    "description": "Implement a function `once(fn)` that returns a version of the function that can only be called once. Subsequent calls should return the result of the first call, and the original function should not be executed again.",
+    "whatShouldHappen": [
+      "Accept a function `fn` as an argument.",
+      "Return a new function.",
+      "Maintain a `called` flag and a `result` variable in the closure.",
+      "On the first call, execute `fn`, store the result, and set `called` to true.",
+      "On subsequent calls, return the stored `result` without calling `fn`."
+    ],
+    "starterCode": "function once(fn) {\n  // your code here\n}",
+    "skeletonHint": "function once(fn) {\n  let called = false;\n  let result;\n  return function(...args) {\n    if (!called) {\n      called = true;\n      result = fn(...args);\n    }\n    return ____;\n  };\n}",
+    "solution": "function once(fn) {\n  let called = false;\n  let result;\n  return function(...args) {\n    if (!called) {\n      called = true;\n      result = fn(...args);\n    }\n    return result;\n  };\n}",
+    "tests": [
+      {
+        "input": ["(x) => x + 1", 5],
+        "expected": [6, 6, 6],
+        "label": "Called multiple times"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  let calls = 0;\n  const original = new Function('x', 'this.calls++; return x + 1;');\n  const context = { calls: 0 };\n  const onceFn = fn(original.bind(context));\n  const res1 = onceFn(input[1]);\n  const res2 = onceFn(input[1] + 10);\n  const res3 = onceFn(input[1] + 20);\n  // context.calls should be 1\n  return [res1, res2, res3, context.calls].slice(0, 3);\n}",
+    "traceTable": {
+      "inputLabel": "const onceAdd = once(x => x + 1)",
+      "columns": ["Call", "Input", "Executed Original?", "Return Value"],
+      "rows": [
+        { "Call": "1st", "Input": "5", "Executed Original?": "Yes", "Return Value": "6" },
+        { "Call": "2nd", "Input": "10", "Executed Original?": "No", "Return Value": "6" },
+        { "Call": "3rd", "Input": "15", "Executed Original?": "No", "Return Value": "6" }
+      ]
+    },
+    "patternTag": "Once Pattern",
+    "patternExplanation": "The 'once' pattern uses a closure to maintain state (whether the function has been called) and cache the result of the first execution.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "fn-17",
+    "title": "Rest parameters usage",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "sumAll",
+    "description": "Write a function `sumAll` that uses rest parameters to accept any number of arguments and returns their sum. If no arguments are passed, return 0.",
+    "whatShouldHappen": [
+      "Use the rest parameter syntax `...args` in the function definition.",
+      "Sum all elements in the `args` array.",
+      "Return the total sum."
+    ],
+    "starterCode": "function sumAll() {\n  // your code here\n}",
+    "skeletonHint": "function sumAll(...args) {\n  return args.reduce((acc, curr) => ____, 0);\n}",
+    "solution": "function sumAll(...args) {\n  return args.reduce((acc, curr) => acc + curr, 0);\n}",
+    "tests": [
+      {
+        "input": [1, 2, 3, 4],
+        "expected": 10,
+        "label": "Sum 1, 2, 3, 4"
+      },
+      {
+        "input": [],
+        "expected": 0,
+        "label": "No arguments"
+      },
+      {
+        "input": [10],
+        "expected": 10,
+        "label": "Single argument"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  return fn(...input);\n}",
+    "traceTable": {
+      "inputLabel": "sumAll(1, 2, 3)",
+      "columns": ["Arguments", "Rest Array", "Calculation", "Result"],
+      "rows": [
+        { "Arguments": "1, 2, 3", "Rest Array": "[1, 2, 3]", "Calculation": "1+2+3", "Result": "6" }
+      ]
+    },
+    "patternTag": "Rest Parameters",
+    "patternExplanation": "Rest parameters allow a function to accept an indefinite number of arguments as an array, providing a more modern and readable alternative to the 'arguments' object.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "fn-18",
+    "title": "Default parameters logic",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "greet",
+    "description": "Create a function `greet(name, greeting)` where `name` defaults to 'Guest' and `greeting` defaults to 'Hello'. The function should return a string in the format: `[greeting], [name]!`.",
+    "whatShouldHappen": [
+      "Define `name` with a default value of 'Guest'.",
+      "Define `greeting` with a default value of 'Hello'.",
+      "Return the interpolated string."
+    ],
+    "starterCode": "function greet() {\n  // your code here\n}",
+    "skeletonHint": "function greet(name = '____', greeting = '____') {\n  return `${____}, ${____}!`;\n}",
+    "solution": "function greet(name = 'Guest', greeting = 'Hello') {\n  return `${greeting}, ${name}!`;\n}",
+    "tests": [
+      {
+        "input": ["Alice", "Welcome"],
+        "expected": "Welcome, Alice!",
+        "label": "Both arguments provided"
+      },
+      {
+        "input": ["Bob"],
+        "expected": "Hello, Bob!",
+        "label": "Only name provided"
+      },
+      {
+        "input": [],
+        "expected": "Hello, Guest!",
+        "label": "No arguments provided"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  return fn(...input);\n}",
+    "traceTable": {
+      "inputLabel": "greet('Alice')",
+      "columns": ["Arg1 (name)", "Arg2 (greeting)", "Used Name", "Used Greeting", "Result"],
+      "rows": [
+        { "Arg1 (name)": "'Alice'", "Arg2 (greeting)": "undefined", "Used Name": "'Alice'", "Used Greeting": "'Hello'", "Result": "'Hello, Alice!'" },
+        { "Arg1 (name)": "undefined", "Arg2 (greeting)": "undefined", "Used Name": "'Guest'", "Used Greeting": "'Hello'", "Result": "'Hello, Guest!'" }
+      ]
+    },
+    "patternTag": "Default Parameters",
+    "patternExplanation": "Default function parameters allow named parameters to be initialized with default values if no value or undefined is passed.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "fn-19",
+    "title": "Function name and length props",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getFuncInfo",
+    "description": "In JavaScript, functions are objects and have built-in properties. Return an object containing the `name` and `length` of the provided function `fn`.",
+    "whatShouldHappen": [
+      "Access `fn.name` to get the function's name.",
+      "Access `fn.length` to get the number of expected arguments.",
+      "Return an object `{ name, length }`."
+    ],
+    "starterCode": "function getFuncInfo(fn) {\n  // your code here\n}",
+    "skeletonHint": "function getFuncInfo(fn) {\n  return {\n    name: fn.____,\n    length: fn.____\n  };\n}",
+    "solution": "function getFuncInfo(fn) {\n  return {\n    name: fn.name,\n    length: fn.length\n  };\n}",
+    "tests": [
+      {
+        "input": ["function calculate(a, b, c) {}"],
+        "expected": { "name": "calculate", "length": 3 },
+        "label": "Check named function with 3 args"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const target = new Function('a', 'b', 'c', 'return');\n  // Object.defineProperty to set name since new Function gives 'anonymous'\n  Object.defineProperty(target, 'name', { value: 'calculate' });\n  return fn(target);\n}",
+    "traceTable": {
+      "inputLabel": "getFuncInfo(function test(x, y) {})",
+      "columns": ["Property", "Meaning", "Value"],
+      "rows": [
+        { "Property": "name", "Meaning": "Function identifier", "Value": "'test'" },
+        { "Property": "length", "Meaning": "Number of formal parameters", "Value": "2" }
+      ]
+    },
+    "patternTag": "Function Objects",
+    "patternExplanation": "Functions are first-class objects in JavaScript. The 'name' property returns the name of the function, and 'length' returns the number of parameters expected by the function.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "fn-20",
+    "title": "Closures in loops (The var problem)",
+    "type": "coding",
+    "category": "functions-and-closures",
+    "difficulty": "Medium",
+    "collectionId": "js-pro-mastery",
+    "functionName": "createCallbacks",
+    "description": "The function `createCallbacks` is intended to return an array of functions, where each function returns its index in the array. However, due to `var` scope, it currently fails. Fix it using `let` or an IIFE.",
+    "whatShouldHappen": [
+      "The loop should iterate from 0 to `n-1`.",
+      "In each iteration, push a function into the `callbacks` array.",
+      "Each function should return the value of `i` at the time it was created.",
+      "Ensure that calling `callbacks[0]()` returns 0, `callbacks[1]()` returns 1, etc."
+    ],
+    "starterCode": "function createCallbacks(n) {\n  var callbacks = [];\n  for (var i = 0; i < n; i++) {\n    callbacks.push(function() {\n      return i;\n    });\n  }\n  return callbacks;\n}",
+    "skeletonHint": "function createCallbacks(n) {\n  const callbacks = [];\n  for (let i = 0; i < n; i++) {\n    ____\n  }\n  return callbacks;\n}",
+    "solution": "function createCallbacks(n) {\n  const callbacks = [];\n  for (let i = 0; i < n; i++) {\n    callbacks.push(function() {\n      return i;\n    });\n  }\n  return callbacks;\n}",
+    "tests": [
+      {
+        "input": [3],
+        "expected": [0, 1, 2],
+        "label": "Call all callbacks"
+      }
+    ],
+    "testRunnerWrapper": "function runner(fn, input) {\n  const callbacks = fn(input[0]);\n  return callbacks.map(c => c());\n}",
+    "traceTable": {
+      "inputLabel": "createCallbacks(3)",
+      "columns": ["Index", "Variable Type", "Closure Scope", "Return Value"],
+      "rows": [
+        { "Index": "0", "Variable Type": "let (block-scoped)", "Closure Scope": "Unique for i=0", "Return Value": "0" },
+        { "Index": "1", "Variable Type": "let (block-scoped)", "Closure Scope": "Unique for i=1", "Return Value": "1" },
+        { "Index": "2", "Variable Type": "let (block-scoped)", "Closure Scope": "Unique for i=2", "Return Value": "2" }
+      ]
+    },
+    "patternTag": "Closure Scope",
+    "patternExplanation": "Variables declared with 'var' are function-scoped, while 'let' is block-scoped. In a loop, 'let' creates a new binding for each iteration, which is essential for closures to capture the correct value.",
+    "estimatedMinutes": 10,
+    "status": "published"
+  }
+]

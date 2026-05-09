@@ -1,0 +1,270 @@
+[
+  {
+    "id": "course-schedule",
+    "title": "Course Schedule",
+    "type": "coding",
+    "category": "graphs",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "canFinish",
+    "description": "There are a total of `numCourses` courses you have to take, labeled from `0` to `numCourses - 1`. You are given an array `prerequisites` where `prerequisites[i] = [ai, bi]` indicates that you must take course `bi` first if you want to take course `ai`.\n\nFor example, the pair `[0, 1]`, indicates that to take course 0 you have to first take course 1.\n\nReturn `true` if you can finish all courses. Otherwise, return `false`.",
+    "whatShouldHappen": [
+      "Represent the courses and prerequisites as a directed graph",
+      "Detect if there's a cycle in the graph using DFS or BFS (Kahn's algorithm)",
+      "If a cycle exists, it's impossible to finish all courses"
+    ],
+    "starterCode": "/**\n * @param {number} numCourses\n * @param {number[][]} prerequisites\n * @return {boolean}\n */\nfunction canFinish(numCourses, prerequisites) {\n  // Your code here\n}",
+    "solution": "function canFinish(numCourses, prerequisites) {\n  const adj = Array.from({ length: numCourses }, () => []);\n  const inDegree = new Array(numCourses).fill(0);\n\n  for (const [course, pre] of prerequisites) {\n    adj[pre].push(course);\n    inDegree[course]++;\n  }\n\n  const queue = [];\n  for (let i = 0; i < numCourses; i++) {\n    if (inDegree[i] === 0) queue.push(i);\n  }\n\n  let count = 0;\n  while (queue.length > 0) {\n    const u = queue.shift();\n    count++;\n    for (const v of adj[u]) {\n      inDegree[v]--;\n      if (inDegree[v] === 0) queue.push(v);\n    }\n  }\n\n  return count === numCourses;\n}",
+    "traceTable": {
+      "inputLabel": "numCourses = 2, prerequisites = [[1,0]]",
+      "columns": ["queue", "u", "inDegree", "count"],
+      "rows": [
+        { "queue": "[0]", "u": "0", "inDegree": "[0, 1]", "count": "0" },
+        { "queue": "[1]", "u": "0", "inDegree": "[0, 0]", "count": "1" }
+      ]
+    },
+    "skeletonHint": "This is a cycle detection problem in a directed graph. You can use Kahn's algorithm (BFS) by keeping track of in-degrees. Start with courses that have 0 in-degrees, and for each course you 'take', decrement the in-degrees of its dependent courses.",
+    "tests": [
+      { "input": [2, [[1,0]]], "expected": true },
+      { "input": [2, [[1,0], [0,1]]], "expected": false },
+      { "input": [3, [[1,0], [2,1]]], "expected": true }
+    ],
+    "patternTag": "Topological Sort / DFS",
+    "patternExplanation": "Topological sort is used to order nodes in a directed acyclic graph. If a topological sort of all nodes is possible, there are no cycles.",
+    "estimatedMinutes": 25
+  },
+  {
+    "id": "number-of-islands",
+    "title": "Number of Islands",
+    "type": "coding",
+    "category": "graphs",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "numIslands",
+    "description": "Given an `m x n` 2D binary grid `grid` which represents a map of '1's (land) and '0's (water), return *the number of islands*.\n\nAn **island** is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.",
+    "whatShouldHappen": [
+      "Identify connected regions of '1's",
+      "Traverse the grid and mark visited land",
+      "Increment count for each new island found"
+    ],
+    "starterCode": "function numIslands(grid) {\n  // Your code here\n}",
+    "solution": "function numIslands(grid) {\n  if (!grid || grid.length === 0) return 0;\n  let count = 0;\n  const rows = grid.length;\n  const cols = grid[0].length;\n\n  function dfs(r, c) {\n    if (r < 0 || c < 0 || r >= rows || c >= cols || grid[r][c] === '0') return;\n    grid[r][c] = '0'; // mark as visited\n    dfs(r + 1, c);\n    dfs(r - 1, c);\n    dfs(r, c + 1);\n    dfs(r, c - 1);\n  }\n\n  for (let r = 0; r < rows; r++) {\n    for (let c = 0; c < cols; c++) {\n      if (grid[r][c] === '1') {\n        count++;\n        dfs(r, c);\n      }\n    }\n  }\n  return count;\n}",
+    "traceTable": {
+      "inputLabel": "grid = [['1','1','0'],['0','0','1']]",
+      "columns": ["r", "c", "grid[r][c]", "action"],
+      "rows": [
+        { "r": "0", "c": "0", "grid[r][c]": "1", "action": "Start DFS, count=1" },
+        { "r": "0", "c": "2", "grid[r][c]": "0", "action": "Skip water" }
+      ]
+    },
+    "skeletonHint": "Iterate through every cell in the grid. When you encounter a '1', it marks the start of a new island. Increment your counter and use DFS or BFS to visit and mark all connected land cells ('1's) as '0' (visited) so you don't count them again.",
+    "tests": [
+      { "input": [[["1","1","1","1","0"],["1","1","0","1","0"],["1","1","0","0","0"],["0","0","0","0","0"]]], "expected": 1 },
+      { "input": [[["1","1","0","0","0"],["1","1","0","0","0"],["0","0","1","0","0"],["0","0","0","1","1"]]], "expected": 3 }
+    ],
+    "patternTag": "BFS / DFS",
+    "patternExplanation": "DFS or BFS is used to explore and mark all connected components in the graph representation of the grid.",
+    "estimatedMinutes": 20
+  },
+  {
+    "id": "alien-dictionary",
+    "title": "Alien Dictionary",
+    "type": "coding",
+    "category": "graphs",
+    "difficulty": "Hard",
+    "collectionId": "blind75",
+    "functionName": "alienOrder",
+    "description": "There is a new alien language that uses the English alphabet. However, the order of the letters is unknown to you.\n\nYou are given a list of strings `words` from the alien language's dictionary, where the strings in `words` are **sorted lexicographically** by the rules of this new language.\n\nReturn *a string of the unique letters in the new alien language sorted in lexicographically increasing order by the new language's rules*. If there is no solution, return `\"\"`. If there are multiple solutions, return **any of them**.",
+    "whatShouldHappen": [
+      "Build a directed graph representing character dependencies",
+      "Identify characters from adjacent words to determine order",
+      "Perform topological sort to find the valid character sequence"
+    ],
+    "starterCode": "/**\n * @param {string[]} words\n * @return {string}\n */\nfunction alienOrder(words) {\n  // Your code here\n}",
+    "solution": "function alienOrder(words) {\n  const adj = {};\n  const inDegree = {};\n  \n  for (const word of words) {\n    for (const char of word) {\n      inDegree[char] = 0;\n      adj[char] = [];\n    }\n  }\n\n  for (let i = 0; i < words.length - 1; i++) {\n    const w1 = words[i];\n    const w2 = words[i+1];\n    const minLen = Math.min(w1.length, w2.length);\n    \n    if (w1.length > w2.length && w1.slice(0, minLen) === w2.slice(0, minLen)) return \"\";\n\n    for (let j = 0; j < minLen; j++) {\n      if (w1[j] !== w2[j]) {\n        adj[w1[j]].push(w2[j]);\n        inDegree[w2[j]]++;\n        break;\n      }\n    }\n  }\n\n  const queue = [];\n  for (const char in inDegree) {\n    if (inDegree[char] === 0) queue.push(char);\n  }\n\n  let result = \"\";\n  while (queue.length > 0) {\n    const char = queue.shift();\n    result += char;\n    for (const neighbor of adj[char]) {\n      inDegree[neighbor]--;\n      if (inDegree[neighbor] === 0) queue.push(neighbor);\n    }\n  }\n\n  return result.length === Object.keys(inDegree).length ? result : \"\";\n}",
+    "traceTable": {
+      "inputLabel": "words = [\"wrt\",\"wrf\",\"er\",\"ett\",\"rftt\"]",
+      "columns": ["comparison", "dependency", "adj", "inDegree"],
+      "rows": [
+        { "comparison": "\"wrt\" vs \"wrf\"", "dependency": "t -> f", "adj": "{t: ['f']}", "inDegree": "{f: 1, ...}" },
+        { "comparison": "\"wrf\" vs \"er\"", "dependency": "w -> e", "adj": "{w: ['e'], t: ['f']}", "inDegree": "{e: 1, f: 1, ...}" }
+      ]
+    },
+    "skeletonHint": "1. Build an adjacency list and in-degree count for all unique characters. 2. Compare adjacent words to find the first differing character; this creates a directed edge. 3. Use Kahn's algorithm (BFS with in-degrees) for topological sort. 4. Watch out for invalid prefix cases (e.g., 'abc' before 'ab').",
+    "tests": [
+      { "input": [["wrt","wrf","er","ett","rftt"]], "expected": "wertf" },
+      { "input": [["z","x"]], "expected": "zx" },
+      { "input": [["z","x","z"]], "expected": "" }
+    ],
+    "patternTag": "Topological Sort",
+    "patternExplanation": "This problem involves finding an order based on character relationships, which can be modeled as a directed graph. Topological sort (Kahn's algorithm) finds a valid linear ordering if one exists.",
+    "estimatedMinutes": 45
+  },
+  {
+    "id": "graph-valid-tree",
+    "title": "Graph Valid Tree",
+    "type": "coding",
+    "category": "graphs",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "validTree",
+    "description": "You have a graph of `n` nodes labeled from `0` to `n - 1`. You are given an integer n and a list of `edges` where `edges[i] = [ai, bi]` indicates that there is an undirected edge between nodes `ai` and `bi` in the graph.\n\nReturn `true` if the edges of the given graph make up a valid tree, and `false` otherwise.",
+    "whatShouldHappen": [
+      "A valid tree must have exactly n - 1 edges",
+      "A valid tree must be fully connected",
+      "A valid tree must contain no cycles"
+    ],
+    "starterCode": "/**\n * @param {number} n\n * @param {number[][]} edges\n * @return {boolean}\n */\nfunction validTree(n, edges) {\n  // Your code here\n}",
+    "solution": "function validTree(n, edges) {\n  if (edges.length !== n - 1) return false;\n\n  const adj = Array.from({ length: n }, () => []);\n  for (const [u, v] of edges) {\n    adj[u].push(v);\n    adj[v].push(u);\n  }\n\n  const visited = new Set();\n  function dfs(i) {\n    if (visited.has(i)) return;\n    visited.add(i);\n    for (const neighbor of adj[i]) {\n      dfs(neighbor);\n    }\n  }\n\n  dfs(0);\n  return visited.size === n;\n}",
+    "traceTable": {
+      "inputLabel": "n = 5, edges = [[0,1],[0,2],[0,3],[1,4]]",
+      "columns": ["edges.length", "dfs path", "visited.size"],
+      "rows": [
+        { "edges.length": 4, "dfs path": "0 -> 1 -> 4 -> ...", "visited.size": 5 }
+      ]
+    },
+    "skeletonHint": "A graph is a tree if it is connected and has no cycles. An undirected graph with `n` nodes is a tree if and only if it has `n - 1` edges and is connected. Use DFS or BFS starting from node 0 and check if all nodes are visited.",
+    "tests": [
+      { "input": [5, [[0,1],[0,2],[0,3],[1,4]]], "expected": true },
+      { "input": [5, [[0,1],[1,2],[2,3],[1,3],[1,4]]], "expected": false },
+      { "input": [1, []], "expected": true }
+    ],
+    "patternTag": "DFS / BFS / Union Find",
+    "patternExplanation": "A valid tree must be fully connected and have no cycles. Given n - 1 edges, we only need to verify connectivity using DFS or BFS.",
+    "estimatedMinutes": 20
+  },
+  {
+    "id": "number-of-connected-components-in-an-undirected-graph",
+    "title": "Number of Connected Components in an Undirected Graph",
+    "type": "coding",
+    "category": "graphs",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "countComponents",
+    "description": "You have a graph of `n` nodes. You are given an integer `n` and an array `edges` where `edges[i] = [ai, bi]` indicates that there is an edge between `ai` and `bi` in the graph.\n\nReturn *the number of connected components in the graph*.",
+    "whatShouldHappen": [
+      "Represent the undirected graph using an adjacency list",
+      "Traverse the graph using DFS or BFS to visit all nodes in each component",
+      "Count the number of times a traversal is initiated from an unvisited node"
+    ],
+    "starterCode": "/**\n * @param {number} n\n * @param {number[][]} edges\n * @return {number}\n */\nfunction countComponents(n, edges) {\n  // Your code here\n}",
+    "solution": "function countComponents(n, edges) {\n  const adj = Array.from({ length: n }, () => []);\n  for (const [u, v] of edges) {\n    adj[u].push(v);\n    adj[v].push(u);\n  }\n\n  const visited = new Set();\n  let count = 0;\n\n  function dfs(node) {\n    visited.add(node);\n    for (const neighbor of adj[node]) {\n      if (!visited.has(neighbor)) {\n        dfs(neighbor);\n      }\n    }\n  }\n\n  for (let i = 0; i < n; i++) {\n    if (!visited.has(i)) {\n      count++;\n      dfs(i);\n    }\n  }\n\n  return count;\n}",
+    "traceTable": {
+      "inputLabel": "n = 5, edges = [[0,1],[1,2],[3,4]]",
+      "columns": ["i", "visited", "count", "action"],
+      "rows": [
+        { "i": "0", "visited": "{0, 1, 2}", "count": "1", "action": "DFS from 0" },
+        { "i": "3", "visited": "{0, 1, 2, 3, 4}", "count": "2", "action": "DFS from 3" }
+      ]
+    },
+    "skeletonHint": "Build an adjacency list for the graph. Use a visited set to keep track of nodes you've already seen. Iterate through all nodes from 0 to n-1. If a node hasn't been visited, it means you've found a new connected component. Increment your counter and use DFS or BFS to mark all nodes in that component as visited.",
+    "tests": [
+      { "input": [5, [[0,1],[1,2],[3,4]]], "expected": 2 },
+      { "input": [5, [[0,1],[1,2],[2,3],[3,4]]], "expected": 1 },
+      { "input": [4, [[0,1],[2,3]]], "expected": 2 }
+    ],
+    "patternTag": "DFS / BFS / Union Find",
+    "patternExplanation": "Connected components can be found by traversing the graph using DFS/BFS to visit all nodes in a component or by using Union-Find to group connected nodes.",
+    "estimatedMinutes": 15
+  },
+  {
+    "id": "pacific-atlantic-water-flow",
+    "title": "Pacific Atlantic Water Flow",
+    "type": "coding",
+    "category": "graphs",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "pacificAtlantic",
+    "description": "There is an `m x n` rectangular island that borders both the **Pacific Ocean** and **Atlantic Ocean**. The **Pacific Ocean** touches the island's left and top edges, and the **Atlantic Ocean** touches the island's right and bottom edges.\n\nThe island is partitioned into a grid of square cells. You are given an `m x n` integer matrix `heights` where `heights[r][c]` represents the **height above sea level** of the cell at coordinate `(r, c)`.\n\nRain water can flow to neighboring cells directly north, south, east, and west if the neighboring cell's height is **less than or equal to** the current cell's height. Water can flow from any cell adjacent to an ocean into the ocean.\n\nReturn *a 2D list of grid coordinates `result` where `result[i] = [ri, ci]` denotes that rain water can flow from cell `(ri, ci)` to **both** the Pacific and Atlantic oceans*.",
+    "whatShouldHappen": [
+      "Identify cells that can reach the Pacific ocean",
+      "Identify cells that can reach the Atlantic ocean",
+      "Find the intersection of cells that can reach both oceans"
+    ],
+    "starterCode": "/**\n * @param {number[][]} heights\n * @return {number[][]}\n */\nfunction pacificAtlantic(heights) {\n  // Your code here\n}",
+    "solution": "function pacificAtlantic(heights) {\n  if (!heights || heights.length === 0) return [];\n  const rows = heights.length;\n  const cols = heights[0].length;\n  const pacific = Array.from({ length: rows }, () => new Array(cols).fill(false));\n  const atlantic = Array.from({ length: rows }, () => new Array(cols).fill(false));\n\n  function dfs(r, c, visited, prevHeight) {\n    if (r < 0 || c < 0 || r >= rows || c >= cols || visited[r][c] || heights[r][c] < prevHeight) return;\n    visited[r][c] = true;\n    dfs(r + 1, c, visited, heights[r][c]);\n    dfs(r - 1, c, visited, heights[r][c]);\n    dfs(r, c + 1, visited, heights[r][c]);\n    dfs(r, c - 1, visited, heights[r][c]);\n  }\n\n  for (let c = 0; c < cols; c++) {\n    dfs(0, c, pacific, heights[0][c]);\n    dfs(rows - 1, c, atlantic, heights[rows - 1][c]);\n  }\n  for (let r = 0; r < rows; r++) {\n    dfs(r, 0, pacific, heights[r][0]);\n    dfs(r, cols - 1, atlantic, heights[r][cols - 1]);\n  }\n\n  const result = [];\n  for (let r = 0; r < rows; r++) {\n    for (let c = 0; c < cols; c++) {\n      if (pacific[r][c] && atlantic[r][c]) {\n        result.push([r, c]);\n      }\n    }\n  }\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "heights = [[1,2],[2,1]]",
+      "columns": ["ocean", "border nodes", "reachable", "result"],
+      "rows": [
+        { "ocean": "Pacific", "border nodes": "(0,0), (0,1), (1,0)", "reachable": "{(0,0), (0,1), (1,0), (1,1)}", "result": "..." },
+        { "ocean": "Atlantic", "border nodes": "(1,1), (0,1), (1,0)", "reachable": "{(1,1), (0,1), (1,0), (0,0)}", "result": "[[0,0],[0,1],[1,0],[1,1]]" }
+      ]
+    },
+    "skeletonHint": "Think inversely: instead of checking if water from a cell can flow down to an ocean, check which cells can be reached by water flowing 'up' from the ocean borders. Start DFS/BFS from the top and left edges for the Pacific, and from the bottom and right edges for the Atlantic. Any cell visited in both traversals is a valid result.",
+    "tests": [
+      { "input": [[[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]], "expected": [[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]] },
+      { "input": [[[2,1],[1,2]]], "expected": [[0,0],[0,1],[1,0],[1,1]] },
+      { "input": [[[1]]], "expected": [[0,0]] }
+    ],
+    "patternTag": "DFS / BFS",
+    "patternExplanation": "Instead of checking each cell, we can start from the borders (Pacific and Atlantic) and perform DFS/BFS to find all cells that can flow into each ocean. The intersection of these two sets of cells is the answer.",
+    "estimatedMinutes": 30
+  },
+  {
+    "id": "clone-graph",
+    "title": "Clone Graph",
+    "type": "coding",
+    "category": "graphs",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "cloneGraph",
+    "description": "Given a reference of a node in a **connected** undirected graph.\n\nReturn a **deep copy** (clone) of the graph.\n\nEach node in the graph contains a value (`int`) and a list (`List[Node]`) of its neighbors.\n\n```javascript\nclass Node {\n    constructor(val, neighbors) {\n        this.val = val === undefined ? 0 : val;\n        this.neighbors = neighbors === undefined ? [] : neighbors;\n    }\n}\n```",
+    "whatShouldHappen": [
+      "Create new node instances for every node in the original graph",
+      "Copy all neighbor relationships to the new nodes",
+      "Handle cycles by keeping track of visited nodes using a map"
+    ],
+    "starterCode": "/**\n * // Definition for a Node.\n * function Node(val, neighbors) {\n *    this.val = val === undefined ? 0 : val;\n *    this.neighbors = neighbors === undefined ? [] : neighbors;\n * };\n */\n\n/**\n * @param {Node} node\n * @return {Node}\n */\nfunction cloneGraph(node) {\n  // Your code here\n}",
+    "solution": "function cloneGraph(node) {\n  if (!node) return null;\n  const map = new Map();\n\n  function dfs(n) {\n    if (map.has(n)) return map.get(n);\n\n    const clone = { val: n.val, neighbors: [] };\n    map.set(n, clone);\n\n    for (const neighbor of n.neighbors) {\n      clone.neighbors.push(dfs(neighbor));\n    }\n\n    return clone;\n  }\n\n  return dfs(node);\n}",
+    "traceTable": {
+      "inputLabel": "node = 1, neighbors = [2,4]",
+      "columns": ["node.val", "map contents", "recursion depth", "action"],
+      "rows": [
+        { "node.val": "1", "map contents": "{1: clone1}", "recursion depth": "1", "action": "Clone node 1, start neighbors" },
+        { "node.val": "2", "map contents": "{1: clone1, 2: clone2}", "recursion depth": "2", "action": "Clone node 2, start neighbors" }
+      ]
+    },
+    "skeletonHint": "Use a Hash Map to store the mapping between the original node and its clone. This prevents infinite loops in graphs with cycles. Use DFS or BFS to traverse the graph. For each node, create its clone if it doesn't exist, and then recursively (or iteratively) clone its neighbors.",
+    "tests": [
+      { "input": [{"val": 1, "neighbors": [{"val": 2, "neighbors": []}, {"val": 4, "neighbors": []}]}], "expected": {"val": 1, "neighbors": [{"val": 2, "neighbors": []}, {"val": 4, "neighbors": []}]} }
+    ],
+    "patternTag": "DFS / BFS / Hash Map",
+    "patternExplanation": "A deep copy of a graph requires traversing all nodes. A hash map is essential to keep track of already cloned nodes to handle cycles and ensure each node is created only once.",
+    "estimatedMinutes": 25
+  },
+  {
+    "id": "course-schedule-ii",
+    "title": "Course Schedule II",
+    "type": "coding",
+    "category": "graphs",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "findOrder",
+    "description": "There are a total of `numCourses` courses you have to take, labeled from `0` to `numCourses - 1`. You are given an array `prerequisites` where `prerequisites[i] = [ai, bi]` indicates that you must take course `bi` first if you want to take course `ai`.\n\nReturn *the ordering of courses you should take to finish all courses*. If there are many valid answers, return **any** of them. If it is impossible to finish all courses, return **an empty array**.",
+    "whatShouldHappen": [
+      "Construct a directed adjacency list from the prerequisites",
+      "Keep track of the in-degree of each course",
+      "Use Kahn's algorithm (BFS) to find a topological ordering of the courses"
+    ],
+    "starterCode": "function findOrder(numCourses, prerequisites) {\n  // Your code here\n}",
+    "solution": "function findOrder(numCourses, prerequisites) {\n  const adj = Array.from({ length: numCourses }, () => []);\n  const inDegree = new Array(numCourses).fill(0);\n\n  for (const [course, pre] of prerequisites) {\n    adj[pre].push(course);\n    inDegree[course]++;\n  }\n\n  const queue = [];\n  for (let i = 0; i < numCourses; i++) {\n    if (inDegree[i] === 0) queue.push(i);\n  }\n\n  const order = [];\n  while (queue.length > 0) {\n    const u = queue.shift();\n    order.push(u);\n    for (const v of adj[u]) {\n      inDegree[v]--;\n      if (inDegree[v] === 0) queue.push(v);\n    }\n  }\n\n  return order.length === numCourses ? order : [];\n}",
+    "traceTable": {
+      "inputLabel": "numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]",
+      "columns": ["queue", "u", "inDegree", "order"],
+      "rows": [
+        { "queue": "[0]", "u": "0", "inDegree": "[0, 1, 1, 2]", "order": "[]" },
+        { "queue": "[1, 2]", "u": "0", "inDegree": "[0, 0, 0, 2]", "order": "[0]" }
+      ]
+    },
+    "skeletonHint": "This is an extension of the Course Schedule problem. Instead of just checking if a cycle exists, you need to return the topological order. Use Kahn's algorithm: start with all nodes having an in-degree of 0, add them to a queue, and iteratively process them while updating the in-degrees of their neighbors.",
+    "tests": [
+      { "input": [2, [[1,0]]], "expected": [0,1] },
+      { "input": [4, [[1,0],[2,0],[3,1],[3,2]]], "expected": [0,1,2,3] },
+      { "input": [1, []], "expected": [0] }
+    ],
+    "patternTag": "Topological Sort / BFS",
+    "patternExplanation": "Kahn's algorithm for topological sort is the most direct way to find an ordering in a Directed Acyclic Graph (DAG). If we can't visit all nodes, it means there's a cycle.",
+    "estimatedMinutes": 25
+  }
+]

@@ -1,0 +1,1040 @@
+[
+  {
+    "id": "js-f1-block-scope",
+    "title": "Block Scope with let and const",
+    "type": "coding",
+    "category": "basic-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "checkScope",
+    "description": "In JavaScript, `let` and `const` provide **block scope**. This means variables declared inside a block `{}` (like an `if` statement or a `for` loop) are not accessible outside that block. In this problem, demonstrate block scoping by declaring a variable inside a block and returning its behavior.",
+    "whatShouldHappen": [
+      "The function should declare a variable inside an `if` block using `let`.",
+      "The function should return an array containing the value of the variable from inside the block and a string 'ReferenceError' if it fails to access it outside."
+    ],
+    "starterCode": "function checkScope() {\n  // 1. Declare a variable 'x' inside an 'if (true)' block using 'let'\n  // 2. Try to access 'x' outside the block\n  // Return [insideValue, outsideStatus]\n}",
+    "solution": "function checkScope() {\n  let insideValue;\n  let outsideStatus;\n  \n  if (true) {\n    let x = \"block-scoped\";\n    insideValue = x;\n  }\n  \n  try {\n    outsideStatus = typeof x === 'undefined' ? 'ReferenceError' : x;\n  } catch (e) {\n    outsideStatus = 'ReferenceError';\n  }\n  \n  return [insideValue, outsideStatus];\n}",
+    "traceTable": {
+      "inputLabel": "None",
+      "columns": ["Block", "Variable", "Scope", "Access"],
+      "rows": [
+        ["inside if", "x", "Block", "Success"],
+        ["outside if", "x", "Global/Function", "ReferenceError"]
+      ]
+    },
+    "skeletonHint": "Use a try...catch block to detect the ReferenceError when accessing the variable outside its scope.",
+    "tests": [
+      {
+        "input": [],
+        "expected": ["block-scoped", "ReferenceError"]
+      }
+    ],
+    "patternTag": "Block Scope",
+    "patternExplanation": "Variables declared with `let` and `const` are only available within the curly braces `{}` they were defined in.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f2-hoisting",
+    "title": "Variable Hoisting (var vs let)",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "hoistingTest",
+    "description": "Hoisting is JavaScript's default behavior of moving declarations to the top. `var` is hoisted and initialized as `undefined`. `let` and `const` are also hoisted but not initialized, resulting in a 'Temporal Dead Zone' (TDZ) error if accessed before declaration.",
+    "whatShouldHappen": [
+      "Access a `var` variable before its declaration.",
+      "Return the value of the `var` variable (which should be `undefined`)."
+    ],
+    "starterCode": "function hoistingTest() {\n  // Access 'a' before its 'var a = 10' declaration\n  // Return the value accessed\n}",
+    "solution": "function hoistingTest() {\n  var result = a;\n  var a = 10;\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "None",
+      "columns": ["Line", "Operation", "Value of 'a'"],
+      "rows": [
+        ["1", "Access 'a'", "undefined"],
+        ["2", "Declare 'var a = 10'", "10"]
+      ]
+    },
+    "skeletonHint": "Just return the variable 'a' before the line where you declare it with 'var'.",
+    "tests": [
+      {
+        "input": [],
+        "expected": null
+      }
+    ],
+    "patternTag": "Hoisting",
+    "patternExplanation": "`var` declarations are hoisted and initialized to `undefined`, while `let` declarations are hoisted but not initialized.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f3-loop-to-n",
+    "title": "Loop through 1 to N",
+    "type": "coding",
+    "category": "basic-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "loopToN",
+    "description": "The most fundamental loop pattern. Create an array containing numbers from 1 to `n` inclusive.",
+    "whatShouldHappen": [
+      "Initialize an empty array.",
+      "Use a `for` loop starting from 1 up to `n`.",
+      "Push each number into the array."
+    ],
+    "starterCode": "function loopToN(n) {\n  const result = [];\n  // Write your for loop here\n  return result;\n}",
+    "solution": "function loopToN(n) {\n  const result = [];\n  for (let i = 1; i <= n; i++) {\n    result.push(i);\n  }\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "n = 3",
+      "columns": ["i", "result.push(i)", "result state"],
+      "rows": [
+        ["1", "1", "[1]"],
+        ["2", "2", "[1, 2]"],
+        ["3", "3", "[1, 2, 3]"]
+      ]
+    },
+    "skeletonHint": "Use `for (let i = 1; i <= n; i++)` to include both 1 and n.",
+    "tests": [
+      { "input": [3], "expected": [1, 2, 3] },
+      { "input": [5], "expected": [1, 2, 3, 4, 5] },
+      { "input": [0], "expected": [] }
+    ],
+    "patternTag": "For Loop",
+    "patternExplanation": "Standard forward iteration using a counter variable.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f4-reverse-loop",
+    "title": "Reverse loop N to 1",
+    "type": "coding",
+    "category": "reverse-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "reverseLoop",
+    "description": "Reverse iteration is common when removing items from an array or processing data backwards. Create an array containing numbers from `n` down to 1.",
+    "whatShouldHappen": [
+      "Use a `for` loop starting from `n` down to 1.",
+      "Decrement the counter in each step (`i--`).",
+      "Push each number into the result array."
+    ],
+    "starterCode": "function reverseLoop(n) {\n  const result = [];\n  // Write your reverse for loop here\n  return result;\n}",
+    "solution": "function reverseLoop(n) {\n  const result = [];\n  for (let i = n; i >= 1; i--) {\n    result.push(i);\n  }\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "n = 3",
+      "columns": ["i", "i >= 1", "result"],
+      "rows": [
+        ["3", "true", "[3]"],
+        ["2", "true", "[3, 2]"],
+        ["1", "true", "[3, 2, 1]"],
+        ["0", "false", "exit"]
+      ]
+    },
+    "skeletonHint": "Start the loop at `i = n` and continue as long as `i >= 1`.",
+    "tests": [
+      { "input": [3], "expected": [3, 2, 1] },
+      { "input": [5], "expected": [5, 4, 3, 2, 1] },
+      { "input": [0], "expected": [] }
+    ],
+    "patternTag": "Reverse Iteration",
+    "patternExplanation": "Iterating backwards by initializing the counter to the end and decrementing.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f5-sum-to-n",
+    "title": "Sum of N numbers",
+    "type": "coding",
+    "category": "basic-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "sumToN",
+    "description": "Calculate the sum of all integers from 1 to `n`. This introduces the 'accumulator' pattern.",
+    "whatShouldHappen": [
+      "Initialize a sum variable to 0.",
+      "Loop through numbers 1 to `n`.",
+      "Add each number to the sum variable."
+    ],
+    "starterCode": "function sumToN(n) {\n  let sum = 0;\n  // Your loop here\n  return sum;\n}",
+    "solution": "function sumToN(n) {\n  let sum = 0;\n  for (let i = 1; i <= n; i++) {\n    sum += i;\n  }\n  return sum;\n}",
+    "traceTable": {
+      "inputLabel": "n = 4",
+      "columns": ["i", "sum += i", "sum"],
+      "rows": [
+        ["1", "0 + 1", "1"],
+        ["2", "1 + 2", "3"],
+        ["3", "3 + 3", "6"],
+        ["4", "6 + 4", "10"]
+      ]
+    },
+    "skeletonHint": "The sum should be initialized outside the loop to persist across iterations.",
+    "tests": [
+      { "input": [4], "expected": 10 },
+      { "input": [10], "expected": 55 },
+      { "input": [0], "expected": 0 }
+    ],
+    "patternTag": "Accumulator",
+    "patternExplanation": "A pattern where a variable is updated in each iteration to collect a final result.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "js-f6-labeled-break",
+    "title": "Break from nested loops (labels)",
+    "type": "coding",
+    "category": "nested-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "findTarget",
+    "description": "JavaScript labels allow you to break out of multiple nested loops at once. Normally, a `break` only exits the innermost loop. In this problem, use a label to break out of both loops immediately when a target value is found in a 2-dimensional array.",
+    "whatShouldHappen": [
+      "Use a label (e.g., `outer:`) for the first `for` loop.",
+      "Iterate through rows and then columns.",
+      "If `matrix[i][j]` equals `target`, store the position `[i, j]` and use `break outer;`.",
+      "Return the position array or `null` if not found."
+    ],
+    "starterCode": "function findTarget(matrix, target) {\n  let position = null;\n  // Use a label to break from both loops\n  \n  return position;\n}",
+    "solution": "function findTarget(matrix, target) {\n  let position = null;\n  \n  outer: for (let i = 0; i < matrix.length; i++) {\n    for (let j = 0; j < matrix[i].length; j++) {\n      if (matrix[i][j] === target) {\n        position = [i, j];\n        break outer;\n      }\n    }\n  }\n  \n  return position;\n}",
+    "traceTable": {
+      "inputLabel": "matrix=[[1,2],[3,4]], target=3",
+      "columns": ["i", "j", "matrix[i][j]", "break outer?"],
+      "rows": [
+        ["0", "0", "1", "no"],
+        ["0", "1", "2", "no"],
+        ["1", "0", "3", "YES"]
+      ]
+    },
+    "skeletonHint": "Syntax: `labelName: for (...) { break labelName; }`",
+    "tests": [
+      { "input": [[[1, 2], [3, 4]], 3], "expected": [1, 0] },
+      { "input": [[[1, 2], [3, 4]], 5], "expected": null },
+      { "input": [[], 1], "expected": null }
+    ],
+    "patternTag": "Loop Labels",
+    "patternExplanation": "Labels provide a way to name a loop and refer to it when using `break` or `continue`.",
+    "estimatedMinutes": 10,
+    "status": "published"
+  },
+  {
+    "id": "js-f7-continue-odd",
+    "title": "Skip even numbers (continue)",
+    "type": "coding",
+    "category": "basic-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getOdds",
+    "description": "The `continue` statement terminates execution of the statements in the current iteration of the current or labeled loop, and continues execution of the loop with the next iteration. Create an array of odd numbers from 1 to `n` by using a loop and the `continue` keyword.",
+    "whatShouldHappen": [
+      "Loop from 1 to `n`.",
+      "Check if the number is even using `% 2 === 0`.",
+      "If even, use `continue` to skip to the next number.",
+      "Otherwise, push the number to the result array."
+    ],
+    "starterCode": "function getOdds(n) {\n  const odds = [];\n  for (let i = 1; i <= n; i++) {\n    // Use 'continue' if i is even\n    \n    odds.push(i);\n  }\n  return odds;\n}",
+    "solution": "function getOdds(n) {\n  const odds = [];\n  for (let i = 1; i <= n; i++) {\n    if (i % 2 === 0) {\n      continue;\n    }\n    odds.push(i);\n  }\n  return odds;\n}",
+    "traceTable": {
+      "inputLabel": "n = 4",
+      "columns": ["i", "i % 2 === 0", "action", "odds"],
+      "rows": [
+        ["1", "false", "push", "[1]"],
+        ["2", "true", "continue", "[1]"],
+        ["3", "false", "push", "[1, 3]"],
+        ["4", "true", "continue", "[1, 3]"]
+      ]
+    },
+    "skeletonHint": "The `continue` keyword skips the rest of the loop body for that specific iteration.",
+    "tests": [
+      { "input": [5], "expected": [1, 3, 5] },
+      { "input": [2], "expected": [1] },
+      { "input": [0], "expected": [] }
+    ],
+    "patternTag": "Continue Statement",
+    "patternExplanation": "Use `continue` to skip specific iterations without exiting the loop entirely.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f8-switch-grades",
+    "title": "Switch case for grades",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "gradeToComment",
+    "description": "The `switch` statement evaluates an expression, matching the expression's value to a `case` clause, and executes statements associated with that case. Implement a function that returns a feedback string based on a letter grade.",
+    "whatShouldHappen": [
+      "Return 'Excellent' for 'A'.",
+      "Return 'Good' for 'B'.",
+      "Return 'Fair' for 'C'.",
+      "Return 'Needs Improvement' for any other grade (use `default`)."
+    ],
+    "starterCode": "function gradeToComment(grade) {\n  // Implement switch statement\n}",
+    "solution": "function gradeToComment(grade) {\n  switch (grade) {\n    case 'A':\n      return 'Excellent';\n    case 'B':\n      return 'Good';\n    case 'C':\n      return 'Fair';\n    default:\n      return 'Needs Improvement';\n  }\n}",
+    "traceTable": {
+      "inputLabel": "grade = 'B'",
+      "columns": ["grade", "matches", "return"],
+      "rows": [
+        ["'B'", "case 'A'", "no"],
+        ["'B'", "case 'B'", "YES -> 'Good'"]
+      ]
+    },
+    "skeletonHint": "Don't forget that `return` inside a case acts like a `break`.",
+    "tests": [
+      { "input": ["A"], "expected": "Excellent" },
+      { "input": ["B"], "expected": "Good" },
+      { "input": ["C"], "expected": "Fair" },
+      { "input": ["D"], "expected": "Needs Improvement" }
+    ],
+    "patternTag": "Switch Statement",
+    "patternExplanation": "A cleaner way to handle multiple conditional matches against a single value.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f9-coercion-plus",
+    "title": "Type Coercion: + operator",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "plusCoercion",
+    "description": "In JavaScript, the `+` operator is overloaded. If either operand is a string, it performs **concatenation**. If both are numbers, it performs **addition**. This often leads to unexpected results when mixing types.",
+    "whatShouldHappen": [
+      "Return an array of results for: `1 + 1`, `1 + '1'`, `'1' + 1`, and `true + 1`."
+    ],
+    "starterCode": "function plusCoercion() {\n  return [\n    1 + 1,    // Result 1\n    1 + '1',  // Result 2\n    '1' + 1,  // Result 3\n    true + 1  // Result 4\n  ];\n}",
+    "solution": "function plusCoercion() {\n  return [\n    1 + 1,    \n    1 + '1',  \n    '1' + 1,  \n    true + 1  \n  ];\n}",
+    "traceTable": {
+      "inputLabel": "None",
+      "columns": ["Expression", "Logic", "Result"],
+      "rows": [
+        ["1 + 1", "Numeric addition", "2"],
+        ["1 + '1'", "String concatenation", "'11'"],
+        ["'1' + 1", "String concatenation", "'11'"],
+        ["true + 1", "Boolean to Number (1 + 1)", "2"]
+      ]
+    },
+    "skeletonHint": "Think about which operations force string conversion and which force numeric conversion.",
+    "tests": [
+      { "input": [], "expected": [2, "11", "11", 2] }
+    ],
+    "patternTag": "Type Coercion",
+    "patternExplanation": "JavaScript automatically converts types (coercion) to complete operations, which can be 'tricky'.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f10-equality",
+    "title": "Type Coercion: == vs ===",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "compareValues",
+    "description": "Loose equality (`==`) performs type coercion before comparison. Strict equality (`===`) compares both the value and the type, and returns `false` if they are different.",
+    "whatShouldHappen": [
+      "Return an array of results for: `5 == '5'`, `5 === '5'`, `null == undefined`, and `null === undefined`."
+    ],
+    "starterCode": "function compareValues() {\n  return [\n    5 == '5',      // Result 1\n    5 === '5',     // Result 2\n    null == undefined, // Result 3\n    null === undefined // Result 4\n  ];\n}",
+    "solution": "function compareValues() {\n  return [\n    5 == '5',\n    5 === '5',\n    null == undefined,\n    null === undefined\n  ];\n}",
+    "traceTable": {
+      "inputLabel": "None",
+      "columns": ["Comparison", "Type Match", "Result"],
+      "rows": [
+        ["5 == '5'", "Coerced to Number", "true"],
+        ["5 === '5'", "Types differ (Num vs Str)", "false"],
+        ["null == undefined", "Special case", "true"],
+        ["null === undefined", "Types differ", "false"]
+      ]
+    },
+    "skeletonHint": "Always use `===` unless you have a specific reason to use `==`.",
+    "tests": [
+      { "input": [], "expected": [true, false, true, false] }
+    ],
+    "patternTag": "Strict Equality",
+    "patternExplanation": "Strict equality checks both value and type, preventing bugs caused by unexpected coercion.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f11-short-circuit",
+    "title": "Logical AND/OR short-circuiting",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "shortCircuit",
+    "description": "Short-circuit evaluation means that the second operand is executed or evaluated only if the first operand does not suffice to determine the value of the expression. `&&` returns the first falsy value or the last value if all are truthy. `||` returns the first truthy value or the last value if all are falsy.",
+    "whatShouldHappen": [
+      "Return an array containing the results of: `true || 'hello'`, `false || 'hello'`, `true && 'world'`, and `false && 'world'`."
+    ],
+    "starterCode": "function shortCircuit() {\n  return [\n    true || 'hello',   // Result 1\n    false || 'hello',  // Result 2\n    true && 'world',   // Result 3\n    false && 'world'   // Result 4\n  ];\n}",
+    "solution": "function shortCircuit() {\n  return [\n    true || 'hello',   \n    false || 'hello',  \n    true && 'world',   \n    false && 'world'   \n  ];\n}",
+    "traceTable": {
+      "inputLabel": "None",
+      "columns": ["Expression", "Short-circuit?", "Result"],
+      "rows": [
+        ["true || 'hello'", "Yes (first is truthy)", "true"],
+        ["false || 'hello'", "No (first is falsy)", "'hello'"],
+        ["true && 'world'", "No (first is truthy)", "'world'"],
+        ["false && 'world'", "Yes (first is falsy)", "false"]
+      ]
+    },
+    "skeletonHint": "Remember: OR (`||`) stops at the first true, AND (`&&`) stops at the first false.",
+    "tests": [
+      { "input": [], "expected": [true, "hello", "world", false] }
+    ],
+    "patternTag": "Short-circuiting",
+    "patternExplanation": "Logical operators return the actual value of one of the operands, not necessarily a boolean.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f12-nullish-coalescing",
+    "title": "Nullish Coalescing (??)",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "nullishTest",
+    "description": "The nullish coalescing operator (`??`) is a logical operator that returns its right-hand side operand when its left-hand side operand is `null` or `undefined`, and otherwise returns its left-hand side operand. This is different from `||` which returns the right-hand side for ANY falsy value (like `0` or `''`).",
+    "whatShouldHappen": [
+      "Return an array containing results for: `null ?? 'default'`, `undefined ?? 'default'`, `0 ?? 'default'`, and `'' ?? 'default'`."
+    ],
+    "starterCode": "function nullishTest() {\n  return [\n    null ?? 'default',      // Result 1\n    undefined ?? 'default', // Result 2\n    0 ?? 'default',         // Result 3\n    '' ?? 'default'         // Result 4\n  ];\n}",
+    "solution": "function nullishTest() {\n  return [\n    null ?? 'default',      \n    undefined ?? 'default', \n    0 ?? 'default',         \n    '' ?? 'default'         \n  ];\n}",
+    "traceTable": {
+      "inputLabel": "None",
+      "columns": ["Expression", "Left Side", "Result"],
+      "rows": [
+        ["null ?? 'default'", "null", "'default'"],
+        ["undefined ?? 'default'", "undefined", "'default'"],
+        ["0 ?? 'default'", "0 (falsy but not nullish)", "0"],
+        ["'' ?? 'default'", "'' (falsy but not nullish)", "''"]
+      ]
+    },
+    "skeletonHint": "The operator `??` only triggers for `null` and `undefined`.",
+    "tests": [
+      { "input": [], "expected": ["default", "default", 0, ""] }
+    ],
+    "patternTag": "Nullish Coalescing",
+    "patternExplanation": "Use `??` when you want to provide a fallback only for truly missing values (null/undefined).",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f13-optional-chaining",
+    "title": "Optional Chaining (?.)",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getNestedValue",
+    "description": "The optional chaining operator (`?.`) enables you to read the value of a property located deep within a chain of connected objects without having to check that each reference in the chain is valid. If a reference is nullish (`null` or `undefined`), the expression short-circuits and returns `undefined`.",
+    "whatShouldHappen": [
+      "Given an object `user`, safely access `user.profile.name`.",
+      "Return the name if it exists, otherwise `undefined`."
+    ],
+    "starterCode": "function getNestedValue(user) {\n  // Safely return user.profile.name using optional chaining\n}",
+    "solution": "function getNestedValue(user) {\n  return user?.profile?.name;\n}",
+    "traceTable": {
+      "inputLabel": "user = { profile: { name: 'Alice' } }",
+      "columns": ["user?", "user.profile?", "Result"],
+      "rows": [
+        ["Exists", "Exists", "'Alice'"],
+        ["Exists", "Missing", "undefined"],
+        ["Missing", "n/a", "undefined"]
+      ]
+    },
+    "skeletonHint": "Use `?.` before every property access that might fail.",
+    "tests": [
+      { "input": [{ "profile": { "name": "Alice" } }], "expected": "Alice" },
+      { "input": [{ "profile": {} }], "expected": null },
+      { "input": [{}], "expected": null },
+      { "input": [null], "expected": null }
+    ],
+    "patternTag": "Optional Chaining",
+    "patternExplanation": "Prevents 'Cannot read property of undefined' errors by safely navigating objects.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f14-do-while",
+    "title": "Do-while loop basic",
+    "type": "coding",
+    "category": "basic-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "doWhileCount",
+    "description": "The `do...while` statement creates a loop that executes a specified statement until the test condition evaluates to false. The condition is evaluated **after** executing the statement, resulting in the specified statement executing at least once.",
+    "whatShouldHappen": [
+      "Initialize `count` to 0 and `result` array.",
+      "Use a `do...while` loop to push numbers 1 to `n` into the `result` array.",
+      "Ensure the loop runs at least once even if `n` is 0."
+    ],
+    "starterCode": "function doWhileCount(n) {\n  const result = [];\n  let i = 1;\n  // Implement do...while loop\n  return result;\n}",
+    "solution": "function doWhileCount(n) {\n  const result = [];\n  let i = 1;\n  do {\n    result.push(i);\n    i++;\n  } while (i <= n);\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "n = 0",
+      "columns": ["Iteration", "Push", "i++", "i <= n"],
+      "rows": [
+        ["1", "1", "2", "2 <= 0 (False)"]
+      ]
+    },
+    "skeletonHint": "The `do` block runs first, then the `while` condition is checked.",
+    "tests": [
+      { "input": [3], "expected": [1, 2, 3] },
+      { "input": [0], "expected": [1] }
+    ],
+    "patternTag": "Do-While Loop",
+    "patternExplanation": "Guarantees at least one execution of the loop body.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f15-for-in",
+    "title": "For...in loop over objects",
+    "type": "coding",
+    "category": "object-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getObjectKeys",
+    "description": "The `for...in` statement iterates over all enumerable string properties of an object (including inherited ones). In this problem, use `for...in` to collect all keys of an object into an array.",
+    "whatShouldHappen": [
+      "Initialize an empty `keys` array.",
+      "Use `for...in` to iterate over the object.",
+      "Push each key into the array."
+    ],
+    "starterCode": "function getObjectKeys(obj) {\n  const keys = [];\n  // Use for...in loop\n  return keys;\n}",
+    "solution": "function getObjectKeys(obj) {\n  const keys = [];\n  for (let key in obj) {\n    keys.push(key);\n  }\n  return keys;\n}",
+    "traceTable": {
+      "inputLabel": "obj = {a: 1, b: 2}",
+      "columns": ["Key", "keys.push(key)", "Result"],
+      "rows": [
+        ["'a'", "push 'a'", "['a']"],
+        ["'b'", "push 'b'", "['a', 'b']"]
+      ]
+    },
+    "skeletonHint": "Syntax: `for (let key in obj) { ... }`",
+    "tests": [
+      { "input": [{ "a": 1, "b": 2, "c": 3 }], "expected": ["a", "b", "c"] },
+      { "input": [{}], "expected": [] }
+    ],
+    "patternTag": "For...in Loop",
+    "patternExplanation": "The standard way to iterate over the keys of an object.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f16-for-of",
+    "title": "For...of loop over arrays",
+    "type": "coding",
+    "category": "for-in-for-of",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "sumArray",
+    "description": "The `for...of` statement iterates over the values of an iterable object (like an array), making it cleaner than a standard `for` loop when you don't need the index.",
+    "whatShouldHappen": [
+      "Initialize a `sum` variable to 0.",
+      "Use `for (let val of arr)` to iterate through the array.",
+      "Add each value to the `sum`."
+    ],
+    "starterCode": "function sumArray(arr) {\n  let sum = 0;\n  // Use for...of loop\n  return sum;\n}",
+    "solution": "function sumArray(arr) {\n  let sum = 0;\n  for (let val of arr) {\n    sum += val;\n  }\n  return sum;\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3]",
+      "columns": ["val", "sum += val", "Current Sum"],
+      "rows": [
+        ["1", "0 + 1", "1"],
+        ["2", "1 + 2", "3"],
+        ["3", "3 + 3", "6"]
+      ]
+    },
+    "skeletonHint": "Syntax: `for (let item of array) { ... }`",
+    "tests": [
+      { "input": [[1, 2, 3]], "expected": 6 },
+      { "input": [[10, -5, 5]], "expected": 10 },
+      { "input": [[]], "expected": 0 }
+    ],
+    "patternTag": "For...of Loop",
+    "patternExplanation": "Easier way to access elements directly without managing an index counter.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f17-nested-loops",
+    "title": "Multi-level nested for loops",
+    "type": "coding",
+    "category": "nested-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "flattenMatrix",
+    "description": "Nested loops are used when you have data inside data. A common task is 'flattening' a 2D array (a matrix) into a single 1D array.",
+    "whatShouldHappen": [
+      "Initialize an empty `flat` array.",
+      "Outer loop iterates through rows of the matrix.",
+      "Inner loop iterates through elements of each row.",
+      "Push each element into the `flat` array."
+    ],
+    "starterCode": "function flattenMatrix(matrix) {\n  const flat = [];\n  // Use nested for loops\n  return flat;\n}",
+    "solution": "function flattenMatrix(matrix) {\n  const flat = [];\n  for (let i = 0; i < matrix.length; i++) {\n    for (let j = 0; j < matrix[i].length; j++) {\n      flat.push(matrix[i][j]);\n    }\n  }\n  return flat;\n}",
+    "traceTable": {
+      "inputLabel": "matrix = [[1], [2, 3]]",
+      "columns": ["i", "j", "matrix[i][j]", "flat"],
+      "rows": [
+        ["0", "0", "1", "[1]"],
+        ["1", "0", "2", "[1, 2]"],
+        ["1", "1", "3", "[1, 2, 3]"]
+      ]
+    },
+    "skeletonHint": "The inner loop's limit should be `matrix[i].length`.",
+    "tests": [
+      { "input": [[[1, 2], [3, 4]]], "expected": [1, 2, 3, 4] },
+      { "input": [[[1], [2], [3]]], "expected": [1, 2, 3] },
+      { "input": [[[], [1]]], "expected": [1] }
+    ],
+    "patternTag": "Nested Loops",
+    "patternExplanation": "Processing elements in a grid or multi-dimensional structure.",
+    "estimatedMinutes": 10,
+    "status": "published"
+  },
+  {
+    "id": "js-f18-ternary-chain",
+    "title": "Ternary operator chaining",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "checkStatus",
+    "description": "The ternary operator can be chained to handle multiple mutually exclusive conditions in a single line. This is often used for simple mapping logic.",
+    "whatShouldHappen": [
+      "If score is 90 or above, return 'Excellent'.",
+      "Else if score is 60 or above, return 'Pass'.",
+      "Otherwise, return 'Fail'."
+    ],
+    "starterCode": "function checkStatus(score) {\n  // Return chained ternary: 90+ Excellent, 60+ Pass, else Fail\n}",
+    "solution": "function checkStatus(score) {\n  return score >= 90 ? 'Excellent' : score >= 60 ? 'Pass' : 'Fail';\n}",
+    "traceTable": {
+      "inputLabel": "score = 75",
+      "columns": ["score >= 90", "score >= 60", "Result"],
+      "rows": [
+        ["false", "true", "'Pass'"]
+      ]
+    },
+    "skeletonHint": "Syntax: `condition1 ? value1 : condition2 ? value2 : value3`",
+    "tests": [
+      { "input": [95], "expected": "Excellent" },
+      { "input": [75], "expected": "Pass" },
+      { "input": [50], "expected": "Fail" },
+      { "input": [60], "expected": "Pass" }
+    ],
+    "patternTag": "Chained Ternary",
+    "patternExplanation": "A compact way to write simple if-else-if-else blocks.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f19-global-local",
+    "title": "Global vs Local Scope",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "scopeTest",
+    "description": "Variables declared inside a function (local) are different from variables declared outside (global), even if they have the same name. Local variables 'hide' global variables within their scope.",
+    "whatShouldHappen": [
+      "A global variable `val` exists with value 'outer'.",
+      "Inside the function, declare a local `val` with value 'inner'.",
+      "Return the local `val` to show function scope precedence."
+    ],
+    "starterCode": "let val = 'outer';\n\nfunction scopeTest() {\n  // 1. Declare local 'val' with value 'inner'\n  // 2. Return 'val'\n}",
+    "solution": "let val = 'outer';\n\nfunction scopeTest() {\n  let val = 'inner';\n  return val;\n}",
+    "traceTable": {
+      "inputLabel": "None",
+      "columns": ["Scope", "Variable", "Value"],
+      "rows": [
+        ["Global", "val", "'outer'"],
+        ["Function", "val", "'inner' (shadows outer)"]
+      ]
+    },
+    "skeletonHint": "Just declare the variable using `let` inside the function.",
+    "tests": [
+      { "input": [], "expected": "inner" }
+    ],
+    "patternTag": "Function Scope",
+    "patternExplanation": "Local variables take precedence over global variables with the same name.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f20-shadowing",
+    "title": "Shadowing variables",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "shadowTest",
+    "description": "Shadowing occurs in block scopes too. A variable declared with `let` or `const` inside a block `{}` shadows any variable with the same name in the outer scope.",
+    "whatShouldHappen": [
+      "Declare `x` as 10.",
+      "Inside an `if (true)` block, declare `x` as 20.",
+      "Return the value of `x` from inside the block."
+    ],
+    "starterCode": "function shadowTest() {\n  const x = 10;\n  if (true) {\n    // Shadow x with value 20\n    return x;\n  }\n}",
+    "solution": "function shadowTest() {\n  const x = 10;\n  if (true) {\n    const x = 20;\n    return x;\n  }\n}",
+    "traceTable": {
+      "inputLabel": "None",
+      "columns": ["Context", "Variable", "Value"],
+      "rows": [
+        ["Function Block", "x", "10"],
+        ["If Block", "x", "20"]
+      ]
+    },
+    "skeletonHint": "Re-declare the variable using `const` or `let` within the block.",
+    "tests": [
+      { "input": [], "expected": 20 }
+    ],
+    "patternTag": "Variable Shadowing",
+    "patternExplanation": "Variables in inner scopes can have the same name as outer scope variables, temporarily replacing them.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f21-const-mutation",
+    "title": "Constant object mutation",
+    "type": "coding",
+    "category": "object-loops",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "mutateObject",
+    "description": "In JavaScript, `const` prevents re-assignment of the variable itself, but it does NOT make the object it points to immutable. You can still add, remove, or change properties of a `const` object.",
+    "whatShouldHappen": [
+      "The function should change the 'name' property of the person object.",
+      "The function should add an 'age' property to the person object.",
+      "The function should return the modified object."
+    ],
+    "starterCode": "function mutateObject() {\n  const person = { name: \"John\" };\n  // 1. Change name to \"Alice\"\n  // 2. Add age 25\n  return person;\n}",
+    "solution": "function mutateObject() {\n  const person = { name: \"John\" };\n  person.name = \"Alice\";\n  person.age = 25;\n  return person;\n}",
+    "traceTable": {
+      "inputLabel": "None",
+      "columns": ["Operation", "Object State"],
+      "rows": [
+        ["Initial", "{ name: 'John' }"],
+        ["person.name = 'Alice'", "{ name: 'Alice' }"],
+        ["person.age = 25", "{ name: 'Alice', age: 25 }"]
+      ]
+    },
+    "skeletonHint": "You can use dot notation (person.name) to modify properties even if the object is declared with const.",
+    "tests": [
+      { "input": [], "expected": { "name": "Alice", "age": 25 } }
+    ],
+    "patternTag": "Object Mutability",
+    "patternExplanation": "const only prevents re-assignment of the variable, not mutation of the object it references.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f22-destructuring-basics",
+    "title": "Destructuring basics",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getCoords",
+    "description": "Destructuring assignment allows you to unpack values from arrays, or properties from objects, into distinct variables.",
+    "whatShouldHappen": [
+      "Use object destructuring to extract 'x' and 'y' from the point object.",
+      "Return an array containing [x, y]."
+    ],
+    "starterCode": "function getCoords(point) {\n  // Use destructuring to get x and y from point object\n  // Return an array [x, y]\n}",
+    "solution": "function getCoords(point) {\n  const { x, y } = point;\n  return [x, y];\n}",
+    "traceTable": {
+      "inputLabel": "point = {x: 10, y: 20}",
+      "columns": ["Destructuring", "x", "y", "Result"],
+      "rows": [
+        ["const {x, y} = point", "10", "20", "[10, 20]"]
+      ]
+    },
+    "skeletonHint": "Syntax: `const { prop1, prop2 } = object;`",
+    "tests": [
+      { "input": [{ "x": 10, "y": 20 }], "expected": [10, 20] },
+      { "input": [{ "x": -5, "y": 0 }], "expected": [-5, 0] }
+    ],
+    "patternTag": "Destructuring",
+    "patternExplanation": "Destructuring provides a concise way to extract multiple properties from an object or array.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f23-template-literals",
+    "title": "Template literals interpolation",
+    "type": "coding",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "greet",
+    "description": "Template literals are string literals allowing embedded expressions. You can use multi-line strings and string interpolation features with them.",
+    "whatShouldHappen": [
+      "Return a string: 'Hello, my name is [name] and I am [age] years old.'",
+      "Use template literals (backticks) and interpolation (${expression})."
+    ],
+    "starterCode": "function greet(name, age) {\n  // Return string \"Hello, my name is [name] and I am [age] years old.\"\n  // Use template literals (backticks)\n}",
+    "solution": "function greet(name, age) {\n  return `Hello, my name is ${name} and I am ${age} years old.`;\n}",
+    "traceTable": {
+      "inputLabel": "name='John', age=30",
+      "columns": ["Expression", "Interpolation", "Final String"],
+      "rows": [
+        ["`Hello... ${name}...`", "name -> 'John'", "'Hello, my name is John...'"],
+        ["`... ${age} years...`", "age -> 30", "'... and I am 30 years old.'"]
+      ]
+    },
+    "skeletonHint": "Use backticks (`) instead of quotes and ${} for variables.",
+    "tests": [
+      { "input": ["John", 30], "expected": "Hello, my name is John and I am 30 years old." },
+      { "input": ["Alice", 25], "expected": "Hello, my name is Alice and I am 25 years old." }
+    ],
+    "patternTag": "Template Literals",
+    "patternExplanation": "Template literals offer a more readable way to build strings with dynamic content.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f24-bitwise-basics",
+    "title": "Bitwise AND/OR basics",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "bitwiseOps",
+    "description": "Bitwise operators treat their operands as a set of 32 bits. `&` (AND) returns a 1 in each bit position for which the corresponding bits of both operands are 1s. `|` (OR) returns a 1 in each bit position for which the corresponding bits of either or both operands are 1s.",
+    "whatShouldHappen": [
+      "Calculate bitwise AND of a and b.",
+      "Calculate bitwise OR of a and b.",
+      "Return results as an array [andResult, orResult]."
+    ],
+    "starterCode": "function bitwiseOps(a, b) {\n  // Return an array [a & b, a | b]\n}",
+    "solution": "function bitwiseOps(a, b) {\n  return [a & b, a | b];\n}",
+    "traceTable": {
+      "inputLabel": "a=5 (101), b=3 (011)",
+      "columns": ["Operator", "Binary Operation", "Decimal Result"],
+      "rows": [
+        ["AND (&)", "101 & 011 -> 001", "1"],
+        ["OR (|)", "101 | 011 -> 111", "7"]
+      ]
+    },
+    "skeletonHint": "The bitwise AND operator is `&` and OR is `|`.",
+    "tests": [
+      { "input": [5, 3], "expected": [1, 7] },
+      { "input": [12, 10], "expected": [8, 14] }
+    ],
+    "patternTag": "Bitwise Operators",
+    "patternExplanation": "Bitwise operations perform calculations on the binary representation of numbers.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f25-number-methods",
+    "title": "Number methods (toFixed, toPrecision)",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "formatNumber",
+    "description": "`toFixed()` formats a number using fixed-point notation (returns a string). `toPrecision()` returns a string representing the number to a specified precision.",
+    "whatShouldHappen": [
+      "Format num using toFixed(2).",
+      "Format num using toPrecision(3).",
+      "Return results as an array [fixed, precision]."
+    ],
+    "starterCode": "function formatNumber(num) {\n  // Return an array [num.toFixed(2), num.toPrecision(3)]\n}",
+    "solution": "function formatNumber(num) {\n  return [num.toFixed(2), num.toPrecision(3)];\n}",
+    "traceTable": {
+      "inputLabel": "num = 123.456",
+      "columns": ["Method", "Result", "Type"],
+      "rows": [
+        ["num.toFixed(2)", "'123.46'", "string"],
+        ["num.toPrecision(3)", "'123'", "string"]
+      ]
+    },
+    "skeletonHint": "Both methods return strings, not numbers.",
+    "tests": [
+      { "input": [123.456], "expected": ["123.46", "123"] },
+      { "input": [5.6789], "expected": ["5.68", "5.68"] }
+    ],
+    "patternTag": "Number Formatting",
+    "patternExplanation": "Methods like toFixed and toPrecision help control the visual representation of numbers.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f26-math-rounding",
+    "title": "Math rounding (floor, ceil, round)",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "mathRounding",
+    "description": "JavaScript's `Math` object provides several methods for rounding numbers. `Math.floor()` always rounds down to the largest integer less than or equal to a given number. `Math.ceil()` always rounds up to the next largest integer. `Math.round()` rounds to the nearest integer, with .5 rounding up.",
+    "whatShouldHappen": [
+      "Return an array containing [Math.floor(num), Math.ceil(num), Math.round(num)]."
+    ],
+    "starterCode": "function mathRounding(num) {\n  // Return [Math.floor(num), Math.ceil(num), Math.round(num)]\n}",
+    "solution": "function mathRounding(num) {\n  return [Math.floor(num), Math.ceil(num), Math.round(num)];\n}",
+    "traceTable": {
+      "inputLabel": "num = 4.5",
+      "columns": ["Method", "Result"],
+      "rows": [
+        ["Math.floor(4.5)", "4"],
+        ["Math.ceil(4.5)", "5"],
+        ["Math.round(4.5)", "5"]
+      ]
+    },
+    "skeletonHint": "Use the static methods of the Math object.",
+    "tests": [
+      { "input": [4.5], "expected": [4, 5, 5] },
+      { "input": [4.4], "expected": [4, 5, 4] },
+      { "input": [-4.5], "expected": [-5, -4, -4] }
+    ],
+    "patternTag": "Math Rounding",
+    "patternExplanation": "Understanding the different rounding directions is crucial for numeric processing.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f27-random-range",
+    "title": "Random integer in range",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "getRandomInt",
+    "description": "To generate a random integer between a `min` and `max` value (both inclusive), we use `Math.random()`, multiply it by the range size, and use `Math.floor()` to get an integer.",
+    "whatShouldHappen": [
+      "Generate a random integer between min and max inclusive.",
+      "The formula is: Math.floor(Math.random() * (max - min + 1)) + min."
+    ],
+    "starterCode": "function getRandomInt(min, max) {\n  // Generate and return a random integer between min and max (inclusive)\n}",
+    "solution": "function getRandomInt(min, max) {\n  return Math.floor(Math.random() * (max - min + 1)) + min;\n}",
+    "traceTable": {
+      "inputLabel": "min=1, max=3",
+      "columns": ["Expression", "Potential Values"],
+      "rows": [
+        ["Math.random()", "0.0 to 0.999..."],
+        ["* (3 - 1 + 1)", "0.0 to 2.999..."],
+        ["Math.floor()", "0, 1, 2"],
+        ["+ 1", "1, 2, 3"]
+      ]
+    },
+    "skeletonHint": "The formula involves (max - min + 1) to ensure the max value is inclusive.",
+    "tests": [
+      { "input": [1, 1], "expected": 1 }
+    ],
+    "patternTag": "Random Numbers",
+    "patternExplanation": "Math.random() is the foundation for randomness in JS, but usually needs scaling.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "js-f28-try-catch-finally",
+    "title": "Execution flow with Try-Catch-Finally",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "executionFlow",
+    "description": "The `finally` block always runs after the `try` and `catch` blocks, regardless of whether an exception was thrown or caught. This is useful for cleanup operations.",
+    "whatShouldHappen": [
+      "Initialize an array `logs = []`.",
+      "In `try`, push 'try' and throw an error.",
+      "In `catch`, push 'catch'.",
+      "In `finally`, push 'finally'.",
+      "Return the `logs` array."
+    ],
+    "starterCode": "function executionFlow() {\n  const logs = [];\n  // Use try-catch-finally and push strings to logs\n  return logs;\n}",
+    "solution": "function executionFlow() {\n  const logs = [];\n  try {\n    logs.push('try');\n    throw new Error('fail');\n  } catch (e) {\n    logs.push('catch');\n  } finally {\n    logs.push('finally');\n  }\n  return logs;\n}",
+    "traceTable": {
+      "inputLabel": "None",
+      "columns": ["Block", "Action", "logs"],
+      "rows": [
+        ["try", "push 'try', throw", "['try']"],
+        ["catch", "push 'catch'", "['try', 'catch']"],
+        ["finally", "push 'finally'", "['try', 'catch', 'finally']"]
+      ]
+    },
+    "skeletonHint": "Even if you throw or return, the finally block will still execute.",
+    "tests": [
+      { "input": [], "expected": ["try", "catch", "finally"] }
+    ],
+    "patternTag": "Error Handling",
+    "patternExplanation": "Finally blocks are guaranteed to run, making them ideal for closing connections or clearing timers.",
+    "estimatedMinutes": 8,
+    "status": "published"
+  },
+  {
+    "id": "js-f29-throw-error",
+    "title": "Throwing custom errors",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "checkAge",
+    "description": "You can use the `throw` keyword to stop execution and signal an error condition. It's best practice to throw an `Error` object rather than a string.",
+    "whatShouldHappen": [
+      "If `age` is less than 18, throw an `Error` with message 'Underage'.",
+      "Otherwise, return 'Access granted'."
+    ],
+    "starterCode": "function checkAge(age) {\n  // Throw Error('Underage') if age < 18\n  // Otherwise return 'Access granted'\n}",
+    "solution": "function checkAge(age) {\n  if (age < 18) {\n    throw new Error('Underage');\n  }\n  return 'Access granted';\n}",
+    "traceTable": {
+      "inputLabel": "age = 15",
+      "columns": ["Condition", "Action"],
+      "rows": [
+        ["15 < 18", "throw new Error('Underage')"]
+      ]
+    },
+    "skeletonHint": "Use `throw new Error('message')` to create a standard error object.",
+    "tests": [
+      { "input": [20], "expected": "Access granted" }
+    ],
+    "patternTag": "Custom Errors",
+    "patternExplanation": "Throwing errors allows you to communicate invalid states to the caller of your function.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  },
+  {
+    "id": "js-f30-object-reference",
+    "title": "Object Reference Equality",
+    "type": "coding",
+    "category": "tricky-patterns",
+    "difficulty": "Beginner",
+    "collectionId": "js-pro-mastery",
+    "functionName": "compareObjects",
+    "description": "Primitive types (numbers, strings) are compared by value. Objects (including arrays) are compared by reference. This means `{a:1} === {a:1}` is `false` because they are different objects in memory.",
+    "whatShouldHappen": [
+      "Create `obj1 = { a: 1 }`.",
+      "Create `obj2 = { a: 1 }`.",
+      "Create `obj3 = obj1`.",
+      "Return `[obj1 === obj2, obj1 === obj3]`."
+    ],
+    "starterCode": "function compareObjects() {\n  // Create the objects and compare them\n  // Return [obj1 === obj2, obj1 === obj3]\n}",
+    "solution": "function compareObjects() {\n  const obj1 = { a: 1 };\n  const obj2 = { a: 1 };\n  const obj3 = obj1;\n  return [obj1 === obj2, obj1 === obj3];\n}",
+    "traceTable": {
+      "inputLabel": "None",
+      "columns": ["Comparison", "Reason", "Result"],
+      "rows": [
+        ["obj1 === obj2", "Different memory locations", "false"],
+        ["obj1 === obj3", "Same memory location", "true"]
+      ]
+    },
+    "skeletonHint": "Equality for objects checks if they point to the exact same 'box' in memory.",
+    "tests": [
+      { "input": [], "expected": [false, true] }
+    ],
+    "patternTag": "Reference Equality",
+    "patternExplanation": "Understanding references is essential for managing state and avoiding unintended mutations in JS.",
+    "estimatedMinutes": 5,
+    "status": "published"
+  }
+]
+

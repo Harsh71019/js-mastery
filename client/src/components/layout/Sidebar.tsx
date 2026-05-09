@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Code2, BarChart2, Flame, CheckCircle2, HelpCircle, RefreshCw, Tag, CalendarDays } from 'lucide-react'
+import { LayoutDashboard, Code2, BarChart2, Flame, CheckCircle2, HelpCircle, RefreshCw, Tag, CalendarDays, LineChart } from 'lucide-react'
 import { useProgress } from '@/hooks/useProgress'
 import { useProblemCounts } from '@/hooks/useProblemCounts'
 
@@ -18,6 +18,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { to: '/review',   label: 'Review',   icon: <RefreshCw size={16} /> },
   { to: '/patterns', label: 'Patterns', icon: <Tag size={16} /> },
   { to: '/progress', label: 'Progress', icon: <BarChart2 size={16} /> },
+  { to: '/stats',    label: 'Stats',    icon: <LineChart size={16} /> },
 ]
 
 const getNavClass = ({ isActive }: { isActive: boolean }): string =>

@@ -1,0 +1,595 @@
+[
+  {
+    "id": "implement-trie-prefix-tree",
+    "title": "Implement Trie (Prefix Tree)",
+    "type": "coding",
+    "category": "trees",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "trieHandler",
+    "description": "A **trie** (pronounced as \"try\") or **prefix tree** is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. There are various applications of this data structure, such as autocomplete and spellchecker.\n\nImplement the Trie class:\n\n- `Trie()` Initializes the trie object.\n- `void insert(String word)` Inserts the string `word` into the trie.\n- `boolean search(String word)` Returns `true` if the string `word` is in the trie (i.e., was inserted before), and `false` otherwise.\n- `boolean startsWith(String prefix)` Returns `true` if there is a previously inserted string `word` that has the prefix `prefix`, and `false` otherwise.",
+    "whatShouldHappen": [
+      "Use a nested object or a Map for children of each Trie node",
+      "Track the end of a word with a boolean flag at each node",
+      "Efficiently traverse down the tree character by character for all operations"
+    ],
+    "starterCode": "class TrieNode {\n  constructor() {\n    this.children = {};\n    this.isEndOfWord = false;\n  }\n}\n\nclass Trie {\n  constructor() {\n    this.root = new TrieNode();\n  }\n\n  /** \n   * @param {string} word\n   * @return {void}\n   */\n  insert(word) {\n    // Your code here\n  }\n\n  /** \n   * @param {string} word\n   * @return {boolean}\n   */\n  search(word) {\n    // Your code here\n  }\n\n  /** \n   * @param {string} prefix\n   * @return {boolean}\n   */\n  startsWith(prefix) {\n    // Your code here\n  }\n}\n\n/**\n * @param {string[]} ops\n * @param {any[][]} params\n * @return {any[]}\n */\nfunction trieHandler(ops, params) {\n  let trie = null;\n  return ops.map((op, i) => {\n    if (op === 'Trie') {\n      trie = new Trie();\n      return null;\n    }\n    return trie[op](...params[i]);\n  });\n}",
+    "solution": "class TrieNode {\n  constructor() {\n    this.children = {};\n    this.isEndOfWord = false;\n  }\n}\n\nclass Trie {\n  constructor() {\n    this.root = new TrieNode();\n  }\n\n  insert(word) {\n    let node = this.root;\n    for (const char of word) {\n      if (!node.children[char]) {\n        node.children[char] = new TrieNode();\n      }\n      node = node.children[char];\n    }\n    node.isEndOfWord = true;\n  }\n\n  search(word) {\n    let node = this.root;\n    for (const char of word) {\n      if (!node.children[char]) return false;\n      node = node.children[char];\n    }\n    return node.isEndOfWord;\n  }\n\n  startsWith(prefix) {\n    let node = this.root;\n    for (const char of prefix) {\n      if (!node.children[char]) return false;\n      node = node.children[char];\n    }\n    return true;\n  }\n}\n\nfunction trieHandler(ops, params) {\n  let trie = null;\n  return ops.map((op, i) => {\n    if (op === 'Trie') {\n      trie = new Trie();\n      return null;\n    }\n    return trie[op](...params[i]);\n  });\n}",
+    "traceTable": {
+      "inputLabel": "ops = ['Trie', 'insert', 'search'], params = [[], ['apple'], ['apple']]",
+      "columns": ["Operation", "Word/Prefix", "Node Path", "isEndOfWord", "Result"],
+      "rows": [
+        { "Operation": "insert", "Word/Prefix": "apple", "Node Path": "root -> a -> p -> p -> l -> e", "isEndOfWord": "true", "Result": "null" },
+        { "Operation": "search", "Word/Prefix": "apple", "Node Path": "root -> a -> p -> p -> l -> e", "isEndOfWord": "true", "Result": "true" }
+      ]
+    },
+    "skeletonHint": "Each node in the Trie should have a `children` property (an object mapping characters to nodes) and an `isEndOfWord` boolean. To insert or search, iterate through the string and move from node to node based on characters.",
+    "tests": [
+      {
+        "input": [["Trie", "insert", "search", "search", "startsWith", "insert", "search"], [[], ["apple"], ["apple"], ["app"], ["app"], ["app"], ["app"]]],
+        "expected": [null, null, true, false, true, null, true]
+      },
+      {
+        "input": [["Trie", "insert", "search"], [[], ["a"], ["a"]]],
+        "expected": [null, null, true]
+      },
+      {
+        "input": [["Trie", "startsWith"], [[], ["a"]]],
+        "expected": [null, false]
+      }
+    ],
+    "patternTag": "Trie",
+    "patternExplanation": "A Trie is optimal for prefix-based searches as it shares common prefixes among strings, reducing space and time complexity for operations like 'startsWith'.",
+    "estimatedMinutes": 20
+  },
+  {
+    "id": "design-add-and-search-words-data-structure",
+    "title": "Design Add and Search Words Data Structure",
+    "type": "coding",
+    "category": "trees",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "wordDictionaryHandler",
+    "description": "Design a data structure that supports adding new words and finding if a string matches any previously added string.\n\nImplement the `WordDictionary` class:\n\n- `WordDictionary()` Initializes the object.\n- `void addWord(word)` Adds `word` to the data structure, it can be matched later.\n- `bool search(word)` Returns `true` if there is any string in the data structure that matches `word` or `false` otherwise. `word` may contain dots `'.'` where dots can be matched with any letter.",
+    "whatShouldHappen": [
+      "Insert words into a Trie structure",
+      "Use recursion (DFS) in the search function to handle the wildcard character '.'",
+      "Return true if any path matches the word length and characters (or wildcards)"
+    ],
+    "starterCode": "class TrieNode {\n  constructor() {\n    this.children = {};\n    this.isEndOfWord = false;\n  }\n}\n\nclass WordDictionary {\n  constructor() {\n    this.root = new TrieNode();\n  }\n\n  addWord(word) {\n    // Your code here\n  }\n\n  search(word) {\n    // Your code here\n  }\n}\n\n/**\n * @param {string[]} ops\n * @param {any[][]} params\n * @return {any[]}\n */\nfunction wordDictionaryHandler(ops, params) {\n  let wd = null;\n  return ops.map((op, i) => {\n    if (op === 'WordDictionary') {\n      wd = new WordDictionary();\n      return null;\n    }\n    return wd[op](...params[i]);\n  });\n}",
+    "solution": "class TrieNode {\n  constructor() {\n    this.children = {};\n    this.isEndOfWord = false;\n  }\n}\n\nclass WordDictionary {\n  constructor() {\n    this.root = new TrieNode();\n  }\n\n  addWord(word) {\n    let node = this.root;\n    for (const char of word) {\n      if (!node.children[char]) {\n        node.children[char] = new TrieNode();\n      }\n      node = node.children[char];\n    }\n    node.isEndOfWord = true;\n  }\n\n  search(word) {\n    function dfs(node, index) {\n      if (index === word.length) return node.isEndOfWord;\n\n      const char = word[index];\n      if (char === '.') {\n        for (const key in node.children) {\n          if (dfs(node.children[key], index + 1)) return true;\n        }\n        return false;\n      } else {\n        if (!node.children[char]) return false;\n        return dfs(node.children[char], index + 1);\n      }\n    }\n\n    return dfs(this.root, 0);\n  }\n}\n\nfunction wordDictionaryHandler(ops, params) {\n  let wd = null;\n  return ops.map((op, i) => {\n    if (op === 'WordDictionary') {\n      wd = new WordDictionary();\n      return null;\n    }\n    return wd[op](...params[i]);\n  });\n}",
+    "traceTable": {
+      "inputLabel": "search('b.d') with words ['bad', 'dad']",
+      "columns": ["Index", "Char", "Possible Nodes", "DFS result"],
+      "rows": [
+        { "Index": "0", "Char": "b", "Possible Nodes": "['b']", "DFS result": "Continue" },
+        { "Index": "1", "Char": ".", "Possible Nodes": "['a' in bad]", "DFS result": "Continue" },
+        { "Index": "2", "Char": "d", "Possible Nodes": "['d' in bad]", "DFS result": "true" }
+      ]
+    },
+    "skeletonHint": "Use a Trie for storage. For the search, if you encounter a '.', you need to check all children of the current node recursively. If it's a regular character, just follow that character's path.",
+    "tests": [
+      {
+        "input": [["WordDictionary", "addWord", "addWord", "addWord", "search", "search", "search", "search"], [[], ["bad"], ["dad"], ["mad"], ["pad"], ["bad"], [".ad"], ["b.."]]],
+        "expected": [null, null, null, null, false, true, true, true]
+      },
+      {
+        "input": [["WordDictionary", "addWord", "search"], [[], ["a"], ["."]]],
+        "expected": [null, null, true]
+      },
+      {
+        "input": [["WordDictionary", "addWord", "search"], [[], ["a"], ["b"]]],
+        "expected": [null, null, false]
+      }
+    ],
+    "patternTag": "Trie / DFS",
+    "patternExplanation": "A Trie allows for efficient word storage, and DFS is necessary to explore all possible paths when a wildcard character '.' is encountered.",
+    "estimatedMinutes": 25
+  },
+  {
+    "id": "maximum-depth-of-binary-tree",
+    "title": "Maximum Depth of Binary Tree",
+    "type": "coding",
+    "category": "trees",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "maxDepth",
+    "description": "Given the `root` of a binary tree, return *its maximum depth*.\n\nA binary tree's **maximum depth** is the number of nodes along the longest path from the root node down to the farthest leaf node.",
+    "whatShouldHappen": [
+      "Use recursion to find the depth of left and right subtrees",
+      "Return 0 for null nodes (base case)",
+      "Return 1 + maximum of left and right subtree depths"
+    ],
+    "starterCode": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number}\n */\nfunction maxDepth(root) {\n  // Your code here\n}",
+    "solution": "function maxDepth(root) {\n  if (!root) return 0;\n  return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));\n}",
+    "traceTable": {
+      "inputLabel": "root = [3,9,20,null,null,15,7]",
+      "columns": ["Node", "Left Depth", "Right Depth", "Result"],
+      "rows": [
+        { "Node": "15", "Left Depth": "0", "Right Depth": "0", "Result": "1" },
+        { "Node": "20", "Left Depth": "1 (node 15)", "Right Depth": "1 (node 7)", "Result": "2" },
+        { "Node": "3", "Left Depth": "1 (node 9)", "Right Depth": "2 (node 20)", "Result": "3" }
+      ]
+    },
+    "skeletonHint": "Think recursively. The maximum depth of a tree is 1 plus the maximum of the depths of its left and right subtrees. What's the base case when the root is null?",
+    "tests": [
+      { 
+        "input": [{"val": 3, "left": {"val": 9, "left": null, "right": null}, "right": {"val": 20, "left": {"val": 15, "left": null, "right": null}, "right": {"val": 7, "left": null, "right": null}}}], 
+        "expected": 3 
+      },
+      { 
+        "input": [{"val": 1, "left": null, "right": {"val": 2, "left": null, "right": null}}], 
+        "expected": 2 
+      },
+      { "input": [null], "expected": 0 }
+    ],
+    "patternTag": "DFS / Recursion",
+    "patternExplanation": "Depth-First Search naturally explores each path to its leaf, making it ideal for calculating height/depth.",
+    "estimatedMinutes": 10
+  },
+  {
+    "id": "same-tree",
+    "title": "Same Tree",
+    "type": "coding",
+    "category": "trees",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "isSameTree",
+    "description": "Given the roots of two binary trees `p` and `q`, write a function to check if they are the same or not.\n\nTwo binary trees are considered the same if they are structurally identical, and the nodes have the same value.",
+    "whatShouldHappen": [
+      "Check if both nodes are null (true)",
+      "Check if one node is null and the other isn't (false)",
+      "Check if values match and recurse for left and right children"
+    ],
+    "starterCode": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} p\n * @param {TreeNode} q\n * @return {boolean}\n */\nfunction isSameTree(p, q) {\n  // Your code here\n}",
+    "solution": "function isSameTree(p, q) {\n  if (!p && !q) return true;\n  if (!p || !q || p.val !== q.val) return false;\n  return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);\n}",
+    "traceTable": {
+      "inputLabel": "p = [1,2], q = [1,null,2]",
+      "columns": ["p.val", "q.val", "Left Match", "Right Match", "Result"],
+      "rows": [
+        { "p.val": "1", "q.val": "1", "Left Match": "p.left(2) vs q.left(null)", "Right Match": "-", "Result": "false" }
+      ]
+    },
+    "skeletonHint": "Compare the current nodes `p` and `q`. If both are null, they're the same. If only one is null or their values differ, they're not. Otherwise, recursively check their left and right subtrees.",
+    "tests": [
+      { 
+        "input": [
+          {"val": 1, "left": {"val": 2, "left": null, "right": null}, "right": {"val": 3, "left": null, "right": null}},
+          {"val": 1, "left": {"val": 2, "left": null, "right": null}, "right": {"val": 3, "left": null, "right": null}}
+        ], 
+        "expected": true 
+      },
+      { 
+        "input": [
+          {"val": 1, "left": {"val": 2, "left": null, "right": null}, "right": null},
+          {"val": 1, "left": null, "right": {"val": 2, "left": null, "right": null}}
+        ], 
+        "expected": false 
+      },
+      { 
+        "input": [
+          {"val": 1, "left": {"val": 2, "left": null, "right": null}, "right": {"val": 1, "left": null, "right": null}},
+          {"val": 1, "left": {"val": 1, "left": null, "right": null}, "right": {"val": 2, "left": null, "right": null}}
+        ], 
+        "expected": false 
+      }
+    ],
+    "patternTag": "DFS / Recursion",
+    "patternExplanation": "Recursively comparing tree structures is a classic application of Depth-First Search.",
+    "estimatedMinutes": 10
+  },
+  {
+    "id": "invert-binary-tree",
+    "title": "Invert Binary Tree",
+    "type": "coding",
+    "category": "trees",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "invertTree",
+    "description": "Given the `root` of a binary tree, invert the tree, and return *its root*.",
+    "whatShouldHappen": [
+      "Swap the left and right children of the current node",
+      "Recursively invert the left and right subtrees",
+      "Return the root after inversion is complete"
+    ],
+    "starterCode": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {TreeNode}\n */\nfunction invertTree(root) {\n  // Your code here\n}",
+    "solution": "function invertTree(root) {\n  if (!root) return null;\n\n  const left = invertTree(root.left);\n  const right = invertTree(root.right);\n\n  root.left = right;\n  root.right = left;\n\n  return root;\n}",
+    "traceTable": {
+      "inputLabel": "root = [4,2,7]",
+      "columns": ["Node", "Left Child (Original)", "Right Child (Original)", "Inversion Step"],
+      "rows": [
+        { "Node": "4", "Left Child (Original)": "2", "Right Child (Original)": "7", "Inversion Step": "Swap 2 and 7" },
+        { "Node": "2", "Left Child (Original)": "1", "Right Child (Original)": "3", "Inversion Step": "Swap 1 and 3" }
+      ]
+    },
+    "skeletonHint": "To invert a tree, you need to swap the left and right children of every node. This can be done recursively: swap current node's children, then call the same function for both children.",
+    "tests": [
+      {
+        "input": [{"val": 4, "left": {"val": 2, "left": {"val": 1, "left": null, "right": null}, "right": {"val": 3, "left": null, "right": null}}, "right": {"val": 7, "left": {"val": 6, "left": null, "right": null}, "right": {"val": 9, "left": null, "right": null}}}],
+        "expected": {"val": 4, "left": {"val": 7, "left": {"val": 9, "left": null, "right": null}, "right": {"val": 6, "left": null, "right": null}}, "right": {"val": 2, "left": {"val": 3, "left": null, "right": null}, "right": {"val": 1, "left": null, "right": null}}}
+      },
+      {
+        "input": [{"val": 2, "left": {"val": 1, "left": null, "right": null}, "right": {"val": 3, "left": null, "right": null}}],
+        "expected": {"val": 2, "left": {"val": 3, "left": null, "right": null}, "right": {"val": 1, "left": null, "right": null}}
+      },
+      {
+        "input": [null],
+        "expected": null
+      }
+    ],
+    "patternTag": "DFS / Recursion",
+    "patternExplanation": "Inverting a tree is a structural change that can be naturally expressed by visiting each node (DFS) and swapping its subtrees.",
+    "estimatedMinutes": 10
+  },
+  {
+    "id": "binary-tree-maximum-path-sum",
+    "title": "Binary Tree Maximum Path Sum",
+    "type": "coding",
+    "category": "trees",
+    "difficulty": "Hard",
+    "collectionId": "blind75",
+    "functionName": "maxPathSum",
+    "description": "A **path** in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence **at most once**. Note that the path does not need to pass through the root.\n\nThe **path sum** of a path is the sum of the node's values in the path.\n\nGiven the `root` of a binary tree, return *the maximum path sum of any non-empty path*.",
+    "whatShouldHappen": [
+      "Compute maximum gain from left and right subtrees recursively",
+      "Update a global maximum with the sum of current node value + left gain + right gain",
+      "Return node value + max(left gain, right gain) to the parent caller"
+    ],
+    "starterCode": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number}\n */\nfunction maxPathSum(root) {\n  // Your code here\n}",
+    "solution": "function maxPathSum(root) {\n  let maxSum = -Infinity;\n\n  function gain(node) {\n    if (!node) return 0;\n\n    const leftGain = Math.max(gain(node.left), 0);\n    const rightGain = Math.max(gain(node.right), 0);\n\n    const currentPathSum = node.val + leftGain + rightGain;\n    maxSum = Math.max(maxSum, currentPathSum);\n\n    return node.val + Math.max(leftGain, rightGain);\n  }\n\n  gain(root);\n  return maxSum;\n}",
+    "traceTable": {
+      "inputLabel": "root = [-10,9,20,null,null,15,7]",
+      "columns": ["Node", "Left Gain", "Right Gain", "Local Path Sum", "maxSum"],
+      "rows": [
+        { "Node": "15", "Left Gain": "0", "Right Gain": "0", "Local Path Sum": "15", "maxSum": "15" },
+        { "Node": "7", "Left Gain": "0", "Right Gain": "0", "Local Path Sum": "7", "maxSum": "15" },
+        { "Node": "20", "Left Gain": "15", "Right Gain": "7", "Local Path Sum": "42", "maxSum": "42" },
+        { "Node": "-10", "Left Gain": "9", "Right Gain": "22 (20+15)", "Local Path Sum": "21", "maxSum": "42" }
+      ]
+    },
+    "skeletonHint": "Use a helper function to return the maximum 'gain' a node can contribute to its parent (node.val + max(leftGain, rightGain)). Inside this helper, update a global variable with the sum of the current node and both its children's gains (a path through this node).",
+    "tests": [
+      {
+        "input": [{"val": 1, "left": {"val": 2, "left": null, "right": null}, "right": {"val": 3, "left": null, "right": null}}],
+        "expected": 6
+      },
+      {
+        "input": [{"val": -10, "left": {"val": 9, "left": null, "right": null}, "right": {"val": 20, "left": {"val": 15, "left": null, "right": null}, "right": {"val": 7, "left": null, "right": null}}}],
+        "expected": 42
+      },
+      {
+        "input": [{"val": -3, "left": null, "right": null}],
+        "expected": -3
+      }
+    ],
+    "patternTag": "DFS / Recursion",
+    "patternExplanation": "Finding the maximum path sum requires exploring all paths. DFS allows us to calculate the contribution of each subtree (gain) and evaluate the best path passing through each node.",
+    "estimatedMinutes": 35
+  },
+  {
+    "id": "binary-tree-level-order-traversal",
+    "title": "Binary Tree Level Order Traversal",
+    "type": "coding",
+    "category": "trees",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "levelOrder",
+    "description": "Given the `root` of a binary tree, return *the level order traversal of its nodes' values*. (i.e., from left to right, level by level).",
+    "whatShouldHappen": [
+      "Use a queue to process nodes level by level (BFS)",
+      "For each level, record the number of nodes and process them as a group",
+      "Push children of each node into the queue for the next level"
+    ],
+    "starterCode": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number[][]}\n */\nfunction levelOrder(root) {\n  // Your code here\n}",
+    "solution": "function levelOrder(root) {\n  if (!root) return [];\n  \n  const result = [];\n  const queue = [root];\n\n  while (queue.length > 0) {\n    const levelSize = queue.length;\n    const currentLevel = [];\n\n    for (let i = 0; i < levelSize; i++) {\n      const node = queue.shift();\n      currentLevel.push(node.val);\n\n      if (node.left) queue.push(node.left);\n      if (node.right) queue.push(node.right);\n    }\n\n    result.push(currentLevel);\n  }\n\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "root = [3,9,20,null,null,15,7]",
+      "columns": ["Level", "Queue Before", "Nodes in Level", "Queue After"],
+      "rows": [
+        { "Level": "0", "Queue Before": "[3]", "Nodes in Level": "[3]", "Queue After": "[9, 20]" },
+        { "Level": "1", "Queue Before": "[9, 20]", "Nodes in Level": "[9, 20]", "Queue After": "[15, 7]" },
+        { "Level": "2", "Queue Before": "[15, 7]", "Nodes in Level": "[15, 7]", "Queue After": "[]" }
+      ]
+    },
+    "skeletonHint": "Breadth-First Search (BFS) is the standard way to traverse a tree level by level. Use a queue. To group values by level, capture the queue size at the start of each level's processing.",
+    "tests": [
+      {
+        "input": [{"val": 3, "left": {"val": 9, "left": null, "right": null}, "right": {"val": 20, "left": {"val": 15, "left": null, "right": null}, "right": {"val": 7, "left": null, "right": null}}}],
+        "expected": [[3], [9, 20], [15, 7]]
+      },
+      {
+        "input": [{"val": 1, "left": null, "right": null}],
+        "expected": [[1]]
+      },
+      {
+        "input": [null],
+        "expected": []
+      }
+    ],
+    "patternTag": "BFS",
+    "patternExplanation": "Level-order traversal is a direct application of Breadth-First Search, which visits all nodes at the current depth before moving to the next.",
+    "estimatedMinutes": 20
+  },
+  {
+    "id": "serialize-and-deserialize-binary-tree",
+    "title": "Serialize and Deserialize Binary Tree",
+    "type": "coding",
+    "category": "trees",
+    "difficulty": "Hard",
+    "collectionId": "blind75",
+    "functionName": "serializeDeserializeHandler",
+    "description": "Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.\n\nDesign an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized to the original tree structure.",
+    "whatShouldHappen": [
+      "Implement `serialize` to convert a tree into a single string (e.g., using DFS with 'null' markers)",
+      "Implement `deserialize` to reconstruct the tree from that string",
+      "Ensure the round-trip `deserialize(serialize(root))` results in the original tree"
+    ],
+    "starterCode": "/**\n * Definition for a binary tree node.\n * function TreeNode(val) {\n *     this.val = val;\n *     this.left = this.right = null;\n * }\n */\n\n/**\n * Encodes a tree to a single string.\n *\n * @param {TreeNode} root\n * @return {string}\n */\nfunction serialize(root) {\n  // Your code here\n}\n\n/**\n * Decodes your encoded data to tree.\n *\n * @param {string} data\n * @return {TreeNode}\n */\nfunction deserialize(data) {\n  // Your code here\n}\n\n/**\n * Your functions will be called as such:\n * deserialize(serialize(root));\n */\n\nfunction serializeDeserializeHandler(root) {\n  return deserialize(serialize(root));\n}",
+    "solution": "function serialize(root) {\n  const result = [];\n  \n  function dfs(node) {\n    if (!node) {\n      result.push('null');\n      return;\n    }\n    result.push(node.val.toString());\n    dfs(node.left);\n    dfs(node.right);\n  }\n  \n  dfs(root);\n  return result.join(',');\n}\n\nfunction deserialize(data) {\n  const values = data.split(',');\n  let i = 0;\n  \n  function dfs() {\n    if (values[i] === 'null') {\n      i++;\n      return null;\n    }\n    \n    const node = { val: parseInt(values[i]), left: null, right: null };\n    i++;\n    node.left = dfs();\n    node.right = dfs();\n    return node;\n  }\n  \n  return dfs();\n}\n\nfunction serializeDeserializeHandler(root) {\n  return deserialize(serialize(root));\n}",
+    "traceTable": {
+      "inputLabel": "root = [1,2,3,null,null,4,5]",
+      "columns": ["Action", "Current Node", "Output / State", "Result"],
+      "rows": [
+        { "Action": "Serialize", "Current Node": "1", "Output / State": "['1']", "Result": "Continue DFS" },
+        { "Action": "Serialize", "Current Node": "null (left of 2)", "Output / State": "['1','2','null','null']", "Result": "Backtrack" },
+        { "Action": "Deserialize", "Current Node": "1", "Output / State": "i=1, node(1)", "Result": "Construct left" }
+      ]
+    },
+    "skeletonHint": "Use pre-order traversal (DFS) for both. For serialization, use a special character or 'null' to represent empty nodes. For deserialization, use a pointer or shift values from your serialized list as you recursively build the tree.",
+    "tests": [
+      {
+        "input": [{"val": 1, "left": {"val": 2, "left": null, "right": null}, "right": {"val": 3, "left": {"val": 4, "left": null, "right": null}, "right": {"val": 5, "left": null, "right": null}}}],
+        "expected": {"val": 1, "left": {"val": 2, "left": null, "right": null}, "right": {"val": 3, "left": {"val": 4, "left": null, "right": null}, "right": {"val": 5, "left": null, "right": null}}}
+      },
+      {
+        "input": [null],
+        "expected": null
+      },
+      {
+        "input": [{"val": 1, "left": null, "right": null}],
+        "expected": {"val": 1, "left": null, "right": null}
+      }
+    ],
+    "patternTag": "DFS / BFS",
+    "patternExplanation": "DFS (specifically pre-order) is very effective for serializing trees because it maintains the structure of the tree in a linear format that can be easily reconstructed.",
+    "estimatedMinutes": 30
+  },
+  {
+    "id": "subtree-of-another-tree",
+    "title": "Subtree of Another Tree",
+    "type": "coding",
+    "category": "trees",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "isSubtree",
+    "description": "Given the roots of two binary trees `root` and `subRoot`, return `true` if there is a subtree of `root` that has the same structure and node values of `subRoot` and `false` otherwise.\n\nA subtree of a binary tree `tree` is a tree that consists of a node in `tree` and all of this node's descendants. The tree `tree` could also be considered as a subtree of itself.",
+    "whatShouldHappen": [
+      "Implement a helper function `isSameTree` to check if two trees are identical",
+      "Recursively check if `subRoot` matches the current `root` or any of its subtrees",
+      "Return false if the main `root` becomes null without finding a match"
+    ],
+    "starterCode": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @param {TreeNode} subRoot\n * @return {boolean}\n */\nfunction isSubtree(root, subRoot) {\n  // Your code here\n}",
+    "solution": "function isSameTree(p, q) {\n  if (!p && !q) return true;\n  if (!p || !q || p.val !== q.val) return false;\n  return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);\n}\n\nfunction isSubtree(root, subRoot) {\n  if (!root) return false;\n  if (isSameTree(root, subRoot)) return true;\n  return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);\n}",
+    "traceTable": {
+      "inputLabel": "root = [3,4,5,1,2], subRoot = [4,1,2]",
+      "columns": ["Current Node (root)", "isSameTree?", "DFS Step"],
+      "rows": [
+        { "Current Node (root)": "3", "isSameTree?": "false", "DFS Step": "Check root.left (4)" },
+        { "Current Node (root)": "4", "isSameTree?": "true", "DFS Step": "Return true" }
+      ]
+    },
+    "skeletonHint": "This problem requires checking two things: if the current tree starting at `root` is the same as `subRoot`, OR if `subRoot` is a subtree of `root.left` or `root.right`. Use the `isSameTree` logic as a helper.",
+    "tests": [
+      {
+        "input": [
+          {"val": 3, "left": {"val": 4, "left": {"val": 1, "left": null, "right": null}, "right": {"val": 2, "left": null, "right": null}}, "right": {"val": 5, "left": null, "right": null}},
+          {"val": 4, "left": {"val": 1, "left": null, "right": null}, "right": {"val": 2, "left": null, "right": null}}
+        ],
+        "expected": true
+      },
+      {
+        "input": [
+          {"val": 3, "left": {"val": 4, "left": {"val": 1, "left": null, "right": null}, "right": {"val": 2, "left": {"val": 0, "left": null, "right": null}, "right": null}}, "right": {"val": 5, "left": null, "right": null}},
+          {"val": 4, "left": {"val": 1, "left": null, "right": null}, "right": {"val": 2, "left": null, "right": null}}
+        ],
+        "expected": false
+      },
+      {
+        "input": [
+          {"val": 1, "left": {"val": 1, "left": null, "right": null}, "right": null},
+          {"val": 1, "left": null, "right": null}
+        ],
+        "expected": true
+      }
+    ],
+    "patternTag": "DFS / Recursion",
+    "patternExplanation": "Recursion allows us to check the identity condition at each node of the main tree, effectively searching for the subtree.",
+    "estimatedMinutes": 15
+  },
+  {
+    "id": "construct-binary-tree-from-preorder-and-inorder-traversal",
+    "title": "Construct Binary Tree from Preorder and Inorder Traversal",
+    "type": "coding",
+    "category": "trees",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "buildTree",
+    "description": "Given two integer arrays `preorder` and `inorder` where `preorder` is the preorder traversal of a binary tree and `inorder` is the inorder traversal of the same tree, construct and return the binary tree.",
+    "whatShouldHappen": [
+      "Use the first element of `preorder` as the root node",
+      "Find the root's index in `inorder` to split the tree into left and right subtrees",
+      "Recursively build left and right subtrees by slicing the arrays"
+    ],
+    "starterCode": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {number[]} preorder\n * @param {number[]} inorder\n * @return {TreeNode}\n */\nfunction buildTree(preorder, inorder) {\n  // Your code here\n}",
+    "solution": "function buildTree(preorder, inorder) {\n  if (!preorder.length || !inorder.length) return null;\n\n  const rootVal = preorder[0];\n  const root = { val: rootVal, left: null, right: null };\n  \n  const mid = inorder.indexOf(rootVal);\n  \n  root.left = buildTree(preorder.slice(1, mid + 1), inorder.slice(0, mid));\n  root.right = buildTree(preorder.slice(mid + 1), inorder.slice(mid + 1));\n\n  return root;\n}",
+    "traceTable": {
+      "inputLabel": "preorder = [3,9,20], inorder = [9,3,20]",
+      "columns": ["preorder", "inorder", "Root", "Inorder Index (mid)", "Result"],
+      "rows": [
+        { "preorder": "[3,9,20]", "inorder": "[9,3,20]", "Root": "3", "Inorder Index (mid)": "1", "Result": "root.left=build([9],[9]), root.right=build([20],[20])" },
+        { "preorder": "[9]", "inorder": "[9]", "Root": "9", "Inorder Index (mid)": "0", "Result": "Leaf node 9" }
+      ]
+    },
+    "skeletonHint": "In `preorder`, the first element is always the root. In `inorder`, elements to the left of the root value belong to the left subtree, and elements to the right belong to the right subtree. Use this to recursively split the arrays.",
+    "tests": [
+      {
+        "input": [[3, 9, 20, 15, 7], [9, 3, 15, 20, 7]],
+        "expected": {"val": 3, "left": {"val": 9, "left": null, "right": null}, "right": {"val": 20, "left": {"val": 15, "left": null, "right": null}, "right": {"val": 7, "left": null, "right": null}}}
+      },
+      {
+        "input": [[-1], [-1]],
+        "expected": {"val": -1, "left": null, "right": null}
+      },
+      {
+        "input": [[1, 2], [2, 1]],
+        "expected": {"val": 1, "left": {"val": 2, "left": null, "right": null}, "right": null}
+      }
+    ],
+    "patternTag": "Recursion / Hash Map",
+    "patternExplanation": "The structural relationship between preorder and inorder traversals naturally leads to a recursive solution where we divide the problem into smaller sub-trees.",
+    "estimatedMinutes": 25
+  },
+  {
+    "id": "validate-binary-search-tree",
+    "title": "Validate Binary Search Tree",
+    "type": "coding",
+    "category": "trees",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "isValidBST",
+    "description": "Given the `root` of a binary tree, determine if it is a valid binary search tree (BST).\n\nA **valid BST** is defined as follows:\n- The left subtree of a node contains only nodes with keys **less than** the node's key.\n- The right subtree of a node contains only nodes with it keys **greater than** the node's key.\n- Both the left and right subtrees must also be binary search trees.",
+    "whatShouldHappen": [
+      "Check if every node value is within a valid range (min, max)",
+      "Update the range recursively as you traverse down the tree",
+      "Return false if any node violates the BST property"
+    ],
+    "starterCode": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {boolean}\n */\nfunction isValidBST(root) {\n  // Your code here\n}",
+    "solution": "function isValidBST(root) {\n  function validate(node, min, max) {\n    if (!node) return true;\n    if (node.val <= min || node.val >= max) return false;\n    return validate(node.left, min, node.val) && validate(node.right, node.val, max);\n  }\n  return validate(root, -Infinity, Infinity);\n}",
+    "traceTable": {
+      "inputLabel": "root = [2,1,3]",
+      "columns": ["Node", "Min Bound", "Max Bound", "Valid?"],
+      "rows": [
+        { "Node": "2", "Min Bound": "-Infinity", "Max Bound": "Infinity", "Valid?": "true" },
+        { "Node": "1", "Min Bound": "-Infinity", "Max Bound": "2", "Valid?": "true" },
+        { "Node": "3", "Min Bound": "2", "Max Bound": "Infinity", "Valid?": "true" }
+      ]
+    },
+    "skeletonHint": "A common mistake is only checking if a node's value is between its direct left and right children. Instead, you must ensure all nodes in the left subtree are less than the current node, and all in the right are greater. Use a helper function with `min` and `max` bounds.",
+    "tests": [
+      {
+        "input": [{"val": 2, "left": {"val": 1, "left": null, "right": null}, "right": {"val": 3, "left": null, "right": null}}],
+        "expected": true
+      },
+      {
+        "input": [{"val": 5, "left": {"val": 1, "left": null, "right": null}, "right": {"val": 4, "left": {"val": 3, "left": null, "right": null}, "right": {"val": 6, "left": null, "right": null}}}],
+        "expected": false
+      },
+      {
+        "input": [{"val": 10, "left": {"val": 5, "left": null, "right": null}, "right": {"val": 15, "left": {"val": 6, "left": null, "right": null}, "right": {"val": 20, "left": null, "right": null}}}],
+        "expected": false
+      }
+    ],
+    "patternTag": "DFS / BST Properties",
+    "patternExplanation": "BST validation requires ensuring that every node satisfies the global constraints inherited from its ancestors, which is naturally handled by passing bounds down during a Depth-First Search.",
+    "estimatedMinutes": 20
+  },
+  {
+    "id": "kth-smallest-element-in-a-bst",
+    "title": "Kth Smallest Element in a BST",
+    "type": "coding",
+    "category": "trees",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "kthSmallest",
+    "description": "Given the `root` of a binary search tree, and an integer `k`, return *the* `kth` *smallest value (**1-indexed**) of all the values of the nodes in the tree*.",
+    "whatShouldHappen": [
+      "Perform an inorder traversal of the BST",
+      "Track the number of nodes visited",
+      "Return the value of the kth node visited"
+    ],
+    "starterCode": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @param {number} k\n * @return {number}\n */\nfunction kthSmallest(root, k) {\n  // Your code here\n}",
+    "solution": "function kthSmallest(root, k) {\n  const stack = [];\n  let curr = root;\n  let n = 0;\n\n  while (curr || stack.length > 0) {\n    while (curr) {\n      stack.push(curr);\n      curr = curr.left;\n    }\n    curr = stack.pop();\n    n++;\n    if (n === k) return curr.val;\n    curr = curr.right;\n  }\n}",
+    "traceTable": {
+      "inputLabel": "root = [3,1,4,null,2], k = 1",
+      "columns": ["Node Visited", "Stack State", "n (Count)", "Result"],
+      "rows": [
+        { "Node Visited": "1", "Stack State": "[3]", "n (Count)": "1", "Result": "1 (Found!)" },
+        { "Node Visited": "2", "Stack State": "[3]", "n (Count)": "2", "Result": "-" }
+      ]
+    },
+    "skeletonHint": "Inorder traversal of a BST visits nodes in ascending order. You can either use recursion to build an array and return the (k-1)th element, or use an iterative approach with a stack to stop exactly at the kth element.",
+    "tests": [
+      {
+        "input": [{"val": 3, "left": {"val": 1, "left": null, "right": {"val": 2, "left": null, "right": null}}, "right": {"val": 4, "left": null, "right": null}}, 1],
+        "expected": 1
+      },
+      {
+        "input": [{"val": 5, "left": {"val": 3, "left": {"val": 2, "left": {"val": 1, "left": null, "right": null}, "right": null}, "right": {"val": 4, "left": null, "right": null}}, "right": {"val": 6, "left": null, "right": null}}, 3],
+        "expected": 3
+      },
+      {
+        "input": [{"val": 1, "left": null, "right": null}, 1],
+        "expected": 1
+      }
+    ],
+    "patternTag": "DFS / Inorder Traversal",
+    "patternExplanation": "Inorder traversal of a BST (Left-Root-Right) yields node values in strictly increasing order, making it the most efficient way to find the kth smallest element.",
+    "estimatedMinutes": 20
+  },
+  {
+    "id": "lowest-common-ancestor-of-a-binary-search-tree",
+    "title": "Lowest Common Ancestor of a Binary Search Tree",
+    "type": "coding",
+    "category": "trees",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "lowestCommonAncestor",
+    "description": "Given a binary search tree (BST), find the lowest common ancestor (LCA) node of two given nodes in the BST.\n\nAccording to the [definition of LCA on Wikipedia](https://en.wikipedia.org/wiki/Lowest_common_ancestor): “The lowest common ancestor is defined between two nodes `p` and `q` as the lowest node in `T` that has both `p` and `q` as descendants (where we allow **a node to be a descendant of itself**).”",
+    "whatShouldHappen": [
+      "Compare p and q values with the current root value",
+      "If both p and q are smaller than root, move to the left subtree",
+      "If both p and q are larger than root, move to the right subtree",
+      "Otherwise, the current root is the LCA"
+    ],
+    "starterCode": "/**\n * Definition for a binary tree node.\n * function TreeNode(val) {\n *     this.val = val;\n *     this.left = this.right = null;\n * }\n */\n/**\n * @param {TreeNode} root\n * @param {TreeNode} p\n * @param {TreeNode} q\n * @return {TreeNode}\n */\nfunction lowestCommonAncestor(root, p, q) {\n  // Your code here\n}",
+    "solution": "function lowestCommonAncestor(root, p, q) {\n  let curr = root;\n  while (curr) {\n    if (p.val < curr.val && q.val < curr.val) {\n      curr = curr.left;\n    } else if (p.val > curr.val && q.val > curr.val) {\n      curr = curr.right;\n    } else {\n      return curr;\n    }\n  }\n}",
+    "traceTable": {
+      "inputLabel": "root = [6,2,8], p = 2, q = 8",
+      "columns": ["Current Node", "p.val vs Root", "q.val vs Root", "Action"],
+      "rows": [
+        { "Current Node": "6", "p.val vs Root": "2 < 6", "q.val vs Root": "8 > 6", "Action": "Split occurred, return 6" },
+        { "Current Node": "2", "p.val vs Root": "2 = 2", "q.val vs Root": "4 > 2", "Action": "Return 2" }
+      ]
+    },
+    "skeletonHint": "Leverage the BST property! If p and q are both on one side of the current node, the LCA must be in that subtree. If they are on opposite sides, the current node is their lowest common ancestor.",
+    "tests": [
+      {
+        "input": [
+          {"val": 6, "left": {"val": 2, "left": {"val": 0, "left": null, "right": null}, "right": {"val": 4, "left": {"val": 3, "left": null, "right": null}, "right": {"val": 5, "left": null, "right": null}}}, "right": {"val": 8, "left": {"val": 7, "left": null, "right": null}, "right": {"val": 9, "left": null, "right": null}}},
+          {"val": 2},
+          {"val": 8}
+        ],
+        "expected": {"val": 6}
+      },
+      {
+        "input": [
+          {"val": 6, "left": {"val": 2, "left": {"val": 0, "left": null, "right": null}, "right": {"val": 4, "left": {"val": 3, "left": null, "right": null}, "right": {"val": 5, "left": null, "right": null}}}, "right": {"val": 8, "left": {"val": 7, "left": null, "right": null}, "right": {"val": 9, "left": null, "right": null}}},
+          {"val": 2},
+          {"val": 4}
+        ],
+        "expected": {"val": 2}
+      },
+      {
+        "input": [
+          {"val": 2, "left": {"val": 1, "left": null, "right": null}, "right": null},
+          {"val": 2},
+          {"val": 1}
+        ],
+        "expected": {"val": 2}
+      }
+    ],
+    "patternTag": "BST Properties",
+    "patternExplanation": "The BST property allows us to determine if both nodes reside in the left or right subtree without a full search. The first node we encounter that 'splits' the two values (or matches one of them) is guaranteed to be the LCA.",
+    "estimatedMinutes": 15
+  }
+]

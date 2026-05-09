@@ -1,0 +1,239 @@
+[
+  {
+    "id": "remove-nth-node-from-end-of-list",
+    "title": "Remove Nth Node From End of List",
+    "type": "coding",
+    "category": "linked-lists",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "removeNthFromEnd",
+    "description": "Given the `head` of a linked list, remove the `n-th` node from the end of the list and return its head.",
+    "whatShouldHappen": [
+      "Use two pointers with a fixed gap of `n` between them",
+      "Traverse to find the node preceding the target",
+      "Handle the edge case where the head itself needs to be removed"
+    ],
+    "starterCode": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @param {number} n\n * @return {ListNode}\n */\nfunction removeNthFromEnd(head, n) {\n  // Your code here\n}",
+    "solution": "function removeNthFromEnd(head, n) {\n  const dummy = new ListNode(0, head);\n  let fast = dummy;\n  let slow = dummy;\n\n  for (let i = 0; i <= n; i++) {\n    fast = fast.next;\n  }\n\n  while (fast !== null) {\n    fast = fast.next;\n    slow = slow.next;\n  }\n\n  slow.next = slow.next.next;\n  return dummy.next;\n}",
+    "traceTable": {
+      "inputLabel": "head = [1,2,3,4,5], n = 2",
+      "columns": ["step", "fast.val", "slow.val", "action"],
+      "rows": [
+        { "step": "Initial gap", "fast.val": 3, "slow.val": 0, "action": "Move fast n+1 steps" },
+        { "step": "Traversing", "fast.val": "null", "slow.val": 3, "action": "Reach end" },
+        { "step": "Removal", "fast.val": "null", "slow.val": 3, "action": "slow.next = slow.next.next (3.next = 5)" }
+      ]
+    },
+    "skeletonHint": "Use two pointers, `fast` and `slow`, and a dummy node to handle the case where the head is removed. Move `fast` `n` steps ahead first, then move both until `fast` reaches the end.",
+    "tests": [
+      { "input": [{"val": 1, "next": {"val": 2, "next": {"val": 3, "next": {"val": 4, "next": {"val": 5, "next": null}}}}}, 2], "expected": {"val": 1, "next": {"val": 2, "next": {"val": 3, "next": {"val": 5, "next": null}}}} },
+      { "input": [{"val": 1, "next": null}, 1], "expected": null },
+      { "input": [{"val": 1, "next": {"val": 2, "next": null}}, 1], "expected": {"val": 1, "next": null} }
+    ],
+    "patternTag": "Two Pointers",
+    "patternExplanation": "The 'fast and slow pointer' technique allows us to find the target node in a single pass by maintaining a constant gap.",
+    "estimatedMinutes": 20
+  },
+  {
+    "id": "merge-two-sorted-lists",
+    "title": "Merge Two Sorted Lists",
+    "type": "coding",
+    "category": "linked-lists",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "mergeTwoLists",
+    "description": "You are given the heads of two sorted linked lists `list1` and `list2`.\n\nMerge the two lists in a one **sorted** list. The list should be made by splicing together the nodes of the first two lists.\n\nReturn *the head of the merged linked list*.",
+    "whatShouldHappen": [
+      "Compare the values of the current nodes in both lists",
+      "Attach the smaller node to the merged list",
+      "Handle cases where one list is shorter than the other"
+    ],
+    "starterCode": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} list1\n * @param {ListNode} list2\n * @return {ListNode}\n */\nfunction mergeTwoLists(list1, list2) {\n  // Your code here\n}",
+    "solution": "function mergeTwoLists(list1, list2) {\n  const dummy = new ListNode(0);\n  let current = dummy;\n\n  while (list1 !== null && list2 !== null) {\n    if (list1.val <= list2.val) {\n      current.next = list1;\n      list1 = list1.next;\n    } else {\n      current.next = list2;\n      list2 = list2.next;\n    }\n    current = current.next;\n  }\n\n  current.next = list1 !== null ? list1 : list2;\n  return dummy.next;\n}",
+    "traceTable": {
+      "inputLabel": "list1 = [1,2,4], list2 = [1,3,4]",
+      "columns": ["list1.val", "list2.val", "current.next", "action"],
+      "rows": [
+        { "list1.val": 1, "list2.val": 1, "current.next": 1, "action": "Attach list1 node" },
+        { "list1.val": 2, "list2.val": 1, "current.next": 1, "action": "Attach list2 node" }
+      ]
+    },
+    "skeletonHint": "Use a dummy node to simplify the merging process. Iterate through both lists, comparing values and attaching the smaller node to your merged list. Don't forget to attach the remainder of whichever list isn't empty at the end.",
+    "tests": [
+      { 
+        "input": [
+          {"val": 1, "next": {"val": 2, "next": {"val": 4, "next": null}}},
+          {"val": 1, "next": {"val": 3, "next": {"val": 4, "next": null}}}
+        ],
+        "expected": {"val": 1, "next": {"val": 1, "next": {"val": 2, "next": {"val": 3, "next": {"val": 4, "next": {"val": 4, "next": null}}}}}}
+      },
+      { "input": [null, null], "expected": null },
+      { "input": [null, {"val": 0, "next": null}], "expected": {"val": 0, "next": null} }
+    ],
+    "patternTag": "Linked List",
+    "patternExplanation": "Iterating through sorted lists and merging them is a fundamental linked list pattern, often used in merge sort.",
+    "estimatedMinutes": 15
+  },
+  {
+    "id": "merge-k-sorted-lists",
+    "title": "Merge k Sorted Lists",
+    "type": "coding",
+    "category": "linked-lists",
+    "difficulty": "Hard",
+    "collectionId": "blind75",
+    "functionName": "mergeKLists",
+    "description": "You are given an array of `k` linked-lists `lists`, each linked-list is sorted in ascending order.\n\n*Merge all the linked-lists into one sorted linked-list and return it.*",
+    "whatShouldHappen": [
+      "Efficiently combine multiple sorted lists",
+      "Maintain the sorted order across all elements",
+      "Optimize using a Priority Queue or Divide and Conquer"
+    ],
+    "starterCode": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode[]} lists\n * @return {ListNode}\n */\nfunction mergeKLists(lists) {\n  // Your code here\n}",
+    "solution": "function mergeKLists(lists) {\n  if (lists.length === 0) return null;\n\n  const mergeTwoLists = (l1, l2) => {\n    const dummy = new ListNode(0);\n    let curr = dummy;\n    while (l1 && l2) {\n      if (l1.val < l2.val) {\n        curr.next = l1;\n        l1 = l1.next;\n      } else {\n        curr.next = l2;\n        l2 = l2.next;\n      }\n      curr = curr.next;\n    }\n    curr.next = l1 || l2;\n    return dummy.next;\n  };\n\n  while (lists.length > 1) {\n    const mergedLists = [];\n    for (let i = 0; i < lists.length; i += 2) {\n      const l1 = lists[i];\n      const l2 = i + 1 < lists.length ? lists[i + 1] : null;\n      mergedLists.push(mergeTwoLists(l1, l2));\n    }\n    lists = mergedLists;\n  }\n\n  return lists[0];\n}",
+    "traceTable": {
+      "inputLabel": "lists = [[1,4,5],[1,3,4],[2,6]]",
+      "columns": ["iteration", "pairs merged", "remaining lists"],
+      "rows": [
+        { "iteration": 1, "pairs merged": "2", "remaining lists": "2" },
+        { "iteration": 2, "pairs merged": "1", "remaining lists": "1" }
+      ]
+    },
+    "skeletonHint": "Merging k lists can be optimized by using a divide and conquer strategy (merging lists in pairs) or a Min-Priority Queue. For Divide and Conquer, repeatedly merge pairs of lists until only one remains.",
+    "tests": [
+      {
+        "input": [[
+          {"val": 1, "next": {"val": 4, "next": {"val": 5, "next": null}}},
+          {"val": 1, "next": {"val": 3, "next": {"val": 4, "next": null}}},
+          {"val": 2, "next": {"val": 6, "next": null}}
+        ]],
+        "expected": {"val": 1, "next": {"val": 1, "next": {"val": 2, "next": {"val": 3, "next": {"val": 4, "next": {"val": 4, "next": {"val": 5, "next": {"val": 6, "next": null}}}}}}}}
+      },
+      { "input": [[]], "expected": null },
+      { "input": [[null]], "expected": null }
+    ],
+    "patternTag": "Divide and Conquer",
+    "patternExplanation": "By merging lists in pairs, we reduce the problem size exponentially, resulting in O(N log k) time complexity.",
+    "estimatedMinutes": 45
+  },
+  {
+    "id": "reverse-linked-list",
+    "title": "Reverse Linked List",
+    "type": "coding",
+    "category": "linked-lists",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "reverseList",
+    "description": "Given the `head` of a singly linked list, reverse the list, and return *the reversed list*.",
+    "whatShouldHappen": [
+      "Iterate through the list while keeping track of the previous node",
+      "Reassign the `next` pointer of each node to its predecessor",
+      "Update the `head` to the last node encountered"
+    ],
+    "starterCode": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @return {ListNode}\n */\nfunction reverseList(head) {\n  // Your code here\n}",
+    "solution": "function reverseList(head) {\n  let prev = null;\n  let curr = head;\n  while (curr !== null) {\n    let nextTemp = curr.next;\n    curr.next = prev;\n    prev = curr;\n    curr = nextTemp;\n  }\n  return prev;\n}",
+    "traceTable": {
+      "inputLabel": "head = [1,2,3]",
+      "columns": ["curr.val", "prev.val", "nextTemp.val", "action"],
+      "rows": [
+        { "curr.val": 1, "prev.val": "null", "nextTemp.val": 2, "action": "1.next = null" },
+        { "curr.val": 2, "prev.val": 1, "nextTemp.val": 3, "action": "2.next = 1" }
+      ]
+    },
+    "skeletonHint": "Use three pointers: `prev` (initially null), `curr` (initially head), and `nextTemp`. In each step, save `curr.next`, point `curr.next` to `prev`, then move `prev` and `curr` one step forward.",
+    "tests": [
+      { 
+        "input": [{"val": 1, "next": {"val": 2, "next": {"val": 3, "next": {"val": 4, "next": {"val": 5, "next": null}}}}}], 
+        "expected": {"val": 5, "next": {"val": 4, "next": {"val": 3, "next": {"val": 2, "next": {"val": 1, "next": null}}}}}}
+      ,
+      { 
+        "input": [{"val": 1, "next": {"val": 2, "next": null}}], 
+        "expected": {"val": 2, "next": {"val": 1, "next": null}}
+      },
+      { "input": [null], "expected": null }
+    ],
+    "patternTag": "Iterative / Recursive",
+    "patternExplanation": "Reversing a linked list can be done iteratively by swapping pointers or recursively by reversing the rest of the list and attaching the head.",
+    "estimatedMinutes": 10
+  },
+  {
+    "id": "linked-list-cycle",
+    "title": "Linked List Cycle",
+    "type": "coding",
+    "category": "linked-lists",
+    "difficulty": "Easy",
+    "collectionId": "blind75",
+    "functionName": "hasCycle",
+    "description": "Given `head`, the head of a linked list, determine if the linked list has a cycle in it.\n\nThere is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the `next` pointer.\n\nReturn `true` if there is a cycle in the linked list. Otherwise, return `false`.",
+    "whatShouldHappen": [
+      "Detect if a cycle exists in the linked list",
+      "Use O(1) memory by utilizing two pointers (Fast & Slow)",
+      "Correctly handle lists with no cycles and empty lists"
+    ],
+    "starterCode": "/**\n * Definition for singly-linked list.\n * function ListNode(val) {\n *     this.val = val;\n *     this.next = null;\n * }\n */\n/**\n * @param {ListNode} head\n * @return {boolean}\n */\nfunction hasCycle(head) {\n  // Your code here\n}",
+    "solution": "function hasCycle(head) {\n  let slow = head;\n  let fast = head;\n\n  while (fast !== null && fast.next !== null) {\n    slow = slow.next;\n    fast = fast.next.next;\n\n    if (slow === fast) {\n      return true;\n    }\n  }\n\n  return false;\n}",
+    "traceTable": {
+      "inputLabel": "head = [3,2,0,-4], pos = 1 (cycle at 2)",
+      "columns": ["step", "slow.val", "fast.val", "action"],
+      "rows": [
+        { "step": "Initial", "slow.val": 3, "fast.val": 3, "action": "Start" },
+        { "step": "1", "slow.val": 2, "fast.val": 0, "action": "Move pointers" },
+        { "step": "2", "slow.val": 0, "fast.val": 2, "action": "Move pointers" },
+        { "step": "3", "slow.val": -4, "fast.val": -4, "action": "Pointers meet! Cycle detected" }
+      ]
+    },
+    "skeletonHint": "Use Floyd's Cycle-Finding Algorithm (Fast & Slow pointers). Move the slow pointer by one step and the fast pointer by two steps. If there is a cycle, they will eventually meet.",
+    "tests": [
+      { "input": [{"val": 3, "next": {"val": 2, "next": {"val": 0, "next": {"val": -4, "next": null}}}}], "expected": false },
+      { "input": [{"val": 1, "next": {"val": 2, "next": null}}], "expected": false },
+      { "input": [{"val": 1, "next": null}], "expected": false },
+      { "input": [null], "expected": false }
+    ],
+    "patternTag": "Fast & Slow Pointers",
+    "patternExplanation": "Floyd's Cycle-Finding Algorithm uses two pointers moving at different speeds to detect a cycle in O(n) time and O(1) space.",
+    "estimatedMinutes": 10
+  },
+  {
+    "id": "reorder-list",
+    "title": "Reorder List",
+    "type": "coding",
+    "category": "linked-lists",
+    "difficulty": "Medium",
+    "collectionId": "blind75",
+    "functionName": "reorderList",
+    "description": "You are given the head of a singly linked-list. The list can be represented as:\n\n`L0 → L1 → … → Ln - 1 → Ln`\n\nReorder the list to be on the following form:\n\n`L0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …`\n\nYou may not modify the values in the list's nodes. Only nodes themselves may be changed.",
+    "whatShouldHappen": [
+      "Find the middle of the linked list using fast and slow pointers",
+      "Reverse the second half of the list",
+      "Merge the two halves by alternating nodes"
+    ],
+    "starterCode": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @return {void} Do not return anything, modify head in-place instead.\n */\nfunction reorderList(head) {\n  // Your code here\n}",
+    "solution": "function reorderList(head) {\n  if (!head || !head.next) return;\n\n  // 1. Find middle\n  let slow = head;\n  let fast = head;\n  while (fast && fast.next) {\n    slow = slow.next;\n    fast = fast.next.next;\n  }\n\n  // 2. Reverse second half\n  let prev = null;\n  let curr = slow.next;\n  slow.next = null;\n  while (curr) {\n    let next = curr.next;\n    curr.next = prev;\n    prev = curr;\n    curr = next;\n  }\n\n  // 3. Merge two halves\n  let first = head;\n  let second = prev;\n  while (second) {\n    let t1 = first.next;\n    let t2 = second.next;\n    first.next = second;\n    second.next = t1;\n    first = t1;\n    second = t2;\n  }\n}",
+    "traceTable": {
+      "inputLabel": "head = [1,2,3,4]",
+      "columns": ["Phase", "First Half", "Second Half (Reversed)", "Merged Result"],
+      "rows": [
+        { "Phase": "Split/Reverse", "First Half": "[1,2]", "Second Half (Reversed)": "[4,3]", "Merged Result": "-" },
+        { "Phase": "Merge Step 1", "First Half": "[2]", "Second Half (Reversed)": "[3]", "Merged Result": "[1,4,2]" },
+        { "Phase": "Final", "First Half": "[]", "Second Half (Reversed)": "[]", "Merged Result": "[1,4,2,3]" }
+      ]
+    },
+    "skeletonHint": "First, find the midpoint using slow/fast pointers. Then, reverse the second half of the list. Finally, zip the two lists together by alternating nodes from each half.",
+    "tests": [
+      { 
+        "input": [{"val": 1, "next": {"val": 2, "next": {"val": 3, "next": {"val": 4, "next": null}}}}], 
+        "expected": {"val": 1, "next": {"val": 4, "next": {"val": 2, "next": {"val": 3, "next": null}}}}
+      },
+      { 
+        "input": [{"val": 1, "next": {"val": 2, "next": {"val": 3, "next": {"val": 4, "next": {"val": 5, "next": null}}}}}] ,
+        "expected": {"val": 1, "next": {"val": 5, "next": {"val": 2, "next": {"val": 4, "next": {"val": 3, "next": null}}}}}
+      },
+      { 
+        "input": [{"val": 1, "next": null}], 
+        "expected": {"val": 1, "next": null}
+      }
+    ],
+    "patternTag": "Two Pointers",
+    "patternExplanation": "Uses the fast/slow pointer technique to find the middle, pointer manipulation to reverse, and zipping to reorder.",
+    "estimatedMinutes": 25
+  }
+]
