@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams, Navigate } from 'react-router-dom'
 import { useProblem } from '@/hooks/useProblem'
 import { isMcqProblem, isTrickProblem } from '@/types/problem'
@@ -6,9 +6,17 @@ import { McqProblemView } from '@/components/problems/McqProblemView'
 import { TrickQuestionView } from '@/components/problems/TrickQuestionView'
 import { CodingProblemView } from '@/components/problems/CodingProblemView'
 
+const logVisit = (problemId: string): void => {
+  fetch(`/api/visits/${problemId}`, { method: 'POST' }).catch(() => undefined)
+}
+
 export const ProblemPage = (): React.JSX.Element => {
   const { id } = useParams<{ id: string }>()
   const { problem, nextId, prevId, isLoading, error } = useProblem(id ?? '')
+
+  useEffect(() => {
+    if (problem?.id) logVisit(problem.id)
+  }, [problem?.id])
 
   if (isLoading) {
     return (

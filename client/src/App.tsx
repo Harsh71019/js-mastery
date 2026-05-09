@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Layout } from '@/components/layout/Layout'
 import { Dashboard } from '@/pages/Dashboard'
@@ -13,19 +13,36 @@ import { PatternPage } from '@/pages/PatternPage'
 import { DailyChallengePage } from '@/pages/DailyChallengePage'
 import { StatsPage } from '@/pages/StatsPage'
 import { useProgressStore } from '@/store/useProgressStore'
+import { CommandPalette } from '@/components/ui/CommandPalette'
 
 const selectLoadProgress = (state: ReturnType<typeof useProgressStore.getState>) =>
   state.loadProgress
 
 export const App = (): React.JSX.Element => {
   const loadProgress = useProgressStore(selectLoadProgress)
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
 
   useEffect(() => {
     loadProgress()
   }, [loadProgress])
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setIsCommandPaletteOpen(prev => !prev)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
   return (
     <BrowserRouter>
+      <CommandPalette 
+        isOpen={isCommandPaletteOpen} 
+        onClose={() => setIsCommandPaletteOpen(false)} 
+      />
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Dashboard />} />

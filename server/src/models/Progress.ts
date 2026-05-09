@@ -12,7 +12,8 @@ const SolvedEntrySchema = new Schema(
     nextReviewDue:   { type: String },
     executionTimeMs: { type: Number },
     runCount:        { type: Number, default: 1 },
-    runTimings:      { type: [Number], default: [] },
+    runTimings:      { type: [Schema.Types.Mixed], default: [] },
+    acceptedCode:    { type: String },
   },
   { _id: false },
 )

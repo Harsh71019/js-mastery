@@ -1,133 +1,115 @@
-import React, { useRef, useState } from 'react'
-import { format } from 'date-fns'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useProgress } from '@/hooks/useProgress'
 import { useProblemCounts } from '@/hooks/useProblemCounts'
-import { useProgressStore } from '@/store/useProgressStore'
 import { StatCard } from '@/components/progress/StatCard'
 import { CalendarHeatmap } from '@/components/progress/CalendarHeatmap'
 import { SolveHistory } from '@/components/progress/SolveHistory'
-import { Toast } from '@/components/ui/Toast'
-
-interface DayData {
-  readonly date: string
-  readonly count: number
-  readonly titles: readonly string[]
-}
-
-const buildDayData = (
-  solvedProblems: Record<string, { solvedAt: string; attempts: number }>,
-): ReadonlyMap<string, DayData> => {
-  const map = new Map<string, DayData>()
-
-  Object.entries(solvedProblems).forEach(([id, entry]) => {
-    if (!entry.solvedAt) return
-    const dateKey = format(new Date(entry.solvedAt), 'yyyy-MM-dd')
-    const existing = map.get(dateKey)
-    if (existing) {
-      map.set(dateKey, {
-        date: dateKey,
-        count: existing.count + 1,
-        titles: [...existing.titles, id],
-      })
-    } else {
-      map.set(dateKey, { date: dateKey, count: 1, titles: [id] })
-    }
-  })
-
-  return map
-}
-
-type ToastState = { message: string; variant: 'success' | 'error' } | null
+import { PageContainer } from '@/components/ui/PageContainer'
+import { Card } from '@/components/ui/Card'
+import { Glow } from '@/components/ui/Glow'
+import { CATEGORIES } from '@/data/categories'
 
 export const ProgressPage = (): React.JSX.Element => {
-  const { solvedProblems, solvedCount, currentStreak, longestStreak } = useProgress()
+  const navigate = useNavigate()
+  const { solvedCount, currentStreak, longestStreak, solvedProblems } = useProgress()
   const { total } = useProblemCounts()
-  const [toast, setToast] = useState<ToastState>(null)
-  const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const dayData = buildDayData(solvedProblems)
-
-  const handleExport = (): void => {
-    const anchor = document.createElement('a')
-    anchor.href = '/api/progress/export'
-    anchor.download = `js-trainer-progress-${format(new Date(), 'yyyy-MM-dd')}.json`
-    anchor.click()
-  }
-
-  const handleImport = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const file = event.target.files?.[0]
-    if (!file) return
-
-    const reader = new FileReader()
-    reader.onload = async (loadEvent) => {
-      try {
-        const parsed: unknown = JSON.parse(loadEvent.target?.result as string)
-        if (typeof parsed !== 'object' || parsed === null || !('solvedProblems' in parsed)) {
-          setToast({ message: 'Invalid file — progress unchanged', variant: 'error' })
-          return
-        }
-        const response = await fetch('/api/progress/import', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(parsed),
+  const heatmapData = React.useMemo(() => {
+    const map = new Map<string, { date: string; count: number; titles: string[] }>()
+    Object.values(solvedProblems).forEach((entry) => {
+      if (!entry.solvedAt) return
+      const date = entry.solvedAt.split('T')[0]
+      const existing = map.get(date)
+      if (existing) {
+        existing.count++
+        existing.titles.push(entry.title ?? 'Unknown Problem')
+      } else {
+        map.set(date, {
+          date,
+          count: 1,
+          titles: [entry.title ?? 'Unknown Problem'],
         })
-        if (!response.ok) throw new Error('Import failed')
-        const data = await response.json()
-        useProgressStore.setState({ ...data, isLoaded: true })
-        setToast({ message: 'Progress restored successfully', variant: 'success' })
-      } catch {
-        setToast({ message: 'Invalid file — progress unchanged', variant: 'error' })
       }
-    }
-    reader.readAsText(file)
-    event.target.value = ''
-  }
+    })
+    return map
+  }, [solvedProblems])
+
+  const categoriesStarted = CATEGORIES.filter((category) =>
+    Object.keys(solvedProblems).some((id) => id.startsWith(category.slug)),
+  ).length
 
   return (
-    <div className="p-6 flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-text-primary text-xl font-medium">Progress</h1>
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={handleExport}
-            className="px-3 py-1.5 text-sm text-text-secondary border border-border-default rounded hover:border-border-hover hover:text-text-primary transition-colors duration-150 cursor-pointer"
-          >
-            Export Progress
-          </button>
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="px-3 py-1.5 text-sm text-text-secondary border border-border-default rounded hover:border-border-hover hover:text-text-primary transition-colors duration-150 cursor-pointer"
-          >
-            Import Progress
-          </button>
-          <input ref={fileInputRef} type="file" accept=".json" onChange={handleImport} className="hidden" />
+    <PageContainer className="flex flex-col gap-10 relative pb-20">
+      <Glow color="var(--color-accent-blue)" size="xl" className="-top-40 -left-20 opacity-[0.06]" />
+      <Glow color="var(--color-accent-purple)" size="lg" className="top-1/2 -right-20 opacity-[0.04]" />
+
+      <div className="flex items-center justify-between px-1 relative z-10">
+        <h1 className="text-text-primary text-xs font-bold uppercase tracking-[0.3em] font-geist opacity-60">System Progress Metrics</h1>
+        <div className="h-px bg-white/5 flex-1 mx-6" />
+        <span className="text-[9px] font-bold text-text-tertiary uppercase font-geist">Sync Status: Active</span>
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
+        <StatCard
+          label="Nodes Verified"
+          value={`${solvedCount}/${total}`}
+          accentColor="#22c55e"
+        />
+        <StatCard label="Active Uptime" value={`${currentStreak}D`} accentColor="#a855f7" />
+        <StatCard label="Max Endurance" value={`${longestStreak}D`} accentColor="#3b82f6" />
+        <StatCard
+          label="Sector Coverage"
+          value={`${categoriesStarted}/${CATEGORIES.length}`}
+          accentColor="#f59e0b"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 relative z-10">
+        <div className="lg:col-span-2 flex flex-col gap-10">
+          <div className="flex flex-col gap-4">
+            <h2 className="text-text-primary text-[10px] font-bold uppercase tracking-[0.2em] px-1 font-geist opacity-60">Temporal Activity Map</h2>
+            <Card className="p-6">
+              <CalendarHeatmap dayData={heatmapData} />
+            </Card>
+          </div>
+          <div className="flex flex-col gap-4">
+            <h2 className="text-text-primary text-[10px] font-bold uppercase tracking-[0.2em] px-1 font-geist opacity-60">Sequence Registry</h2>
+            <SolveHistory solvedProblems={solvedProblems} />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-6">
+          <h2 className="text-text-primary text-[10px] font-bold uppercase tracking-[0.2em] px-1 font-geist opacity-60">Sector Breakdown</h2>
+          <div className="flex flex-col gap-3">
+            {CATEGORIES.map((category) => {
+              const categorySolved = Object.keys(solvedProblems).filter((id) =>
+                id.startsWith(category.slug),
+              ).length
+              if (categorySolved === 0) return null
+
+              return (
+                <button
+                  key={category.slug}
+                  type="button"
+                  onClick={() => navigate(`/category/${category.slug}`)}
+                  className="glass-panel rounded-xl p-4 text-left hover:bg-white/[0.04] hover:border-white/20 transition-all duration-300 cursor-pointer flex items-center justify-between group"
+                >
+                  <span className="text-text-primary text-xs font-bold font-geist uppercase tracking-widest group-hover:text-accent-blue transition-colors">{category.title}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-accent-green text-[10px] font-bold font-geist">
+                      {categorySolved} SOLVED
+                    </span>
+                    <div className="w-6 h-6 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-accent-blue transition-colors">
+                      <div className="w-1 h-1 rounded-full bg-white/20" />
+                    </div>
+                  </div>
+                </button>
+              )
+            })}
+          </div>
         </div>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <StatCard label="Current Streak" value={`${currentStreak} days`} accentColor="#a855f7" />
-        <StatCard label="Longest Streak" value={`${longestStreak} days`} accentColor="#3b82f6" />
-        <StatCard label="Total Solved" value={`${solvedCount} / ${total}`} accentColor="#22c55e" />
-      </div>
-
-      <div className="bg-bg-secondary border border-border-default rounded-lg p-5">
-        <h2 className="text-text-secondary text-xs uppercase tracking-wide mb-4">Activity</h2>
-        <CalendarHeatmap dayData={dayData} />
-      </div>
-
-      <div className="bg-bg-secondary border border-border-default rounded-lg p-5">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-text-secondary text-xs uppercase tracking-wide">Solve History</h2>
-          <span className="text-text-tertiary text-xs">{solvedCount} total</span>
-        </div>
-        <SolveHistory solvedProblems={solvedProblems} />
-      </div>
-
-      {toast && (
-        <Toast message={toast.message} variant={toast.variant} onDismiss={() => setToast(null)} />
-      )}
-    </div>
+    </PageContainer>
   )
 }

@@ -9,10 +9,10 @@ interface ActivityGraphProps {
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const DAY_LABELS = ['', 'Mon', '', 'Wed', '', 'Fri', '']
 const CELL = 12
-const GAP = 2
+const GAP = 3
 const STEP = CELL + GAP
 
-const COLORS = ['#1a1a1a', '#14532d', '#15803d', '#16a34a', '#22c55e'] as const
+const COLORS = ['rgba(255,255,255,0.03)', '#14532d', '#15803d', '#16a34a', '#22c55e'] as const
 
 const getCellColor = (count: number): string => {
   if (count === 0) return COLORS[0]
@@ -59,21 +59,23 @@ export const ActivityGraph = ({ days, totalSolvedInWindow }: ActivityGraphProps)
 
   if (grid.length === 0) {
     return (
-      <p className="text-sm text-text-tertiary py-4">
-        No activity yet — solve a problem to see your graph.
-      </p>
+      <div className="flex items-center justify-center py-10">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-text-tertiary font-geist animate-pulse">
+          Initialize activity stream to view matrix...
+        </p>
+      </div>
     )
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="overflow-x-auto">
-        <div className="inline-flex flex-col gap-1">
-          <div className="relative h-4" style={{ marginLeft: 32 }}>
+    <div className="flex flex-col gap-6">
+      <div className="overflow-x-auto scrollbar-none">
+        <div className="inline-flex flex-col gap-2">
+          <div className="relative h-4" style={{ marginLeft: 36 }}>
             {monthLabels.map(({ label, colIndex }) => (
               <span
                 key={`${label}-${colIndex}`}
-                className="absolute text-[10px] text-text-tertiary"
+                className="absolute text-[9px] font-bold uppercase tracking-tighter text-text-tertiary font-geist"
                 style={{ left: colIndex * STEP }}
               >
                 {label}
@@ -81,7 +83,7 @@ export const ActivityGraph = ({ days, totalSolvedInWindow }: ActivityGraphProps)
             ))}
           </div>
 
-          <div className="flex gap-1">
+          <div className="flex gap-2">
             <div
               style={{
                 display: 'grid',
@@ -91,7 +93,7 @@ export const ActivityGraph = ({ days, totalSolvedInWindow }: ActivityGraphProps)
               }}
             >
               {DAY_LABELS.map((label, i) => (
-                <div key={i} className="flex items-center justify-end text-[10px] text-text-tertiary pr-1">
+                <div key={i} className="flex items-center justify-end text-[9px] font-bold uppercase tracking-tighter text-text-tertiary pr-2 font-geist">
                   {label}
                 </div>
               ))}
@@ -110,11 +112,14 @@ export const ActivityGraph = ({ days, totalSolvedInWindow }: ActivityGraphProps)
                 week.map((day, di) => (
                   <div
                     key={`${wi}-${di}`}
-                    className="rounded-sm"
-                    style={{ backgroundColor: day ? getCellColor(day.count) : 'transparent' }}
+                    className="rounded-[2px] transition-all duration-300 hover:scale-125 hover:z-10 cursor-crosshair"
+                    style={{ 
+                      backgroundColor: day ? getCellColor(day.count) : 'transparent',
+                      boxShadow: day && day.count > 4 ? `0 0 8px ${getCellColor(day.count)}44` : 'none'
+                    }}
                     title={
                       day
-                        ? `${day.count} problem${day.count !== 1 ? 's' : ''} solved on ${day.date}`
+                        ? `${day.count} nodes verified on ${day.date}`
                         : undefined
                     }
                   />
@@ -125,20 +130,20 @@ export const ActivityGraph = ({ days, totalSolvedInWindow }: ActivityGraphProps)
         </div>
       </div>
 
-      <div className="flex items-center gap-3" style={{ marginLeft: 32 }}>
-        <span className="text-[10px] text-text-tertiary">
-          {totalSolvedInWindow} problem{totalSolvedInWindow !== 1 ? 's' : ''} solved in the last year
+      <div className="flex items-center gap-4 border-t border-white/5 pt-4" style={{ marginLeft: 36 }}>
+        <span className="text-[9px] font-bold text-text-tertiary font-geist uppercase tracking-widest">
+          Telemetry: {totalSolvedInWindow} cycles verified in last year
         </span>
-        <div className="flex items-center gap-1 ml-auto">
-          <span className="text-[10px] text-text-tertiary">Less</span>
-          {COLORS.map((color) => (
+        <div className="flex items-center gap-1.5 ml-auto">
+          <span className="text-[9px] font-bold text-text-tertiary font-geist uppercase tracking-widest">Low</span>
+          {COLORS.map((color, i) => (
             <span
-              key={color}
-              className="rounded-sm inline-block"
-              style={{ width: CELL, height: CELL, backgroundColor: color }}
+              key={i}
+              className="rounded-[2px] inline-block"
+              style={{ width: 10, height: 10, backgroundColor: color }}
             />
           ))}
-          <span className="text-[10px] text-text-tertiary">More</span>
+          <span className="text-[9px] font-bold text-text-tertiary font-geist uppercase tracking-widest">High</span>
         </div>
       </div>
     </div>

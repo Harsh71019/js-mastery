@@ -8,13 +8,14 @@ const LIST_FIELDS = 'id title category difficulty patternTag estimatedMinutes ty
 router.get('/', async (req: Request, res: Response): Promise<void> => {
   const page = Math.max(1, parseInt(req.query.page as string) || 1)
   const limit = Math.min(100, Math.max(1, parseInt(req.query.limit as string) || 20))
-  const { category, difficulty, search, type, patternTag } = req.query
+  const { category, difficulty, search, type, patternTag, collectionId } = req.query
 
   const filter: Record<string, unknown> = { status: 'published' }
-  if (category)   filter.category   = category
-  if (difficulty) filter.difficulty = difficulty
-  if (search)     filter.title      = { $regex: search, $options: 'i' }
-  if (patternTag) filter.patternTag = patternTag
+  if (category)     filter.category     = category
+  if (difficulty)   filter.difficulty   = difficulty
+  if (search)       filter.title        = { $regex: search, $options: 'i' }
+  if (patternTag)   filter.patternTag   = patternTag
+  if (collectionId) filter.collectionId = collectionId
   // null matches documents where the field is missing — handles pre-type coding problems
   if (type === 'coding') filter.type = { $in: ['coding', null] }
   else if (type === 'quiz') filter.type = { $in: ['mcq', 'trick'] }
@@ -58,6 +59,52 @@ router.get('/categories/counts', async (_req: Request, res: Response): Promise<v
   res.json(counts)
 })
 
+router.get('/collections/counts', async (_req: Request, res: Response): Promise<void> => {
+  const counts = await Problem.aggregate([
+    { $match: { status: 'published', collectionId: { $exists: true, $ne: 'general' } } },
+    { $group: { _id: '$collectionId', count: { $sum: 1 } } },
+    { $project: { _id: 0, id: '$_id', count: 1 } },
+    { $sort: { id: 1 } },
+  ])
+
+  res.json(counts)
+})
+
+type RawTest = {
+  hidden?: boolean
+  expected?: unknown
+  [key: string]: unknown
+}
+
+const stripHiddenExpected = (tests: RawTest[]): RawTest[] =>
+  tests.map((t) => (t.hidden ? { ...t, expected: null } : t))
+
+const getNavIds = async (currentId: string) => {
+  const allIds = await Problem.find({ status: 'published' })
+    .select('id -_id')
+    .sort({ _id: 1 })
+    .lean()
+  const index = allIds.findIndex((p) => p.id === currentId)
+  return {
+    prevId: index > 0 ? allIds[index - 1].id : null,
+    nextId: index < allIds.length - 1 ? allIds[index + 1].id : null,
+  }
+}
+
+router.get('/:id/submit-tests', async (req: Request, res: Response): Promise<void> => {
+  const problem = await Problem.findOne(
+    { id: req.params.id, status: 'published' },
+    { _id: 0, tests: 1 },
+  ).lean()
+
+  if (!problem) {
+    res.status(404).json({ error: 'Problem not found' })
+    return
+  }
+
+  res.json({ tests: problem.tests ?? [] })
+})
+
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   const problem = await Problem.findOne(
     { id: req.params.id, status: 'published' },
@@ -69,16 +116,18 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
     return
   }
 
-  const allIds = await Problem.find({ status: 'published' })
-    .select('id -_id')
-    .sort({ _id: 1 })
-    .lean()
+  const { prevId, nextId } = await getNavIds(req.params.id)
 
-  const currentIndex = allIds.findIndex((p) => p.id === req.params.id)
-  const prevId = currentIndex > 0 ? allIds[currentIndex - 1].id : null
-  const nextId = currentIndex < allIds.length - 1 ? allIds[currentIndex + 1].id : null
+  const sanitized = {
+    ...problem,
+    tests: Array.isArray(problem.tests)
+      ? stripHiddenExpected(problem.tests as RawTest[])
+      : problem.tests,
+    prevId,
+    nextId,
+  }
 
-  res.json({ ...problem, prevId, nextId })
+  res.json(sanitized)
 })
 
 router.post('/', async (req: Request, res: Response): Promise<void> => {

@@ -24,14 +24,86 @@ const formatSolveDate = (isoString: string): string => {
 }
 
 const SkeletonRow = (): React.JSX.Element => (
-  <tr className="border-t border-border-default">
-    {[1, 2, 3, 4, 5, 6, 7].map((cell) => (
-      <td key={cell} className="px-3 py-3">
-        <div className="h-4 bg-bg-tertiary rounded animate-pulse" />
-      </td>
-    ))}
+  <tr className="border-t border-white/[0.04]">
+    <td className="px-6 py-4 w-10"><div className="h-4 w-4 bg-white/[0.04] rounded animate-pulse" /></td>
+    <td className="px-3 py-4"><div className="h-4 w-48 bg-white/[0.04] rounded animate-pulse" /></td>
+    <td className="px-3 py-4 w-32"><div className="h-4 w-20 bg-white/[0.04] rounded animate-pulse" /></td>
+    <td className="px-3 py-4 w-36"><div className="h-4 w-24 bg-white/[0.04] rounded animate-pulse" /></td>
+    <td className="px-3 py-4 w-20"><div className="h-4 w-12 bg-white/[0.04] rounded animate-pulse" /></td>
+    <td className="px-3 py-4 w-14"><div className="h-4 w-8 bg-white/[0.04] rounded animate-pulse" /></td>
+    <td className="px-3 py-4 w-10 text-center"><div className="h-4 w-4 bg-white/[0.04] rounded mx-auto animate-pulse" /></td>
   </tr>
 )
+
+const ProblemRow = memo(({ 
+  problem, 
+  index, 
+  isSolved, 
+  solvedAt, 
+  navigate 
+}: { 
+  problem: ProblemSummary, 
+  index: number, 
+  isSolved: boolean, 
+  solvedAt?: string, 
+  navigate: ReturnType<typeof useNavigate> 
+}) => (
+  <tr
+    onClick={() => navigate(`/problem/${problem.id}`)}
+    className="border-t border-white/[0.04] hover:bg-white/[0.02] transition-all duration-200 cursor-pointer group"
+  >
+    <td className="px-6 py-4 text-text-tertiary text-xs font-geist">{index + 1}</td>
+
+    <td className="px-3 py-4 text-sm">
+      <span className="flex items-center gap-2">
+        <span className={`font-semibold tracking-tight ${isSolved ? 'text-accent-green' : 'text-text-primary group-hover:text-accent-blue'} transition-all duration-300`}>
+          {problem.title}
+        </span>
+        {problem.type && problem.type !== 'coding' && (
+          <TypeBadge type={problem.type} />
+        )}
+      </span>
+    </td>
+
+    <td className="px-3 py-4">
+      <CategoryBadge
+        label={getCategoryTitle(problem.category)}
+        color={getCategoryColor(problem.category)}
+      />
+    </td>
+
+    <td className="px-3 py-4 max-w-[140px]">
+      <Link
+        to={`/patterns/${encodeURIComponent(problem.patternTag)}`}
+        onClick={(e) => e.stopPropagation()}
+        className="text-text-tertiary text-[10px] font-bold uppercase tracking-widest truncate block hover:text-accent-blue hover:underline transition-all duration-200"
+      >
+        {problem.patternTag}
+      </Link>
+    </td>
+
+    <td className="px-3 py-4">
+      <DifficultyBadge difficulty={problem.difficulty} />
+    </td>
+
+    <td className="px-3 py-4 text-text-tertiary text-[11px] font-bold font-geist">
+      {problem.estimatedMinutes}M
+    </td>
+
+    <td className="px-3 py-4 text-center">
+      {isSolved ? (
+        <span
+          title={`Solved ${formatSolveDate(solvedAt!)}`}
+          className="inline-flex items-center justify-center text-accent-green"
+        >
+          <CheckCircle2 size={16} />
+        </span>
+      ) : (
+        <Circle size={16} className="text-text-tertiary/40 mx-auto group-hover:text-text-tertiary transition-colors" />
+      )}
+    </td>
+  </tr>
+))
 
 export const ProblemTable = memo(function ProblemTable({
   problems,
@@ -42,8 +114,19 @@ export const ProblemTable = memo(function ProblemTable({
 
   if (isLoading) {
     return (
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto rounded-xl border border-white/5 bg-bg-primary">
         <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-white/[0.02] text-text-tertiary text-[10px] uppercase tracking-widest border-b border-white/5">
+              <th className="text-left px-6 py-3 w-10 font-bold font-geist">#</th>
+              <th className="text-left px-3 py-3 font-bold font-geist">Problem</th>
+              <th className="text-left px-3 py-3 w-32 font-bold font-geist">Category</th>
+              <th className="text-left px-3 py-3 w-36 font-bold font-geist">Pattern</th>
+              <th className="text-left px-3 py-3 w-20 font-bold font-geist">Diff</th>
+              <th className="text-left px-3 py-3 w-14 font-bold font-geist">Est</th>
+              <th className="text-center px-3 py-3 w-10 font-bold font-geist">Status</th>
+            </tr>
+          </thead>
           <tbody>
             {Array.from({ length: 8 }).map((_, index) => (
               <SkeletonRow key={index} />
@@ -56,24 +139,26 @@ export const ProblemTable = memo(function ProblemTable({
 
   if (problems.length === 0) {
     return (
-      <div className="flex items-center justify-center py-16 text-text-tertiary text-sm">
-        No problems match your filters.
+      <div className="flex flex-col items-center justify-center py-20 bg-white/[0.02] border border-white/5 rounded-xl backdrop-blur-md">
+        <span className="text-3xl mb-3 opacity-20">🔍</span>
+        <p className="text-text-secondary font-bold uppercase tracking-widest text-xs">No results found</p>
+        <p className="text-text-tertiary text-[10px] mt-1 uppercase tracking-tighter">Adjust your search parameters</p>
       </div>
     )
   }
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto rounded-xl border border-white/5 bg-bg-primary shadow-sm">
       <table className="w-full border-collapse">
         <thead>
-          <tr className="bg-bg-secondary text-text-secondary text-xs uppercase tracking-wide">
-            <th className="text-left px-6 py-3 w-10 font-medium">#</th>
-            <th className="text-left px-3 py-3 font-medium">Title</th>
-            <th className="text-left px-3 py-3 w-32 font-medium">Category</th>
-            <th className="text-left px-3 py-3 w-36 font-medium">Pattern</th>
-            <th className="text-left px-3 py-3 w-20 font-medium">Diff</th>
-            <th className="text-left px-3 py-3 w-14 font-medium">Time</th>
-            <th className="text-center px-3 py-3 w-10 font-medium">✓</th>
+          <tr className="bg-white/[0.02] text-text-tertiary text-[10px] uppercase tracking-widest border-b border-white/5">
+            <th className="text-left px-6 py-3 w-10 font-bold font-geist">#</th>
+            <th className="text-left px-3 py-3 font-bold font-geist">Problem</th>
+            <th className="text-left px-3 py-3 w-32 font-bold font-geist">Category</th>
+            <th className="text-left px-3 py-3 w-36 font-bold font-geist">Pattern</th>
+            <th className="text-left px-3 py-3 w-20 font-bold font-geist">Diff</th>
+            <th className="text-left px-3 py-3 w-14 font-bold font-geist">Est</th>
+            <th className="text-center px-3 py-3 w-10 font-bold font-geist">Status</th>
           </tr>
         </thead>
         <tbody>
@@ -82,62 +167,14 @@ export const ProblemTable = memo(function ProblemTable({
             const isSolved = Boolean(solvedEntry)
 
             return (
-              <tr
+              <ProblemRow 
                 key={problem.id}
-                onClick={() => navigate(`/problem/${problem.id}`)}
-                className="border-t border-border-default hover:bg-bg-tertiary transition-colors duration-150 cursor-pointer group"
-              >
-                <td className="px-6 py-3 text-text-tertiary text-sm">{index + 1}</td>
-
-                <td className="px-3 py-3 text-sm">
-                  <span className="flex items-center gap-2">
-                    <span className={isSolved ? 'text-accent-green/80' : 'text-text-primary'}>
-                      {problem.title}
-                    </span>
-                    {problem.type && problem.type !== 'coding' && (
-                      <TypeBadge type={problem.type} />
-                    )}
-                  </span>
-                </td>
-
-                <td className="px-3 py-3">
-                  <CategoryBadge
-                    label={getCategoryTitle(problem.category)}
-                    color={getCategoryColor(problem.category)}
-                  />
-                </td>
-
-                <td className="px-3 py-3 max-w-[140px]">
-                  <Link
-                    to={`/patterns/${encodeURIComponent(problem.patternTag)}`}
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-text-secondary text-sm truncate block hover:text-accent-blue transition-colors duration-150"
-                  >
-                    {problem.patternTag}
-                  </Link>
-                </td>
-
-                <td className="px-3 py-3">
-                  <DifficultyBadge difficulty={problem.difficulty} />
-                </td>
-
-                <td className="px-3 py-3 text-text-tertiary text-sm">
-                  {problem.estimatedMinutes}m
-                </td>
-
-                <td className="px-3 py-3 text-center">
-                  {isSolved ? (
-                    <span
-                      title={`Solved ${formatSolveDate(solvedEntry.solvedAt)}`}
-                      className="inline-flex items-center justify-center"
-                    >
-                      <CheckCircle2 size={18} className="text-accent-green" />
-                    </span>
-                  ) : (
-                    <Circle size={18} className="text-text-tertiary mx-auto" />
-                  )}
-                </td>
-              </tr>
+                problem={problem}
+                index={index}
+                isSolved={isSolved}
+                solvedAt={solvedEntry?.solvedAt}
+                navigate={navigate}
+              />
             )
           })}
         </tbody>

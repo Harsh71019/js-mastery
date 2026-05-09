@@ -23,10 +23,10 @@ const NAV_ITEMS: readonly NavItem[] = [
 
 const getNavClass = ({ isActive }: { isActive: boolean }): string =>
   [
-    'flex items-center gap-3 px-4 py-2.5 text-sm transition-colors duration-150',
+    'flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg mx-2 my-0.5 font-geist uppercase tracking-tight transition-all duration-200 border outline-none active:bg-transparent',
     isActive
-      ? 'text-text-primary bg-bg-tertiary border-l-[3px] border-accent-blue pl-[13px]'
-      : 'text-text-secondary hover:text-text-primary hover:bg-bg-tertiary border-l-[3px] border-transparent pl-[13px]',
+      ? 'text-text-primary bg-white/[0.04] shadow-glow-sm border-white/10'
+      : 'text-text-secondary hover:text-text-primary hover:bg-white/[0.02] border-transparent shadow-none',
   ].join(' ')
 
 export const Sidebar = (): React.JSX.Element => {
@@ -34,31 +34,37 @@ export const Sidebar = (): React.JSX.Element => {
   const { total } = useProblemCounts()
 
   return (
-    <aside className="fixed left-0 top-12 h-[calc(100vh-3rem)] w-60 bg-bg-secondary border-r border-border-default flex flex-col z-40">
-      <nav className="flex-1 py-2">
+    <aside className="fixed left-0 top-12 h-[calc(100vh-3rem)] w-60 bg-bg-primary/80 backdrop-blur-md border-r border-white/5 flex flex-col z-40">
+      <nav className="flex-1 py-4 flex flex-col">
         {NAV_ITEMS.map((item) => (
           <NavLink key={item.to} to={item.to} end={item.to === '/'} className={getNavClass}>
-            {item.icon}
-            {item.label}
+            <span className={`shrink-0 transition-colors duration-200`}>{item.icon}</span>
+            <span className="text-[11px] font-bold tracking-widest">{item.label}</span>
           </NavLink>
         ))}
       </nav>
 
-      <div className="h-px bg-border-default" />
+      <div className="h-px bg-white/5 mx-4" />
 
-      <div className="px-4 py-4 flex flex-col gap-2.5">
+      <div className="px-5 py-6 flex flex-col gap-4">
         {currentStreak > 0 && (
-          <div className="flex items-center gap-2 text-xs">
-            <Flame size={13} className="text-accent-amber" />
-            <span className="text-accent-amber font-medium">{currentStreak} day streak</span>
+          <div className="flex flex-col gap-1">
+            <span className="text-text-tertiary text-[9px] font-bold uppercase tracking-widest font-geist">Current Streak</span>
+            <div className="flex items-center gap-2.5 text-xs">
+              <Flame size={14} className="text-accent-amber fill-accent-amber/20" />
+              <span className="text-accent-amber font-bold tracking-tight font-geist uppercase">{currentStreak} DAY STREAK</span>
+            </div>
           </div>
         )}
-        <div className="flex items-center gap-2 text-xs">
-          <CheckCircle2 size={13} className="text-accent-green" />
-          <span className="text-text-secondary">
-            <span className="text-accent-green font-medium">{solvedCount}</span>
-            {total > 0 && <span className="text-text-tertiary"> / {total} solved</span>}
-          </span>
+        <div className="flex flex-col gap-1">
+          <span className="text-text-tertiary text-[9px] font-bold uppercase tracking-widest font-geist">Problem Mastery</span>
+          <div className="flex items-center gap-2.5 text-xs">
+            <CheckCircle2 size={14} className="text-accent-green" />
+            <span className="text-text-secondary font-bold tracking-tight font-geist uppercase">
+              <span className="text-accent-green">{solvedCount}</span>
+              {total > 0 && <span className="text-text-tertiary"> / {total} SOLVED</span>}
+            </span>
+          </div>
         </div>
       </div>
     </aside>

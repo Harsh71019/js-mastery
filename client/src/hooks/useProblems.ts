@@ -7,6 +7,7 @@ export interface ProblemFilters {
   readonly category:    CategorySlug | 'all'
   readonly type:        ProblemType | 'all' | 'quiz'
   readonly patternTag?: string
+  readonly collectionId?: string
 }
 
 interface UseProblemsResult {
@@ -25,6 +26,7 @@ const buildQuery = (filters: ProblemFilters, page: number): string => {
   if (filters.category !== 'all')             params.set('category', filters.category)
   if (filters.type && filters.type !== 'all') params.set('type', filters.type)
   if (filters.patternTag)                     params.set('patternTag', filters.patternTag)
+  if (filters.collectionId)                   params.set('collectionId', filters.collectionId)
   return params.toString()
 }
 
@@ -57,7 +59,7 @@ export const useProblems = (filters: ProblemFilters, page: number): UseProblemsR
       })
 
     return () => { cancelled = true }
-  }, [filters.search, filters.difficulty, filters.category, filters.type, filters.patternTag, page])
+  }, [filters.search, filters.difficulty, filters.category, filters.type, filters.patternTag, filters.collectionId, page])
 
   return { problems, pagination, isLoading, error }
 }

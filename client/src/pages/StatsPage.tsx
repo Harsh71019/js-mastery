@@ -4,50 +4,88 @@ import { useActivityGraph } from '@/hooks/useActivityGraph'
 import { useExecutionTimes } from '@/hooks/useExecutionTimes'
 import { ActivityGraph } from '@/components/stats/ActivityGraph'
 import { ExecutionTimeChart } from '@/components/stats/ExecutionTimeChart'
+import { FluencyGrid } from '@/components/stats/FluencyGrid'
+import { MasteryBreakdown } from '@/components/stats/MasteryBreakdown'
+import { RepetitionHealth } from '@/components/stats/RepetitionHealth'
+import { ConsistencyScore } from '@/components/stats/ConsistencyScore'
+import { DifficultyProgression } from '@/components/stats/DifficultyProgression'
+import { CategoryTimeline } from '@/components/stats/CategoryTimeline'
+import { SpeedTrend } from '@/components/stats/SpeedTrend'
+import { PeakWindow } from '@/components/stats/PeakWindow'
+import { RevisitRate } from '@/components/stats/RevisitRate'
+import { SectionHeader } from '@/components/ui/SectionHeader'
+import { PageContainer } from '@/components/ui/PageContainer'
+import { Card } from '@/components/ui/Card'
+import { Glow } from '@/components/ui/Glow'
 
 export const StatsPage = (): React.JSX.Element => {
   const activity = useActivityGraph()
   const executionTimes = useExecutionTimes()
 
   return (
-    <div className="px-6 py-8 flex flex-col gap-8">
-      <h1 className="text-xl font-semibold text-text-primary">Stats</h1>
+    <PageContainer className="flex flex-col gap-10 relative pb-20">
+      <Glow color="var(--color-accent-green)" size="xl" className="-top-40 -right-20 opacity-[0.05]" />
+      <Glow color="var(--color-accent-blue)" size="lg" className="bottom-40 -left-20 opacity-[0.03]" />
 
-      <section className="flex flex-col gap-3">
-        <div className="flex items-center gap-2">
-          <Activity size={15} className="text-accent-green" />
-          <h2 className="text-sm font-medium text-text-primary">Activity — last 52 weeks</h2>
-        </div>
-        <div className="bg-bg-secondary border border-border-default rounded-lg p-5">
+      <div className="flex items-center justify-between px-1 relative z-10">
+        <h1 className="text-text-primary text-[10px] font-bold uppercase tracking-[0.3em] font-geist opacity-60">System Intelligence Analytics</h1>
+        <div className="h-px bg-white/5 flex-1 mx-6" />
+        <span className="text-[9px] font-bold text-text-tertiary uppercase font-geist">Real-time Telemetry</span>
+      </div>
+
+      <section className="flex flex-col gap-4 relative z-10">
+        <SectionHeader icon={<Activity size={16} />} title="Temporal Activity Matrix" accent="green" meta="Window: 52_WEEKS" />
+        <Card className="p-8 bg-white/[0.01]">
           {activity.isLoading ? (
-            <div className="h-24 flex items-center justify-center text-text-tertiary text-sm">
-              Loading…
+            <div className="h-32 flex flex-col items-center justify-center gap-3">
+              <div className="w-6 h-6 border-2 border-white/5 border-t-accent-green rounded-full animate-spin" />
+              <span className="font-geist text-[10px] font-bold uppercase tracking-widest text-text-tertiary animate-pulse">Syncing Matrix...</span>
             </div>
           ) : activity.error ? (
-            <p className="text-xs text-red-400">{activity.error}</p>
+            <div className="h-32 flex items-center justify-center text-accent-red text-[10px] font-bold uppercase tracking-widest bg-accent-red/5 rounded-lg border border-accent-red/20">
+              {activity.error}
+            </div>
           ) : (
             <ActivityGraph days={activity.days} totalSolvedInWindow={activity.totalSolvedInWindow} />
           )}
-        </div>
+        </Card>
       </section>
 
-      <section className="flex flex-col gap-3">
-        <div className="flex items-center gap-2">
-          <Clock size={15} className="text-accent-blue" />
-          <h2 className="text-sm font-medium text-text-primary">Execution Time per Problem</h2>
-        </div>
-        <div className="bg-bg-secondary border border-border-default rounded-lg p-5">
+      <ConsistencyScore />
+
+      <CategoryTimeline />
+
+      <section className="flex flex-col gap-4 relative z-10">
+        <SectionHeader icon={<Clock size={16} />} title="Execution Latency Registry" accent="blue" meta="Metric: MS_LOG" />
+        <Card className="p-8 bg-white/[0.01]">
           {executionTimes.isLoading ? (
-            <div className="h-24 flex items-center justify-center text-text-tertiary text-sm">
-              Loading…
+            <div className="h-32 flex flex-col items-center justify-center gap-3">
+              <div className="w-6 h-6 border-2 border-white/5 border-t-accent-blue rounded-full animate-spin" />
+              <span className="font-geist text-[10px] font-bold uppercase tracking-widest text-text-tertiary animate-pulse">Scanning Logs...</span>
             </div>
           ) : executionTimes.error ? (
-            <p className="text-xs text-red-400">{executionTimes.error}</p>
+            <div className="h-32 flex items-center justify-center text-accent-red text-[10px] font-bold uppercase tracking-widest bg-accent-red/5 rounded-lg border border-accent-red/20">
+              {executionTimes.error}
+            </div>
           ) : (
             <ExecutionTimeChart entries={executionTimes.entries} />
           )}
-        </div>
+        </Card>
       </section>
-    </div>
+
+      <SpeedTrend />
+
+      <MasteryBreakdown />
+
+      <DifficultyProgression />
+
+      <PeakWindow />
+
+      <RepetitionHealth />
+
+      <RevisitRate />
+
+      <FluencyGrid />
+    </PageContainer>
   )
 }
