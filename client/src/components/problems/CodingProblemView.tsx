@@ -9,6 +9,7 @@ import { usePanelResize } from '@/hooks/usePanelResize'
 import { runTests, type TestResult } from '@/runner/executor'
 import { CodeEditor } from '@/components/editor/CodeEditor'
 import { ResultsPanel } from '@/components/editor/ResultsPanel'
+import { RunTimingGraph } from '@/components/problems/RunTimingGraph'
 import { TraceTable } from '@/components/problems/TraceTable'
 import { SkeletonHint } from '@/components/problems/SkeletonHint'
 import { SolutionPanel } from '@/components/problems/SolutionPanel'
@@ -20,6 +21,8 @@ const selectMarkSolved = (state: ReturnType<typeof useProgressStore.getState>) =
   state.markSolved
 const selectIncrementAttempts = (state: ReturnType<typeof useProgressStore.getState>) =>
   state.incrementAttempts
+const selectSolvedProblems = (state: ReturnType<typeof useProgressStore.getState>) =>
+  state.solvedProblems
 
 const formatInlineCode = (text: string): React.ReactNode => {
   if (!text) return null
@@ -58,6 +61,8 @@ export const CodingProblemView = ({
   const { isSolved } = useProgress()
   const markSolved = useProgressStore(selectMarkSolved)
   const incrementAttempts = useProgressStore(selectIncrementAttempts)
+  const solvedProblems = useProgressStore(selectSolvedProblems)
+  const runTimings = solvedProblems[problem.id]?.runTimings ?? []
   const { leftRatio, containerRef, handleMouseDown, handleMouseMove, handleMouseUp } =
     usePanelResize()
 
@@ -86,17 +91,17 @@ export const CodingProblemView = ({
     setAllPassed(passed)
 
     if (passed) {
-      markSolved(problem.id, {
-        title: problem.title,
-        category: problem.category,
-        difficulty: problem.difficulty,
-      })
+      markSolved(
+        problem.id,
+        { title: problem.title, category: problem.category, difficulty: problem.difficulty },
+        execution.executionTimeMs,
+      )
       if (!confettiFired.current) {
         confettiFired.current = true
         confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } })
       }
     } else {
-      incrementAttempts(problem.id)
+      incrementAttempts(problem.id, execution.timedOut ? undefined : execution.executionTimeMs)
     }
   }, [problem, code, isRunning, markSolved, incrementAttempts])
 
@@ -138,6 +143,8 @@ export const CodingProblemView = ({
                 )}
               </div>
             </div>
+
+            <RunTimingGraph timings={runTimings} />
 
             <Divider />
 

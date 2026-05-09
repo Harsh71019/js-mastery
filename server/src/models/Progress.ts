@@ -2,14 +2,17 @@ import { Schema, model } from 'mongoose'
 
 const SolvedEntrySchema = new Schema(
   {
-    solvedAt:       { type: String, default: '' },
-    attempts:       { type: Number, default: 0 },
-    title:          String,
-    category:       String,
-    difficulty:     String,
-    reviewInterval: { type: Number, default: 1 },
-    lastReviewedAt: { type: String },
-    nextReviewDue:  { type: String },
+    solvedAt:        { type: String, default: '' },
+    attempts:        { type: Number, default: 0 },
+    title:           String,
+    category:        String,
+    difficulty:      String,
+    reviewInterval:  { type: Number, default: 1 },
+    lastReviewedAt:  { type: String },
+    nextReviewDue:   { type: String },
+    executionTimeMs: { type: Number },
+    runCount:        { type: Number, default: 1 },
+    runTimings:      { type: [Number], default: [] },
   },
   { _id: false },
 )

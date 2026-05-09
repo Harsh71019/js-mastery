@@ -2,14 +2,17 @@ import { create } from 'zustand'
 import type { CategorySlug, Difficulty } from '@/types/problem'
 
 export interface SolvedEntry {
-  readonly solvedAt:        string
-  readonly attempts:        number
-  readonly title?:          string
-  readonly category?:       CategorySlug
-  readonly difficulty?:     Difficulty
-  readonly reviewInterval?: number
-  readonly lastReviewedAt?: string
-  readonly nextReviewDue?:  string
+  readonly solvedAt:         string
+  readonly attempts:         number
+  readonly title?:           string
+  readonly category?:        CategorySlug
+  readonly difficulty?:      Difficulty
+  readonly reviewInterval?:  number
+  readonly lastReviewedAt?:  string
+  readonly nextReviewDue?:   string
+  readonly executionTimeMs?: number
+  readonly runCount?:        number
+  readonly runTimings?:      readonly number[]
 }
 
 export interface ProblemMeta {
@@ -32,8 +35,8 @@ interface ProgressState {
 
 interface ProgressActions {
   loadProgress:           () => Promise<void>
-  markSolved:             (id: string, meta?: ProblemMeta) => void
-  incrementAttempts:      (id: string) => void
+  markSolved:             (id: string, meta?: ProblemMeta, executionTimeMs?: number) => void
+  incrementAttempts:      (id: string, executionTimeMs?: number) => void
   resetProgress:          () => void
   dismissBackupBanner:    (milestone: number) => void
   completeDailyChallenge: () => Promise<void>
@@ -72,43 +75,61 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
     }
   },
 
-  markSolved: (id, meta) => {
+  markSolved: (id, meta, executionTimeMs) => {
     const state = get()
     const existing = state.solvedProblems[id]
 
+    const newTimings =
+      executionTimeMs && executionTimeMs > 0
+        ? [...(existing?.runTimings ?? []), executionTimeMs].slice(-20)
+        : existing?.runTimings ?? []
+
     const optimistic: SolvedEntry = {
-      solvedAt: existing?.solvedAt || new Date().toISOString(),
-      attempts: (existing?.attempts ?? 0) + 1,
-      title: meta?.title ?? existing?.title,
-      category: meta?.category ?? existing?.category,
-      difficulty: meta?.difficulty ?? existing?.difficulty,
+      solvedAt:        existing?.solvedAt || new Date().toISOString(),
+      attempts:        (existing?.attempts ?? 0) + 1,
+      title:           meta?.title ?? existing?.title,
+      category:        meta?.category ?? existing?.category,
+      difficulty:      meta?.difficulty ?? existing?.difficulty,
+      executionTimeMs: executionTimeMs ?? existing?.executionTimeMs,
+      runCount:        (existing?.runCount ?? 0) + 1,
+      runTimings:      newTimings,
     }
     set({ solvedProblems: { ...state.solvedProblems, [id]: optimistic } })
 
     fetch(`/api/progress/solve/${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(meta ?? {}),
+      body: JSON.stringify({ ...(meta ?? {}), executionTimeMs }),
     })
       .then((r) => r.json() as Promise<Omit<ProgressState, 'isLoaded'>>)
       .then((data) => set({ ...applyServerState(data), isLoaded: true }))
       .catch((error: unknown) => console.error('Failed to sync solve:', error))
   },
 
-  incrementAttempts: (id) => {
+  incrementAttempts: (id, executionTimeMs) => {
     const state = get()
     const existing = state.solvedProblems[id]
 
+    const newTimings =
+      executionTimeMs && executionTimeMs > 0
+        ? [...(existing?.runTimings ?? []), executionTimeMs].slice(-20)
+        : existing?.runTimings ?? []
+
     const optimistic: SolvedEntry = {
-      solvedAt: existing?.solvedAt ?? '',
-      attempts: (existing?.attempts ?? 0) + 1,
-      title: existing?.title,
-      category: existing?.category,
+      solvedAt:   existing?.solvedAt ?? '',
+      attempts:   (existing?.attempts ?? 0) + 1,
+      title:      existing?.title,
+      category:   existing?.category,
       difficulty: existing?.difficulty,
+      runTimings: newTimings,
     }
     set({ solvedProblems: { ...state.solvedProblems, [id]: optimistic } })
 
-    fetch(`/api/progress/attempt/${id}`, { method: 'POST' })
+    fetch(`/api/progress/attempt/${id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ executionTimeMs }),
+    })
       .then((r) => r.json() as Promise<Omit<ProgressState, 'isLoaded'>>)
       .then((data) => set({ ...applyServerState(data), isLoaded: true }))
       .catch((error: unknown) => console.error('Failed to sync attempt:', error))

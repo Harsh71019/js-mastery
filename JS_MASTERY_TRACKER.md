@@ -204,8 +204,8 @@
 | p23 | Pipe and Compose polyfill | polyfills | [x] |
 | p24 | Array.reduceRight polyfill | polyfills | [x] |
 | p25 | Array.find polyfill | polyfills | [x] |
-| p26 | Array.findIndex polyfill | polyfills | [ ] |
-| p27 | String.repeat polyfill | polyfills | [ ] |
-| p28 | String.startsWith polyfill | polyfills | [ ] |
-| p29 | Number.isNaN polyfill | polyfills | [ ] |
-| p30 | Custom Fetch wrapper with timeout | polyfills | [ ] |
+| p26 | Array.findIndex polyfill | polyfills | [x] |
+| p27 | String.repeat polyfill | polyfills | [x] |
+| p28 | String.startsWith polyfill | polyfills | [x] |
+| p29 | Number.isNaN polyfill | polyfills | [x] |
+| p30 | Custom Fetch wrapper with timeout | polyfills | [x] |

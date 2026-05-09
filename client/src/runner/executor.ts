@@ -9,6 +9,7 @@ export interface TestResult {
 export interface ExecutionResult {
   readonly results: readonly TestResult[]
   readonly timedOut: boolean
+  readonly executionTimeMs: number
 }
 
 interface TestCase {
@@ -148,6 +149,7 @@ export const runTests = (
     iframe.setAttribute('sandbox', 'allow-scripts')
     iframe.style.display = 'none'
 
+    const startTime = Date.now()
     let settled = false
 
     const cleanup = (): void => {
@@ -165,7 +167,7 @@ export const runTests = (
     const onMessage = (event: MessageEvent): void => {
       if (event.source !== (iframe.contentWindow as unknown)) return
       if (event.data?.type !== 'results') return
-      settle({ results: event.data.results as TestResult[], timedOut: false })
+      settle({ results: event.data.results as TestResult[], timedOut: false, executionTimeMs: Math.max(1, Date.now() - startTime) })
     }
 
     const timeoutId = setTimeout(() => {
@@ -178,6 +180,7 @@ export const runTests = (
           error: 'Execution timed out — check for an infinite loop',
         })),
         timedOut: true,
+        executionTimeMs: 0,
       })
     }, TIMEOUT_MS)
 
