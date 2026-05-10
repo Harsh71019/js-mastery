@@ -27,10 +27,27 @@
   --shadow-glow-sm: 0 0 10px -2px var(--color-accent-blue);
   --shadow-green-glow: 0 0 12px -3px var(--color-accent-green);
   --ui-glass: blur(12px);
+  
+  --animation-fluid: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition {
+  animation: fade-slide-up var(--animation-fluid);
 }
 
 html {
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: -0.01em;
 }
 

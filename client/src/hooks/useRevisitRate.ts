@@ -16,7 +16,7 @@ export interface RevisitRateResult {
   readonly error:      string | null
 }
 
-interface StatsResponse {
+interface StatsData {
   byCategory: Record<string, { totalVisits: number; solvedVisits: number; ratio: number }>
 }
 
@@ -36,9 +36,9 @@ export const useRevisitRate = (): RevisitRateResult => {
     fetch('/api/visits/stats', { signal: controller.signal })
       .then((r) => {
         if (!r.ok) throw new Error(`Server error: ${r.status}`)
-        return r.json() as Promise<StatsResponse>
+        return r.json() as Promise<{ success: boolean; data: StatsData }>
       })
-      .then(({ byCategory }) => {
+      .then(({ data: { byCategory } }) => {
         const categories: CategoryRevisitEntry[] = Object.entries(byCategory)
           .map(([slug, data]) => {
             const meta = getCategoryMeta(slug)

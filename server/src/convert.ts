@@ -22,7 +22,6 @@ const extractArray = (source: string): unknown[] => {
   const withoutImport = source.replace(/^import type[^\n]*\n/m, '')
   const match = withoutImport.match(/=\s*(\[[\s\S]+\])\s*$/)
   if (!match) throw new Error('Could not find array in source')
-  // eslint-disable-next-line no-new-func
   return new Function(`return ${match[1]}`)() as unknown[]
 }
 

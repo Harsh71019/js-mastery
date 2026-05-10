@@ -3,7 +3,7 @@ import fs from 'fs'
 import path from 'path'
 import mongoose from 'mongoose'
 import { Problem } from './models/Problem'
-import { validateProblem, escapeRegex } from './utils/problem-validation'
+import { validateProblem } from './utils/problem-validation'
 
 const MCQ_FILE = path.resolve(__dirname, '../../scripts/mcq-starter.json')
 
@@ -36,8 +36,9 @@ const run = async (): Promise<void> => {
       )
       console.log(`  ✓ ${String(problem.id)}`)
       inserted++
-    } catch (err: any) {
-      console.error(`  ERROR ${String(problem.id)}:`, err.message)
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err)
+      console.error(`  ERROR ${String(problem.id)}:`, msg)
       errors++
     }
   }

@@ -10,7 +10,7 @@ const LoadingSkeleton = (): React.JSX.Element => (
     <Glow color="var(--color-accent-blue)" size="xl" opacity={0.1} />
     <div className="w-full max-w-2xl flex flex-col gap-4">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="h-24 glass-panel rounded-2xl animate-pulse" />
+        <div key={i} className="h-24 border border-dashed border-white/20 rounded-2xl animate-pulse" />
       ))}
     </div>
   </PageContainer>

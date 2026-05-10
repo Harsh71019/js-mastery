@@ -29,12 +29,12 @@ export const Dashboard = (): React.JSX.Element => {
 
   React.useEffect(() => {
     fetch('/api/problems/collections/counts')
-      .then(res => res.json())
-      .then(data => {
-        const counts = Object.fromEntries(data.map((c: any) => [c.id, c.count]))
+      .then((res) => res.json() as Promise<{ success: boolean; data: { id: string; count: number }[] }>)
+      .then(({ data }) => {
+        const counts = Object.fromEntries(data.map((c) => [c.id, c.count]))
         setCollectionCounts(counts)
       })
-      .catch(err => console.error('Failed to fetch collection counts:', err))
+      .catch((err: unknown) => console.error('Failed to fetch collection counts:', err))
   }, [])
 
   const dismissBackupBanner = useProgressStore(selectDismissBackupBanner)

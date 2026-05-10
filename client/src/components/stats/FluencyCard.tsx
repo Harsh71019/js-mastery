@@ -3,10 +3,10 @@ import type { CategoryFluency, FluencyTier } from '@/hooks/useFluency'
 
 const TIER_STYLE: Record<FluencyTier, { label: string; color: string; glow: string }> = {
   Novice:     { label: 'NOVICE',     color: 'text-text-tertiary',  glow: 'bg-white/5'          },
-  Learning:   { label: 'LEARNING',   color: 'text-accent-blue',    glow: 'bg-accent-blue/10'   },
-  Proficient: { label: 'PROFICIENT', color: 'text-accent-amber',   glow: 'bg-accent-amber/10'  },
-  Advanced:   { label: 'ADVANCED',   color: 'text-accent-green',   glow: 'bg-accent-green/10'  },
-  Fluent:     { label: 'FLUENT',     color: 'text-accent-purple',  glow: 'bg-accent-purple/10' },
+  Learning:   { label: 'LEARNING',   color: 'text-accent-blue',    glow: 'bg-accent-blue/5 border-accent-blue/20'   },
+  Proficient: { label: 'PROFICIENT', color: 'text-accent-amber',   glow: 'bg-accent-amber/5 border-accent-amber/20'  },
+  Advanced:   { label: 'ADVANCED',   color: 'text-accent-green',   glow: 'bg-accent-green/5 border-accent-green/20'  },
+  Fluent:     { label: 'FLUENT',     color: 'text-accent-purple',  glow: 'bg-accent-purple/5 border-accent-purple/20' },
 }
 
 interface FluencyCardProps {
@@ -18,14 +18,14 @@ export const FluencyCard = memo(({ fluency }: FluencyCardProps): React.JSX.Eleme
 
   if (!fluency.isStarted) {
     return (
-      <div className="rounded-xl border border-white/[0.04] bg-white/[0.01] p-4 flex flex-col gap-3 opacity-30">
+      <div className="rounded-xl border border-dashed border-white/5 bg-white/[0.01] p-4 flex flex-col gap-3 opacity-40 group/locked hover:opacity-60 transition-opacity duration-500">
         <div className="flex items-center justify-between">
-          <span className="text-[9px] font-bold uppercase tracking-widest text-text-tertiary font-geist">LOCKED</span>
-          <span className="text-[10px] font-bold text-text-tertiary font-geist">0%</span>
+          <span className="text-[9px] font-bold uppercase tracking-widest text-text-tertiary font-geist">UNINITIALIZED</span>
+          <span className="text-[10px] font-bold text-text-tertiary font-geist">0.0%</span>
         </div>
-        <p className="text-text-tertiary text-xs font-bold font-geist truncate">{fluency.title}</p>
-        <div className="h-1 w-full bg-white/5 rounded-full" />
-        <p className="text-[9px] text-text-tertiary font-geist">0 / {fluency.totalCount} solved</p>
+        <p className="text-text-tertiary text-[11px] font-bold font-geist truncate uppercase tracking-tight group-hover/locked:text-text-secondary transition-colors">{fluency.title}</p>
+        <div className="h-0.5 w-full bg-white/5 rounded-full" />
+        <p className="text-[9px] text-text-tertiary font-geist uppercase tracking-tighter">Cluster_Inactive</p>
       </div>
     )
   }
@@ -34,33 +34,39 @@ export const FluencyCard = memo(({ fluency }: FluencyCardProps): React.JSX.Eleme
 
   return (
     <div
-      className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 flex flex-col gap-3 hover:border-white/[0.12] transition-all duration-300 relative overflow-hidden"
-      style={{ boxShadow: `0 0 20px -10px ${fluency.accentColor}30` }}
+      className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-5 flex flex-col gap-4 hover:border-white/20 hover:bg-white/[0.04] transition-all duration-500 relative overflow-hidden group/fcard"
     >
-      <div className="absolute left-0 top-0 bottom-0 w-0.5 rounded-l-xl" style={{ background: fluency.accentColor }} />
+      <div className="absolute left-0 top-0 bottom-0 w-[1px] opacity-40 group-hover/fcard:opacity-100 transition-opacity" style={{ backgroundColor: fluency.accentColor }} />
+      <div className="absolute top-0 right-0 w-16 h-16 blur-2xl rounded-full opacity-[0.03] group-hover/fcard:opacity-[0.1] transition-opacity" style={{ backgroundColor: fluency.accentColor }} />
 
-      <div className="flex items-center justify-between">
-        <span className={`text-[9px] font-bold uppercase tracking-widest font-geist px-1.5 py-0.5 rounded ${tier.glow} ${tier.color}`}>
+      <div className="flex items-center justify-between relative z-10">
+        <span className={`text-[8px] font-bold uppercase tracking-[0.2em] font-geist px-2 py-0.5 rounded border ${tier.glow} ${tier.color}`}>
           {tier.label}
         </span>
-        <span className="text-sm font-bold font-geist" style={{ color: fluency.accentColor }}>
-          {fluency.score}
+        <span className="text-base font-bold font-geist tracking-tighter" style={{ color: fluency.accentColor, textShadow: `0 0 10px ${fluency.accentColor}44` }}>
+          {fluency.score.toFixed(1)}
         </span>
       </div>
 
-      <p className="text-text-primary text-xs font-bold font-geist truncate">{fluency.title}</p>
+      <p className="text-text-primary text-[11px] font-bold font-geist truncate uppercase tracking-tight relative z-10">{fluency.title}</p>
 
-      <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+      <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden relative z-10">
         <div
-          className="h-full rounded-full transition-all duration-700"
-          style={{ width: barWidth, background: fluency.accentColor }}
+          className="h-full rounded-full transition-all duration-1000 ease-out shadow-glow-sm"
+          style={{ width: barWidth, backgroundColor: fluency.accentColor }}
         />
       </div>
 
-      <div className="flex items-center gap-3 text-[9px] font-bold uppercase font-geist text-text-tertiary">
-        <span>{fluency.solvedCount}<span className="opacity-40">/{fluency.totalCount}</span></span>
-        <span className="opacity-20">·</span>
-        <span>{fluency.avgAttempts} <span className="opacity-60">avg tries</span></span>
+      <div className="flex items-center gap-4 text-[9px] font-bold uppercase font-geist text-text-tertiary relative z-10">
+        <div className="flex flex-col">
+           <span className="opacity-40">Verified</span>
+           <span className="text-text-secondary">{fluency.solvedCount}<span className="opacity-40">/{fluency.totalCount}</span></span>
+        </div>
+        <div className="w-px h-6 bg-white/5" />
+        <div className="flex flex-col">
+           <span className="opacity-40">Avg_Tries</span>
+           <span className="text-text-secondary">{fluency.avgAttempts.toFixed(2)}</span>
+        </div>
       </div>
     </div>
   )

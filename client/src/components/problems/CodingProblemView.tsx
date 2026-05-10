@@ -1,15 +1,15 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import confetti from 'canvas-confetti'
-import { ChevronLeft } from 'lucide-react'
-import type { Problem, TestCase } from '@/types/problem'
+import { ChevronLeft, Zap } from 'lucide-react'
+import type { Problem, TestCase, LogicStep } from '@/types/problem'
 import { useProgressStore } from '@/store/useProgressStore'
 import { useProgress } from '@/hooks/useProgress'
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut'
 import { usePanelResize } from '@/hooks/usePanelResize'
 import { useVerticalResize } from '@/hooks/useVerticalResize'
 import { runTests, type TestResult, type Verdict } from '@/runner/executor'
-import { CodeEditor } from '@/components/editor/CodeEditor'
+import { CodeEditor, type CodeEditorHandle } from '@/components/editor/CodeEditor'
 import { ResultsPanel } from '@/components/editor/ResultsPanel'
 import { Button } from '@/components/ui/Button'
 import { Glow } from '@/components/ui/Glow'
@@ -46,8 +46,14 @@ const formatInlineCode = (text: string): React.ReactNode => {
 const fetchFullTests = async (problemId: string): Promise<readonly TestCase[]> => {
   const response = await fetch(`/api/problems/${problemId}/submit-tests`)
   if (!response.ok) throw new Error(`Failed to fetch submit tests: ${response.status}`)
-  const data = (await response.json()) as { tests: TestCase[] }
+  const { data } = (await response.json()) as { success: boolean; data: { tests: TestCase[] } }
   return data.tests
+}
+
+const toServerVerdict = (verdict: Verdict): 'accepted' | 'wrong-answer' | 'error' => {
+  if (verdict === 'Accepted') return 'accepted'
+  if (verdict === 'Wrong Answer') return 'wrong-answer'
+  return 'error'
 }
 
 const MIN_LOADING_MS = 500
@@ -63,6 +69,7 @@ export const CodingProblemView = ({
   nextId,
 }: CodingProblemViewProps): React.JSX.Element => {
   const navigate = useNavigate()
+  const editorRef = useRef<CodeEditorHandle>(null)
   const [code, setCode] = useState(
     () => useProgressStore.getState().solvedProblems[problem.id]?.acceptedCode ?? problem.starterCode,
   )
@@ -74,6 +81,7 @@ export const CodingProblemView = ({
   const [lastAction, setLastAction] = useState<'run' | 'submit' | null>(null)
   const [isResetModalOpen, setIsResetModalOpen] = useState(false)
   const [isFocusMode, setIsFocusMode] = useState(false)
+  const [activeStepIndex, setActiveStepIndex] = useState<number | null>(null)
   const confettiFired = useRef(false)
 
   const isAccepted = lastAction === 'submit' && verdict === 'Accepted'
@@ -110,6 +118,7 @@ export const CodingProblemView = ({
     setHasAttempted(false)
     setVerdict(null)
     setLastAction(null)
+    setActiveStepIndex(null)
     confettiFired.current = false
   }, [problem.id])
 
@@ -172,7 +181,7 @@ export const CodingProblemView = ({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          verdict: execution.verdict,
+          verdict: toServerVerdict(execution.verdict),
           code,
           executionTimeMs: execution.executionTimeMs,
         }),
@@ -190,6 +199,17 @@ export const CodingProblemView = ({
     setCode(problem.starterCode)
     setIsResetModalOpen(false)
   }, [problem.starterCode])
+
+  const handleStepClick = (step: string | LogicStep, index: number) => {
+    const pattern = typeof step === 'object' ? step.pattern : undefined
+    if (pattern) {
+      setActiveStepIndex(index)
+      editorRef.current?.highlightPattern(pattern)
+    } else {
+      setActiveStepIndex(null)
+      editorRef.current?.clearHighlights()
+    }
+  }
 
   return (
     <div className="flex flex-col h-[calc(100vh-3rem)] overflow-hidden bg-bg-primary">
@@ -238,14 +258,41 @@ export const CodingProblemView = ({
               <Divider className="opacity-20" />
 
               <div className="flex flex-col gap-4">
-                <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] px-1 font-geist">Thinking Process</h2>
+                <div className="flex items-center justify-between px-1">
+                   <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] font-geist">Thinking Process</h2>
+                   <div className="flex items-center gap-2 text-[9px] font-bold text-accent-blue uppercase tracking-widest animate-pulse">
+                      <Zap size={10} /> Neural_Link Active
+                   </div>
+                </div>
                 <ol className="flex flex-col gap-3">
-                  {problem.whatShouldHappen.map((step, stepIndex) => (
-                    <li key={stepIndex} className="flex gap-4 text-sm text-text-secondary leading-relaxed bg-white/[0.02] p-4 rounded-xl border border-white/[0.04] hover:border-white/10 transition-colors duration-200">
-                      <span className="text-accent-blue font-bold font-geist text-xs mt-0.5 opacity-50">{String(stepIndex + 1).padStart(2, '0')}</span>
-                      <span className="flex-1">{formatInlineCode(step)}</span>
-                    </li>
-                  ))}
+                  {problem.whatShouldHappen.map((step, stepIndex) => {
+                    const isObject = typeof step === 'object'
+                    const text = isObject ? step.text : step
+                    const pattern = isObject ? step.pattern : undefined
+                    const isActive = activeStepIndex === stepIndex
+
+                    return (
+                      <li 
+                        key={stepIndex} 
+                        onClick={() => handleStepClick(step, stepIndex)}
+                        className={`
+                          flex gap-4 text-sm text-text-secondary leading-relaxed bg-white/[0.02] p-4 rounded-xl border transition-all duration-300 group/step
+                          ${pattern ? 'cursor-pointer hover:bg-accent-blue/[0.03]' : ''}
+                          ${isActive ? 'border-accent-blue/40 bg-accent-blue/[0.05] shadow-glow-sm translate-x-1' : 'border-white/[0.04]'}
+                        `}
+                      >
+                        <span className={`font-bold font-geist text-xs mt-0.5 transition-colors ${isActive ? 'text-accent-blue' : 'text-accent-blue opacity-50 group-hover/step:opacity-100'}`}>
+                          {String(stepIndex + 1).padStart(2, '0')}
+                        </span>
+                        <span className={`flex-1 transition-colors ${isActive ? 'text-text-primary font-medium' : ''}`}>
+                          {formatInlineCode(text)}
+                        </span>
+                        {pattern && !isActive && (
+                           <Zap size={12} className="text-text-tertiary opacity-0 group-hover/step:opacity-40 transition-opacity" />
+                        )}
+                      </li>
+                    )
+                  })}
                 </ol>
               </div>
 
@@ -253,7 +300,10 @@ export const CodingProblemView = ({
 
               <div className="flex flex-col gap-4">
                 <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] px-1 font-geist">Simulation</h2>
-                <TraceTable traceTable={problem.traceTable} />
+                <TraceTable 
+                  traceTable={problem.traceTable} 
+                  onRowClick={() => editorRef.current?.highlightPattern('for \\(|while \\(|if \\(')}
+                />
               </div>
 
               <Divider className="opacity-20" />
@@ -340,7 +390,7 @@ export const CodingProblemView = ({
           </div>
 
           <div className="flex-1 overflow-hidden" style={{ minHeight: 0 }}>
-            <CodeEditor value={code} onChange={setCode} />
+            <CodeEditor ref={editorRef} value={code} onChange={setCode} />
           </div>
 
           <div 

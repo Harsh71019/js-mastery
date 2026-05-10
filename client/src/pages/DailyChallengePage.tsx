@@ -12,10 +12,10 @@ export const DailyChallengePage = (): React.JSX.Element => {
     return (
       <PageContainer className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] relative">
         <Glow color="var(--color-accent-blue)" size="xl" opacity={0.1} />
-        <div className="w-full max-w-2xl aspect-video glass-panel rounded-2xl animate-pulse flex flex-col items-center justify-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10" />
-          <div className="h-4 w-48 bg-white/5 rounded-full" />
-          <div className="h-3 w-32 bg-white/5 rounded-full opacity-50" />
+        <div className="w-full max-w-2xl aspect-video border border-dashed border-white/20 rounded-2xl animate-pulse flex flex-col items-center justify-center gap-4">
+          <div className="w-12 h-12 rounded-full border border-dashed border-white/20" />
+          <div className="h-4 w-48 border border-dashed border-white/10 rounded-full" />
+          <div className="h-3 w-32 border border-dashed border-white/5 rounded-full opacity-50" />
         </div>
       </PageContainer>
     )

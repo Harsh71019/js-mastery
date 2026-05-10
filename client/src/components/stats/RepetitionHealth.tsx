@@ -1,9 +1,7 @@
 import React from 'react'
-import { RotateCcw } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useRepetitionHealth } from '@/hooks/useRepetitionHealth'
 import { Card } from '@/components/ui/Card'
-import { SectionHeader } from '@/components/ui/SectionHeader'
 
 interface HealthBarProps {
   readonly label:    string
@@ -16,15 +14,19 @@ interface HealthBarProps {
 const HealthBar = ({ label, count, total, color, barColor }: HealthBarProps): React.JSX.Element => {
   const pct = total > 0 ? (count / total) * 100 : 0
   return (
-    <div className="flex items-center gap-4">
-      <span className={`text-[9px] font-bold uppercase tracking-widest font-geist w-20 shrink-0 ${color}`}>{label}</span>
-      <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
+    <div className="flex items-center gap-6 group/hrow">
+      <span className={`text-[10px] font-bold uppercase tracking-[0.1em] font-geist w-24 shrink-0 ${color}`}>{label}</span>
+      <div className="flex-1 h-3 bg-white/5 rounded-sm overflow-hidden relative border border-white/[0.03]">
         <div
-          className="h-full rounded-full transition-all duration-700"
-          style={{ width: `${pct}%`, background: barColor }}
+          className="h-full rounded-sm transition-all duration-1000 ease-out"
+          style={{ 
+            width: `${pct}%`, 
+            backgroundColor: barColor,
+            boxShadow: `0 0 10px ${barColor}44`
+          }}
         />
       </div>
-      <span className="text-[10px] font-bold font-geist text-text-tertiary w-6 text-right">{count}</span>
+      <span className="text-[10px] font-bold font-geist text-text-tertiary w-8 text-right tabular-nums group-hover/hrow:text-text-secondary transition-colors">{count}</span>
     </div>
   )
 }
@@ -35,54 +37,45 @@ export const RepetitionHealth = (): React.JSX.Element => {
   const masteredPct = total > 0 ? Math.round((mastered / total) * 100) : 0
 
   return (
-    <section className="flex flex-col gap-4 relative z-10">
-      <SectionHeader
-        icon={<RotateCcw size={16} />}
-        title="Spaced Repetition Health"
-        accent="purple"
-        meta={hasDue
-          ? <Link to="/review" className="text-[9px] font-bold text-accent-red uppercase font-geist tracking-tighter hover:opacity-80 transition-opacity">{due} due — review now →</Link>
-          : `${total} tracked`
-        }
-      />
-
-      <Card className="p-6 bg-white/[0.01] flex flex-col gap-4">
-        {total === 0 ? (
-          <div className="h-24 flex items-center justify-center">
-            <span className="text-[10px] font-bold uppercase tracking-widest font-geist text-text-tertiary opacity-30">
-              Solve problems to track your review health
-            </span>
+    <Card className="p-8 bg-white/[0.01] flex flex-col gap-6 h-full min-h-[300px]">
+      {total === 0 ? (
+        <div className="h-full flex items-center justify-center">
+          <span className="text-[10px] font-bold uppercase tracking-[0.2em] font-geist text-text-tertiary opacity-30 text-center max-w-[200px]">
+            Syncing repetition logs... Initial solve-sequence required.
+          </span>
+        </div>
+      ) : (
+        <>
+          <div className="flex flex-col gap-4 flex-1">
+            <HealthBar label="Mastered"   count={mastered}   total={total} color="text-accent-green"  barColor="var(--color-accent-green)" />
+            <HealthBar label="On Track"   count={onTrack}    total={total} color="text-accent-blue"   barColor="var(--color-accent-blue)" />
+            <HealthBar label="Due"        count={due}        total={total} color="text-accent-red"    barColor="var(--color-accent-red)" />
+            <HealthBar label="Unreviewed" count={unreviewed} total={total} color="text-text-tertiary" barColor="var(--color-text-tertiary)" />
           </div>
-        ) : (
-          <>
-            <HealthBar label="Mastered"   count={mastered}   total={total} color="text-accent-green"  barColor="#22c55e" />
-            <HealthBar label="On Track"   count={onTrack}    total={total} color="text-accent-blue"   barColor="#3b82f6" />
-            <HealthBar label="Due"        count={due}        total={total} color="text-accent-red"    barColor="#ef4444" />
-            <HealthBar label="Unreviewed" count={unreviewed} total={total} color="text-text-tertiary" barColor="#52525b" />
 
-            <div className="flex items-center gap-6 pt-3 border-t border-white/5">
+          <div className="flex items-center justify-between gap-6 pt-6 border-t border-white/5">
+            <div className="flex items-center gap-6">
               {masteredPct > 0 && (
-                <div className="flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent-green" />
-                  <span className="text-[9px] font-bold font-geist text-text-tertiary uppercase">{masteredPct}% mastered</span>
+                <div className="flex flex-col gap-1">
+                  <span className="text-[9px] font-bold font-geist text-text-tertiary uppercase opacity-60">Neural Stability</span>
+                  <span className="text-xs font-bold font-geist text-accent-green">{masteredPct}% SECURE</span>
                 </div>
               )}
               {hasDue && (
-                <div className="flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent-red animate-pulse" />
-                  <span className="text-[9px] font-bold font-geist text-accent-red uppercase">{due} overdue</span>
-                </div>
-              )}
-              {!hasDue && onTrack > 0 && (
-                <div className="flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent-blue" />
-                  <span className="text-[9px] font-bold font-geist text-text-tertiary uppercase">all reviews on schedule</span>
+                <div className="flex flex-col gap-1">
+                  <span className="text-[9px] font-bold font-geist text-accent-red uppercase opacity-60">Pathway Drift</span>
+                  <span className="text-xs font-bold font-geist text-accent-red animate-pulse">{due} OUT_OF_SYNC</span>
                 </div>
               )}
             </div>
-          </>
-        )}
-      </Card>
-    </section>
+            {hasDue && (
+               <Link to="/review" className="bg-accent-red/10 text-accent-red text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-lg border border-accent-red/20 hover:bg-accent-red hover:text-white transition-all duration-300 shadow-glow-sm">
+                  Initialize_Sync
+               </Link>
+            )}
+          </div>
+        </>
+      )}
+    </Card>
   )
 }

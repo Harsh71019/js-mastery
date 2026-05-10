@@ -1,8 +1,6 @@
 import React, { memo } from 'react'
-import { Gauge } from 'lucide-react'
 import { useSpeedTrend } from '@/hooks/useSpeedTrend'
 import { Card } from '@/components/ui/Card'
-import { SectionHeader } from '@/components/ui/SectionHeader'
 import type { SpeedTrendMonth } from '@/hooks/useSpeedTrend'
 
 interface SpeedRowProps {
@@ -15,20 +13,26 @@ const SpeedRow = memo(({ month, maxAvgMs }: SpeedRowProps): React.JSX.Element | 
   const barWidth = (month.avgMs / maxAvgMs) * 100
 
   return (
-    <div className="flex items-center gap-4">
-      <span className="text-[9px] font-bold font-geist text-text-tertiary w-8 shrink-0">{month.label}</span>
-      <span className="text-[9px] font-bold font-geist text-accent-blue w-14 shrink-0 tabular-nums text-right">
-        {month.avgMs}ms
-      </span>
-      <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
+    <div className="flex items-center gap-6 group/speed">
+      <span className="text-[10px] font-bold font-geist text-text-tertiary w-10 shrink-0 group-hover/speed:text-text-secondary transition-colors">{month.label.toUpperCase()}</span>
+      <div className="flex-1 h-3 bg-white/5 rounded-sm overflow-hidden relative border border-white/[0.03]">
         <div
-          className="h-full rounded-full transition-all duration-700"
-          style={{ width: `${barWidth}%`, background: 'linear-gradient(90deg, #3b82f6, #06b6d4)' }}
+          className="h-full rounded-sm transition-all duration-1000 ease-out"
+          style={{ 
+            width: `${barWidth}%`, 
+            backgroundColor: 'var(--color-accent-blue)',
+            boxShadow: '0 0 10px rgba(59, 130, 246, 0.3)'
+          }}
         />
       </div>
-      <span className="text-[8px] font-geist text-text-tertiary w-16 shrink-0 text-right tabular-nums">
-        {month.count} problem{month.count !== 1 ? 's' : ''}
-      </span>
+      <div className="flex flex-col items-end w-20 shrink-0 font-geist">
+        <span className="text-[10px] font-bold text-accent-blue tabular-nums">
+          {month.avgMs.toFixed(1)} MS
+        </span>
+        <span className="text-[8px] font-bold text-text-tertiary uppercase tracking-tighter tabular-nums opacity-60">
+          {month.count} SAMPLES
+        </span>
+      </div>
     </div>
   )
 })
@@ -38,27 +42,20 @@ export const SpeedTrend = (): React.JSX.Element => {
   const { months, maxAvgMs, hasData } = useSpeedTrend()
 
   return (
-    <section className="flex flex-col gap-4 relative z-10">
-      <SectionHeader
-        icon={<Gauge size={16} />}
-        title="Execution Speed Trend"
-        accent="blue"
-        meta="↓ faster = better"
-      />
-
-      <Card className="p-6 bg-white/[0.01] flex flex-col gap-3">
-        {!hasData ? (
-          <div className="h-24 flex items-center justify-center">
-            <span className="text-[10px] font-bold uppercase tracking-widest font-geist text-text-tertiary opacity-30">
-              Solve problems with timing to see your speed trend
-            </span>
-          </div>
-        ) : (
-          months.map((month) => (
+    <Card className="p-8 bg-white/[0.01] flex flex-col gap-5 h-full min-h-[300px] justify-center">
+      {!hasData ? (
+        <div className="h-full flex items-center justify-center">
+          <span className="text-[10px] font-bold uppercase tracking-[0.2em] font-geist text-text-tertiary opacity-30 text-center max-w-[200px]">
+            Calibrating velocity metrics... Execute solve-sequence to begin.
+          </span>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-4">
+          {months.filter(m => m.avgMs !== null).map((month) => (
             <SpeedRow key={month.key} month={month} maxAvgMs={maxAvgMs} />
-          ))
-        )}
-      </Card>
-    </section>
+          ))}
+        </div>
+      )}
+    </Card>
   )
 }

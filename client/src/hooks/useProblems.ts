@@ -30,7 +30,7 @@ const buildQuery = (filters: ProblemFilters, page: number): string => {
   return params.toString()
 }
 
-export const useProblems = (filters: ProblemFilters, page: number): UseProblemsResult => {
+export const useProblems = (filters: ProblemFilters, page = 1): UseProblemsResult => {
   const [problems, setProblems] = useState<readonly ProblemSummary[]>([])
   const [pagination, setPagination] = useState<Pagination>(DEFAULT_PAGINATION)
   const [isLoading, setIsLoading] = useState(true)
@@ -44,12 +44,12 @@ export const useProblems = (filters: ProblemFilters, page: number): UseProblemsR
     fetch(`/api/problems?${buildQuery(filters, page)}`)
       .then((response) => {
         if (!response.ok) throw new Error(`Server error: ${response.status}`)
-        return response.json() as Promise<{ problems: ProblemSummary[]; pagination: Pagination }>
+        return response.json() as Promise<{ success: boolean; data: ProblemSummary[]; pagination: Pagination }>
       })
-      .then((data) => {
+      .then(({ data, pagination }) => {
         if (cancelled) return
-        setProblems(data.problems)
-        setPagination(data.pagination)
+        setProblems(data)
+        setPagination(pagination)
         setIsLoading(false)
       })
       .catch((err: unknown) => {

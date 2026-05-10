@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { LayoutDashboard, Code2, BarChart2, Flame, CheckCircle2, HelpCircle, RefreshCw, Tag, CalendarDays, LineChart } from 'lucide-react'
 import { useProgress } from '@/hooks/useProgress'
 import { useProblemCounts } from '@/hooks/useProblemCounts'
+import { getMasteryRank } from '@/utils/ranks'
 
 interface NavItem {
   readonly to: string
@@ -32,9 +33,27 @@ const getNavClass = ({ isActive }: { isActive: boolean }): string =>
 export const Sidebar = (): React.JSX.Element => {
   const { solvedCount, currentStreak } = useProgress()
   const { total } = useProblemCounts()
+  const rank = getMasteryRank(solvedCount)
 
   return (
     <aside className="fixed left-0 top-12 h-[calc(100vh-3rem)] w-60 bg-bg-primary/80 backdrop-blur-md border-r border-white/5 flex flex-col z-40">
+      <div className="px-4 pt-6 pb-2">
+         <div className="glass-panel rounded-xl p-4 flex flex-col gap-3 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-20 h-20 blur-2xl opacity-10 transition-opacity duration-500 group-hover:opacity-20 rounded-full -mr-10 -mt-10" style={{ backgroundColor: rank.color }} />
+            <div className="flex flex-col gap-1 relative z-10">
+               <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-text-tertiary font-geist">Clearance_Level</span>
+               <span className="text-lg font-bold font-geist tracking-tighter" style={{ color: rank.color, textShadow: `0 0 10px ${rank.color}44` }}>
+                  {rank.level}
+               </span>
+            </div>
+            <div className="flex flex-col gap-1 relative z-10 border-t border-white/5 pt-2">
+               <span className="text-[10px] font-bold font-geist tracking-widest text-text-secondary uppercase truncate">
+                  {rank.label}
+               </span>
+            </div>
+         </div>
+      </div>
+
       <nav className="flex-1 py-4 flex flex-col">
         {NAV_ITEMS.map((item) => (
           <NavLink key={item.to} to={item.to} end={item.to === '/'} className={getNavClass}>
@@ -44,25 +63,23 @@ export const Sidebar = (): React.JSX.Element => {
         ))}
       </nav>
 
-      <div className="h-px bg-white/5 mx-4" />
-
-      <div className="px-5 py-6 flex flex-col gap-4">
+      <div className="px-5 py-6 flex flex-col gap-5 border-t border-white/5">
         {currentStreak > 0 && (
           <div className="flex flex-col gap-1">
-            <span className="text-text-tertiary text-[9px] font-bold uppercase tracking-widest font-geist">Current Streak</span>
-            <div className="flex items-center gap-2.5 text-xs">
-              <Flame size={14} className="text-accent-amber fill-accent-amber/20" />
-              <span className="text-accent-amber font-bold tracking-tight font-geist uppercase">{currentStreak} DAY STREAK</span>
+            <span className="text-text-tertiary text-[9px] font-bold uppercase tracking-widest font-geist opacity-60">Uptime_Pulse</span>
+            <div className="flex items-center gap-2.5">
+              <Flame size={14} className="text-accent-amber fill-accent-amber/20 shadow-glow-sm" />
+              <span className="text-accent-amber text-xs font-bold tracking-widest font-geist uppercase">{currentStreak}D STREAK</span>
             </div>
           </div>
         )}
         <div className="flex flex-col gap-1">
-          <span className="text-text-tertiary text-[9px] font-bold uppercase tracking-widest font-geist">Problem Mastery</span>
-          <div className="flex items-center gap-2.5 text-xs">
+          <span className="text-text-tertiary text-[9px] font-bold uppercase tracking-widest font-geist opacity-60">Verification_Registry</span>
+          <div className="flex items-center gap-2.5">
             <CheckCircle2 size={14} className="text-accent-green" />
-            <span className="text-text-secondary font-bold tracking-tight font-geist uppercase">
+            <span className="text-text-secondary text-[10px] font-bold tracking-tight font-geist uppercase">
               <span className="text-accent-green">{solvedCount}</span>
-              {total > 0 && <span className="text-text-tertiary"> / {total} SOLVED</span>}
+              {total > 0 && <span className="text-text-tertiary"> / {total} Verified</span>}
             </span>
           </div>
         </div>

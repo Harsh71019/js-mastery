@@ -18,8 +18,8 @@ export const PatternPage = (): React.JSX.Element => {
     return (
       <PageContainer className="flex flex-col gap-10">
         <div className="flex flex-col gap-4 opacity-20">
-          <div className="h-8 w-64 bg-white/10 rounded-full animate-pulse" />
-          <div className="h-20 w-full max-w-2xl bg-white/10 rounded-2xl animate-pulse" />
+          <div className="h-8 w-64 border border-dashed border-white/20 rounded-full animate-pulse" />
+          <div className="h-20 w-full max-w-2xl border border-dashed border-white/10 rounded-2xl animate-pulse" />
         </div>
       </PageContainer>
     )

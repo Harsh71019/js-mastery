@@ -10,10 +10,10 @@ export const basicLoopsProblems: readonly Problem[] = [
     description:
       'Given an array of numbers, return the sum of all elements. If the array is empty, return 0.',
     whatShouldHappen: [
-      'Start with a running total of 0.',
-      'Visit every element in the array from left to right.',
-      'Add each element to the running total.',
-      'Return the total after the loop ends.',
+      { text: 'Start with a running total of 0.', pattern: 'let total = 0' },
+      { text: 'Visit every element in the array from left to right.', pattern: 'for \\(let i = 0; i < nums\\.length; i\\+\\+\\)' },
+      { text: 'Add each element to the running total.', pattern: 'total \\+= nums\\[i\\]' },
+      { text: 'Return the total after the loop ends.', pattern: 'return total' },
     ],
     starterCode: `function sumArray(nums) {\n  // your code here\n}`,
     traceTable: {
@@ -48,10 +48,10 @@ export const basicLoopsProblems: readonly Problem[] = [
     description:
       'Given a non-empty array of numbers, return the largest value. Do not use Math.max.',
     whatShouldHappen: [
-      'Assume the first element is the current maximum.',
-      'Loop through the remaining elements.',
-      'If an element is larger than the current maximum, update the maximum.',
-      'Return the maximum after the loop.',
+      { text: 'Assume the first element is the current maximum.', pattern: 'let max = nums\\[0\\]' },
+      { text: 'Loop through the remaining elements.', pattern: 'for \\(let i = 1; i < nums\\.length; i\\+\\+\\)' },
+      { text: 'If an element is larger than the current maximum, update the maximum.', pattern: 'if \\(nums\\[i\\] > max\\)' },
+      { text: 'Return the maximum after the loop.', pattern: 'return max' },
     ],
     starterCode: `function findMax(nums) {\n  // your code here\n}`,
     traceTable: {

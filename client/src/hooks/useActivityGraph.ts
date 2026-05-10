@@ -30,9 +30,9 @@ export const useActivityGraph = (): ActivityData => {
     fetch('/api/progress/activity', { signal: controller.signal })
       .then((r) => {
         if (!r.ok) throw new Error(`Server error: ${r.status}`)
-        return r.json() as Promise<{ days: ActivityDay[]; maxCount: number; totalSolvedInWindow: number }>
+        return r.json() as Promise<{ success: boolean; data: { days: ActivityDay[]; maxCount: number; totalSolvedInWindow: number } }>
       })
-      .then(({ days, maxCount, totalSolvedInWindow }) =>
+      .then(({ data: { days, maxCount, totalSolvedInWindow } }) =>
         setState({ days, maxCount, totalSolvedInWindow, isLoading: false, error: null }),
       )
       .catch((err: unknown) => {

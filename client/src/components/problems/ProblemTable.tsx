@@ -24,14 +24,14 @@ const formatSolveDate = (isoString: string): string => {
 }
 
 const SkeletonRow = (): React.JSX.Element => (
-  <tr className="border-t border-white/[0.04]">
-    <td className="px-6 py-4 w-10"><div className="h-4 w-4 bg-white/[0.04] rounded animate-pulse" /></td>
-    <td className="px-3 py-4"><div className="h-4 w-48 bg-white/[0.04] rounded animate-pulse" /></td>
-    <td className="px-3 py-4 w-32"><div className="h-4 w-20 bg-white/[0.04] rounded animate-pulse" /></td>
-    <td className="px-3 py-4 w-36"><div className="h-4 w-24 bg-white/[0.04] rounded animate-pulse" /></td>
-    <td className="px-3 py-4 w-20"><div className="h-4 w-12 bg-white/[0.04] rounded animate-pulse" /></td>
-    <td className="px-3 py-4 w-14"><div className="h-4 w-8 bg-white/[0.04] rounded animate-pulse" /></td>
-    <td className="px-3 py-4 w-10 text-center"><div className="h-4 w-4 bg-white/[0.04] rounded mx-auto animate-pulse" /></td>
+  <tr className="border-t border-white/[0.03]">
+    <td className="px-6 py-4 w-10"><div className="h-4 w-4 border border-dashed border-white/10 rounded animate-pulse" /></td>
+    <td className="px-3 py-4"><div className="h-4 w-48 border border-dashed border-white/10 rounded animate-pulse" /></td>
+    <td className="px-3 py-4 w-32"><div className="h-4 w-20 border border-dashed border-white/10 rounded animate-pulse" /></td>
+    <td className="px-3 py-4 w-36"><div className="h-4 w-24 border border-dashed border-white/10 rounded animate-pulse" /></td>
+    <td className="px-3 py-4 w-20"><div className="h-4 w-12 border border-dashed border-white/10 rounded animate-pulse" /></td>
+    <td className="px-3 py-4 w-14"><div className="h-4 w-8 border border-dashed border-white/10 rounded animate-pulse" /></td>
+    <td className="px-3 py-4 w-10 text-center"><div className="h-4 w-4 border border-dashed border-white/10 rounded mx-auto animate-pulse" /></td>
   </tr>
 )
 

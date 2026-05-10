@@ -6,9 +6,10 @@ import { Button } from '@/components/ui/Button'
 
 interface TraceTableProps {
   readonly traceTable: Problem['traceTable']
+  readonly onRowClick?: () => void
 }
 
-export const TraceTable = ({ traceTable }: TraceTableProps): React.JSX.Element => {
+export const TraceTable = ({ traceTable, onRowClick }: TraceTableProps): React.JSX.Element => {
   const [isVisible, setIsVisible] = useState(false)
 
   return (
@@ -55,7 +56,8 @@ export const TraceTable = ({ traceTable }: TraceTableProps): React.JSX.Element =
                 {traceTable.rows.map((row, rowIndex) => (
                   <tr
                     key={rowIndex}
-                    className="border-b border-white/[0.03] hover:bg-white/[0.02] transition-colors duration-200"
+                    onClick={onRowClick}
+                    className={`border-b border-white/[0.03] hover:bg-white/[0.02] transition-colors duration-200 ${onRowClick ? 'cursor-crosshair' : ''}`}
                   >
                     {traceTable.columns.map((column) => (
                       <td

@@ -14,10 +14,14 @@ const DonutArc = memo(({ length, color, rotate }: ArcProps): React.JSX.Element =
     cx="50" cy="50" r={RADIUS}
     fill="none"
     stroke={color}
-    strokeWidth="8"
+    strokeWidth="6"
     strokeDasharray={`${length} ${CIRC}`}
     strokeLinecap="butt"
-    style={{ transform: `rotate(${rotate}deg)`, transformOrigin: '50px 50px' }}
+    style={{ 
+      transform: `rotate(${rotate}deg)`, 
+      transformOrigin: '50px 50px',
+      transition: 'all 1.5s cubic-bezier(0.22, 1, 0.36, 1)',
+    }}
   />
 ))
 DonutArc.displayName = 'DonutArc'
@@ -32,13 +36,13 @@ interface Props {
 export const MasteryDonut = memo(({ clean, struggled, grinded, total }: Props): React.JSX.Element => {
   if (total === 0) {
     return (
-      <div className="relative w-28 h-28 flex items-center justify-center shrink-0">
+      <div className="relative w-32 h-32 flex items-center justify-center shrink-0">
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r={RADIUS} fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="8" />
+          <circle cx="50" cy="50" r={RADIUS} fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="6" />
         </svg>
         <div className="flex flex-col items-center z-10">
-          <span className="text-xl font-bold font-geist text-text-tertiary">—</span>
-          <span className="text-[8px] font-bold uppercase tracking-widest text-text-tertiary font-geist">no data</span>
+          <span className="text-xl font-bold font-geist text-text-tertiary opacity-30">—</span>
+          <span className="text-[9px] font-bold uppercase tracking-widest text-text-tertiary font-geist opacity-60 text-center px-4 leading-tight">BUFFER_EMPTY</span>
         </div>
       </div>
     )
@@ -52,16 +56,17 @@ export const MasteryDonut = memo(({ clean, struggled, grinded, total }: Props): 
   const grindedLen     = (grinded / total) * CIRC
 
   return (
-    <div className="relative w-28 h-28 flex items-center justify-center shrink-0">
+    <div className="relative w-32 h-32 flex items-center justify-center shrink-0">
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r={RADIUS} fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="8" />
-        {clean > 0 && <DonutArc length={cleanLen} color="#22c55e" rotate={-90} />}
-        {struggled > 0 && <DonutArc length={struggledLen} color="#f59e0b" rotate={-90 + cleanAngle} />}
-        {grinded > 0 && <DonutArc length={grindedLen} color="#ef4444" rotate={-90 + cleanAngle + struggledAngle} />}
+        <circle cx="50" cy="50" r={RADIUS} fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="6" />
+        {clean > 0 && <DonutArc length={cleanLen} color="var(--color-accent-green)" rotate={-90} />}
+        {struggled > 0 && <DonutArc length={struggledLen} color="var(--color-accent-amber)" rotate={-90 + cleanAngle} />}
+        {grinded > 0 && <DonutArc length={grindedLen} color="var(--color-accent-red)" rotate={-90 + cleanAngle + struggledAngle} />}
       </svg>
-      <div className="flex flex-col items-center z-10">
-        <span className="text-2xl font-bold font-geist text-accent-green">{cleanPct}%</span>
-        <span className="text-[8px] font-bold uppercase tracking-widest text-text-tertiary font-geist">clean</span>
+      <div className="flex flex-col items-center z-10 relative">
+        <div className="absolute inset-0 blur-xl opacity-20 rounded-full" style={{ backgroundColor: 'var(--color-accent-green)' }} />
+        <span className="text-3xl font-bold font-geist text-text-primary tracking-tighter relative z-10">{cleanPct}%</span>
+        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-text-tertiary font-geist opacity-60 relative z-10">CLEAN</span>
       </div>
     </div>
   )

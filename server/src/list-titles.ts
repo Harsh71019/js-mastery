@@ -18,8 +18,9 @@ const run = async (): Promise<void> => {
     console.log(`\n${category} (${problems.length} problems):\n${titles}\n`)
   } else {
     const byCategory = problems.reduce<Record<string, string[]>>((acc, p) => {
-      if (!acc[p.category]) acc[p.category] = []
-      acc[p.category].push(p.id)
+      const cat = p.category as string
+      if (!acc[cat]) acc[cat] = []
+      acc[cat]!.push(p.id as string)
       return acc
     }, {})
 

@@ -59,6 +59,11 @@ export interface ProblemSummary {
   readonly collectionId?: string
 }
 
+export interface LogicStep {
+  readonly text: string
+  readonly pattern?: string
+}
+
 export interface Problem {
   readonly id: string
   readonly title: string
@@ -67,7 +72,7 @@ export interface Problem {
   readonly difficulty: Difficulty
   readonly functionName: string
   readonly description: string
-  readonly whatShouldHappen: readonly string[]
+  readonly whatShouldHappen: readonly (string | LogicStep)[]
   readonly starterCode: string
   readonly traceTable: TraceTable
   readonly skeletonHint: string

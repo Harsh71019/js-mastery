@@ -73,7 +73,7 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
     try {
       const response = await fetch('/api/progress')
       if (!response.ok) throw new Error(`Server error: ${response.status}`)
-      const data = (await response.json()) as Omit<ProgressState, 'isLoaded'>
+      const { data } = (await response.json()) as { success: boolean; data: Omit<ProgressState, 'isLoaded'> }
       set({ ...applyServerState(data), isLoaded: true })
     } catch (error: unknown) {
       console.error('Failed to load progress:', error)
@@ -108,8 +108,8 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...(meta ?? {}), executionTimeMs, acceptedCode: code }),
     })
-      .then((r) => r.json() as Promise<Omit<ProgressState, 'isLoaded'>>)
-      .then((serverData) => {
+      .then((r) => r.json() as Promise<{ success: boolean; data: Omit<ProgressState, 'isLoaded'> }>)
+      .then(({ data: serverData }) => {
         const localSolved = get().solvedProblems
         const mergedSolved = Object.fromEntries(
           Object.entries(serverData.solvedProblems as Record<string, SolvedEntry>).map(([k, v]) => [
@@ -146,8 +146,8 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ executionTimeMs }),
     })
-      .then((r) => r.json() as Promise<Omit<ProgressState, 'isLoaded'>>)
-      .then((data) => set({ ...applyServerState(data), isLoaded: true }))
+      .then((r) => r.json() as Promise<{ success: boolean; data: Omit<ProgressState, 'isLoaded'> }>)
+      .then(({ data }) => set({ ...applyServerState(data), isLoaded: true }))
       .catch((error: unknown) => console.error('Failed to sync attempt:', error))
   },
 
@@ -169,7 +169,7 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
     try {
       const response = await fetch('/api/daily/complete', { method: 'POST' })
       if (!response.ok) throw new Error(`Server error: ${response.status}`)
-      const data = (await response.json()) as Omit<ProgressState, 'isLoaded'>
+      const { data } = (await response.json()) as { success: boolean; data: Omit<ProgressState, 'isLoaded'> }
       set({ ...applyServerState(data), isLoaded: true })
     } catch (error: unknown) {
       console.error('Failed to complete daily challenge:', error)

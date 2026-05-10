@@ -51,6 +51,7 @@ const seedCategory = async (
 
   for (let i = 0; i < problems.length; i++) {
     const doc = problems[i]
+    if (!doc) continue
     const validationError = validate(doc, slug, i)
     if (validationError) {
       console.error(`  SKIP: ${validationError}`)
@@ -110,7 +111,7 @@ const run = async (): Promise<void> => {
     try {
         problems = JSON.parse(raw)
         if (!Array.isArray(problems)) problems = [problems]
-    } catch (e) {
+    } catch {
         console.error(`  ERROR: Failed to parse ${relativePath}`)
         totalErrors++
         continue

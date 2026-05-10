@@ -27,9 +27,9 @@ export const useExecutionTimes = (): ExecutionTimesData => {
     fetch('/api/progress/execution-times', { signal: controller.signal })
       .then((r) => {
         if (!r.ok) throw new Error(`Server error: ${r.status}`)
-        return r.json() as Promise<{ entries: ExecutionTimeEntry[] }>
+        return r.json() as Promise<{ success: boolean; data: { entries: ExecutionTimeEntry[] } }>
       })
-      .then(({ entries }) => setState({ entries, isLoading: false, error: null }))
+      .then(({ data: { entries } }) => setState({ entries, isLoading: false, error: null }))
       .catch((err: unknown) => {
         if (err instanceof Error && err.name === 'AbortError') return
         setState((prev) => ({

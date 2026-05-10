@@ -26,9 +26,9 @@ export const useProblem = (id: string): UseProblemResult => {
       .then((response) => {
         if (response.status === 404) throw new Error('not_found')
         if (!response.ok) throw new Error(`Server error: ${response.status}`)
-        return response.json() as Promise<AnyProblem & { prevId: string | null; nextId: string | null }>
+        return response.json() as Promise<{ success: boolean; data: AnyProblem & { prevId: string | null; nextId: string | null } }>
       })
-      .then((data) => {
+      .then(({ data }) => {
         if (cancelled) return
         const { prevId: prev, nextId: next, ...rest } = data
         setProblem(rest as AnyProblem)

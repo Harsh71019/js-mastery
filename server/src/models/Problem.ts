@@ -2,16 +2,16 @@ import { Schema, model } from 'mongoose'
 
 const TestCaseSchema = new Schema(
   {
-    input:            { type: Schema.Types.Mixed, required: true },
-    expected:         { type: Schema.Types.Mixed },
-    label:            { type: String },
-    hidden:           { type: Boolean },
-    isEval:           { type: Boolean },
-    isGenerator:      { type: Boolean },
-    isIterable:       { type: Boolean },
+    input: { type: Schema.Types.Mixed, required: true },
+    expected: { type: Schema.Types.Mixed },
+    label: { type: String },
+    hidden: { type: Boolean },
+    isEval: { type: Boolean },
+    isGenerator: { type: Boolean },
+    isIterable: { type: Boolean },
     isAsyncGenerator: { type: Boolean },
-    isAsyncIterable:  { type: Boolean },
-    take:             { type: Number },
+    isAsyncIterable: { type: Boolean },
+    take: { type: Number },
   },
   { _id: false },
 )
@@ -27,42 +27,46 @@ const TraceTableSchema = new Schema(
 
 const ProblemSchema = new Schema(
   {
-    id:    { type: String, required: true, unique: true },
+    id: { type: String, required: true, unique: true },
     title: { type: String, required: true, unique: true },
     type: {
       type: String,
       enum: ['coding', 'mcq', 'trick'],
       default: 'coding',
     },
-    category:   { type: String, required: true },
+    category: { type: String, required: true },
     difficulty: { type: String, enum: ['Beginner', 'Easy', 'Medium', 'Hard'], required: true },
     description: { type: String },
-    patternTag:         { type: String, required: true },
+    patternTag: { type: String, required: true },
     patternExplanation: { type: String, required: true },
-    estimatedMinutes:   { type: Number, required: true },
+    estimatedMinutes: { type: Number, required: true },
     status: { type: String, enum: ['draft', 'published'], default: 'published' },
     collectionId: { type: String, default: 'general' },
 
     // Coding-only (optional for mcq/trick)
-    functionName:    { type: String },
+    functionName: { type: String },
     whatShouldHappen: { type: [String] },
-    starterCode:     { type: String },
-    solution:        { type: String },
-    traceTable:      { type: TraceTableSchema },
-    skeletonHint:    { type: String },
+    starterCode: { type: String },
+    solution: { type: String },
+    traceTable: { type: TraceTableSchema },
+    skeletonHint: { type: String },
     testRunnerWrapper: { type: String },
-    tests:           { type: [TestCaseSchema] },
+    tests: { type: [TestCaseSchema] },
 
     // MCQ / trick fields
-    options:          { type: [String], default: undefined },
-    correctIndex:     { type: Number },
-    explanation:      { type: String },
+    options: { type: [String], default: undefined },
+    correctIndex: { type: Number },
+    explanation: { type: String },
 
     // Trick-only fields
-    codeSnippet:       { type: String },
+    codeSnippet: { type: String },
     gotchaExplanation: { type: String },
   },
   { timestamps: true },
 )
+
+ProblemSchema.index({ status: 1, category: 1, difficulty: 1 })
+ProblemSchema.index({ status: 1, collectionId: 1 })
+ProblemSchema.index({ status: 1, patternTag: 1 })
 
 export const Problem = model('Problem', ProblemSchema)

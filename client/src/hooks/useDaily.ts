@@ -22,9 +22,9 @@ export const useDaily = (): UseDailyResult => {
     fetch('/api/daily')
       .then((r) => {
         if (!r.ok) throw new Error(`Server error: ${r.status}`)
-        return r.json() as Promise<DailyChallenge>
+        return r.json() as Promise<{ success: boolean; data: DailyChallenge }>
       })
-      .then((data) => {
+      .then(({ data }) => {
         if (cancelled) return
         setDaily(data)
         setLoading(false)

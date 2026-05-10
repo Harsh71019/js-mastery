@@ -28,9 +28,9 @@ export const useSubmissions = (problemId: string): UseSubmissionsResult => {
     fetch(`/api/submissions/${problemId}`)
       .then((r) => {
         if (!r.ok) throw new Error(`Server error: ${r.status}`)
-        return r.json() as Promise<{ submissions: SubmissionSummary[] }>
+        return r.json() as Promise<{ success: boolean; data: { submissions: SubmissionSummary[] } }>
       })
-      .then(({ submissions: data }) => {
+      .then(({ data: { submissions: data } }) => {
         if (!cancelled) {
           setSubmissions(data)
           setIsLoading(false)

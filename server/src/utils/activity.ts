@@ -19,7 +19,7 @@ export const getDailyActivity = (
     if (!entry.solvedAt) continue
     const parsed = Date.parse(entry.solvedAt)
     if (isNaN(parsed)) continue
-    const dateStr = new Date(parsed).toISOString().split('T')[0]
+    const dateStr = new Date(parsed).toISOString().split('T')[0] ?? ''
     countByDate.set(dateStr, (countByDate.get(dateStr) ?? 0) + 1)
   }
 
@@ -33,7 +33,7 @@ export const getDailyActivity = (
   for (let offset = windowDays - 1; offset >= 0; offset--) {
     const d = new Date(today)
     d.setUTCDate(d.getUTCDate() - offset)
-    const dateStr = d.toISOString().split('T')[0]
+    const dateStr = d.toISOString().split('T')[0] ?? ''
     const count = countByDate.get(dateStr) ?? 0
     days.push({ date: dateStr, count })
     if (count > maxCount) maxCount = count

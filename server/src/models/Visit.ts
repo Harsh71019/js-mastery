@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose'
 
 const VisitSchema = new Schema(
   {
-    userId:    { type: String, required: true, default: 'default' },
+    userId: { type: String, required: true, default: 'default' },
     problemId: { type: String, required: true },
     visitedAt: { type: String, required: true },
   },
@@ -10,5 +10,6 @@ const VisitSchema = new Schema(
 )
 
 VisitSchema.index({ userId: 1, problemId: 1 })
+VisitSchema.index({ visitedAt: 1 })
 
 export const Visit = model('Visit', VisitSchema)

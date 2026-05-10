@@ -36,9 +36,9 @@ export const useReviewQueue = (): UseReviewQueueResult => {
     fetch('/api/progress/review-queue')
       .then((r) => {
         if (!r.ok) throw new Error(`Server error: ${r.status}`)
-        return r.json() as Promise<ReviewQueue>
+        return r.json() as Promise<{ success: boolean; data: ReviewQueue }>
       })
-      .then((data) => {
+      .then(({ data }) => {
         if (cancelled) return
         setQueue(data)
         setLoading(false)

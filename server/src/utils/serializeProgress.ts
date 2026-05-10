@@ -3,12 +3,6 @@ interface RunTiming {
   accepted: boolean
 }
 
-interface SolvedEntry {
-  runTimings?:  unknown[]
-  acceptedCode?: string
-  [key: string]: unknown
-}
-
 const normalizeRunTimings = (raw: unknown[]): RunTiming[] =>
   raw
     .map((entry) => {

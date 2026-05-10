@@ -19,9 +19,9 @@ export const usePatterns = (): UsePatternsResult => {
     fetch('/api/problems/patterns')
       .then((r) => {
         if (!r.ok) throw new Error(`Server error: ${r.status}`)
-        return r.json() as Promise<PatternSummary[]>
+        return r.json() as Promise<{ success: boolean; data: PatternSummary[] }>
       })
-      .then((data) => {
+      .then(({ data }) => {
         if (cancelled) return
         setPatterns(data)
         setLoading(false)

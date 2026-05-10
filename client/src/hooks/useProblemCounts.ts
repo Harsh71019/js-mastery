@@ -15,8 +15,8 @@ export const useProblemCounts = (): ProblemCounts => {
 
   useEffect(() => {
     fetch('/api/problems/categories/counts')
-      .then((response) => response.json() as Promise<CategoryCount[]>)
-      .then((data) => {
+      .then((response) => response.json() as Promise<{ success: boolean; data: CategoryCount[] }>)
+      .then(({ data }) => {
         const byCategory = Object.fromEntries(data.map((c) => [c.slug, c.count]))
         const total = data.reduce((sum, c) => sum + c.count, 0)
         setCounts({ total, byCategory })
