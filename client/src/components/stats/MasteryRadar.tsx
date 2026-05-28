@@ -102,7 +102,7 @@ export const MasteryRadar = ({ scores, size = 300 }: MasteryRadarProps): React.J
               y={y}
               textAnchor="middle"
               dominantBaseline="middle"
-              className="fill-text-tertiary text-[9px] font-bold font-geist uppercase tracking-widest"
+              className="fill-text-tertiary text-[10px] font-bold font-geist uppercase tracking-widest"
             >
               {CONCEPT_LABELS[c.key as keyof NeuralScores]}
             </text>

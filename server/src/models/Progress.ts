@@ -14,6 +14,9 @@ const SolvedEntrySchema = new Schema(
     runCount: { type: Number, default: 1 },
     runTimings: { type: [Schema.Types.Mixed], default: [] },
     acceptedCode: { type: String },
+    recallCount: { type: Number, default: 0 },
+    recallSkipped: { type: Number, default: 0 },
+    lastRecalledAt: { type: String },
   },
   { _id: false },
 )

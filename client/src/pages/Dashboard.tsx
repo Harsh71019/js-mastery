@@ -44,8 +44,11 @@ export const Dashboard = (): React.JSX.Element => {
     { id: 'js-pro-mastery', title: 'JS PRO', description: 'Deep intelligence training for JavaScript engineering.', color: '#a855f7', bg: 'bg-accent-purple/5', border: 'hover:border-accent-purple/30', text: 'text-accent-purple' },
   ]
 
-  const categoriesStarted = CATEGORIES.filter(
-    (category) => Object.keys(solvedProblems).some((id) => id.startsWith(category.slug)),
+  const categoriesStarted = CATEGORIES.filter((category) =>
+    Object.entries(solvedProblems).some(
+      ([id, entry]) =>
+        entry.category === category.slug || (!entry.category && id.startsWith(category.slug)),
+    ),
   ).length
 
   const handleExportBackup = (): void => {
@@ -98,7 +101,7 @@ export const Dashboard = (): React.JSX.Element => {
         <div className="flex items-center justify-between px-1">
           <h2 className="text-text-primary text-[10px] font-bold uppercase tracking-[0.3em] font-geist opacity-60">System Clusters</h2>
           <div className="h-px bg-white/5 flex-1 mx-6" />
-          <span className="text-[9px] font-bold text-text-tertiary uppercase font-geist">Status: Online</span>
+          <span className="text-[10px] font-bold text-text-tertiary uppercase font-geist">Status: Online</span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {collections.map(col => {
@@ -126,7 +129,7 @@ export const Dashboard = (): React.JSX.Element => {
                     <h3 className="text-text-primary text-lg font-bold tracking-tighter font-geist">
                       {col.title}
                     </h3>
-                    <div className={`text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded border border-white/10 bg-white/5 text-text-tertiary`}>
+                    <div className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded border border-white/10 bg-white/5 text-text-tertiary`}>
                       Data Set
                     </div>
                   </div>
@@ -173,13 +176,14 @@ export const Dashboard = (): React.JSX.Element => {
         <div className="flex items-center justify-between px-1">
           <h2 className="text-text-primary text-[10px] font-bold uppercase tracking-[0.3em] font-geist opacity-60">Intelligence Sectors</h2>
           <div className="h-px bg-white/5 flex-1 mx-6" />
-          <span className="text-[9px] font-bold text-text-tertiary uppercase font-geist">Real-time sync</span>
+          <span className="text-[10px] font-bold text-text-tertiary uppercase font-geist">Real-time sync</span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {CATEGORIES.map((category) => {
             const categoryTotal = byCategory[category.slug] ?? 0
-            const categorySolved = Object.keys(solvedProblems).filter((id) =>
-              id.startsWith(category.slug),
+            const categorySolved = Object.entries(solvedProblems).filter(
+              ([id, entry]) =>
+                entry.category === category.slug || (!entry.category && id.startsWith(category.slug)),
             ).length
             const progress = categoryTotal > 0 ? Math.round((categorySolved / categoryTotal) * 100) : 0
 
@@ -203,7 +207,7 @@ export const Dashboard = (): React.JSX.Element => {
                           style={{ width: `${progress}%`, backgroundColor: category.accentColor }} 
                         />
                       </div>
-                      <span className="text-text-tertiary text-[9px] font-bold font-geist whitespace-nowrap">{progress}%</span>
+                      <span className="text-text-tertiary text-[10px] font-bold font-geist whitespace-nowrap">{progress}%</span>
                     </div>
                   </div>
                   <div className="shrink-0">

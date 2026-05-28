@@ -47,7 +47,7 @@ export const useFluency = (): FluencyResult => {
   const { byCategory } = useProblemCounts()
 
   const fluencies = useMemo((): readonly CategoryFluency[] => {
-    return CATEGORIES.map((cat) => {
+    return CATEGORIES.map((cat): CategoryFluency => {
       const totalCount = byCategory[cat.slug] ?? 0
       const entries = Object.entries(solvedProblems)
         .filter(([id, e]) => e.category === cat.slug || (!e.category && id.startsWith(cat.slug)))

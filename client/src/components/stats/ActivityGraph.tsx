@@ -75,7 +75,7 @@ export const ActivityGraph = ({ days, totalSolvedInWindow }: ActivityGraphProps)
             {monthLabels.map(({ label, colIndex }) => (
               <span
                 key={`${label}-${colIndex}`}
-                className="absolute text-[9px] font-bold uppercase tracking-tighter text-text-tertiary font-geist"
+                className="absolute text-[10px] font-bold uppercase tracking-tighter text-text-tertiary font-geist"
                 style={{ left: colIndex * STEP }}
               >
                 {label}
@@ -93,7 +93,7 @@ export const ActivityGraph = ({ days, totalSolvedInWindow }: ActivityGraphProps)
               }}
             >
               {DAY_LABELS.map((label, i) => (
-                <div key={i} className="flex items-center justify-end text-[9px] font-bold uppercase tracking-tighter text-text-tertiary pr-2 font-geist">
+                <div key={i} className="flex items-center justify-end text-[10px] font-bold uppercase tracking-tighter text-text-tertiary pr-2 font-geist">
                   {label}
                 </div>
               ))}
@@ -131,11 +131,11 @@ export const ActivityGraph = ({ days, totalSolvedInWindow }: ActivityGraphProps)
       </div>
 
       <div className="flex items-center gap-4 border-t border-white/5 pt-4" style={{ marginLeft: 36 }}>
-        <span className="text-[9px] font-bold text-text-tertiary font-geist uppercase tracking-widest">
+        <span className="text-[10px] font-bold text-text-tertiary font-geist uppercase tracking-widest">
           Telemetry: {totalSolvedInWindow} cycles verified in last year
         </span>
         <div className="flex items-center gap-1.5 ml-auto">
-          <span className="text-[9px] font-bold text-text-tertiary font-geist uppercase tracking-widest">Low</span>
+          <span className="text-[10px] font-bold text-text-tertiary font-geist uppercase tracking-widest">Low</span>
           {COLORS.map((color, i) => (
             <span
               key={i}
@@ -143,7 +143,7 @@ export const ActivityGraph = ({ days, totalSolvedInWindow }: ActivityGraphProps)
               style={{ width: 10, height: 10, backgroundColor: color }}
             />
           ))}
-          <span className="text-[9px] font-bold text-text-tertiary font-geist uppercase tracking-widest">High</span>
+          <span className="text-[10px] font-bold text-text-tertiary font-geist uppercase tracking-widest">High</span>
         </div>
       </div>
     </div>

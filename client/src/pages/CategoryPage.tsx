@@ -29,8 +29,9 @@ export const CategoryPage = (): React.JSX.Element => {
       difficulty: filters.difficulty,
       category: slug as any,
       type: filters.type,
+      collectionId: filters.collectionId === 'all' ? undefined : filters.collectionId,
     }),
-    [filters.search, filters.difficulty, slug, filters.type],
+    [filters.search, filters.difficulty, slug, filters.type, filters.collectionId],
   )
 
   const { problems, isLoading, error } = useProblems(apiFilters)

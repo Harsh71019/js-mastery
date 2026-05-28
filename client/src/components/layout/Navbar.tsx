@@ -43,7 +43,6 @@ export const Navbar = (): React.JSX.Element => {
             hasProblemsList={problemsMatch !== null}
             hasQuiz={quizMatch !== null}
             hasProgress={progressMatch !== null}
-            total={total}
           />
         )}
       </div>
@@ -51,7 +50,7 @@ export const Navbar = (): React.JSX.Element => {
       <div className="flex items-center gap-6 shrink-0">
         {currentStreak > 0 && (
           <div className="flex flex-col items-end gap-0">
-            <span className="text-text-tertiary text-[9px] font-bold uppercase tracking-widest leading-none mb-0.5 font-geist">Streak</span>
+            <span className="text-text-tertiary text-[10px] font-bold uppercase tracking-widest leading-none mb-0.5 font-geist">Streak</span>
             <div className="flex items-center gap-1.5">
               <Flame size={14} className="text-accent-amber fill-accent-amber/20" />
               <span className="text-accent-amber text-xs font-bold tracking-tight font-geist">{currentStreak}D</span>
@@ -59,7 +58,7 @@ export const Navbar = (): React.JSX.Element => {
           </div>
         )}
         <div className="flex flex-col items-end gap-0 border-l border-white/10 pl-6">
-          <span className="text-text-tertiary text-[9px] font-bold uppercase tracking-widest leading-none mb-0.5 font-geist">Mastery</span>
+          <span className="text-text-tertiary text-[10px] font-bold uppercase tracking-widest leading-none mb-0.5 font-geist">Mastery</span>
           <div className="flex items-center gap-1.5">
             <CheckCircle2 size={14} className="text-accent-green" />
             <span className="text-text-secondary text-xs font-bold tracking-tight font-geist">

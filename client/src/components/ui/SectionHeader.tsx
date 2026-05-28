@@ -28,7 +28,7 @@ export const SectionHeader = ({ icon, title, accent, meta }: SectionHeaderProps)
         <h2 className="text-text-primary text-xs font-bold uppercase tracking-widest font-geist">{title}</h2>
       </div>
       {typeof meta === 'string'
-        ? <span className="text-[9px] font-bold text-text-tertiary uppercase font-geist tracking-tighter">{meta}</span>
+        ? <span className="text-[10px] font-bold text-text-tertiary uppercase font-geist tracking-tighter">{meta}</span>
         : meta
       }
     </div>

@@ -1,9 +1,15 @@
-import { format, differenceInCalendarDays } from 'date-fns'
+import { format, differenceInCalendarDays, differenceInHours } from 'date-fns'
 import * as progressRepo from '../repositories/progressRepository'
 import { getUpdatedStreak } from '../utils/streak'
 import { computeNextReview, isMastered } from '../utils/review'
 import { serializeProgress } from '../utils/serializeProgress'
 import { getDailyActivity } from '../utils/activity'
+import { 
+  REVIEW_INTERVAL_MULTIPLIER, 
+  RECALL_INTERVAL_MULTIPLIER, 
+  RECALL_ELIGIBLE_INTERVAL,
+  RECALL_MIN_HOURS_SINCE_SOLVE
+} from '../constants/review'
 
 export type RunTiming = { ms: number; accepted: boolean }
 
@@ -42,6 +48,7 @@ export const solveProgress = async (problemId: string, body: SolveBody) => {
     isFirstSolve ? 1 : (existing?.reviewInterval ?? 1),
     true,
     today,
+    REVIEW_INTERVAL_MULTIPLIER
   )
 
   doc.solvedProblems.set(problemId, {
@@ -57,6 +64,9 @@ export const solveProgress = async (problemId: string, body: SolveBody) => {
     runCount:        (existing?.runCount ?? 0) + 1,
     runTimings:      nextTimings,
     acceptedCode:    existing?.acceptedCode ?? acceptedCode,
+    recallCount:     existing?.recallCount ?? 0,
+    recallSkipped:   existing?.recallSkipped ?? 0,
+    lastRecalledAt:  existing?.lastRecalledAt,
   })
 
   const streak = getUpdatedStreak(
@@ -98,6 +108,79 @@ export const attemptProgress = async (problemId: string, executionTimeMs?: numbe
     executionTimeMs: existing?.executionTimeMs,
     runCount:        (existing?.runCount ?? 0) + 1,
     runTimings:      nextTimings,
+    recallCount:     existing?.recallCount ?? 0,
+    recallSkipped:   existing?.recallSkipped ?? 0,
+    lastRecalledAt:  existing?.lastRecalledAt,
+  })
+  doc.markModified('solvedProblems')
+
+  await doc.save()
+  return serializeProgress(doc)
+}
+
+export const recallProgress = async (problemId: string) => {
+  const doc      = await progressRepo.findOrCreate()
+  const today    = new Date().toISOString().split('T')[0] ?? ''
+  const existing = doc.solvedProblems.get(problemId)
+
+  if (!existing) {
+    throw new Error('Problem progress not found')
+  }
+
+  const review = computeNextReview(
+    existing.reviewInterval ?? 1,
+    true,
+    today,
+    RECALL_INTERVAL_MULTIPLIER
+  )
+
+  doc.solvedProblems.set(problemId, {
+    solvedAt:        existing.solvedAt,
+    attempts:        existing.attempts,
+    title:           existing.title,
+    category:        existing.category,
+    difficulty:      existing.difficulty,
+    executionTimeMs: existing.executionTimeMs,
+    runCount:        existing.runCount,
+    runTimings:      existing.runTimings,
+    acceptedCode:    existing.acceptedCode,
+    recallCount:     (existing.recallCount ?? 0) + 1,
+    recallSkipped:   existing.recallSkipped ?? 0,
+    lastRecalledAt:  new Date().toISOString(),
+    reviewInterval:  review.reviewInterval,
+    lastReviewedAt:  review.lastReviewedAt,
+    nextReviewDue:   review.nextReviewDue,
+  })
+  doc.markModified('solvedProblems')
+
+  await doc.save()
+  return serializeProgress(doc)
+}
+
+export const skipRecallProgress = async (problemId: string) => {
+  const doc      = await progressRepo.findOrCreate()
+  const existing = doc.solvedProblems.get(problemId)
+
+  if (!existing) {
+    throw new Error('Problem progress not found')
+  }
+
+  doc.solvedProblems.set(problemId, {
+    solvedAt:        existing.solvedAt,
+    attempts:        existing.attempts,
+    title:           existing.title,
+    category:        existing.category,
+    difficulty:      existing.difficulty,
+    executionTimeMs: existing.executionTimeMs,
+    runCount:        existing.runCount,
+    runTimings:      existing.runTimings,
+    acceptedCode:    existing.acceptedCode,
+    recallCount:     existing.recallCount ?? 0,
+    reviewInterval:  existing.reviewInterval ?? 1,
+    lastReviewedAt:  existing.lastReviewedAt,
+    nextReviewDue:   existing.nextReviewDue,
+    lastRecalledAt:  existing.lastRecalledAt,
+    recallSkipped:   (existing.recallSkipped ?? 0) + 1,
   })
   doc.markModified('solvedProblems')
 
@@ -119,12 +202,17 @@ export const getReviewQueue = async () => {
     nextReviewDue:  string
     reviewInterval: number
     daysOverdue:    number
+    isRecallDue:    boolean
+    recallCount:    number
   }[] = []
 
   for (const [id, entry] of doc.solvedProblems.entries()) {
     const interval = entry.reviewInterval ?? 1
     const nextDue  = entry.nextReviewDue ?? today
     if (nextDue <= today && !isMastered(interval)) {
+      const hoursSinceSolved = entry.solvedAt ? differenceInHours(new Date(), new Date(entry.solvedAt)) : 0
+      const isRecallDue = interval >= RECALL_ELIGIBLE_INTERVAL && hoursSinceSolved >= RECALL_MIN_HOURS_SINCE_SOLVE
+
       due.push({
         id,
         title:          entry.title ?? id,
@@ -133,6 +221,8 @@ export const getReviewQueue = async () => {
         nextReviewDue:  nextDue,
         reviewInterval: interval,
         daysOverdue:    differenceInCalendarDays(new Date(today), new Date(nextDue)),
+        isRecallDue,
+        recallCount:    entry.recallCount ?? 0,
       })
     }
   }

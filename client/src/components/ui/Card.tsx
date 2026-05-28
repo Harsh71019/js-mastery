@@ -5,6 +5,7 @@ interface CardProps {
   readonly className?: string
   readonly hoverable?: boolean
   readonly onClick?: () => void
+  readonly style?: React.CSSProperties
 }
 
 export const Card = ({
@@ -12,12 +13,14 @@ export const Card = ({
   className = '',
   hoverable = false,
   onClick,
+  style,
 }: CardProps): React.JSX.Element => {
   const Tag = onClick ? 'button' : 'div'
   
   return (
     <Tag
       onClick={onClick}
+      style={style}
       className={`
         glass-panel rounded-xl overflow-hidden relative group/card
         ${onClick ? 'text-left cursor-pointer' : ''}

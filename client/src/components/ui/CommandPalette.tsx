@@ -13,7 +13,12 @@ export const CommandPalette = ({ isOpen, onClose }: CommandPaletteProps): React.
   const [selectedIndex, setSelectedIndex] = useState(0)
   const navigate = useNavigate()
   
-  const { problems } = useProblems({ search: search }, 1)
+  const { problems } = useProblems({
+    search: search,
+    difficulty: 'all',
+    category: 'all',
+    type: 'all',
+  }, 1)
   
   const staticActions = useMemo(() => [
     { id: 'dash', label: 'Dashboard', icon: <LayoutDashboard size={14} />, path: '/' },

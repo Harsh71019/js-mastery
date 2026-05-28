@@ -74,7 +74,7 @@ export const ExecutionTimeChart = ({ entries }: ExecutionTimeChartProps): React.
                 type="button"
                 onClick={() => setSortMode(mode)}
                 className={`
-                  px-4 py-1.5 text-[9px] font-bold uppercase tracking-widest transition-all duration-300 rounded-lg cursor-pointer font-geist
+                  px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest transition-all duration-300 rounded-lg cursor-pointer font-geist
                   ${isActive 
                     ? 'bg-white/10 text-text-primary shadow-glow-sm border border-white/10' 
                     : 'text-text-tertiary hover:text-text-secondary hover:bg-white/[0.02]'
@@ -96,7 +96,7 @@ export const ExecutionTimeChart = ({ entries }: ExecutionTimeChartProps): React.
                 type="button"
                 onClick={() => setCategoryFilter(cat)}
                 className={`
-                  px-2.5 py-1 text-[9px] font-bold uppercase tracking-tighter transition-all duration-300 rounded-md cursor-pointer font-geist border
+                  px-2.5 py-1 text-[10px] font-bold uppercase tracking-tighter transition-all duration-300 rounded-md cursor-pointer font-geist border
                   ${isActive 
                     ? 'bg-accent-blue/10 text-accent-blue border-accent-blue/40 shadow-glow-sm' 
                     : 'bg-white/5 text-text-tertiary border-white/5 hover:border-white/20 hover:text-text-secondary'
@@ -139,7 +139,7 @@ export const ExecutionTimeChart = ({ entries }: ExecutionTimeChartProps): React.
         <button
           type="button"
           onClick={() => setShowAll((prev) => !prev)}
-          className="text-[9px] font-bold uppercase tracking-[0.2em] text-accent-blue hover:text-white transition-colors cursor-pointer self-center font-geist py-2 px-4 rounded border border-accent-blue/20 hover:bg-accent-blue/10"
+          className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent-blue hover:text-white transition-colors cursor-pointer self-center font-geist py-2 px-4 rounded border border-accent-blue/20 hover:bg-accent-blue/10"
         >
           {showAll ? 'Collapse_Registry' : `Access_Full_Registry (${filtered.length}_Nodes)`}
         </button>

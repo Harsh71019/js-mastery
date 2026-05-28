@@ -8,6 +8,8 @@ export interface ReviewQueueItem {
   readonly nextReviewDue:  string
   readonly reviewInterval: number
   readonly daysOverdue:    number
+  readonly isRecallDue:    boolean
+  readonly recallCount:    number
 }
 
 export interface ReviewQueue {

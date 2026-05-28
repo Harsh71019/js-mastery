@@ -36,7 +36,10 @@ export const ProgressPage = (): React.JSX.Element => {
   }, [solvedProblems])
 
   const categoriesStarted = CATEGORIES.filter((category) =>
-    Object.keys(solvedProblems).some((id) => id.startsWith(category.slug)),
+    Object.entries(solvedProblems).some(
+      ([id, entry]) =>
+        entry.category === category.slug || (!entry.category && id.startsWith(category.slug)),
+    ),
   ).length
 
   return (
@@ -47,7 +50,7 @@ export const ProgressPage = (): React.JSX.Element => {
       <div className="flex items-center justify-between px-1 relative z-10">
         <h1 className="text-text-primary text-xs font-bold uppercase tracking-[0.3em] font-geist opacity-60">System Progress Metrics</h1>
         <div className="h-px bg-white/5 flex-1 mx-6" />
-        <span className="text-[9px] font-bold text-text-tertiary uppercase font-geist">Sync Status: Active</span>
+        <span className="text-[10px] font-bold text-text-tertiary uppercase font-geist">Sync Status: Active</span>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
@@ -83,8 +86,9 @@ export const ProgressPage = (): React.JSX.Element => {
           <h2 className="text-text-primary text-[10px] font-bold uppercase tracking-[0.2em] px-1 font-geist opacity-60">Sector Breakdown</h2>
           <div className="flex flex-col gap-3">
             {CATEGORIES.map((category) => {
-              const categorySolved = Object.keys(solvedProblems).filter((id) =>
-                id.startsWith(category.slug),
+              const categorySolved = Object.entries(solvedProblems).filter(
+                ([id, entry]) =>
+                  entry.category === category.slug || (!entry.category && id.startsWith(category.slug)),
               ).length
               if (categorySolved === 0) return null
 

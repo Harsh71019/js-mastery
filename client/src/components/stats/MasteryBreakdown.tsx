@@ -40,7 +40,7 @@ const CategoryRow = ({ title, clean, struggled, grinded, total }: CategoryMaster
     <div className="flex flex-col gap-2 p-3 rounded-lg border border-white/[0.03] bg-white/[0.01] hover:bg-white/[0.03] transition-colors duration-300">
       <div className="flex items-center justify-between">
         <span className="text-[10px] font-bold font-geist text-text-secondary truncate uppercase tracking-tight">{title}</span>
-        <span className="text-[9px] font-bold font-geist text-text-tertiary opacity-40">{total} NODE</span>
+        <span className="text-[10px] font-bold font-geist text-text-tertiary opacity-40">{total} NODE</span>
       </div>
       <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden flex">
         <div className="h-full transition-all duration-1000" style={{ width: `${cleanPct}%`,     backgroundColor: 'var(--color-accent-green)' }} />

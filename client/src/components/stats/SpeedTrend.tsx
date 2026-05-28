@@ -29,7 +29,7 @@ const SpeedRow = memo(({ month, maxAvgMs }: SpeedRowProps): React.JSX.Element | 
         <span className="text-[10px] font-bold text-accent-blue tabular-nums">
           {month.avgMs.toFixed(1)} MS
         </span>
-        <span className="text-[8px] font-bold text-text-tertiary uppercase tracking-tighter tabular-nums opacity-60">
+        <span className="text-[10px] font-bold text-text-tertiary uppercase tracking-tighter tabular-nums opacity-60">
           {month.count} SAMPLES
         </span>
       </div>

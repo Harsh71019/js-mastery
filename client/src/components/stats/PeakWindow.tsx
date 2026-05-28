@@ -55,11 +55,11 @@ export const PeakWindow = (): React.JSX.Element => {
           {bestDay && bestBlockLabel && (
             <div className="flex items-center gap-12 pb-6 border-b border-white/5">
               <div className="flex flex-col gap-1">
-                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-text-tertiary font-geist opacity-60">Peak_Day_Active</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-tertiary font-geist opacity-60">Peak_Day_Active</p>
                 <p className="text-xl font-bold font-geist text-accent-amber tracking-tighter">{bestDay.toUpperCase()}</p>
               </div>
               <div className="flex flex-col gap-1">
-                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-text-tertiary font-geist opacity-60">Optimum_Block</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-tertiary font-geist opacity-60">Optimum_Block</p>
                 <p className="text-xs font-bold font-geist text-text-primary tracking-widest">{bestBlockLabel.toUpperCase()}</p>
               </div>
             </div>

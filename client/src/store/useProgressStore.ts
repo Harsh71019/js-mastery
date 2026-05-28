@@ -19,6 +19,9 @@ export interface SolvedEntry {
   readonly runCount?:        number
   readonly runTimings?:      readonly RunTiming[]
   readonly acceptedCode?:    string
+  readonly recallCount?:     number
+  readonly recallSkipped?:   number
+  readonly lastRecalledAt?:  string
 }
 
 export interface ProblemMeta {
@@ -43,6 +46,8 @@ interface ProgressActions {
   loadProgress:           () => Promise<void>
   markSolved:             (id: string, meta?: ProblemMeta, executionTimeMs?: number, code?: string) => void
   incrementAttempts:      (id: string, executionTimeMs?: number) => void
+  completeRecall:         (id: string) => Promise<void>
+  skipRecall:             (id: string) => Promise<void>
   resetProgress:          () => void
   dismissBackupBanner:    (milestone: number) => void
   completeDailyChallenge: () => Promise<void>
@@ -149,6 +154,55 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
       .then((r) => r.json() as Promise<{ success: boolean; data: Omit<ProgressState, 'isLoaded'> }>)
       .then(({ data }) => set({ ...applyServerState(data), isLoaded: true }))
       .catch((error: unknown) => console.error('Failed to sync attempt:', error))
+  },
+
+  completeRecall: async (id) => {
+    const state = get()
+    const existing = state.solvedProblems[id]
+    if (!existing) return
+
+    const optimistic: SolvedEntry = {
+      ...existing,
+      recallCount:    (existing.recallCount ?? 0) + 1,
+      lastRecalledAt: new Date().toISOString(),
+    }
+    set({ solvedProblems: { ...state.solvedProblems, [id]: optimistic } })
+
+    try {
+      const response = await fetch(`/api/progress/recall/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      if (!response.ok) throw new Error(`Server error: ${response.status}`)
+      const { data } = (await response.json()) as { success: boolean; data: Omit<ProgressState, 'isLoaded'> }
+      set({ ...applyServerState(data), isLoaded: true })
+    } catch (error: unknown) {
+      console.error('Failed to sync recall:', error)
+    }
+  },
+
+  skipRecall: async (id) => {
+    const state = get()
+    const existing = state.solvedProblems[id]
+    if (!existing) return
+
+    const optimistic: SolvedEntry = {
+      ...existing,
+      recallSkipped: (existing.recallSkipped ?? 0) + 1,
+    }
+    set({ solvedProblems: { ...state.solvedProblems, [id]: optimistic } })
+
+    try {
+      const response = await fetch(`/api/progress/recall-skip/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      if (!response.ok) throw new Error(`Server error: ${response.status}`)
+      const { data } = (await response.json()) as { success: boolean; data: Omit<ProgressState, 'isLoaded'> }
+      set({ ...applyServerState(data), isLoaded: true })
+    } catch (error: unknown) {
+      console.error('Failed to sync skip recall:', error)
+    }
   },
 
   resetProgress: () => {

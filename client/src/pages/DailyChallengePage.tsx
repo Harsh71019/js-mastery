@@ -1,12 +1,17 @@
 import React from 'react'
 import { useDaily } from '@/hooks/useDaily'
+import { useProgress } from '@/hooks/useProgress'
 import { DailyChallengeCard } from '@/components/daily/DailyChallengeCard'
 import { DailyCompleteCard } from '@/components/daily/DailyCompleteCard'
 import { PageContainer } from '@/components/ui/PageContainer'
 import { Glow } from '@/components/ui/Glow'
 
 export const DailyChallengePage = (): React.JSX.Element => {
-  const { daily, dailyStreak, isAlreadyCompleted, isChallengeSolved, isLoading, error } = useDaily()
+  const { daily, isLoading, error } = useDaily()
+  const { dailyStreak, isSolved, isDailyCompleted } = useProgress()
+
+  const isChallengeSolved = daily ? isSolved(daily.problem.id) : false
+  const isAlreadyCompleted = daily ? (daily.alreadyCompleted || isDailyCompleted(daily.date)) : false
 
   if (isLoading) {
     return (

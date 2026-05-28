@@ -20,12 +20,12 @@ export const FluencyCard = memo(({ fluency }: FluencyCardProps): React.JSX.Eleme
     return (
       <div className="rounded-xl border border-dashed border-white/5 bg-white/[0.01] p-4 flex flex-col gap-3 opacity-40 group/locked hover:opacity-60 transition-opacity duration-500">
         <div className="flex items-center justify-between">
-          <span className="text-[9px] font-bold uppercase tracking-widest text-text-tertiary font-geist">UNINITIALIZED</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-text-tertiary font-geist">UNINITIALIZED</span>
           <span className="text-[10px] font-bold text-text-tertiary font-geist">0.0%</span>
         </div>
         <p className="text-text-tertiary text-[11px] font-bold font-geist truncate uppercase tracking-tight group-hover/locked:text-text-secondary transition-colors">{fluency.title}</p>
         <div className="h-0.5 w-full bg-white/5 rounded-full" />
-        <p className="text-[9px] text-text-tertiary font-geist uppercase tracking-tighter">Cluster_Inactive</p>
+        <p className="text-[10px] text-text-tertiary font-geist uppercase tracking-tighter">Cluster_Inactive</p>
       </div>
     )
   }
@@ -40,7 +40,7 @@ export const FluencyCard = memo(({ fluency }: FluencyCardProps): React.JSX.Eleme
       <div className="absolute top-0 right-0 w-16 h-16 blur-2xl rounded-full opacity-[0.03] group-hover/fcard:opacity-[0.1] transition-opacity" style={{ backgroundColor: fluency.accentColor }} />
 
       <div className="flex items-center justify-between relative z-10">
-        <span className={`text-[8px] font-bold uppercase tracking-[0.2em] font-geist px-2 py-0.5 rounded border ${tier.glow} ${tier.color}`}>
+        <span className={`text-[10px] font-bold uppercase tracking-[0.2em] font-geist px-2 py-0.5 rounded border ${tier.glow} ${tier.color}`}>
           {tier.label}
         </span>
         <span className="text-base font-bold font-geist tracking-tighter" style={{ color: fluency.accentColor, textShadow: `0 0 10px ${fluency.accentColor}44` }}>
@@ -57,7 +57,7 @@ export const FluencyCard = memo(({ fluency }: FluencyCardProps): React.JSX.Eleme
         />
       </div>
 
-      <div className="flex items-center gap-4 text-[9px] font-bold uppercase font-geist text-text-tertiary relative z-10">
+      <div className="flex items-center gap-4 text-[10px] font-bold uppercase font-geist text-text-tertiary relative z-10">
         <div className="flex flex-col">
            <span className="opacity-40">Verified</span>
            <span className="text-text-secondary">{fluency.solvedCount}<span className="opacity-40">/{fluency.totalCount}</span></span>

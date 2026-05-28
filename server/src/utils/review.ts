@@ -12,9 +12,10 @@ export const computeNextReview = (
   currentInterval: number,
   isCorrect: boolean,
   today: string,
+  multiplier: number = 2,
 ): NextReview => {
   const nextInterval = isCorrect
-    ? Math.min(currentInterval * 2, MAX_REVIEW_INTERVAL)
+    ? Math.min(Math.round(currentInterval * multiplier), MAX_REVIEW_INTERVAL)
     : 1
 
   return {

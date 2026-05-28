@@ -34,6 +34,7 @@ export const ReviewPage = (): React.JSX.Element => {
 
   // Filter out any invalid items just in case the API returned gaps
   const items = (queue?.due ?? []).filter(item => item && item.id)
+  const recallCount = items.filter(item => item.isRecallDue).length
 
   return (
     <PageContainer className="flex flex-col items-center min-h-[calc(100vh-8rem)] relative pb-20 pt-10">
@@ -59,9 +60,16 @@ export const ReviewPage = (): React.JSX.Element => {
             </div>
             <h1 className="text-text-primary text-3xl font-bold font-geist tracking-tighter uppercase">Active Review Queue</h1>
             <div className="h-px bg-white/5 w-24 mt-2" />
-            <span className="text-text-tertiary text-[10px] font-bold uppercase tracking-[0.2em] font-geist mt-1 bg-white/5 px-3 py-1 rounded-full border border-white/5">
-              {items.length} LOGS_DUE
-            </span>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-text-tertiary text-[10px] font-bold uppercase tracking-[0.2em] font-geist bg-white/5 px-3 py-1 rounded-full border border-white/5">
+                {items.length} LOGS_DUE
+              </span>
+              {recallCount > 0 && (
+                <span className="text-accent-amber text-[10px] font-bold uppercase tracking-[0.2em] font-geist bg-accent-amber/5 px-3 py-1 rounded-full border border-accent-amber/20 shadow-glow-sm">
+                  {recallCount} RECALL_ACTIVE
+                </span>
+              )}
+            </div>
           </div>
 
           <div className="flex flex-col gap-4">

@@ -41,7 +41,7 @@ export const ReviewCard = ({ item }: ReviewCardProps): React.JSX.Element | null 
 
   return (
     <Link
-      to={`/problem/${item.id}`}
+      to={`/problem/${item.id}${item.isRecallDue ? '?mode=recall' : ''}`}
       className="group block"
     >
       <Card className="flex items-center justify-between gap-6 px-6 py-5 transition-all duration-500 hover:translate-x-1 border-white/5 hover:border-white/20">
@@ -51,6 +51,11 @@ export const ReviewCard = ({ item }: ReviewCardProps): React.JSX.Element | null 
             <span className="text-text-tertiary text-[9px] font-bold uppercase tracking-[0.2em] bg-white/5 px-2 py-0.5 rounded border border-white/5 font-geist">
               {item.category?.replace(/-/g, '_') || 'GENERIC_CLUSTER'}
             </span>
+            {item.isRecallDue && (
+              <span className="text-accent-amber text-[9px] font-bold uppercase tracking-[0.2em] bg-accent-amber/10 px-2 py-0.5 rounded border border-accent-amber/20 font-geist animate-pulse shadow-glow-sm">
+                RECALL_MODE
+              </span>
+            )}
           </div>
           <p className="text-text-primary text-base font-bold font-geist tracking-tight truncate uppercase transition-colors duration-300 group-hover:text-accent-blue">
             {item.title}

@@ -43,7 +43,7 @@ const MonthBar = memo(({ month, maxTotal }: BarProps): React.JSX.Element => {
            <div style={{ height: `${beginnerPct}%`, backgroundColor: DIFFICULTY_COLORS.beginner }} />
          </div>
       </div>
-      <span className="text-[9px] font-bold font-geist text-text-tertiary group-hover:text-text-secondary transition-colors uppercase tracking-tighter">{month.label}</span>
+      <span className="text-[10px] font-bold font-geist text-text-tertiary group-hover:text-text-secondary transition-colors uppercase tracking-tighter">{month.label}</span>
     </div>
   )
 })
@@ -73,7 +73,7 @@ export const DifficultyProgression = (): React.JSX.Element => {
             {LEGEND.map((item) => (
               <div key={item.key} className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: item.color, boxShadow: `0 0 8px ${item.color}44` }} />
-                <span className="text-[9px] font-bold font-geist text-text-tertiary tracking-widest">{item.label}</span>
+                <span className="text-[10px] font-bold font-geist text-text-tertiary tracking-widest">{item.label}</span>
               </div>
             ))}
           </div>

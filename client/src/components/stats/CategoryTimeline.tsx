@@ -26,7 +26,7 @@ const TimelineRow = memo(({ entry, currentDay }: TimelineRowProps): React.JSX.El
           style={{ width: `${barWidth}%`, backgroundColor: entry.accentColor, opacity: 0.4 }}
         />
       </div>
-      <span className="text-[9px] font-bold font-geist text-text-tertiary w-20 text-right shrink-0 tabular-nums uppercase tracking-widest opacity-60">
+      <span className="text-[10px] font-bold font-geist text-text-tertiary w-20 text-right shrink-0 tabular-nums uppercase tracking-widest opacity-60">
         {entry.daysActive}D_UPTIME
       </span>
     </div>

@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import confetti from 'canvas-confetti'
 import { ChevronLeft, Zap } from 'lucide-react'
 import type { Problem, TestCase, LogicStep } from '@/types/problem'
@@ -17,6 +17,7 @@ import { RunTimingGraph } from '@/components/problems/RunTimingGraph'
 import { TraceTable } from '@/components/problems/TraceTable'
 import { SkeletonHint } from '@/components/problems/SkeletonHint'
 import { SolutionPanel } from '@/components/problems/SolutionPanel'
+import { RecallDiffPanel } from '@/components/review/RecallDiffPanel'
 import { Modal } from '@/components/ui/Modal'
 import { Divider } from '@/components/ui/Divider'
 import { MarkdownContent } from '@/components/ui/MarkdownContent'
@@ -69,10 +70,13 @@ export const CodingProblemView = ({
   nextId,
 }: CodingProblemViewProps): React.JSX.Element => {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const isRecallMode = searchParams.get('mode') === 'recall'
   const editorRef = useRef<CodeEditorHandle>(null)
-  const [code, setCode] = useState(
-    () => useProgressStore.getState().solvedProblems[problem.id]?.acceptedCode ?? problem.starterCode,
-  )
+  const [code, setCode] = useState(() => {
+    if (isRecallMode) return ''
+    return useProgressStore.getState().solvedProblems[problem.id]?.acceptedCode ?? problem.starterCode
+  })
   const [results, setResults] = useState<readonly TestResult[] | null>(null)
   const [isRunning, setIsRunning] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -82,6 +86,8 @@ export const CodingProblemView = ({
   const [isResetModalOpen, setIsResetModalOpen] = useState(false)
   const [isFocusMode, setIsFocusMode] = useState(false)
   const [activeStepIndex, setActiveStepIndex] = useState<number | null>(null)
+  const [isRecallSuccess, setIsRecallSuccess] = useState(false)
+  const [isGaveUp, setIsGaveUp] = useState(false)
   const confettiFired = useRef(false)
 
   const isAccepted = lastAction === 'submit' && verdict === 'Accepted'
@@ -89,6 +95,8 @@ export const CodingProblemView = ({
   const { isSolved } = useProgress()
   const markSolved = useProgressStore(selectMarkSolved)
   const incrementAttempts = useProgressStore(selectIncrementAttempts)
+  const completeRecall = useProgressStore((state) => state.completeRecall)
+  const skipRecall = useProgressStore((state) => state.skipRecall)
   const solvedProblems = useProgressStore(selectSolvedProblems)
   const runTimings = solvedProblems[problem.id]?.runTimings ?? []
   const savedCode = solvedProblems[problem.id]?.acceptedCode
@@ -113,19 +121,21 @@ export const CodingProblemView = ({
 
   useEffect(() => {
     const saved = useProgressStore.getState().solvedProblems[problem.id]?.acceptedCode
-    setCode(saved ?? problem.starterCode)
+    setCode(isRecallMode ? '' : (saved ?? problem.starterCode))
     setResults(null)
     setHasAttempted(false)
     setVerdict(null)
     setLastAction(null)
     setActiveStepIndex(null)
+    setIsRecallSuccess(false)
+    setIsGaveUp(false)
     confettiFired.current = false
-  }, [problem.id])
+  }, [problem.id, isRecallMode])
 
   useEffect(() => {
-    if (!savedCode) return
+    if (!savedCode || isRecallMode) return
     setCode((current) => (current === problem.starterCode ? savedCode : current))
-  }, [savedCode, problem.starterCode])
+  }, [savedCode, problem.starterCode, isRecallMode])
 
   const handleRun = useCallback(async (): Promise<void> => {
     if (isRunning || isSubmitting) return
@@ -163,12 +173,16 @@ export const CodingProblemView = ({
       setVerdict(execution.verdict)
 
       if (execution.verdict === 'Accepted') {
-        markSolved(
-          problem.id,
-          { title: problem.title, category: problem.category, difficulty: problem.difficulty },
-          execution.executionTimeMs,
-          code,
-        )
+        if (isRecallMode) {
+          setIsRecallSuccess(true)
+        } else {
+          markSolved(
+            problem.id,
+            { title: problem.title, category: problem.category, difficulty: problem.difficulty },
+            execution.executionTimeMs,
+            code,
+          )
+        }
         if (!confettiFired.current) {
           confettiFired.current = true
           confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } })
@@ -196,9 +210,18 @@ export const CodingProblemView = ({
   useKeyboardShortcut('Enter', handleSubmit)
 
   const handleReset = useCallback((): void => {
-    setCode(problem.starterCode)
+    setCode(isRecallMode ? '' : problem.starterCode)
     setIsResetModalOpen(false)
-  }, [problem.starterCode])
+  }, [problem.starterCode, isRecallMode])
+
+  const handleRecallComplete = useCallback(async () => {
+    if (isGaveUp) {
+      await skipRecall(problem.id)
+    } else {
+      await completeRecall(problem.id)
+    }
+    navigate('/review')
+  }, [completeRecall, skipRecall, problem.id, navigate, isGaveUp])
 
   const handleStepClick = (step: string | LogicStep, index: number) => {
     const pattern = typeof step === 'object' ? step.pattern : undefined
@@ -255,72 +278,76 @@ export const CodingProblemView = ({
                 <RunTimingGraph timings={runTimings} />
               </div>
 
-              <Divider className="opacity-20" />
+              {!isRecallMode && (
+                <>
+                  <Divider className="opacity-20" />
 
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-between px-1">
-                   <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] font-geist">Thinking Process</h2>
-                   <div className="flex items-center gap-2 text-[9px] font-bold text-accent-blue uppercase tracking-widest animate-pulse">
-                      <Zap size={10} /> Neural_Link Active
-                   </div>
-                </div>
-                <ol className="flex flex-col gap-3">
-                  {problem.whatShouldHappen.map((step, stepIndex) => {
-                    const isObject = typeof step === 'object'
-                    const text = isObject ? step.text : step
-                    const pattern = isObject ? step.pattern : undefined
-                    const isActive = activeStepIndex === stepIndex
+                  <div className="flex flex-col gap-4">
+                    <div className="flex items-center justify-between px-1">
+                      <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] font-geist">Thinking Process</h2>
+                      <div className="flex items-center gap-2 text-[9px] font-bold text-accent-blue uppercase tracking-widest animate-pulse">
+                        <Zap size={10} /> Neural_Link Active
+                      </div>
+                    </div>
+                    <ol className="flex flex-col gap-3">
+                      {problem.whatShouldHappen.map((step, stepIndex) => {
+                        const isObject = typeof step === 'object'
+                        const text = isObject ? step.text : step
+                        const pattern = isObject ? step.pattern : undefined
+                        const isActive = activeStepIndex === stepIndex
 
-                    return (
-                      <li 
-                        key={stepIndex} 
-                        onClick={() => handleStepClick(step, stepIndex)}
-                        className={`
-                          flex gap-4 text-sm text-text-secondary leading-relaxed bg-white/[0.02] p-4 rounded-xl border transition-all duration-300 group/step
-                          ${pattern ? 'cursor-pointer hover:bg-accent-blue/[0.03]' : ''}
-                          ${isActive ? 'border-accent-blue/40 bg-accent-blue/[0.05] shadow-glow-sm translate-x-1' : 'border-white/[0.04]'}
-                        `}
-                      >
-                        <span className={`font-bold font-geist text-xs mt-0.5 transition-colors ${isActive ? 'text-accent-blue' : 'text-accent-blue opacity-50 group-hover/step:opacity-100'}`}>
-                          {String(stepIndex + 1).padStart(2, '0')}
-                        </span>
-                        <span className={`flex-1 transition-colors ${isActive ? 'text-text-primary font-medium' : ''}`}>
-                          {formatInlineCode(text)}
-                        </span>
-                        {pattern && !isActive && (
-                           <Zap size={12} className="text-text-tertiary opacity-0 group-hover/step:opacity-40 transition-opacity" />
-                        )}
-                      </li>
-                    )
-                  })}
-                </ol>
-              </div>
+                        return (
+                          <li 
+                            key={stepIndex} 
+                            onClick={() => handleStepClick(step, stepIndex)}
+                            className={`
+                              flex gap-4 text-sm text-text-secondary leading-relaxed bg-white/[0.02] p-4 rounded-xl border transition-all duration-300 group/step
+                              ${pattern ? 'cursor-pointer hover:bg-accent-blue/[0.03]' : ''}
+                              ${isActive ? 'border-accent-blue/40 bg-accent-blue/[0.05] shadow-glow-sm translate-x-1' : 'border-white/[0.04]'}
+                            `}
+                          >
+                            <span className={`font-bold font-geist text-xs mt-0.5 transition-colors ${isActive ? 'text-accent-blue' : 'text-accent-blue opacity-50 group-hover/step:opacity-100'}`}>
+                              {String(stepIndex + 1).padStart(2, '0')}
+                            </span>
+                            <span className={`flex-1 transition-colors ${isActive ? 'text-text-primary font-medium' : ''}`}>
+                              {formatInlineCode(text)}
+                            </span>
+                            {pattern && !isActive && (
+                              <Zap size={12} className="text-text-tertiary opacity-0 group-hover/step:opacity-40 transition-opacity" />
+                            )}
+                          </li>
+                        )
+                      })}
+                    </ol>
+                  </div>
 
-              <Divider className="opacity-20" />
+                  <Divider className="opacity-20" />
 
-              <div className="flex flex-col gap-4">
-                <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] px-1 font-geist">Simulation</h2>
-                <TraceTable 
-                  traceTable={problem.traceTable} 
-                  onRowClick={() => editorRef.current?.highlightPattern('for \\(|while \\(|if \\(')}
-                />
-              </div>
+                  <div className="flex flex-col gap-4">
+                    <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] px-1 font-geist">Simulation</h2>
+                    <TraceTable 
+                      traceTable={problem.traceTable} 
+                      onRowClick={() => editorRef.current?.highlightPattern('for \\(|while \\(|if \\(')}
+                    />
+                  </div>
 
-              <Divider className="opacity-20" />
+                  <Divider className="opacity-20" />
 
-              <div className="flex flex-col gap-4">
-                <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] px-1 font-geist">Skeleton Logic</h2>
-                <SkeletonHint hint={problem.skeletonHint} />
-              </div>
+                  <div className="flex flex-col gap-4">
+                    <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] px-1 font-geist">Skeleton Logic</h2>
+                    <SkeletonHint hint={problem.skeletonHint} />
+                  </div>
 
-              <Divider className="opacity-20" />
+                  <Divider className="opacity-20" />
 
-              <SolutionPanel
-                solution={problem.solution}
-                patternTag={problem.patternTag}
-                patternExplanation={problem.patternExplanation}
-                hasAttempted={hasAttempted}
-              />
+                  <SolutionPanel
+                    solution={problem.solution}
+                    patternTag={problem.patternTag}
+                    patternExplanation={problem.patternExplanation}
+                    hasAttempted={hasAttempted}
+                  />
+                </>
+              )}
             </div>
           </div>
         )}
@@ -355,8 +382,22 @@ export const CodingProblemView = ({
               {isFocusMode && (
                 <span className="text-accent-blue text-[9px] font-bold uppercase tracking-widest bg-accent-blue/10 px-2 py-0.5 rounded border border-accent-blue/20 animate-pulse font-geist">Focus Active</span>
               )}
+              {isRecallMode && (
+                <span className="text-accent-amber text-[9px] font-bold uppercase tracking-widest bg-accent-amber/10 px-2 py-0.5 rounded border border-accent-amber/20 animate-pulse font-geist shadow-glow-sm">Recall Mode Active</span>
+              )}
             </div>
             <div className="flex items-center gap-4">
+              {isRecallMode && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsGaveUp(true)}
+                  disabled={isRecallSuccess || isGaveUp}
+                  className="text-accent-red text-[10px] font-bold uppercase tracking-widest hover:text-accent-red hover:bg-accent-red/5 font-geist border border-accent-red/10"
+                >
+                  Give Up
+                </Button>
+              )}
               <Button
                 variant="ghost"
                 size="sm"
@@ -440,6 +481,15 @@ export const CodingProblemView = ({
         onConfirm={handleReset}
         onCancel={() => setIsResetModalOpen(false)}
       />
+
+      {(isRecallSuccess || isGaveUp) && (
+        <RecallDiffPanel
+          originalCode={problem.solution}
+          modifiedCode={code}
+          isGaveUp={isGaveUp}
+          onComplete={handleRecallComplete}
+        />
+      )}
     </div>
   )
 }

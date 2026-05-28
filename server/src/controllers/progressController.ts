@@ -18,6 +18,14 @@ export const attempt = catchAsync(async (req: Request, res: Response) => {
   res.json(success(await progressService.attemptProgress(param(req, 'problemId'), executionTimeMs)))
 })
 
+export const recall = catchAsync(async (req: Request, res: Response) => {
+  res.json(success(await progressService.recallProgress(param(req, 'problemId'))))
+})
+
+export const skipRecall = catchAsync(async (req: Request, res: Response) => {
+  res.json(success(await progressService.skipRecallProgress(param(req, 'problemId'))))
+})
+
 export const reset = catchAsync(async (_req: Request, res: Response) => {
   await progressService.resetProgress()
   res.status(204).send()

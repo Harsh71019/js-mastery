@@ -15,6 +15,7 @@ const DEFAULT_FILTERS: FilterState = {
   search: '',
   difficulty: 'all',
   category: 'all',
+  collectionId: 'all',
   status: 'all',
   type: 'all',
 }
@@ -47,8 +48,9 @@ export const QuizPage = (): React.JSX.Element => {
       difficulty: filters.difficulty,
       category: filters.category,
       type: quizType === 'all' ? ('quiz' as const) : quizType,
+      collectionId: filters.collectionId === 'all' ? undefined : filters.collectionId,
     }),
-    [filters.search, filters.difficulty, filters.category, quizType],
+    [filters.search, filters.difficulty, filters.category, quizType, filters.collectionId],
   )
 
   const { problems, pagination, isLoading, error } = useProblems(apiFilters, page)

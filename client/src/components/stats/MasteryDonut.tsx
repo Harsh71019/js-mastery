@@ -42,7 +42,7 @@ export const MasteryDonut = memo(({ clean, struggled, grinded, total }: Props): 
         </svg>
         <div className="flex flex-col items-center z-10">
           <span className="text-xl font-bold font-geist text-text-tertiary opacity-30">—</span>
-          <span className="text-[9px] font-bold uppercase tracking-widest text-text-tertiary font-geist opacity-60 text-center px-4 leading-tight">BUFFER_EMPTY</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-text-tertiary font-geist opacity-60 text-center px-4 leading-tight">BUFFER_EMPTY</span>
         </div>
       </div>
     )
@@ -66,7 +66,7 @@ export const MasteryDonut = memo(({ clean, struggled, grinded, total }: Props): 
       <div className="flex flex-col items-center z-10 relative">
         <div className="absolute inset-0 blur-xl opacity-20 rounded-full" style={{ backgroundColor: 'var(--color-accent-green)' }} />
         <span className="text-3xl font-bold font-geist text-text-primary tracking-tighter relative z-10">{cleanPct}%</span>
-        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-text-tertiary font-geist opacity-60 relative z-10">CLEAN</span>
+        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-tertiary font-geist opacity-60 relative z-10">CLEAN</span>
       </div>
     </div>
   )
