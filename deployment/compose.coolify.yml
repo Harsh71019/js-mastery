@@ -1,0 +1,38 @@
+services:
+  server:
+    image: ghcr.io/harsh71019/js-mastery-server:${JSM_IMAGE_TAG}
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: "3001"
+      MONGODB_URI: ${MONGODB_URI}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-}
+    mem_limit: 768m
+    logging:
+      driver: json-file
+      options: { max-size: 10m, max-file: '3' }
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3001/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - jsmastery-net
+  client:
+    image: ghcr.io/harsh71019/js-mastery-client:${JSM_IMAGE_TAG}
+    restart: unless-stopped
+    ports:
+      - "3101:80"
+    depends_on:
+      server:
+        condition: service_healthy
+    mem_limit: 512m
+    logging:
+      driver: json-file
+      options: { max-size: 10m, max-file: '3' }
+    networks:
+      - jsmastery-net
+networks:
+  jsmastery-net:
+    driver: bridge
