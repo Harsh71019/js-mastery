@@ -7,7 +7,12 @@
     "difficulty": "Easy",
     "description": "A classic JavaScript quirk you'll encounter in interviews.",
     "codeSnippet": "console.log(typeof null);",
-    "options": ["\"null\"", "\"object\"", "\"undefined\"", "null"],
+    "options": [
+      "\"null\"",
+      "\"object\"",
+      "\"undefined\"",
+      "null"
+    ],
     "correctIndex": 1,
     "gotchaExplanation": "typeof null returns \"object\" — this is a bug in JavaScript that has existed since the very first version and was never fixed to preserve backward compatibility.",
     "patternTag": "typeof quirk",
@@ -22,7 +27,12 @@
     "category": "tricky-patterns",
     "difficulty": "Easy",
     "codeSnippet": "console.log(NaN === NaN);",
-    "options": ["true", "false", "NaN", "undefined"],
+    "options": [
+      "true",
+      "false",
+      "NaN",
+      "undefined"
+    ],
     "correctIndex": 1,
     "gotchaExplanation": "NaN is the only JavaScript value that is not equal to itself. NaN === NaN is false by the IEEE 754 floating-point specification.",
     "patternTag": "NaN identity",
@@ -37,7 +47,12 @@
     "category": "tricky-patterns",
     "difficulty": "Easy",
     "codeSnippet": "console.log(1 + '2' + 3);",
-    "options": ["\"123\"", "6", "\"15\"", "\"33\""],
+    "options": [
+      "\"123\"",
+      "6",
+      "\"15\"",
+      "\"33\""
+    ],
     "correctIndex": 0,
     "gotchaExplanation": "Operators evaluate left-to-right. 1 + '2' coerces 1 to a string, giving \"12\". Then \"12\" + 3 coerces 3 to a string, giving \"123\".",
     "patternTag": "type coercion",
@@ -52,7 +67,12 @@
     "category": "tricky-patterns",
     "difficulty": "Medium",
     "codeSnippet": "for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}",
-    "options": ["0, 1, 2", "3, 3, 3", "0, 0, 0", "undefined, undefined, undefined"],
+    "options": [
+      "0, 1, 2",
+      "3, 3, 3",
+      "0, 0, 0",
+      "undefined, undefined, undefined"
+    ],
     "correctIndex": 1,
     "gotchaExplanation": "var is function-scoped, so all three callbacks share the same i variable. By the time setTimeout fires, the loop has finished and i is 3.",
     "patternTag": "var hoisting + closures",
@@ -67,7 +87,12 @@
     "category": "tricky-patterns",
     "difficulty": "Medium",
     "codeSnippet": "console.log([] == false);",
-    "options": ["true", "false", "TypeError", "undefined"],
+    "options": [
+      "true",
+      "false",
+      "TypeError",
+      "undefined"
+    ],
     "correctIndex": 0,
     "gotchaExplanation": "[] is truthy, but == coercion converts both sides to numbers: [] becomes 0, false becomes 0. 0 == 0 is true.",
     "patternTag": "loose equality",
@@ -82,7 +107,12 @@
     "category": "tricky-patterns",
     "difficulty": "Medium",
     "codeSnippet": "const obj = {};\nobj[[1, 2]] = 'array key';\nconsole.log(obj['1,2']);",
-    "options": ["\"array key\"", "undefined", "TypeError", "null"],
+    "options": [
+      "\"array key\"",
+      "undefined",
+      "TypeError",
+      "null"
+    ],
     "correctIndex": 0,
     "gotchaExplanation": "Object keys are always strings. The array [1, 2] is coerced to \"1,2\" via .toString(), so obj[[1,2]] sets the key \"1,2\".",
     "patternTag": "object key coercion",
@@ -97,11 +127,184 @@
     "category": "tricky-patterns",
     "difficulty": "Medium",
     "codeSnippet": "function counter() {\n  let count = 0;\n  return () => ++count;\n}\nconst a = counter();\nconst b = counter();\na(); a(); b();\nconsole.log(a());",
-    "options": ["1", "2", "3", "4"],
+    "options": [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
     "correctIndex": 2,
     "gotchaExplanation": "Each call to counter() creates a new closure with its own count. a() is called three times (returning 1, 2, 3) and b() is called once. The fourth a() call returns 3.",
     "patternTag": "closures",
     "patternExplanation": "Each closure captures its own independent variable binding. a and b do not share state because each counter() call produces a fresh lexical environment.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "trick-array-addition",
+    "title": "Array and Object Addition",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "description": "Binary plus operator type coercion with arrays and objects.",
+    "codeSnippet": "console.log([] + []);\nconsole.log([] + {});",
+    "options": [
+      "\"\" and \"[object Object]\"",
+      "[] and {}",
+      "TypeError and TypeError",
+      "\"\" and \"{}\""
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "The binary + operator converts non-primitives to primitives using valueOf() then toString(). [].toString() is \"\", and {}.toString() is \"[object Object]\". So \"\" + \"\" is \"\", and \"\" + \"[object Object]\" is \"[object Object]\".",
+    "patternTag": "type coercion",
+    "patternExplanation": "When using the + operator, JavaScript evaluates operands to primitives via ToPrimitive. Arrays become comma-joined strings, while plain objects produce \"[object Object]\".",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "trick-floating-point",
+    "title": "0.1 + 0.2 === 0.3",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Easy",
+    "description": "IEEE 754 floating point arithmetic precision in JavaScript.",
+    "codeSnippet": "console.log(0.1 + 0.2 === 0.3);",
+    "options": [
+      "true",
+      "false",
+      "TypeError",
+      "undefined"
+    ],
+    "correctIndex": 1,
+    "gotchaExplanation": "In IEEE 754 double-precision floating point, 0.1 and 0.2 cannot be represented precisely in binary. 0.1 + 0.2 produces 0.30000000000000004, so 0.1 + 0.2 === 0.3 evaluates to false.",
+    "patternTag": "floating point precision",
+    "patternExplanation": "Use Number.EPSILON to compare floating point numbers: Math.abs((0.1 + 0.2) - 0.3) < Number.EPSILON.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-delete-variable",
+    "title": "Deleting Variables vs Properties",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "description": "The behavior of the delete operator on variables versus object properties.",
+    "codeSnippet": "var x = 1;\nconst y = { a: 2 };\nconsole.log(delete x);\nconsole.log(delete y.a);",
+    "options": [
+      "false and true",
+      "true and true",
+      "true and false",
+      "false and false"
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "The delete operator is designed to delete properties from objects. It cannot delete variables declared with var, let, or const. Deleting x returns false (or throws in strict mode), while delete y.a successfully removes property a and returns true.",
+    "patternTag": "delete operator",
+    "patternExplanation": "The delete operator only affects own configurable properties of objects. Standard variable declarations cannot be removed from the environment record.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "trick-array-holes",
+    "title": "Sparse Array Iteration with map",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "description": "How Array constructor slots behave with higher order methods.",
+    "codeSnippet": "const arr = new Array(3);\nconst mapped = arr.map(() => 5);\nconsole.log(mapped);",
+    "options": [
+      "[5, 5, 5]",
+      "[empty × 3]",
+      "[undefined, undefined, undefined]",
+      "TypeError"
+    ],
+    "correctIndex": 1,
+    "gotchaExplanation": "new Array(3) creates a sparse array with length 3 but no assigned properties (empty slots / holes). Methods like .map(), .forEach(), and .filter() skip non-existent properties (holes), so the callback is never invoked.",
+    "patternTag": "sparse arrays",
+    "patternExplanation": "Use Array.from({ length: 3 }, () => 5) or new Array(3).fill(null).map(...) if you need to transform or initialize empty slots.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "trick-hoisting-function-vs-var",
+    "title": "Function vs Variable Hoisting",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "description": "Hoisting precedence between function declarations and var declarations.",
+    "codeSnippet": "var foo = 1;\nfunction foo() {}\nconsole.log(typeof foo);",
+    "options": [
+      "\"number\"",
+      "\"function\"",
+      "\"undefined\"",
+      "TypeError"
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "Function declarations are hoisted before variable declarations. During creation, foo is initialized to the function. However, during execution, var foo = 1 executes and reassigns foo to 1. Thus, typeof foo is \"number\".",
+    "patternTag": "hoisting precedence",
+    "patternExplanation": "Function declarations hoist with their definitions. Variable declarations hoist only the name; their assignment runs in normal code execution order.",
+    "estimatedMinutes": 4,
+    "status": "published"
+  },
+  {
+    "id": "trick-nan-typeof",
+    "title": "typeof NaN",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Easy",
+    "description": "Type of Not-a-Number in JavaScript.",
+    "codeSnippet": "console.log(typeof NaN);",
+    "options": [
+      "\"number\"",
+      "\"NaN\"",
+      "\"undefined\"",
+      "\"object\""
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "Despite standing for 'Not-a-Number', NaN is a numeric data type representing an unrepresentable or undefined numerical result (like 0 / 0 or Math.sqrt(-1)) under the IEEE 754 floating point standard.",
+    "patternTag": "numeric types",
+    "patternExplanation": "NaN is of type 'number'. Always test for NaN using Number.isNaN(val) rather than typeof or equality.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-arrow-this",
+    "title": "Arrow Function this Binding",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "description": "Lexical this in arrow functions versus object method binding.",
+    "codeSnippet": "const user = {\n  name: 'Alex',\n  getName: () => this.name\n};\nconsole.log(user.getName());",
+    "options": [
+      "undefined",
+      "\"Alex\"",
+      "TypeError",
+      "\"user\""
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "Arrow functions do not bind their own 'this'; they inherit 'this' from the enclosing lexical scope (in this case, the module or global scope, where this.name is undefined).",
+    "patternTag": "lexical this",
+    "patternExplanation": "Object literal curly braces do not create a lexical scope. Arrow functions defined inside object literals inherit 'this' from the outer surrounding execution context.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "trick-pass-by-reference",
+    "title": "Object Reference vs Reassignment",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "description": "Pass-by-value-of-reference behavior in JavaScript functions.",
+    "codeSnippet": "function update(person) {\n  person.age = 30;\n  person = { name: 'Bob', age: 40 };\n}\nconst p = { name: 'Alice', age: 25 };\nupdate(p);\nconsole.log(p);",
+    "options": [
+      "{ name: 'Alice', age: 30 }",
+      "{ name: 'Bob', age: 40 }",
+      "{ name: 'Alice', age: 25 }",
+      "TypeError"
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "Arguments are passed by value of the reference. Mutating person.age modifies the original object. Reassigning the local parameter 'person' only changes what local variable points to, not the external 'p'.",
+    "patternTag": "pass by sharing",
+    "patternExplanation": "JavaScript is call-by-sharing. Modifying properties mutates the referenced heap object, but reassigning the parameter variable does not change the caller's reference.",
     "estimatedMinutes": 4,
     "status": "published"
   }

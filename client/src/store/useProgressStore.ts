@@ -3,6 +3,7 @@ import type { CategorySlug, Difficulty } from '@/types/problem'
 
 export interface RunTiming {
   readonly ms: number
+  readonly memoryMb?: number
   readonly accepted: boolean
 }
 
@@ -16,6 +17,8 @@ export interface SolvedEntry {
   readonly lastReviewedAt?:  string
   readonly nextReviewDue?:   string
   readonly executionTimeMs?: number
+  readonly memoryUsageMb?:   number
+  readonly memoryBytes?:     number
   readonly runCount?:        number
   readonly runTimings?:      readonly RunTiming[]
   readonly acceptedCode?:    string
@@ -49,8 +52,8 @@ interface ProgressState {
 
 interface ProgressActions {
   loadProgress:           () => Promise<void>
-  markSolved:             (id: string, meta?: ProblemMeta, executionTimeMs?: number, code?: string) => void
-  incrementAttempts:      (id: string, executionTimeMs?: number) => void
+  markSolved:             (id: string, meta?: ProblemMeta, executionTimeMs?: number, code?: string, memoryUsageMb?: number, memoryBytes?: number) => void
+  incrementAttempts:      (id: string, executionTimeMs?: number, memoryUsageMb?: number, memoryBytes?: number) => void
   completeRecall:         (id: string) => Promise<void>
   skipRecall:             (id: string) => Promise<void>
   resetProgress:          () => void
@@ -97,13 +100,13 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
     }
   },
 
-  markSolved: (id, meta, executionTimeMs, code) => {
+  markSolved: (id, meta, executionTimeMs, code, memoryUsageMb, memoryBytes) => {
     const state = get()
     const existing = state.solvedProblems[id]
 
     const newTimings: RunTiming[] =
       executionTimeMs && executionTimeMs > 0
-        ? [...(existing?.runTimings ?? []), { ms: executionTimeMs, accepted: true }].slice(-20)
+        ? [...(existing?.runTimings ?? []), { ms: executionTimeMs, memoryMb: memoryUsageMb, accepted: true }].slice(-20)
         : [...(existing?.runTimings ?? [])]
 
     const optimistic: SolvedEntry = {
@@ -113,6 +116,8 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
       category:        meta?.category ?? existing?.category,
       difficulty:      meta?.difficulty ?? existing?.difficulty,
       executionTimeMs: executionTimeMs ?? existing?.executionTimeMs,
+      memoryUsageMb:   memoryUsageMb ?? existing?.memoryUsageMb,
+      memoryBytes:     memoryBytes ?? existing?.memoryBytes,
       runCount:        (existing?.runCount ?? 0) + 1,
       runTimings:      newTimings,
       acceptedCode:    existing?.acceptedCode ?? code,
@@ -122,7 +127,7 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
     fetch(`/api/progress/solve/${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...(meta ?? {}), executionTimeMs, acceptedCode: code }),
+      body: JSON.stringify({ ...(meta ?? {}), executionTimeMs, memoryUsageMb, memoryBytes, acceptedCode: code }),
     })
       .then((r) => r.json() as Promise<{ success: boolean; data: Omit<ProgressState, 'isLoaded'> }>)
       .then(({ data: serverData }) => {
@@ -138,29 +143,32 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
       .catch((error: unknown) => console.error('Failed to sync solve:', error))
   },
 
-  incrementAttempts: (id, executionTimeMs) => {
+  incrementAttempts: (id, executionTimeMs, memoryUsageMb, memoryBytes) => {
     const state = get()
     const existing = state.solvedProblems[id]
 
     const newTimings: RunTiming[] =
       executionTimeMs && executionTimeMs > 0
-        ? [...(existing?.runTimings ?? []), { ms: executionTimeMs, accepted: false }].slice(-20)
+        ? [...(existing?.runTimings ?? []), { ms: executionTimeMs, memoryMb: memoryUsageMb, accepted: false }].slice(-20)
         : [...(existing?.runTimings ?? [])]
 
     const optimistic: SolvedEntry = {
-      solvedAt:   existing?.solvedAt ?? '',
-      attempts:   (existing?.attempts ?? 0) + 1,
-      title:      existing?.title,
-      category:   existing?.category,
-      difficulty: existing?.difficulty,
-      runTimings: newTimings,
+      solvedAt:        existing?.solvedAt ?? '',
+      attempts:        (existing?.attempts ?? 0) + 1,
+      title:           existing?.title,
+      category:        existing?.category,
+      difficulty:      existing?.difficulty,
+      executionTimeMs: existing?.executionTimeMs,
+      memoryUsageMb:   memoryUsageMb ?? existing?.memoryUsageMb,
+      memoryBytes:     memoryBytes ?? existing?.memoryBytes,
+      runTimings:      newTimings,
     }
     set({ solvedProblems: { ...state.solvedProblems, [id]: optimistic } })
 
     fetch(`/api/progress/attempt/${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ executionTimeMs }),
+      body: JSON.stringify({ executionTimeMs, memoryUsageMb, memoryBytes }),
     })
       .then((r) => r.json() as Promise<{ success: boolean; data: Omit<ProgressState, 'isLoaded'> }>)
       .then(({ data }) => set({ ...applyServerState(data), isLoaded: true }))

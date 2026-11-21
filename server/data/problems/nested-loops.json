@@ -611,5 +611,341 @@
     "patternTag": "Comparison Swap",
     "patternExplanation": "Bubble sort uses two loops: the outer counts passes and the inner does adjacent swaps. The inner bound shrinks by i each pass because the last i elements are already in their final position.",
     "estimatedMinutes": 15
+  },
+  {
+    "id": "nested-loops-6",
+    "title": "Matrix Transpose",
+    "category": "nested-loops",
+    "difficulty": "Easy",
+    "functionName": "transposeMatrix",
+    "description": "Given a 2D integer matrix, return the transpose of the matrix (flipping the matrix over its main diagonal).",
+    "whatShouldHappen": [
+      "Let R = matrix.length and C = matrix[0].length.",
+      "Initialize an empty transposed array with C rows.",
+      "For each column c from 0 to C - 1, create a row.",
+      "For each row r from 0 to R - 1, append matrix[r][c].",
+      "Return the transposed matrix."
+    ],
+    "starterCode": "function transposeMatrix(matrix) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "matrix = [[1, 2, 3], [4, 5, 6]]",
+      "columns": [
+        "c",
+        "r",
+        "matrix[r][c]",
+        "transposed[c]"
+      ],
+      "rows": [
+        {
+          "c": 0,
+          "r": "0, 1",
+          "matrix[r][c]": "1, 4",
+          "transposed[c]": "[1, 4]"
+        },
+        {
+          "c": 1,
+          "r": "0, 1",
+          "matrix[r][c]": "2, 5",
+          "transposed[c]": "[2, 5]"
+        },
+        {
+          "c": 2,
+          "r": "0, 1",
+          "matrix[r][c]": "3, 6",
+          "transposed[c]": "[3, 6]"
+        }
+      ]
+    },
+    "skeletonHint": "function transposeMatrix(matrix) {\n  const R = matrix.length, C = matrix[0].length, trans = [];\n  for (let c = 0; c < C; c++) {\n    const row = [];\n    for (let r = 0; r < R; r++) row.push(matrix[r][c]);\n    trans.push(row);\n  }\n  return trans;\n}",
+    "solution": "function transposeMatrix(matrix) {\n  const R = matrix.length;\n  const C = matrix[0].length;\n  const trans = [];\n  for (let c = 0; c < C; c++) {\n    const row = [];\n    for (let r = 0; r < R; r++) {\n      row.push(matrix[r][c]);\n    }\n    trans.push(row);\n  }\n  return trans;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            6
+          ]
+        ],
+        "label": "2x3 matrix"
+      },
+      {
+        "input": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "label": "2x2 square"
+      },
+      {
+        "input": [
+          [
+            [
+              1
+            ]
+          ]
+        ],
+        "expected": [
+          [
+            1
+          ]
+        ],
+        "label": "1x1 matrix",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Nested Loops (Coordinate Inversion)",
+    "patternExplanation": "Swapping row and column iteration loops inverts the dimensions of a 2D matrix in O(R * C) time.",
+    "estimatedMinutes": 8
+  },
+  {
+    "id": "nested-loops-7",
+    "title": "Common Elements Across Multiple Arrays",
+    "category": "nested-loops",
+    "difficulty": "Medium",
+    "functionName": "commonElements",
+    "description": "Given a 2D array of integer arrays, return a sorted array of all integers that appear in every single inner array.",
+    "whatShouldHappen": [
+      "If arrays is empty, return [].",
+      "Count frequency of each unique number per sub-array using nested loops and Sets.",
+      "Filter numbers whose frequency count equals arrays.length.",
+      "Sort numerically and return."
+    ],
+    "starterCode": "function commonElements(arrays) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arrays = [[1, 2, 3], [2, 3, 4], [2, 5]]",
+      "columns": [
+        "sub-array",
+        "unique items",
+        "counts so far"
+      ],
+      "rows": [
+        {
+          "sub-array": "[1, 2, 3]",
+          "unique items": "1, 2, 3",
+          "counts so far": "{1:1, 2:1, 3:1}"
+        },
+        {
+          "sub-array": "[2, 3, 4]",
+          "unique items": "2, 3, 4",
+          "counts so far": "{1:1, 2:2, 3:2, 4:1}"
+        },
+        {
+          "sub-array": "[2, 5]",
+          "unique items": "2, 5",
+          "counts so far": "{2:3, ...} -> only 2 has count 3"
+        }
+      ]
+    },
+    "skeletonHint": "function commonElements(arrays) {\n  if (!arrays.length) return [];\n  const counts = {}, total = arrays.length;\n  for (let i = 0; i < total; i++) {\n    const unique = new Set(arrays[i]);\n    for (const val of unique) counts[val] = (counts[val] || 0) + 1;\n  }\n  const res = [];\n  for (const k in counts) if (counts[k] === total) res.push(Number(k));\n  return res.sort((a, b) => a - b);\n}",
+    "solution": "function commonElements(arrays) {\n  if (!arrays.length) return [];\n  const counts = {};\n  const total = arrays.length;\n  for (let i = 0; i < total; i++) {\n    const unique = new Set(arrays[i]);\n    for (const val of unique) {\n      counts[val] = (counts[val] || 0) + 1;\n    }\n  }\n  const res = [];\n  for (const k in counts) {\n    if (counts[k] === total) {\n      res.push(Number(k));\n    }\n  }\n  return res.sort((a, b) => a - b);\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              2,
+              3,
+              4
+            ],
+            [
+              2,
+              5
+            ]
+          ]
+        ],
+        "expected": [
+          2
+        ],
+        "label": "single common element"
+      },
+      {
+        "input": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              3,
+              4,
+              5
+            ],
+            [
+              1,
+              3,
+              5
+            ]
+          ]
+        ],
+        "expected": [
+          3
+        ],
+        "label": "element 3 in all"
+      },
+      {
+        "input": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ],
+        "expected": [],
+        "label": "no common elements",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Nested Loops (Set Intersection Aggregation)",
+    "patternExplanation": "Nested loops combined with per-row Sets deduplicate before counting, determining multi-set intersection in O(N) operations.",
+    "estimatedMinutes": 12
+  },
+  {
+    "id": "nested-loops-8",
+    "title": "Multiplication Table Matrix",
+    "category": "nested-loops",
+    "difficulty": "Beginner",
+    "functionName": "multiplicationTable",
+    "description": "Given a positive integer n, return an n x n 2D array representing the multiplication table where cell (r, c) contains (r + 1) * (c + 1).",
+    "whatShouldHappen": [
+      "Initialize table = [].",
+      "Outer loop for row from 1 to n.",
+      "Inner loop for col from 1 to n.",
+      "Append row * col to the current row array.",
+      "Push completed row to table and return table."
+    ],
+    "starterCode": "function multiplicationTable(n) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "n = 3",
+      "columns": [
+        "row",
+        "cols computed",
+        "row array"
+      ],
+      "rows": [
+        {
+          "row": 1,
+          "cols computed": "1*1, 1*2, 1*3",
+          "row array": "[1, 2, 3]"
+        },
+        {
+          "row": 2,
+          "cols computed": "2*1, 2*2, 2*3",
+          "row array": "[2, 4, 6]"
+        },
+        {
+          "row": 3,
+          "cols computed": "3*1, 3*2, 3*3",
+          "row array": "[3, 6, 9]"
+        }
+      ]
+    },
+    "skeletonHint": "function multiplicationTable(n) {\n  const table = [];\n  for (let r = 1; r <= n; r++) {\n    const row = [];\n    for (let c = 1; c <= n; c++) row.push(r * c);\n    table.push(row);\n  }\n  return table;\n}",
+    "solution": "function multiplicationTable(n) {\n  const table = [];\n  for (let r = 1; r <= n; r++) {\n    const row = [];\n    for (let c = 1; c <= n; c++) {\n      row.push(r * c);\n    }\n    table.push(row);\n  }\n  return table;\n}",
+    "tests": [
+      {
+        "input": [
+          3
+        ],
+        "expected": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            2,
+            4,
+            6
+          ],
+          [
+            3,
+            6,
+            9
+          ]
+        ],
+        "label": "3x3 table"
+      },
+      {
+        "input": [
+          1
+        ],
+        "expected": [
+          [
+            1
+          ]
+        ],
+        "label": "1x1 table"
+      },
+      {
+        "input": [
+          2
+        ],
+        "expected": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "label": "2x2 table",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Nested Loops (2D Product Grid)",
+    "patternExplanation": "Nested loops cleanly compute outer-product tables in quadratic O(n²) time.",
+    "estimatedMinutes": 5
   }
 ]

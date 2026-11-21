@@ -245,5 +245,541 @@
     "patternTag": "Variable Sliding Window",
     "patternExplanation": "Expand with the right pointer and shrink with the left — the window size flexes to maintain a constraint, avoiding the need to restart from every possible left boundary.",
     "estimatedMinutes": 15
+  },
+  {
+    "id": "sliding-window-3",
+    "title": "Longest Substring Without Repeating Characters",
+    "category": "sliding-window",
+    "difficulty": "Medium",
+    "functionName": "lengthOfLongestSubstring",
+    "description": "Given a string s, find the length of the longest substring without repeating characters using a dynamic sliding window.",
+    "whatShouldHappen": [
+      "Maintain a map of character -> last seen index.",
+      "Expand the window with right pointer from 0 to s.length - 1.",
+      "If s[right] is already in the map and at/after left pointer, slide left to map.get(s[right]) + 1.",
+      "Update map with right index and record max window length."
+    ],
+    "starterCode": "function lengthOfLongestSubstring(s) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "s = \"abcabcbb\"",
+      "columns": [
+        "right",
+        "char",
+        "left",
+        "window",
+        "maxLen"
+      ],
+      "rows": [
+        {
+          "right": 0,
+          "char": "a",
+          "left": 0,
+          "window": "\"a\"",
+          "maxLen": 1
+        },
+        {
+          "right": 1,
+          "char": "b",
+          "left": 0,
+          "window": "\"ab\"",
+          "maxLen": 2
+        },
+        {
+          "right": 2,
+          "char": "c",
+          "left": 0,
+          "window": "\"abc\"",
+          "maxLen": 3
+        },
+        {
+          "right": 3,
+          "char": "a",
+          "left": 1,
+          "window": "\"bca\"",
+          "maxLen": 3
+        }
+      ]
+    },
+    "skeletonHint": "function lengthOfLongestSubstring(s) {\n  const map = new Map();\n  let maxLen = 0, left = 0;\n  for (let right = 0; right < s.length; right++) {\n    if (map.has(s[right]) && map.get(s[right]) >= left) {\n      left = map.get(s[right]) + 1;\n    }\n    map.set(s[right], right);\n    maxLen = Math.max(maxLen, right - left + 1);\n  }\n  return maxLen;\n}",
+    "solution": "function lengthOfLongestSubstring(s) {\n  const map = new Map();\n  let maxLen = 0;\n  let left = 0;\n  for (let right = 0; right < s.length; right++) {\n    const char = s[right];\n    if (map.has(char) && map.get(char) >= left) {\n      left = map.get(char) + 1;\n    }\n    map.set(char, right);\n    maxLen = Math.max(maxLen, right - left + 1);\n  }\n  return maxLen;\n}",
+    "tests": [
+      {
+        "input": [
+          "abcabcbb"
+        ],
+        "expected": 3,
+        "label": "repeating pattern"
+      },
+      {
+        "input": [
+          "bbbbb"
+        ],
+        "expected": 1,
+        "label": "all same characters"
+      },
+      {
+        "input": [
+          "pwwkew"
+        ],
+        "expected": 3,
+        "label": "substring not subsequence"
+      },
+      {
+        "input": [
+          ""
+        ],
+        "expected": 0,
+        "label": "empty string",
+        "hidden": true
+      },
+      {
+        "input": [
+          "tmmzuxt"
+        ],
+        "expected": 5,
+        "label": "duplicate earlier in string",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Sliding Window (Dynamic With Map)",
+    "patternExplanation": "Expand right to consume characters; jump left forward past any duplicate index to keep window elements unique in O(n) time.",
+    "estimatedMinutes": 15
+  },
+  {
+    "id": "sliding-window-4",
+    "title": "Find All Anagrams in a String",
+    "category": "sliding-window",
+    "difficulty": "Medium",
+    "functionName": "findAnagrams",
+    "description": "Given two strings s and p, return an array of all the start indices of p's anagrams in s. Both strings consist of lowercase English letters.",
+    "whatShouldHappen": [
+      "Count character frequencies in p.",
+      "Maintain a sliding window of length p.length across string s.",
+      "Increment frequency for incoming character and decrement for outgoing character.",
+      "Whenever window frequency matches p frequency, record starting index."
+    ],
+    "starterCode": "function findAnagrams(s, p) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "s = \"cbaebabacd\", p = \"abc\"",
+      "columns": [
+        "window",
+        "start",
+        "sCount match pCount?",
+        "action"
+      ],
+      "rows": [
+        {
+          "window": "\"cba\"",
+          "start": 0,
+          "sCount match pCount?": "true",
+          "action": "record 0"
+        },
+        {
+          "window": "\"bae\"",
+          "start": 1,
+          "sCount match pCount?": "false",
+          "action": "continue"
+        },
+        {
+          "window": "\"bac\"",
+          "start": 6,
+          "sCount match pCount?": "true",
+          "action": "record 6"
+        }
+      ]
+    },
+    "skeletonHint": "function findAnagrams(s, p) {\n  if (s.length < p.length) return [];\n  const pCount = {}, sCount = {}, res = [], k = p.length;\n  for (const c of p) pCount[c] = (pCount[c] || 0) + 1;\n  for (let i = 0; i < s.length; i++) {\n    sCount[s[i]] = (sCount[s[i]] || 0) + 1;\n    if (i >= k) {\n      const out = s[i - k];\n      if (sCount[out] === 1) delete sCount[out]; else sCount[out]--;\n    }\n    if (i >= k - 1) {\n      let match = true;\n      for (const k in pCount) if (sCount[k] !== pCount[k]) { match = false; break; }\n      if (match && Object.keys(sCount).length === Object.keys(pCount).length) res.push(i - k + 1);\n    }\n  }\n  return res;\n}",
+    "solution": "function findAnagrams(s, p) {\n  if (s.length < p.length) return [];\n  const pCount = {};\n  const sCount = {};\n  for (let i = 0; i < p.length; i++) {\n    pCount[p[i]] = (pCount[p[i]] || 0) + 1;\n  }\n  const result = [];\n  const k = p.length;\n  for (let i = 0; i < s.length; i++) {\n    const char = s[i];\n    sCount[char] = (sCount[char] || 0) + 1;\n    if (i >= k) {\n      const out = s[i - k];\n      if (sCount[out] === 1) delete sCount[out];\n      else sCount[out]--;\n    }\n    if (i >= k - 1) {\n      let match = true;\n      for (const key of Object.keys(pCount)) {\n        if (sCount[key] !== pCount[key]) {\n          match = false;\n          break;\n        }\n      }\n      if (match && Object.keys(sCount).length === Object.keys(pCount).length) {\n        result.push(i - k + 1);\n      }\n    }\n  }\n  return result;\n}",
+    "tests": [
+      {
+        "input": [
+          "cbaebabacd",
+          "abc"
+        ],
+        "expected": [
+          0,
+          6
+        ],
+        "label": "multiple anagram occurrences"
+      },
+      {
+        "input": [
+          "abab",
+          "ab"
+        ],
+        "expected": [
+          0,
+          1,
+          2
+        ],
+        "label": "overlapping anagrams"
+      },
+      {
+        "input": [
+          "a",
+          "ab"
+        ],
+        "expected": [],
+        "label": "s shorter than p",
+        "hidden": true
+      },
+      {
+        "input": [
+          "baa",
+          "aa"
+        ],
+        "expected": [
+          1
+        ],
+        "label": "duplicate chars in pattern",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Sliding Window (Fixed Frequency Matching)",
+    "patternExplanation": "Keep a fixed window of size |p| and maintain rolling character counts, comparing them against target counts in O(26) per step.",
+    "estimatedMinutes": 18
+  },
+  {
+    "id": "sliding-window-5",
+    "title": "Maximum Number of Vowels in a Substring of Given Length",
+    "category": "sliding-window",
+    "difficulty": "Easy",
+    "functionName": "maxVowels",
+    "description": "Given a string s and an integer k, return the maximum number of vowel letters ('a', 'e', 'i', 'o', 'u') in any substring of s with length k.",
+    "whatShouldHappen": [
+      "Initialize count of vowels in first window of size k.",
+      "Set maxCount = current count.",
+      "Slide the window by 1: if incoming char is vowel, increment; if outgoing char is vowel, decrement.",
+      "Update maxCount at each step and return it."
+    ],
+    "starterCode": "function maxVowels(s, k) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "s = \"abciiidef\", k = 3",
+      "columns": [
+        "window",
+        "incoming",
+        "outgoing",
+        "count",
+        "maxCount"
+      ],
+      "rows": [
+        {
+          "window": "\"abc\"",
+          "incoming": "c",
+          "outgoing": "-",
+          "count": 1,
+          "maxCount": 1
+        },
+        {
+          "window": "\"bci\"",
+          "incoming": "i",
+          "outgoing": "a",
+          "count": 1,
+          "maxCount": 1
+        },
+        {
+          "window": "\"cii\"",
+          "incoming": "i",
+          "outgoing": "b",
+          "count": 2,
+          "maxCount": 2
+        },
+        {
+          "window": "\"iii\"",
+          "incoming": "i",
+          "outgoing": "c",
+          "count": 3,
+          "maxCount": 3
+        }
+      ]
+    },
+    "skeletonHint": "function maxVowels(s, k) {\n  const vowels = new Set(['a', 'e', 'i', 'o', 'u']);\n  let count = 0;\n  for (let i = 0; i < k; i++) if (vowels.has(s[i])) count++;\n  let max = count;\n  for (let i = k; i < s.length; i++) {\n    if (vowels.has(s[i])) count++;\n    if (vowels.has(s[i - k])) count--;\n    max = Math.max(max, count);\n  }\n  return max;\n}",
+    "solution": "function maxVowels(s, k) {\n  const vowels = new Set(['a', 'e', 'i', 'o', 'u']);\n  let count = 0;\n  for (let i = 0; i < k; i++) {\n    if (vowels.has(s[i])) count++;\n  }\n  let max = count;\n  for (let i = k; i < s.length; i++) {\n    if (vowels.has(s[i])) count++;\n    if (vowels.has(s[i - k])) count--;\n    max = Math.max(max, count);\n  }\n  return max;\n}",
+    "tests": [
+      {
+        "input": [
+          "abciiidef",
+          3
+        ],
+        "expected": 3,
+        "label": "cluster of vowels"
+      },
+      {
+        "input": [
+          "aeiou",
+          2
+        ],
+        "expected": 2,
+        "label": "all vowels"
+      },
+      {
+        "input": [
+          "leetcode",
+          3
+        ],
+        "expected": 2,
+        "label": "scattered vowels"
+      },
+      {
+        "input": [
+          "rhythms",
+          4
+        ],
+        "expected": 0,
+        "label": "zero vowels",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Sliding Window (Fixed Window State)",
+    "patternExplanation": "Slide a fixed-size window across the string in O(n) time, adjusting only the delta of the newly entered and evicted characters.",
+    "estimatedMinutes": 10
+  },
+  {
+    "id": "sliding-window-6",
+    "title": "Max Consecutive Ones with At Most K Flips",
+    "category": "sliding-window",
+    "difficulty": "Medium",
+    "functionName": "longestOnes",
+    "description": "Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.",
+    "whatShouldHappen": [
+      "Maintain a window [left, right] and a counter for zeros in window.",
+      "Iterate right pointer over nums: if nums[right] === 0, increment zeros.",
+      "If zeros > k, shrink window from left until zeros <= k.",
+      "Track max window size (right - left + 1) and return it."
+    ],
+    "starterCode": "function longestOnes(nums, k) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2",
+      "columns": [
+        "left",
+        "right",
+        "zeros",
+        "windowSize",
+        "action"
+      ],
+      "rows": [
+        {
+          "left": 0,
+          "right": 3,
+          "zeros": 1,
+          "windowSize": 4,
+          "action": "valid, max=4"
+        },
+        {
+          "left": 0,
+          "right": 4,
+          "zeros": 2,
+          "windowSize": 5,
+          "action": "valid, max=5"
+        },
+        {
+          "left": 0,
+          "right": 5,
+          "zeros": 3,
+          "windowSize": 6,
+          "action": "zeros > 2 -> shrink left until zeros <= 2"
+        }
+      ]
+    },
+    "skeletonHint": "function longestOnes(nums, k) {\n  let left = 0, zeros = 0, maxLen = 0;\n  for (let right = 0; right < nums.length; right++) {\n    if (nums[right] === 0) zeros++;\n    while (zeros > k) {\n      if (nums[left] === 0) zeros--;\n      left++;\n    }\n    maxLen = Math.max(maxLen, right - left + 1);\n  }\n  return maxLen;\n}",
+    "solution": "function longestOnes(nums, k) {\n  let left = 0;\n  let zeros = 0;\n  let maxLen = 0;\n  for (let right = 0; right < nums.length; right++) {\n    if (nums[right] === 0) zeros++;\n    while (zeros > k) {\n      if (nums[left] === 0) zeros--;\n      left++;\n    }\n    maxLen = Math.max(maxLen, right - left + 1);\n  }\n  return maxLen;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            0
+          ],
+          2
+        ],
+        "expected": 6,
+        "label": "standard flips"
+      },
+      {
+        "input": [
+          [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1
+          ],
+          3
+        ],
+        "expected": 10,
+        "label": "longer array"
+      },
+      {
+        "input": [
+          [
+            0,
+            0,
+            0
+          ],
+          0
+        ],
+        "expected": 0,
+        "label": "zero flips allowed",
+        "hidden": true
+      },
+      {
+        "input": [
+          [
+            1,
+            1,
+            1
+          ],
+          2
+        ],
+        "expected": 3,
+        "label": "all ones",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Sliding Window (Variable Dynamic)",
+    "patternExplanation": "Expand right to consume numbers while shrinking left whenever the window constraint (zeros <= k) is violated in amortized O(n) time.",
+    "estimatedMinutes": 12
+  },
+  {
+    "id": "sliding-window-7",
+    "title": "Subarray Product Less Than K",
+    "category": "sliding-window",
+    "difficulty": "Medium",
+    "functionName": "numSubarrayProductLessThanK",
+    "description": "Given an array of integers nums and an integer k, return the number of contiguous subarrays where the product of all elements in the subarray is strictly less than k.",
+    "whatShouldHappen": [
+      "If k <= 1, return 0 because array elements are positive.",
+      "Initialize prod = 1, left = 0, and total = 0.",
+      "For each right pointer, multiply prod by nums[right].",
+      "While prod >= k and left <= right, divide prod by nums[left] and increment left.",
+      "Add (right - left + 1) to total (each new valid window adds this many new subarrays ending at right)."
+    ],
+    "starterCode": "function numSubarrayProductLessThanK(nums, k) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [10, 5, 2, 6], k = 100",
+      "columns": [
+        "right",
+        "nums[right]",
+        "prod",
+        "left",
+        "added subarrays",
+        "total"
+      ],
+      "rows": [
+        {
+          "right": 0,
+          "nums[right]": 10,
+          "prod": 10,
+          "left": 0,
+          "added subarrays": 1,
+          "total": 1
+        },
+        {
+          "right": 1,
+          "nums[right]": 5,
+          "prod": 50,
+          "left": 0,
+          "added subarrays": 2,
+          "total": 3
+        },
+        {
+          "right": 2,
+          "nums[right]": 2,
+          "prod": 100,
+          "left": 1,
+          "added subarrays": 2,
+          "total": 5
+        },
+        {
+          "right": 3,
+          "nums[right]": 6,
+          "prod": 60,
+          "left": 1,
+          "added subarrays": 3,
+          "total": 8
+        }
+      ]
+    },
+    "skeletonHint": "function numSubarrayProductLessThanK(nums, k) {\n  if (k <= 1) return 0;\n  let prod = 1, left = 0, total = 0;\n  for (let right = 0; right < nums.length; right++) {\n    prod *= nums[right];\n    while (prod >= k && left <= right) { prod /= nums[left]; left++; }\n    total += (right - left + 1);\n  }\n  return total;\n}",
+    "solution": "function numSubarrayProductLessThanK(nums, k) {\n  if (k <= 1) return 0;\n  let prod = 1;\n  let left = 0;\n  let total = 0;\n  for (let right = 0; right < nums.length; right++) {\n    prod *= nums[right];\n    while (prod >= k && left <= right) {\n      prod /= nums[left];\n      left++;\n    }\n    total += (right - left + 1);\n  }\n  return total;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            10,
+            5,
+            2,
+            6
+          ],
+          100
+        ],
+        "expected": 8,
+        "label": "standard case"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          0
+        ],
+        "expected": 0,
+        "label": "k = 0"
+      },
+      {
+        "input": [
+          [
+            1,
+            1,
+            1
+          ],
+          2
+        ],
+        "expected": 6,
+        "label": "all ones below k",
+        "hidden": true
+      },
+      {
+        "input": [
+          [
+            100,
+            200,
+            300
+          ],
+          50
+        ],
+        "expected": 0,
+        "label": "all elements above k",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Sliding Window (Counting Subarrays)",
+    "patternExplanation": "Every time right expands, exactly (right - left + 1) contiguous subarrays ending at right are valid and counted in O(n) total operations.",
+    "estimatedMinutes": 15
   }
 ]

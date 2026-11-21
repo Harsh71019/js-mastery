@@ -25,5 +25,7 @@ export const Verdict = {
   Accepted: 'accepted',
   WrongAnswer: 'wrong-answer',
   Error: 'error',
+  TimeLimitExceeded: 'time-limit-exceeded',
+  MemoryLimitExceeded: 'memory-limit-exceeded',
 } as const
 export type Verdict = (typeof Verdict)[keyof typeof Verdict]
