@@ -3,6 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import { Search, Code2, HelpCircle, RefreshCw, BarChart2, Tag, CalendarDays, LineChart, LayoutDashboard } from 'lucide-react'
 import { useProblems } from '@/hooks/useProblems'
 
+interface CommandItem {
+  id: string
+  label: string
+  icon: React.ReactNode
+  path: string
+  subtitle?: string
+}
+
 interface CommandPaletteProps {
   readonly isOpen: boolean
   readonly onClose: () => void
@@ -11,6 +19,11 @@ interface CommandPaletteProps {
 export const CommandPalette = ({ isOpen, onClose }: CommandPaletteProps): React.JSX.Element | null => {
   const [search, setSearch] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [prevSearch, setPrevSearch] = useState(search)
+  if (prevSearch !== search) {
+    setPrevSearch(search)
+    setSelectedIndex(0)
+  }
   const navigate = useNavigate()
   
   const { problems } = useProblems({
@@ -20,7 +33,7 @@ export const CommandPalette = ({ isOpen, onClose }: CommandPaletteProps): React.
     type: 'all',
   }, 1)
   
-  const staticActions = useMemo(() => [
+  const staticActions: CommandItem[] = useMemo(() => [
     { id: 'dash', label: 'Dashboard', icon: <LayoutDashboard size={14} />, path: '/' },
     { id: 'daily', label: 'Daily Challenge', icon: <CalendarDays size={14} />, path: '/daily' },
     { id: 'prob', label: 'Browse Problems', icon: <Code2 size={14} />, path: '/problems' },
@@ -31,7 +44,7 @@ export const CommandPalette = ({ isOpen, onClose }: CommandPaletteProps): React.
     { id: 'stats', label: 'System Analytics', icon: <LineChart size={14} />, path: '/stats' },
   ], [])
 
-  const results = useMemo(() => {
+  const results: CommandItem[] = useMemo(() => {
     const filteredStatic = staticActions.filter(a => 
       a.label.toLowerCase().includes(search.toLowerCase())
     )
@@ -44,10 +57,6 @@ export const CommandPalette = ({ isOpen, onClose }: CommandPaletteProps): React.
     }))
     return [...filteredStatic, ...problemResults]
   }, [search, problems, staticActions])
-
-  useEffect(() => {
-    setSelectedIndex(0)
-  }, [search])
 
   const handleAction = useCallback((path: string) => {
     navigate(path)
@@ -128,8 +137,8 @@ export const CommandPalette = ({ isOpen, onClose }: CommandPaletteProps): React.
                         <span className={`text-[11px] font-bold font-geist tracking-tight transition-colors ${isActive ? 'text-text-primary' : 'text-text-secondary'}`}>
                            {item.label.toUpperCase()}
                         </span>
-                        {(item as any).subtitle && (
-                           <span className="text-[9px] font-bold text-text-tertiary font-geist opacity-60">{(item as any).subtitle}</span>
+                        {item.subtitle && (
+                           <span className="text-[9px] font-bold text-text-tertiary font-geist opacity-60">{item.subtitle}</span>
                         )}
                       </div>
                     </div>

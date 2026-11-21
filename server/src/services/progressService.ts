@@ -70,7 +70,7 @@ export const solveProgress = async (problemId: string, body: SolveBody) => {
     memoryUsageMb:   memoryUsageMb ?? existing?.memoryUsageMb,
     runCount:        (existing?.runCount ?? 0) + 1,
     runTimings:      nextTimings,
-    acceptedCode:    existing?.acceptedCode ?? acceptedCode,
+    acceptedCode:    acceptedCode ?? existing?.acceptedCode,
     recallCount:     existing?.recallCount ?? 0,
     recallSkipped:   existing?.recallSkipped ?? 0,
     lastRecalledAt:  existing?.lastRecalledAt,

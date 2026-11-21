@@ -42,7 +42,7 @@ interface ProgressFields {
   readingStreak?:           number
   longestReadingStreak?:    number
   lastArticleReadAt?:       string | null
-  readingHistory?:          any[]
+  readingHistory?:          { articleId?: string | null; date?: string | null }[]
 }
 
 export const serializeProgress = (doc: ProgressFields): object => ({

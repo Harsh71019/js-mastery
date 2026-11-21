@@ -80,8 +80,7 @@ export const RecallDiffPanel = ({
                 originalEditable: false,
                 automaticLayout: true,
               }}
-              onMount={() => {
-                const monaco = (window as any).monaco;
+              onMount={(_editor, monaco) => {
                 if (monaco) {
                   monaco.editor.defineTheme('diff-dark', {
                     base: 'vs-dark',

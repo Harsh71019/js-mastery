@@ -42,10 +42,10 @@ export const ProblemPage = (): React.JSX.Element => {
   }
 
   if (isTrickProblem(problem)) {
-    return <TrickQuestionView problem={problem} nextId={nextId} prevId={prevId} />
+    return <TrickQuestionView key={problem.id} problem={problem} nextId={nextId} prevId={prevId} />
   }
   if (isMcqProblem(problem)) {
-    return <McqProblemView problem={problem} nextId={nextId} prevId={prevId} />
+    return <McqProblemView key={problem.id} problem={problem} nextId={nextId} prevId={prevId} />
   }
-  return <CodingProblemView problem={problem} nextId={nextId} prevId={prevId} />
+  return <CodingProblemView key={problem.id} problem={problem} nextId={nextId} prevId={prevId} />
 }

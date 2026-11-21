@@ -32,8 +32,6 @@ export const useReviewQueue = (): UseReviewQueueResult => {
 
   useEffect(() => {
     let cancelled = false
-    setLoading(true)
-    setError(null)
 
     fetch('/api/progress/review-queue')
       .then((r) => {
@@ -54,7 +52,11 @@ export const useReviewQueue = (): UseReviewQueueResult => {
     return () => { cancelled = true }
   }, [tick])
 
-  const refresh = useCallback(() => setTick((t) => t + 1), [])
+  const refresh = useCallback(() => {
+    setLoading(true)
+    setError(null)
+    setTick((t) => t + 1)
+  }, [])
 
   return { queue, isLoading, error, refresh }
 }

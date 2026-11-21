@@ -211,7 +211,13 @@ ${DEEP_EQUAL_FN}
     var heapBefore = getHeapBytes();
 
     try {
-      var args = Array.isArray(t.input) ? t.input : [t.input];
+      var rawArgs = Array.isArray(t.input) ? t.input : [t.input];
+      var args;
+      try {
+        args = typeof structuredClone === 'function' ? structuredClone(rawArgs) : JSON.parse(JSON.stringify(rawArgs));
+      } catch (_) {
+        args = rawArgs.slice();
+      }
       var inputSize = estimateBytes(args);
 
       if (t.isEval) {
@@ -344,8 +350,13 @@ export const runTests = (
 
     const startTime = Date.now()
     let settled = false
+    let timeoutId: ReturnType<typeof setTimeout> | null = null
 
     const cleanup = (): void => {
+      if (timeoutId !== null) {
+        clearTimeout(timeoutId)
+        timeoutId = null
+      }
       window.removeEventListener('message', onMessage)
       if (document.body.contains(iframe)) document.body.removeChild(iframe)
     }
@@ -392,7 +403,7 @@ export const runTests = (
       })
     }
 
-    const timeoutId = setTimeout(() => {
+    timeoutId = setTimeout(() => {
       const timeoutResults: TestResult[] = tests.map((test) => ({
         input: test.input,
         expected: test.expected,
@@ -417,6 +428,4 @@ export const runTests = (
     window.addEventListener('message', onMessage)
     document.body.appendChild(iframe)
     iframe.srcdoc = buildSandboxHtml(userCode, functionName, tests)
-
-    void timeoutId
   })

@@ -181,12 +181,13 @@ export const SubmissionsPanel: React.FC<SubmissionsPanelProps> = ({ problemId, o
           const code = submissionCodeMap[item.submissionId]
           const isLoadingCode = loadingCodeId === item.submissionId
 
-          let timeAgo = ''
-          try {
-            timeAgo = formatDistanceToNow(new Date(item.submittedAt), { addSuffix: true })
-          } catch {
-            timeAgo = item.submittedAt
-          }
+          const timeAgo = (() => {
+            try {
+              return formatDistanceToNow(new Date(item.submittedAt), { addSuffix: true })
+            } catch {
+              return item.submittedAt
+            }
+          })()
 
           return (
             <div

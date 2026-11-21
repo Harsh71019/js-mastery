@@ -18,9 +18,6 @@ export const useProblem = (id: string): UseProblemResult => {
 
   useEffect(() => {
     let cancelled = false
-    setIsLoading(true)
-    setError(null)
-    setProblem(null)
 
     fetch(`/api/problems/${id}`)
       .then((response) => {

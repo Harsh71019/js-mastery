@@ -20,6 +20,11 @@ export const resetOne = () =>
       longestDailyStreak:       0,
       lastDailySolvedAt:        null,
       completedDailies:         [],
+      readArticles:             [],
+      readingStreak:            0,
+      longestReadingStreak:     0,
+      lastArticleReadAt:        null,
+      readingHistory:           [],
     },
     { upsert: true },
   )

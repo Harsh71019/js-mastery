@@ -20,7 +20,6 @@ export const useArticles = (filters: UseArticlesFilters = {}) => {
     if (filters.tag) params.append('tag', filters.tag)
     if (filters.difficulty) params.append('difficulty', filters.difficulty)
 
-    setIsLoading(true)
     fetch(`/api/articles?${params.toString()}`)
       .then(res => res.json())
       .then(json => {

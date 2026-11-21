@@ -3,7 +3,7 @@ import fs from 'fs'
 import path from 'path'
 import mongoose from 'mongoose'
 import { Problem } from './models/Problem'
-import { validateProblem, escapeRegex } from './utils/problem-validation'
+import { validateProblem } from './utils/problem-validation'
 
 const TRICK_FILE = path.resolve(__dirname, '../../scripts/trick-starter.json')
 

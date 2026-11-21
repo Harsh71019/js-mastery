@@ -39,12 +39,6 @@ export const McqProblemView = ({
 
   const isAlreadySolved = isSolved(problem.id)
 
-  useEffect(() => {
-    setSelectedIndex(null)
-    setIsSubmitted(false)
-    confettiFired.current = false
-  }, [problem.id])
-
   const isCorrect = selectedIndex === problem.correctIndex
 
   const handleSubmit = useCallback((): void => {
