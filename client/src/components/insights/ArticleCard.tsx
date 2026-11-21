@@ -1,7 +1,8 @@
 import React from 'react'
-import { ExternalLink, CheckCircle2, Clock, Globe, MapPin } from 'lucide-react'
+import { CheckCircle2, Clock, Globe, MapPin, ArrowUpRight } from 'lucide-react'
 import type { Article } from '@/types/article'
 import { useProgressStore } from '@/store/useProgressStore'
+import { Card } from '@/components/ui/Card'
 
 interface ArticleCardProps {
   article: Article
@@ -20,74 +21,80 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   }
 
   const difficultyColors = {
-    Intro: 'text-accent-blue bg-accent-blue/10',
-    Intermediate: 'text-accent-amber bg-accent-amber/10',
-    Advanced: 'text-accent-red bg-accent-red/10',
+    Intro: 'text-accent-blue border-accent-blue/30 bg-accent-blue/10',
+    Intermediate: 'text-accent-amber border-accent-amber/30 bg-accent-amber/10',
+    Advanced: 'text-accent-red border-accent-red/30 bg-accent-red/10',
   }
 
   return (
-    <div className="bg-bg-secondary border border-border rounded-lg p-5 hover:border-border-hover transition-colors group relative flex flex-col h-full">
-      <div className="flex justify-between items-start mb-3">
-        <span className="text-xs font-medium text-text-secondary uppercase tracking-wider">
+    <Card
+      className="p-5 flex flex-col h-full border-white/[0.08] hover:border-white/20 transition-all duration-300 relative group/art"
+    >
+      <div className="flex justify-between items-start mb-3 gap-2">
+        <span className="text-[10px] font-bold text-accent-purple uppercase tracking-wider font-geist px-2 py-0.5 rounded bg-accent-purple/10 border border-accent-purple/20">
           {article.company}
         </span>
-        <div className="flex gap-2">
-          <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${difficultyColors[article.difficulty]}`}>
+        <div className="flex items-center gap-2">
+          <span className={`text-[9px] px-2 py-0.5 rounded border font-bold uppercase tracking-wider font-geist ${difficultyColors[article.difficulty]}`}>
             {article.difficulty}
           </span>
           {isRead && (
-            <CheckCircle2 size={16} className="text-accent-green" />
+            <span className="text-accent-green" title="Article Read">
+              <CheckCircle2 size={16} />
+            </span>
           )}
         </div>
       </div>
 
-      <h3 className="text-lg font-medium text-text-primary mb-2 group-hover:text-accent-blue transition-colors">
+      <h3 className="text-base font-bold text-white mb-2 group-hover/art:text-accent-purple transition-colors line-clamp-2 leading-snug tracking-tight">
         {article.title}
       </h3>
 
-      <p className="text-sm text-text-secondary line-clamp-2 mb-4 flex-grow">
+      <p className="text-xs text-text-tertiary line-clamp-3 mb-4 flex-grow leading-relaxed">
         {article.summary}
       </p>
 
-      <div className="flex flex-wrap gap-2 mb-4">
-        {article.tags.map(tag => (
-          <span key={tag} className="text-[10px] bg-bg-tertiary text-text-secondary px-2 py-0.5 rounded border border-border">
-            {tag}
+      <div className="flex flex-wrap gap-1.5 mb-4">
+        {article.tags.slice(0, 3).map(tag => (
+          <span key={tag} className="text-[9px] font-geist font-medium text-text-secondary px-2 py-0.5 rounded bg-white/[0.03] border border-white/5">
+            #{tag}
           </span>
         ))}
       </div>
 
-      <div className="flex items-center justify-between mt-auto pt-4 border-t border-border/50">
-        <div className="flex items-center gap-4 text-xs text-text-tertiary">
+      <div className="flex items-center justify-between mt-auto pt-3 border-t border-white/5">
+        <div className="flex items-center gap-3 text-[11px] font-geist text-text-tertiary">
           <div className="flex items-center gap-1">
-            <Clock size={12} />
-            <span>{article.estimatedReadingTime} min</span>
+            <Clock size={12} className="opacity-70" />
+            <span>{article.estimatedReadingTime}m</span>
           </div>
           <div className="flex items-center gap-1">
-            {article.region === 'Global' ? <Globe size={12} /> : <MapPin size={12} />}
+            {article.region === 'Global' ? <Globe size={12} className="opacity-70" /> : <MapPin size={12} className="opacity-70" />}
             <span>{article.region}</span>
           </div>
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex items-center gap-2">
           {!isRead && (
             <button
+              type="button"
               onClick={handleComplete}
-              className="text-xs text-accent-green hover:underline flex items-center gap-1"
+              className="text-[10px] font-bold uppercase tracking-wider font-geist text-accent-green hover:underline cursor-pointer px-2 py-0.5 rounded bg-accent-green/5 border border-accent-green/20"
             >
-              Done
+              Mark Read
             </button>
           )}
           <a
             href={article.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-text-secondary hover:text-white"
+            className="p-1 rounded-md text-text-tertiary hover:text-white hover:bg-white/10 transition-colors"
+            title="Open article in new tab"
           >
-            <ExternalLink size={16} />
+            <ArrowUpRight size={15} />
           </a>
         </div>
       </div>
-    </div>
+    </Card>
   )
 }

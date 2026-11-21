@@ -193,27 +193,37 @@ export const Dashboard = (): React.JSX.Element => {
               <Card
                 key={category.slug}
                 onClick={() => navigate(`/category/${category.slug}`)}
-                className="p-5 transition-all duration-300 hover:bg-white/[0.03]"
-                style={{ borderLeftColor: `${category.accentColor}44`, borderLeftWidth: '1px' }}
+                className="p-5 transition-all duration-300 hover:border-white/20 relative overflow-hidden"
+                style={{ borderLeftColor: category.accentColor, borderLeftWidth: '2px' }}
               >
-                <div className="flex items-start justify-between gap-4">
+                <div 
+                  className="absolute top-0 right-0 w-32 h-32 blur-3xl opacity-0 group-hover/card:opacity-15 transition-opacity duration-500 rounded-full pointer-events-none"
+                  style={{ backgroundColor: category.accentColor }} 
+                />
+                <div className="flex items-start justify-between gap-4 relative z-10">
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-text-primary text-xs font-bold uppercase tracking-widest mb-1 font-geist">{category.title}</h3>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: category.accentColor, boxShadow: `0 0 6px ${category.accentColor}` }} />
+                      <h3 className="text-text-primary text-xs font-bold uppercase tracking-wider font-geist truncate">{category.title}</h3>
+                    </div>
                     <p className="text-text-tertiary text-[11px] leading-relaxed line-clamp-2 font-medium mb-4">
                       {category.description}
                     </p>
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1 h-0.5 bg-white/5 rounded-full overflow-hidden">
+                    <div className="flex items-center gap-2.5">
+                      <div className="flex-1 h-1 bg-white/10 rounded-full overflow-hidden">
                         <div 
-                          className="h-full transition-all duration-1000 ease-out" 
-                          style={{ width: `${progress}%`, backgroundColor: category.accentColor }} 
+                          className="h-full rounded-full transition-all duration-1000 ease-out" 
+                          style={{ width: `${progress}%`, backgroundColor: category.accentColor, boxShadow: `0 0 8px ${category.accentColor}` }} 
                         />
                       </div>
-                      <span className="text-text-tertiary text-[10px] font-bold font-geist whitespace-nowrap">{progress}%</span>
+                      <span className="text-text-secondary text-[10px] font-bold font-geist whitespace-nowrap">
+                        <span className="text-white">{categorySolved}</span>
+                        <span className="text-text-tertiary">/{categoryTotal}</span>
+                      </span>
                     </div>
                   </div>
-                  <div className="shrink-0">
-                    <ProgressRing progress={progress} size={36} strokeWidth={2} color={category.accentColor} />
+                  <div className="shrink-0 flex items-center justify-center p-1">
+                    <ProgressRing progress={progress} size={40} strokeWidth={2.5} color={category.accentColor} />
                   </div>
                 </div>
               </Card>

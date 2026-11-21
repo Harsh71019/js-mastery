@@ -74,29 +74,30 @@ export const CalendarHeatmap = ({ dayData }: CalendarHeatmapProps): React.JSX.El
     <div className="relative">
       {tooltip && (
         <div
-          className="fixed z-50 bg-bg-secondary border border-border-default rounded px-2.5 py-1.5 text-xs text-text-primary pointer-events-none"
+          className="fixed z-50 bg-[#111111]/95 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl p-3 text-xs text-white pointer-events-none"
           style={{ left: tooltip.x + 12, top: tooltip.y - 8 }}
         >
-          <p className="font-medium mb-0.5">{tooltip.date}</p>
-          <p className="text-text-secondary">
-            {tooltip.count === 0 ? 'No problems solved' : `${tooltip.count} problem${tooltip.count > 1 ? 's' : ''} solved`}
+          <p className="font-bold font-geist mb-1 text-white">{tooltip.date}</p>
+          <p className="text-text-secondary text-[11px] font-medium">
+            {tooltip.count === 0 ? 'No problems solved' : `${tooltip.count} problem${tooltip.count > 1 ? 's' : ''} verified`}
           </p>
           {tooltip.titles.slice(0, 3).map((title, i) => (
-            <p key={i} className="text-text-tertiary truncate max-w-[200px] mt-0.5">• {title}</p>
+            <p key={i} className="text-accent-green truncate max-w-[220px] mt-1 font-geist text-[10px]">• {title}</p>
           ))}
           {tooltip.titles.length > 3 && (
-            <p className="text-text-tertiary mt-0.5">+{tooltip.titles.length - 3} more</p>
+            <p className="text-text-tertiary mt-1 font-geist text-[10px]">+{tooltip.titles.length - 3} more</p>
           )}
         </div>
       )}
 
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-1">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-1.5 bg-white/[0.03] border border-white/10 rounded-lg px-2 py-1">
           <button
             type="button"
             onClick={() => canGoPrev && setSelectedMonth(startOfMonth(subMonths(selectedMonth, 1)))}
             disabled={!canGoPrev}
-            className="p-0.5 text-text-tertiary hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-150 cursor-pointer"
+            className="p-1 text-text-tertiary hover:text-white disabled:opacity-20 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            title="Previous Month"
           >
             <ChevronLeft size={14} />
           </button>
@@ -106,10 +107,10 @@ export const CalendarHeatmap = ({ dayData }: CalendarHeatmapProps): React.JSX.El
               const found = availableMonths.find((m) => format(m, 'yyyy-MM') === e.target.value)
               if (found) setSelectedMonth(found)
             }}
-            className="bg-transparent text-text-primary text-xs focus:outline-none cursor-pointer"
+            className="bg-transparent text-white text-xs font-bold font-geist focus:outline-none cursor-pointer pr-1"
           >
             {availableMonths.map((m) => (
-              <option key={format(m, 'yyyy-MM')} value={format(m, 'yyyy-MM')} className="bg-bg-secondary">
+              <option key={format(m, 'yyyy-MM')} value={format(m, 'yyyy-MM')} className="bg-[#111111] text-white">
                 {format(m, 'MMMM yyyy')}
               </option>
             ))}
@@ -118,13 +119,14 @@ export const CalendarHeatmap = ({ dayData }: CalendarHeatmapProps): React.JSX.El
             type="button"
             onClick={() => canGoNext && setSelectedMonth(startOfMonth(addMonths(selectedMonth, 1)))}
             disabled={!canGoNext}
-            className="p-0.5 text-text-tertiary hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-150 cursor-pointer"
+            className="p-1 text-text-tertiary hover:text-white disabled:opacity-20 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            title="Next Month"
           >
             <ChevronRight size={14} />
           </button>
         </div>
-        <span className="text-text-tertiary text-xs">
-          {monthSolveCount > 0 ? `${monthSolveCount} solved` : 'None solved'}
+        <span className="text-[11px] font-bold font-geist px-2.5 py-1 rounded-md bg-accent-green/10 text-accent-green border border-accent-green/20">
+          {monthSolveCount > 0 ? `${monthSolveCount} Solved` : '0 Solved'}
         </span>
       </div>
 

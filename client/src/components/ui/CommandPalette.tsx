@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Search, Command, Code2, HelpCircle, RefreshCw, BarChart2, Tag, CalendarDays, LineChart, LayoutDashboard } from 'lucide-react'
+import { Search, Code2, HelpCircle, RefreshCw, BarChart2, Tag, CalendarDays, LineChart, LayoutDashboard } from 'lucide-react'
 import { useProblems } from '@/hooks/useProblems'
 
 interface CommandPaletteProps {
@@ -78,23 +78,22 @@ export const CommandPalette = ({ isOpen, onClose }: CommandPaletteProps): React.
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center pt-[15vh] px-4 bg-bg-primary/40 backdrop-blur-[2px]" onClick={onClose}>
+    <div className="fixed inset-0 z-[200] flex items-start justify-center pt-[12vh] px-4 bg-black/60 backdrop-blur-md" onClick={onClose}>
       <div 
-        className="w-full max-w-xl glass-panel rounded-2xl shadow-[0_32px_64px_-12px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col border-white/10"
+        className="w-full max-w-xl glass-panel rounded-2xl shadow-[0_32px_70px_-15px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col border-white/[0.12] bg-[#0c0c0c]"
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-center px-5 py-4 border-b border-white/5 bg-white/[0.01]">
-          <Search size={18} className="text-text-tertiary mr-4 opacity-50" />
+        <div className="flex items-center px-5 py-4 border-b border-white/[0.08] bg-white/[0.02]">
+          <Search size={18} className="text-accent-blue mr-3.5" />
           <input
             autoFocus
-            className="flex-1 bg-transparent border-none outline-none text-text-primary text-sm font-geist placeholder:text-text-tertiary"
-            placeholder="Search problems, sequences, sectors..."
+            className="flex-1 bg-transparent border-none outline-none text-white text-sm font-geist placeholder:text-text-tertiary"
+            placeholder="Search problems, patterns, categories, actions..."
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
-          <div className="flex items-center gap-1 px-2 py-1 rounded bg-white/5 border border-white/10 ml-4">
-            <Command size={10} className="text-text-tertiary" />
-            <span className="text-[9px] font-bold text-text-tertiary font-geist uppercase">K</span>
+          <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-white/5 border border-white/10 ml-3">
+            <kbd className="text-[10px] font-bold text-text-tertiary font-geist uppercase">ESC</kbd>
           </div>
         </div>
 

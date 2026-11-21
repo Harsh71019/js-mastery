@@ -51,13 +51,13 @@ const ProblemRow = memo(({
 }) => (
   <tr
     onClick={() => navigate(`/problem/${problem.id}`)}
-    className="border-t border-white/[0.04] hover:bg-white/[0.02] transition-all duration-200 cursor-pointer group"
+    className="border-t border-white/[0.05] hover:bg-white/[0.035] transition-all duration-200 cursor-pointer group"
   >
-    <td className="px-6 py-4 text-text-tertiary text-xs font-geist">{displayIndex}</td>
+    <td className="px-6 py-3.5 text-text-tertiary text-xs font-geist">{displayIndex}</td>
 
-    <td className="px-3 py-4 text-sm">
-      <span className="flex items-center gap-2">
-        <span className={`font-semibold tracking-tight ${isSolved ? 'text-accent-green' : 'text-text-primary group-hover:text-accent-blue'} transition-all duration-300`}>
+    <td className="px-3 py-3.5 text-sm">
+      <span className="flex items-center gap-2.5">
+        <span className={`font-semibold tracking-tight ${isSolved ? 'text-accent-green' : 'text-text-primary group-hover:text-accent-blue'} transition-colors duration-200`}>
           {problem.title}
         </span>
         {problem.type && problem.type !== 'coding' && (
@@ -66,41 +66,41 @@ const ProblemRow = memo(({
       </span>
     </td>
 
-    <td className="px-3 py-4">
+    <td className="px-3 py-3.5">
       <CategoryBadge
         label={getCategoryTitle(problem.category)}
         color={getCategoryColor(problem.category)}
       />
     </td>
 
-    <td className="px-3 py-4 max-w-[140px]">
+    <td className="px-3 py-3.5 max-w-[140px]">
       <Link
         to={`/patterns/${encodeURIComponent(problem.patternTag)}`}
         onClick={(e) => e.stopPropagation()}
-        className="text-text-tertiary text-[10px] font-bold uppercase tracking-widest truncate block hover:text-accent-blue hover:underline transition-all duration-200"
+        className="text-text-tertiary text-[10px] font-bold uppercase tracking-wider truncate block hover:text-accent-blue hover:underline transition-colors duration-200 font-geist"
       >
         {problem.patternTag}
       </Link>
     </td>
 
-    <td className="px-3 py-4">
+    <td className="px-3 py-3.5">
       <DifficultyBadge difficulty={problem.difficulty} />
     </td>
 
-    <td className="px-3 py-4 text-text-tertiary text-[11px] font-bold font-geist">
+    <td className="px-3 py-3.5 text-text-tertiary text-[11px] font-bold font-geist">
       {problem.estimatedMinutes}M
     </td>
 
-    <td className="px-3 py-4 text-center">
+    <td className="px-3 py-3.5 text-center">
       {isSolved ? (
         <span
           title={`Solved ${formatSolveDate(solvedAt!)}`}
           className="inline-flex items-center justify-center text-accent-green"
         >
-          <CheckCircle2 size={16} />
+          <CheckCircle2 size={16} className="drop-shadow-[0_0_6px_rgba(34,197,94,0.4)]" />
         </span>
       ) : (
-        <Circle size={16} className="text-text-tertiary/40 mx-auto group-hover:text-text-tertiary transition-colors" />
+        <Circle size={15} className="text-white/20 mx-auto group-hover:text-accent-blue transition-colors" />
       )}
     </td>
   </tr>
@@ -116,17 +116,22 @@ export const ProblemTable = memo(function ProblemTable({
 
   if (isLoading) {
     return (
-      <div className="overflow-x-auto rounded-xl border border-white/5 bg-bg-primary">
+      <div 
+        tabIndex={0} 
+        role="region" 
+        aria-label="Loading problems table"
+        className="overflow-x-auto rounded-b-xl border border-white/5 bg-[#0a0a0a]"
+      >
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-white/[0.02] text-text-tertiary text-[10px] uppercase tracking-widest border-b border-white/5">
+            <tr className="bg-white/[0.03] text-text-tertiary text-[10px] uppercase tracking-wider border-b border-white/[0.08]">
               <th className="text-left px-6 py-3 w-10 font-bold font-geist">#</th>
               <th className="text-left px-3 py-3 font-bold font-geist">Problem</th>
               <th className="text-left px-3 py-3 w-32 font-bold font-geist">Category</th>
               <th className="text-left px-3 py-3 w-36 font-bold font-geist">Pattern</th>
-              <th className="text-left px-3 py-3 w-20 font-bold font-geist">Diff</th>
+              <th className="text-left px-3 py-3 w-24 font-bold font-geist">Difficulty</th>
               <th className="text-left px-3 py-3 w-14 font-bold font-geist">Est</th>
-              <th className="text-center px-3 py-3 w-10 font-bold font-geist">Status</th>
+              <th className="text-center px-3 py-3 w-12 font-bold font-geist">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -141,26 +146,31 @@ export const ProblemTable = memo(function ProblemTable({
 
   if (problems.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 bg-white/[0.02] border border-white/5 rounded-xl backdrop-blur-md">
-        <span className="text-3xl mb-3 opacity-20">🔍</span>
-        <p className="text-text-secondary font-bold uppercase tracking-widest text-xs">No results found</p>
-        <p className="text-text-tertiary text-[10px] mt-1 uppercase tracking-tighter">Adjust your search parameters</p>
+      <div className="flex flex-col items-center justify-center py-24 bg-white/[0.015] border border-white/5 rounded-b-xl backdrop-blur-md">
+        <span className="text-3xl mb-3 opacity-30">🔍</span>
+        <p className="text-text-secondary font-bold uppercase tracking-widest text-xs font-geist">No problem nodes found</p>
+        <p className="text-text-tertiary text-[11px] mt-1 font-medium">Try broadening your search or resetting filters</p>
       </div>
     )
   }
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-white/5 bg-bg-primary shadow-sm">
+    <div 
+      tabIndex={0} 
+      role="region" 
+      aria-label="Problems directory table"
+      className="overflow-x-auto rounded-b-xl border border-white/[0.08] bg-[#0a0a0a] shadow-sm relative focus:outline-none focus:ring-1 focus:ring-accent-blue/30"
+    >
       <table className="w-full border-collapse">
-        <thead>
-          <tr className="bg-white/[0.02] text-text-tertiary text-[10px] uppercase tracking-widest border-b border-white/5">
+        <thead className="sticky top-0 z-10 bg-[#0c0c0c]">
+          <tr className="bg-white/[0.03] text-text-tertiary text-[10px] uppercase tracking-wider border-b border-white/[0.08]">
             <th className="text-left px-6 py-3 w-10 font-bold font-geist">#</th>
             <th className="text-left px-3 py-3 font-bold font-geist">Problem</th>
             <th className="text-left px-3 py-3 w-32 font-bold font-geist">Category</th>
             <th className="text-left px-3 py-3 w-36 font-bold font-geist">Pattern</th>
-            <th className="text-left px-3 py-3 w-20 font-bold font-geist">Diff</th>
+            <th className="text-left px-3 py-3 w-24 font-bold font-geist">Difficulty</th>
             <th className="text-left px-3 py-3 w-14 font-bold font-geist">Est</th>
-            <th className="text-center px-3 py-3 w-10 font-bold font-geist">Status</th>
+            <th className="text-center px-3 py-3 w-12 font-bold font-geist">Status</th>
           </tr>
         </thead>
         <tbody>

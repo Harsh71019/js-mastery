@@ -24,48 +24,48 @@ export const DailyWidget = (): React.JSX.Element => {
   return (
     <Card
       onClick={() => navigate('/daily')}
-      className="px-8 py-6 hover:bg-white/[0.03] border-white/5 hover:border-white/20 transition-all duration-500"
+      className="p-6 hover:bg-white/[0.03] border-white/10 hover:border-accent-blue/40 transition-all duration-300 relative overflow-hidden flex flex-col justify-between"
     >
-      <div className="flex items-center justify-between gap-10">
-        <div className="flex items-center gap-6 min-w-0">
-          <div className="w-12 h-12 rounded-2xl bg-accent-blue/5 border border-white/5 flex items-center justify-center text-accent-blue shrink-0 shadow-inner group-hover:shadow-glow-sm transition-all duration-500">
-            <CalendarDays size={24} className="opacity-80" />
+      <div className="absolute top-0 right-0 w-48 h-48 bg-accent-blue/10 blur-[50px] rounded-full -mr-20 -mt-20 pointer-events-none" />
+      <div className="flex items-center justify-between mb-4 relative z-10">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded bg-accent-blue/10 flex items-center justify-center text-accent-blue">
+            <CalendarDays size={14} />
           </div>
-          <div className="flex flex-col gap-1.5 min-w-0">
-            <div className="flex items-center gap-3 flex-wrap">
-              <span className="text-text-tertiary text-[10px] font-bold uppercase tracking-[0.3em] font-geist opacity-60">System Objective</span>
-              <div className="w-1 h-1 rounded-full bg-white/20" />
-              {daily.problem.type && daily.problem.type !== 'coding' && (
-                <TypeBadge type={daily.problem.type} />
-              )}
-              <DifficultyBadge difficulty={daily.problem.difficulty} />
-            </div>
-            <span className="text-text-primary text-xl font-bold tracking-tight font-geist truncate uppercase">
-              {daily.problem.title}
-            </span>
+          <span className="text-[10px] font-bold text-accent-blue uppercase tracking-widest font-geist">Daily Challenge Objective</span>
+        </div>
+        {dailyStreak > 0 && (
+          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-accent-amber/[0.08] border border-accent-amber/20">
+            <Flame size={12} className="text-accent-amber fill-accent-amber/30" />
+            <span className="text-[10px] font-bold text-accent-amber font-geist">{dailyStreak}D STREAK</span>
           </div>
+        )}
+      </div>
+
+      <div className="flex items-center justify-between gap-4 relative z-10">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+            <DifficultyBadge difficulty={daily.problem.difficulty} />
+            {daily.problem.type && daily.problem.type !== 'coding' && (
+              <TypeBadge type={daily.problem.type} />
+            )}
+            <span className="text-text-tertiary text-[10px] font-bold font-geist uppercase">{daily.problem.estimatedMinutes}M</span>
+          </div>
+          <h3 className="text-base sm:text-lg font-bold text-text-primary tracking-tight font-geist truncate group-hover:text-accent-blue transition-colors">
+            {daily.problem.title}
+          </h3>
         </div>
 
-        <div className="flex items-center gap-8 shrink-0">
-          {dailyStreak > 0 && (
-            <div className="flex flex-col items-end gap-1">
-              <span className="text-text-tertiary text-[9px] font-bold uppercase tracking-widest font-geist">UPTIME</span>
-              <span className="flex items-center gap-2 text-accent-amber font-bold font-geist text-lg">
-                <Flame size={18} className="fill-accent-amber/20" />
-                {dailyStreak}D
-              </span>
-            </div>
-          )}
-          <div className="h-10 w-px bg-white/5" />
+        <div className="shrink-0 flex items-center">
           {isCompleted ? (
-            <div className="flex items-center gap-3 text-accent-green bg-accent-green/5 px-4 py-2 rounded-xl border border-accent-green/20 font-geist">
-              <CheckCircle2 size={18} />
-              <span className="text-[10px] font-bold uppercase tracking-widest">Verified</span>
+            <div className="flex items-center gap-2 text-accent-green bg-accent-green/[0.08] px-3.5 py-1.5 rounded-lg border border-accent-green/20 font-geist">
+              <CheckCircle2 size={16} />
+              <span className="text-[10px] font-bold uppercase tracking-wider">Solved</span>
             </div>
           ) : (
-            <button className="bg-accent-blue text-white text-[10px] font-bold uppercase tracking-[0.2em] px-6 py-3 rounded-xl hover:bg-accent-blue/90 transition-all duration-300 shadow-glow-sm font-geist cursor-pointer">
-              Initialize_Solve
-            </button>
+            <div className="bg-accent-blue text-white text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-lg hover:bg-accent-blue/90 transition-all duration-300 shadow-[0_0_12px_rgba(59,130,246,0.3)] font-geist">
+              Solve Now →
+            </div>
           )}
         </div>
       </div>

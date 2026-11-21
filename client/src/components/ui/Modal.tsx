@@ -33,28 +33,32 @@ export const Modal = ({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-bg-primary/80 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-md"
       onClick={onCancel}
     >
       <div
-        className="glass-panel rounded-2xl p-8 w-full max-w-md mx-4 shadow-2xl relative overflow-hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        aria-describedby="modal-desc"
+        className="glass-panel rounded-2xl p-7 w-full max-w-md mx-4 shadow-2xl relative overflow-hidden border-white/10 bg-[#0e0e0e]"
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="absolute top-0 left-0 w-full h-1 bg-accent-blue/40" />
-        <h3 className="text-text-primary text-xl font-bold font-geist tracking-tight uppercase mb-3">{title}</h3>
-        <p className="text-text-secondary text-sm font-medium mb-8 leading-relaxed">{message}</p>
-        <div className="flex gap-4 justify-end">
+        <div className="absolute top-0 left-0 w-full h-1 bg-accent-blue shadow-[0_0_10px_var(--color-accent-blue)]" />
+        <h3 id="modal-title" className="text-text-primary text-lg font-bold font-geist tracking-tight uppercase mb-2.5">{title}</h3>
+        <p id="modal-desc" className="text-text-secondary text-sm font-medium mb-7 leading-relaxed">{message}</p>
+        <div className="flex gap-3 justify-end">
           <Button
             variant="ghost"
             onClick={onCancel}
-            className="text-[10px] uppercase tracking-widest font-geist px-6 border border-white/5"
+            className="text-xs uppercase tracking-wider font-geist px-4 border border-white/10 hover:border-white/20"
           >
             {cancelLabel}
           </Button>
           <Button
             variant="danger"
             onClick={onConfirm}
-            className="text-[10px] uppercase tracking-widest font-geist px-8 shadow-glow-sm"
+            className="text-xs uppercase tracking-wider font-geist px-5"
           >
             {confirmLabel}
           </Button>

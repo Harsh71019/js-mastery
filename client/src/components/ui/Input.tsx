@@ -14,9 +14,9 @@ export const Input = ({ icon, className = '', ...props }: InputProps): React.JSX
       )}
       <input
         className={`
-          bg-bg-tertiary border border-border-default text-text-primary text-sm rounded-lg 
-          ${icon ? 'pl-9' : 'px-3'} py-1.5 
-          focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue/40
+          bg-white/[0.04] border border-white/10 text-text-primary text-xs font-geist rounded-lg 
+          ${icon ? 'pl-9' : 'px-3'} py-2 
+          hover:border-white/20 focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue/40
           transition-all duration-200 placeholder:text-text-tertiary
           ${className}
         `}

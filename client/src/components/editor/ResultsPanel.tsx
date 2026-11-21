@@ -39,43 +39,43 @@ interface TestCardProps {
 }
 
 const TestCard = memo(({ result, index, isHiddenResult }: TestCardProps): React.JSX.Element => (
-  <div className="rounded-lg border border-white/[0.04] px-4 py-4 bg-white/[0.02] text-xs shrink-0 min-w-[240px] transition-all duration-300 hover:border-white/[0.1] relative overflow-hidden group/test">
+  <div className="rounded-xl border border-white/[0.08] px-4 py-4 bg-[#0e0e0e] text-xs shrink-0 min-w-[260px] transition-all duration-300 hover:border-white/20 relative overflow-hidden group/test shadow-sm">
     <div
-      className={`absolute left-0 top-0 bottom-0 w-1 transition-all duration-300 ${result.passed ? 'bg-accent-green shadow-[0_0_12px_rgba(34,197,94,0.4)]' : 'bg-accent-red shadow-[0_0_12px_rgba(239,68,68,0.4)]'}`}
+      className={`absolute left-0 top-0 bottom-0 w-1 transition-all duration-300 ${result.passed ? 'bg-accent-green shadow-[0_0_12px_rgba(34,197,94,0.5)]' : 'bg-accent-red shadow-[0_0_12px_rgba(239,68,68,0.5)]'}`}
     />
     <div className="flex items-center justify-between mb-3">
-      <p className="text-text-tertiary font-bold uppercase tracking-widest text-[10px] font-geist">
-        Test Case {index + 1}
+      <p className="text-text-tertiary font-bold uppercase tracking-wider text-[10px] font-geist flex items-center gap-1.5">
+        <span>Test Case {index + 1}</span>
         {isHiddenResult && (
-          <span className="ml-2 text-purple-400 opacity-70">HIDDEN</span>
+          <span className="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">HIDDEN</span>
         )}
       </p>
       {result.passed ? (
-        <span className="text-accent-green text-[10px] font-bold font-geist">PASSED</span>
+        <span className="text-accent-green text-[10px] font-bold font-geist px-2 py-0.5 rounded bg-accent-green/10 border border-accent-green/20">PASSED</span>
       ) : (
-        <span className="text-accent-red text-[10px] font-bold font-geist">FAILED</span>
+        <span className="text-accent-red text-[10px] font-bold font-geist px-2 py-0.5 rounded bg-accent-red/10 border border-accent-red/20">FAILED</span>
       )}
     </div>
 
     {result.error ? (
-      <div className="bg-accent-red/5 p-2 rounded border border-accent-red/10">
+      <div className="bg-accent-red/10 p-2.5 rounded-lg border border-accent-red/20">
         <p className="text-accent-red font-geist text-[11px] leading-relaxed break-all whitespace-pre-wrap">{result.error}</p>
       </div>
     ) : (
-      <div className="flex flex-col gap-3 font-geist text-[11px]">
+      <div className="flex flex-col gap-2.5 font-geist text-[11px]">
         <div>
-          <p className="text-[10px] text-text-tertiary uppercase font-bold mb-1 tracking-tighter opacity-50">Input</p>
-          <p className="text-text-secondary truncate bg-white/[0.03] px-1.5 py-1 rounded border border-white/5">{stringify(result.input)}</p>
+          <p className="text-[9px] text-text-tertiary uppercase font-bold mb-1 tracking-wider opacity-60">Input</p>
+          <p className="text-text-secondary truncate bg-white/[0.03] px-2 py-1 rounded-md border border-white/5 font-mono">{stringify(result.input)}</p>
         </div>
         <div>
-          <p className="text-[10px] text-text-tertiary uppercase font-bold mb-1 tracking-tighter opacity-50">Expected</p>
-          <p className="text-text-secondary truncate bg-white/[0.03] px-1.5 py-1 rounded border border-white/5">
+          <p className="text-[9px] text-text-tertiary uppercase font-bold mb-1 tracking-wider opacity-60">Expected</p>
+          <p className="text-text-secondary truncate bg-white/[0.03] px-2 py-1 rounded-md border border-white/5 font-mono">
             {isHiddenResult && result.expected === null ? '—' : stringify(result.expected)}
           </p>
         </div>
         <div>
-          <p className="text-[10px] text-text-tertiary uppercase font-bold mb-1 tracking-tighter opacity-50">Actual</p>
-          <p className={`${result.passed ? 'text-accent-green' : 'text-accent-red'} font-bold bg-white/[0.03] px-1.5 py-1 rounded border border-white/5 truncate`}>
+          <p className="text-[9px] text-text-tertiary uppercase font-bold mb-1 tracking-wider opacity-60">Actual</p>
+          <p className={`${result.passed ? 'text-accent-green bg-accent-green/5 border-accent-green/20' : 'text-accent-red bg-accent-red/5 border-accent-red/20'} font-bold px-2 py-1 rounded-md border truncate font-mono`}>
             {stringify(result.actual)}
           </p>
         </div>
@@ -153,10 +153,10 @@ export const ResultsPanel = ({ results, isRunning, verdict, action }: ResultsPan
         </div>
       </div>
 
-      <div className="flex-1 overflow-x-auto p-5 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+      <div className="flex-1 overflow-x-auto p-4 flex items-center">
         {results.length === 0 ? (
-          <div className="h-full flex items-center justify-center text-text-tertiary text-[10px] font-bold uppercase tracking-[0.2em] opacity-30 font-geist">
-            No sample tests — use Submit to judge your solution
+          <div className="h-full w-full flex items-center justify-center text-text-tertiary text-xs font-bold uppercase tracking-wider opacity-40 font-geist">
+            No sample tests available — use Submit to judge your code
           </div>
         ) : (
           <div className="flex gap-4 min-w-max">
