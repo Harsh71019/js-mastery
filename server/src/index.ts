@@ -27,6 +27,7 @@ import dailyRouter from './routes/daily'
 import submissionsRouter from './routes/submissions'
 import visitsRouter from './routes/visits'
 import articlesRouter from './routes/articleRoutes'
+import notesRouter from './routes/notes'
 
 const app = express()
 
@@ -83,6 +84,7 @@ app.use('/api/daily', dailyRouter)
 app.use('/api/submissions', submissionsRouter)
 app.use('/api/visits', visitsRouter)
 app.use('/api/articles', articlesRouter)
+app.use('/api/notes', notesRouter)
 
 app.use((_req: Request, res: Response) => {
   res.status(404).json({ error: 'Route not found' })

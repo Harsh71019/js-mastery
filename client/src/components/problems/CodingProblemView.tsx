@@ -16,6 +16,8 @@ import {
   Copy,
   Check,
   AlignLeft,
+  StickyNote,
+  Sparkles,
 } from 'lucide-react'
 import type { Problem, TestCase, LogicStep } from '@/types/problem'
 import { useProgressStore } from '@/store/useProgressStore'
@@ -28,6 +30,9 @@ import { runTests, type TestResult, type Verdict } from '@/runner/executor'
 import { CodeEditor, type CodeEditorHandle } from '@/components/editor/CodeEditor'
 import { ResultsPanel } from '@/components/editor/ResultsPanel'
 import { SubmissionsPanel } from '@/components/problems/SubmissionsPanel'
+import { NotesPanel } from '@/components/problems/NotesPanel'
+import { JsMentorModal } from '@/components/editor/JsMentorModal'
+import { useProblemNote } from '@/hooks/useProblemNote'
 import { Button } from '@/components/ui/Button'
 import { Glow } from '@/components/ui/Glow'
 import { RunTimingGraph } from '@/components/problems/RunTimingGraph'
@@ -109,8 +114,9 @@ export const CodingProblemView = ({
   const [beatsRuntime, setBeatsRuntime] = useState<number | undefined>(undefined)
   const [beatsMemory, setBeatsMemory] = useState<number | undefined>(undefined)
   const [isResetModalOpen, setIsResetModalOpen] = useState(false)
+  const [isMentorOpen, setIsMentorOpen] = useState(false)
   const [isFocusMode, setIsFocusMode] = useState(false)
-  const [activeLeftTab, setActiveLeftTab] = useState<'description' | 'thinking' | 'simulation' | 'solution' | 'articles' | 'submissions'>('description')
+  const [activeLeftTab, setActiveLeftTab] = useState<'description' | 'thinking' | 'simulation' | 'solution' | 'articles' | 'submissions' | 'notes'>('description')
   const [activeStepIndex, setActiveStepIndex] = useState<number | null>(null)
   const [isRecallSuccess, setIsRecallSuccess] = useState(false)
   const [isGaveUp, setIsGaveUp] = useState(false)
@@ -134,6 +140,7 @@ export const CodingProblemView = ({
   const isAccepted = lastAction === 'submit' && verdict === 'Accepted'
 
   const { isSolved } = useProgress()
+  const { hasNote } = useProblemNote(problem.id)
   const { articles: relatedArticles, isLoading: isLoadingArticles } = usePatternArticles(problem.patternTag)
   const markSolved = useProgressStore(selectMarkSolved)
   const incrementAttempts = useProgressStore(selectIncrementAttempts)
@@ -404,6 +411,7 @@ export const CodingProblemView = ({
                 ...(!isRecallMode && problem.traceTable ? [{ id: 'simulation', label: 'Simulation', icon: <Table2 size={13} /> }] : []),
                 ...(!isRecallMode ? [{ id: 'solution', label: 'Solution', icon: <Code2 size={13} /> }] : []),
                 ...(!isRecallMode ? [{ id: 'submissions', label: 'Submissions', icon: <History size={13} /> }] : []),
+                ...(!isRecallMode ? [{ id: 'notes', label: 'Notes', icon: <StickyNote size={13} />, hasIndicator: hasNote }] : []),
                 ...(relatedArticles.length > 0 ? [{ id: 'articles', label: 'Articles', icon: <BookOpen size={13} />, count: relatedArticles.length }] : []),
               ].map(tab => (
                 <button
@@ -418,6 +426,9 @@ export const CodingProblemView = ({
                 >
                   {tab.icon}
                   <span>{tab.label}</span>
+                  {'hasIndicator' in tab && tab.hasIndicator && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent-blue shadow-[0_0_6px_var(--color-accent-blue)]" />
+                  )}
                   {'count' in tab && tab.count !== undefined && (
                     <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white/5 border border-white/10 text-text-tertiary">{tab.count}</span>
                   )}
@@ -561,6 +572,15 @@ export const CodingProblemView = ({
                 </div>
               )}
 
+              {activeLeftTab === 'notes' && !isRecallMode && (
+                <div className="flex flex-col gap-4 flex-1 h-full min-h-[420px]">
+                  <NotesPanel
+                    problemId={problem.id}
+                    problemTitle={problem.title}
+                  />
+                </div>
+              )}
+
               {activeLeftTab === 'articles' && relatedArticles.length > 0 && (
                 <div className="flex flex-col gap-4">
                   <RelatedArticles articles={relatedArticles} isLoading={isLoadingArticles} />
@@ -672,6 +692,16 @@ export const CodingProblemView = ({
               >
                 <RotateCcw size={12} />
                 <span className="hidden sm:inline">Reset</span>
+              </Button>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => setIsMentorOpen(true)}
+                className="text-accent-amber hover:text-white bg-accent-amber/10 border-accent-amber/30 hover:bg-accent-amber/20 text-xs font-bold uppercase tracking-wider font-geist flex items-center gap-1.5 px-2.5 sm:px-3 shadow-[0_0_12px_rgba(245,158,11,0.15)]"
+                title="Inspect code with JavaScript Code Mentor"
+              >
+                <Sparkles size={12} className="text-accent-amber" />
+                <span className="hidden sm:inline">JS Mentor</span>
               </Button>
               <div className="hidden sm:block w-px h-4 bg-white/10" />
               <Button
@@ -822,6 +852,12 @@ export const CodingProblemView = ({
         cancelLabel="Cancel"
         onConfirm={handleReset}
         onCancel={() => setIsResetModalOpen(false)}
+      />
+
+      <JsMentorModal
+        isOpen={isMentorOpen}
+        onClose={() => setIsMentorOpen(false)}
+        code={code}
       />
 
       {(isRecallSuccess || isGaveUp) && (
