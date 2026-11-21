@@ -11,6 +11,7 @@ export interface ActivityData {
 
 export const getDailyActivity = (
   solvedProblems: Map<string, { solvedAt?: string }>,
+  readingHistory: { articleId?: string; date?: string }[] = [],
   windowDays = 371,
 ): ActivityData => {
   const countByDate = new Map<string, number>()
@@ -21,6 +22,11 @@ export const getDailyActivity = (
     if (isNaN(parsed)) continue
     const dateStr = new Date(parsed).toISOString().split('T')[0] ?? ''
     countByDate.set(dateStr, (countByDate.get(dateStr) ?? 0) + 1)
+  }
+
+  for (const entry of readingHistory) {
+    if (!entry.date) continue
+    countByDate.set(entry.date, (countByDate.get(entry.date) ?? 0) + 1)
   }
 
   const today = new Date()

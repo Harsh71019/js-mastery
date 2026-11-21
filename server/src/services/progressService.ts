@@ -1,9 +1,12 @@
 import { format, differenceInCalendarDays, differenceInHours } from 'date-fns'
 import * as progressRepo from '../repositories/progressRepository'
+import * as problemRepo from '../repositories/problemRepository'
 import { getUpdatedStreak } from '../utils/streak'
 import { computeNextReview, isMastered } from '../utils/review'
 import { serializeProgress } from '../utils/serializeProgress'
 import { getDailyActivity } from '../utils/activity'
+import { selectDailyIndex } from '../utils/daily'
+import { updateDailyStreak } from '../utils/dailyStreak'
 import { 
   REVIEW_INTERVAL_MULTIPLIER, 
   RECALL_INTERVAL_MULTIPLIER, 
@@ -76,6 +79,32 @@ export const solveProgress = async (problemId: string, body: SolveBody) => {
   doc.currentStreak  = streak.currentStreak
   doc.longestStreak  = streak.longestStreak
   doc.lastActiveDate = streak.lastActiveDate
+
+  // Check if this problem is today's daily challenge
+  try {
+    const allIds = await problemRepo.findAllPublishedIds()
+    if (allIds.length > 0) {
+      const dailyIndex = selectDailyIndex(allIds.length, new Date())
+      if (allIds[dailyIndex]?.id === problemId) {
+        const dailyUpdate = updateDailyStreak(
+          {
+            dailyStreak:        doc.dailyStreak        ?? 0,
+            longestDailyStreak: doc.longestDailyStreak ?? 0,
+            lastDailySolvedAt:  doc.lastDailySolvedAt  as string | undefined,
+            completedDailies:   (doc.completedDailies  as string[]) ?? [],
+          },
+          today,
+        )
+        doc.dailyStreak        = dailyUpdate.dailyStreak
+        doc.longestDailyStreak = dailyUpdate.longestDailyStreak
+        doc.lastDailySolvedAt  = dailyUpdate.lastDailySolvedAt
+        doc.completedDailies   = dailyUpdate.completedDailies
+      }
+    }
+  } catch {
+    // Non-critical check, continue
+  }
+
   doc.markModified('solvedProblems')
 
   await doc.save()
@@ -235,6 +264,7 @@ export const getActivity = async () => {
   const doc = await progressRepo.findOrCreate()
   return getDailyActivity(
     doc.solvedProblems as unknown as Map<string, { solvedAt?: string }>,
+    doc.readingHistory as unknown as { articleId?: string; date?: string }[]
   )
 }
 

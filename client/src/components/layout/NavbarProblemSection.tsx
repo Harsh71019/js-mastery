@@ -25,14 +25,23 @@ export const NavbarProblemSection = ({ id }: NavbarProblemSectionProps): React.J
     return <span className="text-text-tertiary text-[10px] font-bold uppercase tracking-widest font-geist">Registry: Loading...</span>
   }
 
+  const isQuiz = problem.type === 'mcq' || problem.type === 'trick'
+  const breadcrumbItems = isQuiz
+    ? [
+        { label: 'QUIZ_HUB', path: '/quiz' },
+        { label: problem.type === 'trick' ? 'TRICK_QUESTION' : 'MCQ_SEQUENCE', path: '/quiz' },
+        { label: problem.title, active: true },
+      ]
+    : [
+        { label: 'SECTORS', path: '/problems' },
+        { label: getCategoryTitle(problem.category), path: `/category/${problem.category}` },
+        { label: problem.title, active: true },
+      ]
+
   return (
     <div className="flex items-center justify-between gap-6 min-w-0 flex-1">
       <TechnicalBreadcrumbs
-        items={[
-          { label: 'SECTORS', path: '/problems' },
-          { label: getCategoryTitle(problem.category), path: `/category/${problem.category}` },
-          { label: problem.title, active: true },
-        ]}
+        items={breadcrumbItems}
         className="flex-1"
       />
 

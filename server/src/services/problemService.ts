@@ -65,7 +65,10 @@ export const getProblemById = async (id: string) => {
 
   if (!problem || !meta) return null
 
-  const { prevId, nextId } = await problemRepo.findPrevNext(meta._id as Types.ObjectId)
+  const { prevId, nextId } = await problemRepo.findPrevNext(
+    meta._id as Types.ObjectId,
+    problem.type as string | undefined,
+  )
 
   return {
     ...problem,

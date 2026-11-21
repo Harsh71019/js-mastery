@@ -33,6 +33,22 @@ const ProgressSchema = new Schema(
     longestDailyStreak: { type: Number, default: 0 },
     lastDailySolvedAt: { type: String },
     completedDailies: { type: [String], default: [] },
+    readArticles: { type: [String], default: [] },
+    readingStreak: { type: Number, default: 0 },
+    longestReadingStreak: { type: Number, default: 0 },
+    lastArticleReadAt: { type: String },
+    readingHistory: {
+      type: [
+        new Schema(
+          {
+            articleId: String,
+            date: String,
+          },
+          { _id: false }
+        ),
+      ],
+      default: [],
+    },
   },
   { timestamps: true },
 )

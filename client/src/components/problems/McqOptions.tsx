@@ -43,13 +43,23 @@ const getOptionIcon = (
 
 const formatOption = (text: string): React.ReactNode => {
   if (!text) return null
-  const parts = text.split(/(`[^`]*`)/g)
+  const parts = text.split(/(`[^`]*`|\*\*[^*]+\*\*|\n)/g)
   return parts.map((part, index) => {
-    if (part.startsWith('`')) {
+    if (part === '\n') {
+      return <br key={index} />
+    }
+    if (part.startsWith('`') && part.endsWith('`') && part.length >= 2) {
       return (
         <code key={index} className="px-1.5 py-0.5 rounded bg-white/[0.05] text-accent-amber font-geist text-[11px] border border-white/10">
-          {part.replace(/^`|`$/g, '')}
+          {part.slice(1, -1)}
         </code>
+      )
+    }
+    if (part.startsWith('**') && part.endsWith('**') && part.length >= 4) {
+      return (
+        <strong key={index} className="font-bold text-text-primary">
+          {part.slice(2, -2)}
+        </strong>
       )
     }
     return <span key={index}>{part}</span>

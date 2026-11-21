@@ -39,6 +39,11 @@ interface ProgressState {
   dailyStreak:              number
   longestDailyStreak:       number
   completedDailies:         string[]
+  readArticles:             string[]
+  readingStreak:            number
+  longestReadingStreak:     number
+  lastArticleReadAt:        string
+  readingHistory:           any[]
   isLoaded:                 boolean
 }
 
@@ -51,6 +56,7 @@ interface ProgressActions {
   resetProgress:          () => void
   dismissBackupBanner:    (milestone: number) => void
   completeDailyChallenge: () => Promise<void>
+  completeArticle:        (id: string) => Promise<void>
 }
 
 type ProgressStore = ProgressState & ProgressActions
@@ -64,6 +70,11 @@ const INITIAL_STATE: ProgressState = {
   dailyStreak:              0,
   longestDailyStreak:       0,
   completedDailies:         [],
+  readArticles:             [],
+  readingStreak:            0,
+  longestReadingStreak:     0,
+  lastArticleReadAt:        '',
+  readingHistory:           [],
   isLoaded:                 false,
 }
 
@@ -227,6 +238,17 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
       set({ ...applyServerState(data), isLoaded: true })
     } catch (error: unknown) {
       console.error('Failed to complete daily challenge:', error)
+    }
+  },
+
+  completeArticle: async (id) => {
+    try {
+      const response = await fetch(`/api/articles/complete/${id}`, { method: 'POST' })
+      if (!response.ok) throw new Error(`Server error: ${response.status}`)
+      const { data } = (await response.json()) as { success: boolean; data: Omit<ProgressState, 'isLoaded'> }
+      set({ ...applyServerState(data), isLoaded: true })
+    } catch (error: unknown) {
+      console.error('Failed to complete article:', error)
     }
   },
 }))

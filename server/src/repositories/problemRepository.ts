@@ -21,14 +21,19 @@ export const findByIdPublished = (id: string) =>
 export const findMongoIdByProblemId = (id: string) =>
   Problem.findOne({ id, status: 'published' }, { _id: 1 }).lean()
 
-export const findPrevNext = async (mongoId: Types.ObjectId) => {
+export const findPrevNext = async (mongoId: Types.ObjectId, type?: string) => {
+  const typeFilter =
+    type === 'mcq' || type === 'trick'
+      ? { type: { $in: ['mcq', 'trick'] } }
+      : { type: { $in: ['coding', null] } }
+
   const [prev, next] = await Promise.all([
     Problem.findOne(
-      { _id: { $lt: mongoId }, status: 'published' },
+      { _id: { $lt: mongoId }, status: 'published', ...typeFilter },
       { id: 1, _id: 0 },
     ).sort({ _id: -1 }).lean(),
     Problem.findOne(
-      { _id: { $gt: mongoId }, status: 'published' },
+      { _id: { $gt: mongoId }, status: 'published', ...typeFilter },
       { id: 1, _id: 0 },
     ).sort({ _id: 1 }).lean(),
   ])

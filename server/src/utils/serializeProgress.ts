@@ -38,6 +38,11 @@ interface ProgressFields {
   dailyStreak?:             number
   longestDailyStreak?:      number
   completedDailies?:        string[]
+  readArticles?:            string[]
+  readingStreak?:           number
+  longestReadingStreak?:    number
+  lastArticleReadAt?:       string | null
+  readingHistory?:          any[]
 }
 
 export const serializeProgress = (doc: ProgressFields): object => ({
@@ -51,4 +56,9 @@ export const serializeProgress = (doc: ProgressFields): object => ({
   dailyStreak:              doc.dailyStreak ?? 0,
   longestDailyStreak:       doc.longestDailyStreak ?? 0,
   completedDailies:         doc.completedDailies ?? [],
+  readArticles:             doc.readArticles ?? [],
+  readingStreak:            doc.readingStreak ?? 0,
+  longestReadingStreak:     doc.longestReadingStreak ?? 0,
+  lastArticleReadAt:        doc.lastArticleReadAt,
+  readingHistory:           doc.readingHistory ?? [],
 })

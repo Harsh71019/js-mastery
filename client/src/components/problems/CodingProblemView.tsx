@@ -8,6 +8,7 @@ import { useProgress } from '@/hooks/useProgress'
 import { useKeyboardShortcut } from '@/hooks/useKeyboardShortcut'
 import { usePanelResize } from '@/hooks/usePanelResize'
 import { useVerticalResize } from '@/hooks/useVerticalResize'
+import { usePatternArticles } from '@/hooks/usePatternArticles'
 import { runTests, type TestResult, type Verdict } from '@/runner/executor'
 import { CodeEditor, type CodeEditorHandle } from '@/components/editor/CodeEditor'
 import { ResultsPanel } from '@/components/editor/ResultsPanel'
@@ -17,6 +18,7 @@ import { RunTimingGraph } from '@/components/problems/RunTimingGraph'
 import { TraceTable } from '@/components/problems/TraceTable'
 import { SkeletonHint } from '@/components/problems/SkeletonHint'
 import { SolutionPanel } from '@/components/problems/SolutionPanel'
+import { RelatedArticles } from '@/components/insights/RelatedArticles'
 import { RecallDiffPanel } from '@/components/review/RecallDiffPanel'
 import { Modal } from '@/components/ui/Modal'
 import { Divider } from '@/components/ui/Divider'
@@ -93,6 +95,7 @@ export const CodingProblemView = ({
   const isAccepted = lastAction === 'submit' && verdict === 'Accepted'
 
   const { isSolved } = useProgress()
+  const { articles: relatedArticles, isLoading: isLoadingArticles } = usePatternArticles(problem.patternTag)
   const markSolved = useProgressStore(selectMarkSolved)
   const incrementAttempts = useProgressStore(selectIncrementAttempts)
   const completeRecall = useProgressStore((state) => state.completeRecall)
@@ -337,6 +340,13 @@ export const CodingProblemView = ({
                     <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] px-1 font-geist">Skeleton Logic</h2>
                     <SkeletonHint hint={problem.skeletonHint} />
                   </div>
+
+                  {relatedArticles.length > 0 && (
+                    <>
+                      <Divider className="opacity-20" />
+                      <RelatedArticles articles={relatedArticles} isLoading={isLoadingArticles} />
+                    </>
+                  )}
 
                   <Divider className="opacity-20" />
 

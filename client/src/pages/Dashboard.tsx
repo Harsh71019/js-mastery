@@ -6,6 +6,7 @@ import { useProgressStore } from '@/store/useProgressStore'
 import { StatCard } from '@/components/progress/StatCard'
 import { ProgressRing } from '@/components/ui/ProgressRing'
 import { DailyWidget } from '@/components/daily/DailyWidget'
+import { DailyInsightWidget } from '@/components/insights/DailyInsightWidget'
 import { PageContainer } from '@/components/ui/PageContainer'
 import { Card } from '@/components/ui/Card'
 import { Glow } from '@/components/ui/Glow'
@@ -93,8 +94,9 @@ export const Dashboard = (): React.JSX.Element => {
         </div>
       )}
 
-      <div className="relative z-10">
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
         <DailyWidget />
+        <DailyInsightWidget />
       </div>
 
       <div className="flex flex-col gap-6 relative z-10">

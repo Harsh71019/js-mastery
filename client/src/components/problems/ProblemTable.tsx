@@ -10,6 +10,7 @@ interface ProblemTableProps {
   readonly problems: readonly ProblemSummary[]
   readonly solvedProblems: Record<string, { solvedAt: string; attempts: number }>
   readonly isLoading?: boolean
+  readonly startIndex?: number
 }
 
 const getCategoryColor = (slug: string): string =>
@@ -37,13 +38,13 @@ const SkeletonRow = (): React.JSX.Element => (
 
 const ProblemRow = memo(({ 
   problem, 
-  index, 
+  displayIndex, 
   isSolved, 
   solvedAt, 
   navigate 
 }: { 
   problem: ProblemSummary, 
-  index: number, 
+  displayIndex: number, 
   isSolved: boolean, 
   solvedAt?: string, 
   navigate: ReturnType<typeof useNavigate> 
@@ -52,7 +53,7 @@ const ProblemRow = memo(({
     onClick={() => navigate(`/problem/${problem.id}`)}
     className="border-t border-white/[0.04] hover:bg-white/[0.02] transition-all duration-200 cursor-pointer group"
   >
-    <td className="px-6 py-4 text-text-tertiary text-xs font-geist">{index + 1}</td>
+    <td className="px-6 py-4 text-text-tertiary text-xs font-geist">{displayIndex}</td>
 
     <td className="px-3 py-4 text-sm">
       <span className="flex items-center gap-2">
@@ -109,6 +110,7 @@ export const ProblemTable = memo(function ProblemTable({
   problems,
   solvedProblems,
   isLoading = false,
+  startIndex = 0,
 }: ProblemTableProps): React.JSX.Element {
   const navigate = useNavigate()
 
@@ -170,7 +172,7 @@ export const ProblemTable = memo(function ProblemTable({
               <ProblemRow 
                 key={problem.id}
                 problem={problem}
-                index={index}
+                displayIndex={startIndex + index + 1}
                 isSolved={isSolved}
                 solvedAt={solvedEntry?.solvedAt}
                 navigate={navigate}
