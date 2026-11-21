@@ -79,7 +79,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
             <button
               type="button"
               onClick={handleComplete}
-              className="text-[10px] font-bold uppercase tracking-wider font-geist text-accent-green hover:underline cursor-pointer px-2 py-0.5 rounded bg-accent-green/5 border border-accent-green/20"
+              className="text-[10px] font-bold uppercase tracking-wider font-geist text-accent-green hover:underline cursor-pointer px-2.5 py-1 rounded-md bg-accent-green/10 border border-accent-green/20 transition-colors active:scale-95"
             >
               Mark Read
             </button>
@@ -88,10 +88,10 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
             href={article.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-1 rounded-md text-text-tertiary hover:text-white hover:bg-white/10 transition-colors"
+            className="p-1.5 rounded-lg text-text-tertiary hover:text-white hover:bg-white/10 transition-colors flex items-center justify-center cursor-pointer"
             title="Open article in new tab"
           >
-            <ArrowUpRight size={15} />
+            <ArrowUpRight size={16} />
           </a>
         </div>
       </div>

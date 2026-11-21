@@ -13,8 +13,8 @@ interface DayBarProps {
 const DayBar = memo(({ label, count, max, isPeak }: DayBarProps): React.JSX.Element => {
   const barWidth = max > 0 ? (count / max) * 100 : 0
   return (
-    <div className="flex items-center gap-6 group/day">
-      <span className={`text-[10px] font-bold font-geist w-10 shrink-0 uppercase tracking-tighter ${isPeak ? 'text-accent-amber shadow-amber-glow' : 'text-text-tertiary group-hover/day:text-text-secondary'} transition-colors`}>
+    <div className="flex items-center gap-3 sm:gap-6 group/day">
+      <span className={`text-[10px] font-bold font-geist w-8 sm:w-10 shrink-0 uppercase tracking-tighter ${isPeak ? 'text-accent-amber shadow-amber-glow' : 'text-text-tertiary group-hover/day:text-text-secondary'} transition-colors`}>
         {label.slice(0, 3)}
       </span>
       <div className="flex-1 h-2.5 bg-white/5 rounded-sm overflow-hidden relative border border-white/[0.03]">
@@ -40,7 +40,7 @@ export const PeakWindow = (): React.JSX.Element => {
   const maxCount = Math.max(...dayDistribution, 1)
 
   return (
-    <Card className="p-8 bg-white/[0.01] flex flex-col gap-6 h-full min-h-[300px]">
+    <Card className="p-4 sm:p-8 bg-white/[0.01] flex flex-col gap-6 h-full min-h-[300px]">
       {totalSolves < 7 ? (
         <div className="h-full flex flex-col items-center justify-center gap-3">
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] font-geist text-text-tertiary opacity-30 text-center max-w-[220px]">
@@ -53,7 +53,7 @@ export const PeakWindow = (): React.JSX.Element => {
       ) : (
         <>
           {bestDay && bestBlockLabel && (
-            <div className="flex items-center gap-12 pb-6 border-b border-white/5">
+            <div className="flex items-center gap-6 sm:gap-12 pb-4 sm:pb-6 border-b border-white/5">
               <div className="flex flex-col gap-1">
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-tertiary font-geist opacity-60">Peak_Day_Active</p>
                 <p className="text-xl font-bold font-geist text-accent-amber tracking-tighter">{bestDay.toUpperCase()}</p>

@@ -205,7 +205,7 @@ export const TrickQuestionView = ({
               JS
             </span>
           </div>
-          <pre className="px-6 py-6 text-sm font-jetbrains text-text-primary overflow-x-auto leading-relaxed whitespace-pre">
+          <pre className="px-4 sm:px-6 py-4 sm:py-6 text-xs sm:text-sm font-jetbrains text-text-primary overflow-x-auto leading-relaxed whitespace-pre">
             {problem.codeSnippet}
           </pre>
         </Card>
@@ -214,7 +214,7 @@ export const TrickQuestionView = ({
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between px-1 mb-1">
             <span className="text-text-tertiary text-[10px] font-bold uppercase tracking-widest font-geist">
-              Predict the output {selectedIndex !== null && !isSubmitted && '• Press Enter to Submit'}
+              Predict the output {selectedIndex !== null && !isSubmitted && <span className="hidden sm:inline">• Press Enter to Submit</span>}
             </span>
             {isAlreadySolved && !isSubmitted && (
               <button

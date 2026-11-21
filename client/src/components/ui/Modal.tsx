@@ -41,13 +41,13 @@ export const Modal = ({
         aria-modal="true"
         aria-labelledby="modal-title"
         aria-describedby="modal-desc"
-        className="glass-panel rounded-2xl p-7 w-full max-w-md mx-4 shadow-2xl relative overflow-hidden border-white/10 bg-[#0e0e0e]"
+        className="glass-panel rounded-2xl p-5 sm:p-7 w-full max-w-md mx-4 shadow-2xl relative overflow-hidden border-white/10 bg-[#0e0e0e]"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="absolute top-0 left-0 w-full h-1 bg-accent-blue shadow-[0_0_10px_var(--color-accent-blue)]" />
-        <h3 id="modal-title" className="text-text-primary text-lg font-bold font-geist tracking-tight uppercase mb-2.5">{title}</h3>
-        <p id="modal-desc" className="text-text-secondary text-sm font-medium mb-7 leading-relaxed">{message}</p>
-        <div className="flex gap-3 justify-end">
+        <h3 id="modal-title" className="text-text-primary text-base sm:text-lg font-bold font-geist tracking-tight uppercase mb-2">{title}</h3>
+        <p id="modal-desc" className="text-text-secondary text-xs sm:text-sm font-medium mb-5 sm:mb-7 leading-relaxed">{message}</p>
+        <div className="flex gap-2.5 sm:gap-3 justify-end">
           <Button
             variant="ghost"
             onClick={onCancel}

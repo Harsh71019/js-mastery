@@ -94,6 +94,15 @@ export const CodingProblemView = ({
   const [isGaveUp, setIsGaveUp] = useState(false)
   const confettiFired = useRef(false)
 
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false)
+  const [mobileTab, setMobileTab] = useState<'problem' | 'code' | 'results'>('problem')
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   const isAccepted = lastAction === 'submit' && verdict === 'Accepted'
 
   const { isSolved } = useProgress()
@@ -147,6 +156,9 @@ export const CodingProblemView = ({
     setIsRunning(true)
     setHasAttempted(true)
     setLastAction('run')
+    if (isMobile) {
+      setMobileTab('results')
+    }
 
     const visibleTests = problem.tests.filter((t) => !t.hidden)
     const start = Date.now()
@@ -159,13 +171,16 @@ export const CodingProblemView = ({
     setIsRunning(false)
 
     incrementAttempts(problem.id, execution.executionTimeMs)
-  }, [problem, code, isRunning, isSubmitting, incrementAttempts])
+  }, [problem, code, isRunning, isSubmitting, isMobile, incrementAttempts])
 
   const handleSubmit = useCallback(async (): Promise<void> => {
     if (isRunning || isSubmitting) return
     setIsSubmitting(true)
     setHasAttempted(true)
     setLastAction('submit')
+    if (isMobile) {
+      setMobileTab('results')
+    }
 
     try {
       const fullTests = await fetchFullTests(problem.id)
@@ -210,7 +225,7 @@ export const CodingProblemView = ({
     } finally {
       setIsSubmitting(false)
     }
-  }, [problem, code, isRunning, isSubmitting, markSolved, incrementAttempts])
+  }, [problem, code, isRunning, isSubmitting, isMobile, markSolved, incrementAttempts, isRecallMode])
 
   useKeyboardShortcut('Enter', handleSubmit)
 
@@ -241,17 +256,66 @@ export const CodingProblemView = ({
 
   return (
     <div className="flex flex-col h-[calc(100vh-3rem)] overflow-hidden bg-bg-primary">
+      {/* Mobile Workspace Switcher */}
+      <div className="flex md:hidden items-center border-b border-white/[0.08] bg-[#0c0c0c] shrink-0 px-2 py-1.5 gap-1.5 z-20">
+        <button
+          type="button"
+          onClick={() => setMobileTab('problem')}
+          className={`flex-1 py-1.5 rounded-lg text-xs font-semibold font-geist uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+            mobileTab === 'problem'
+              ? 'bg-accent-blue/15 text-accent-blue border border-accent-blue/30 shadow-[0_0_10px_rgba(59,130,246,0.2)]'
+              : 'text-text-tertiary hover:text-text-secondary border border-transparent'
+          }`}
+        >
+          <FileText size={13} />
+          <span>Problem</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setMobileTab('code')}
+          className={`flex-1 py-1.5 rounded-lg text-xs font-semibold font-geist uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+            mobileTab === 'code'
+              ? 'bg-accent-blue/15 text-accent-blue border border-accent-blue/30 shadow-[0_0_10px_rgba(59,130,246,0.2)]'
+              : 'text-text-tertiary hover:text-text-secondary border border-transparent'
+          }`}
+        >
+          <Code2 size={13} />
+          <span>Code</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setMobileTab('results')}
+          className={`flex-1 py-1.5 rounded-lg text-xs font-semibold font-geist uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all relative cursor-pointer ${
+            mobileTab === 'results'
+              ? 'bg-accent-blue/15 text-accent-blue border border-accent-blue/30 shadow-[0_0_10px_rgba(59,130,246,0.2)]'
+              : 'text-text-tertiary hover:text-text-secondary border border-transparent'
+          }`}
+        >
+          <Zap size={13} />
+          <span>Results</span>
+          {isRunning || isSubmitting ? (
+            <span className="w-2 h-2 rounded-full bg-accent-blue animate-ping" />
+          ) : isAccepted ? (
+            <span className="w-2 h-2 rounded-full bg-accent-green shadow-[0_0_6px_var(--color-accent-green)]" />
+          ) : verdict ? (
+            <span className="w-2 h-2 rounded-full bg-accent-red shadow-[0_0_6px_var(--color-accent-red)]" />
+          ) : null}
+        </button>
+      </div>
+
       <div
         ref={containerRef}
-        className="flex flex-1 overflow-hidden"
+        className="flex flex-col md:flex-row flex-1 overflow-hidden"
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
       >
         {!isFocusMode && (
           <div
-            className="flex flex-col border-r border-white/[0.08] relative bg-[#0a0a0a]"
-            style={{ width: `${leftRatio}%` }}
+            className={`flex-col border-r border-white/[0.08] relative bg-[#0a0a0a] ${
+              mobileTab === 'problem' ? 'flex flex-1 w-full' : 'hidden'
+            } md:flex`}
+            style={isMobile ? { width: '100%' } : { width: `${leftRatio}%` }}
           >
             {/* Left Panel Tabs Header */}
             <div className="flex items-center px-4 border-b border-white/[0.08] bg-[#0c0c0c] shrink-0 gap-1 overflow-x-auto no-scrollbar">
@@ -413,13 +477,29 @@ export const CodingProblemView = ({
                   <RelatedArticles articles={relatedArticles} isLoading={isLoadingArticles} />
                 </div>
               )}
+
+              {isMobile && (
+                <div className="sticky bottom-0 left-0 right-0 p-3 -mx-6 -mb-6 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/95 to-transparent pt-6 z-10">
+                  <Button
+                    variant="primary"
+                    size="md"
+                    onClick={() => setMobileTab('code')}
+                    className="w-full py-2.5 text-xs font-bold uppercase tracking-wider font-geist flex items-center justify-center gap-2 shadow-lg"
+                  >
+                    <Code2 size={15} />
+                    <span>Open Code Editor</span>
+                    <span>→</span>
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         )}
 
+        {/* Panel Resizer (Desktop Only) */}
         <div
           onMouseDown={handleMouseDown}
-          className={`w-1.5 bg-[#0a0a0a] hover:bg-accent-blue/30 cursor-col-resize transition-all duration-200 shrink-0 active:bg-accent-blue/40 group relative flex items-center justify-center ${isFocusMode ? 'cursor-default w-0' : ''}`}
+          className={`hidden md:flex w-1.5 bg-[#0a0a0a] hover:bg-accent-blue/30 cursor-col-resize transition-all duration-200 shrink-0 active:bg-accent-blue/40 group relative items-center justify-center ${isFocusMode ? 'cursor-default w-0' : ''}`}
         >
           {!isFocusMode && (
             <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[1px] bg-white/10 group-hover:bg-accent-blue/50 transition-colors" />
@@ -434,18 +514,26 @@ export const CodingProblemView = ({
           </button>
         </div>
 
-        <div className="flex flex-col flex-1 overflow-hidden relative bg-[#050505]">
+        {/* Right Panel: Editor & Results */}
+        <div
+          className={`flex-col flex-1 overflow-hidden relative bg-[#050505] ${
+            mobileTab !== 'problem' ? 'flex w-full' : 'hidden'
+          } md:flex`}
+          style={isMobile ? { width: '100%' } : { width: `${100 - leftRatio}%` }}
+        >
           {isFocusMode && (
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-10">
               <Glow color="var(--color-accent-blue)" size="xl" className="-top-1/2 -left-1/4" />
             </div>
           )}
 
-          <div className="flex items-center justify-between px-5 py-2 border-b border-white/[0.08] bg-[#0c0c0c] shrink-0 z-10">
-            <div className="flex items-center gap-3">
+          {/* Top Bar for Code */}
+          <div className="flex items-center justify-between px-3 sm:px-5 py-2 border-b border-white/[0.08] bg-[#0c0c0c] shrink-0 z-10">
+            <div className="flex items-center gap-2 sm:gap-3">
               <span className="text-text-secondary text-xs font-semibold font-geist flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-accent-blue shadow-[0_0_8px_var(--color-accent-blue)]" />
-                JavaScript (ES2024)
+                <span className="hidden sm:inline">JavaScript (ES2024)</span>
+                <span className="sm:hidden">JS (ES2024)</span>
               </span>
               {isFocusMode && (
                 <span className="text-accent-blue text-[9px] font-bold uppercase tracking-wider bg-accent-blue/10 px-2 py-0.5 rounded border border-accent-blue/20 animate-pulse font-geist">Focus Active</span>
@@ -454,14 +542,14 @@ export const CodingProblemView = ({
                 <span className="text-accent-amber text-[9px] font-bold uppercase tracking-wider bg-accent-amber/10 px-2 py-0.5 rounded border border-accent-amber/20 animate-pulse font-geist shadow-glow-sm">Recall Mode</span>
               )}
             </div>
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-1.5 sm:gap-2.5">
               {isRecallMode && (
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsGaveUp(true)}
                   disabled={isRecallSuccess || isGaveUp}
-                  className="text-accent-red text-xs font-bold uppercase tracking-wider hover:text-accent-red hover:bg-accent-red/10 font-geist border border-accent-red/20"
+                  className="text-accent-red text-xs font-bold uppercase tracking-wider hover:text-accent-red hover:bg-accent-red/10 font-geist border border-accent-red/20 px-2 sm:px-3"
                 >
                   Give Up
                 </Button>
@@ -470,20 +558,20 @@ export const CodingProblemView = ({
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsResetModalOpen(true)}
-                className="text-text-tertiary text-xs font-bold uppercase tracking-wider hover:text-text-primary font-geist flex items-center gap-1.5"
+                className="text-text-tertiary text-xs font-bold uppercase tracking-wider hover:text-text-primary font-geist flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3"
                 title="Reset starter code"
               >
                 <RotateCcw size={12} />
-                <span>Reset</span>
+                <span className="hidden sm:inline">Reset</span>
               </Button>
-              <div className="w-px h-4 bg-white/10" />
+              <div className="hidden sm:block w-px h-4 bg-white/10" />
               <Button
                 variant="secondary"
                 size="sm"
                 onClick={handleRun}
                 isLoading={isRunning}
                 disabled={isRunning || isSubmitting}
-                className="text-text-primary text-xs font-bold uppercase tracking-wider font-geist px-3.5 flex items-center gap-1.5"
+                className="hidden sm:flex text-text-primary text-xs font-bold uppercase tracking-wider font-geist px-3.5 items-center gap-1.5"
               >
                 <Play size={12} className="text-accent-blue" />
                 <span>Run</span>
@@ -494,7 +582,7 @@ export const CodingProblemView = ({
                 onClick={handleSubmit}
                 isLoading={isSubmitting}
                 disabled={isRunning || isSubmitting}
-                className="text-xs font-bold uppercase tracking-wider font-geist px-4 flex items-center gap-1.5"
+                className="hidden sm:flex text-xs font-bold uppercase tracking-wider font-geist px-4 items-center gap-1.5"
               >
                 <span>Submit</span>
                 <span className="text-[10px] opacity-70">↵</span>
@@ -502,29 +590,70 @@ export const CodingProblemView = ({
             </div>
           </div>
 
-          <div className="flex-1 overflow-hidden" style={{ minHeight: 0 }}>
+          {/* Monaco Editor Container */}
+          <div
+            className={`flex-1 overflow-hidden ${
+              isMobile && mobileTab === 'results' ? 'hidden' : 'flex flex-col'
+            }`}
+            style={{ minHeight: 0 }}
+          >
             <CodeEditor ref={editorRef} value={code} onChange={setCode} />
           </div>
 
+          {/* Mobile Bottom Action Bar when editing code */}
+          {isMobile && mobileTab === 'code' && (
+            <div className="flex items-center gap-2 p-2.5 border-t border-white/[0.08] bg-[#0a0a0a] shrink-0 z-10 pb-safe">
+              <Button
+                variant="secondary"
+                size="md"
+                onClick={handleRun}
+                isLoading={isRunning}
+                disabled={isRunning || isSubmitting}
+                className="flex-1 py-2.5 text-xs font-bold uppercase tracking-wider font-geist flex items-center justify-center gap-1.5"
+              >
+                <Play size={13} className="text-accent-blue" />
+                <span>Run Tests</span>
+              </Button>
+              <Button
+                variant="primary"
+                size="md"
+                onClick={handleSubmit}
+                isLoading={isSubmitting}
+                disabled={isRunning || isSubmitting}
+                className="flex-1 py-2.5 text-xs font-bold uppercase tracking-wider font-geist flex items-center justify-center gap-1.5 shadow-[0_0_12px_rgba(59,130,246,0.3)]"
+              >
+                <span>Submit</span>
+                <span className="text-[10px]">↵</span>
+              </Button>
+            </div>
+          )}
+
+          {/* Desktop Vertical Resizer */}
           <div 
             onMouseDown={handleTerminalMouseDown}
-            className="h-1 bg-bg-secondary hover:bg-accent-blue/40 cursor-row-resize transition-all duration-300 shrink-0 border-t border-white/5 group/vresizer relative z-20"
+            className="hidden md:block h-1 bg-bg-secondary hover:bg-accent-blue/40 cursor-row-resize transition-all duration-300 shrink-0 border-t border-white/5 group/vresizer relative z-20"
           >
             <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1px] bg-white/5 group-hover/vresizer:bg-accent-blue/40 transition-colors shadow-glow-sm" />
           </div>
 
-          <div className="border-t border-white/5 shrink-0 z-10" style={{ height: `${terminalHeight}px` }}>
+          {/* Results Panel Container */}
+          <div
+            className={`border-t border-white/5 shrink-0 z-10 ${
+              isMobile ? (mobileTab === 'results' ? 'flex-1 flex flex-col overflow-hidden' : 'hidden') : ''
+            }`}
+            style={isMobile ? undefined : { height: `${terminalHeight}px` }}
+          >
             {isAccepted && (
-              <div className="flex items-center justify-between px-6 py-2.5 bg-accent-green/5 border-b border-accent-green/20 relative overflow-hidden">
+              <div className="flex items-center justify-between px-4 sm:px-6 py-2.5 bg-accent-green/5 border-b border-accent-green/20 relative overflow-hidden shrink-0">
                 <div className="absolute top-0 left-0 w-full h-full bg-accent-green/5 animate-pulse pointer-events-none" />
-                <span className="text-accent-green text-[10px] font-bold uppercase tracking-[0.1em] font-geist relative z-10">
-                  Submission Accepted — All test cases passed
+                <span className="text-accent-green text-[10px] font-bold uppercase tracking-[0.1em] font-geist relative z-10 truncate mr-2">
+                  Accepted — All passed
                 </span>
                 {nextId && (
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-accent-green hover:text-accent-green font-geist text-[10px] font-bold uppercase tracking-widest relative z-10 border-accent-green/20 hover:bg-accent-green/10"
+                    className="text-accent-green hover:text-accent-green font-geist text-[10px] font-bold uppercase tracking-widest relative z-10 border-accent-green/20 hover:bg-accent-green/10 shrink-0"
                     onClick={() => navigate(`/problem/${nextId}`)}
                   >
                     Next Problem →
@@ -532,7 +661,10 @@ export const CodingProblemView = ({
                 )}
               </div>
             )}
-            <div style={{ height: isAccepted ? `calc(${terminalHeight}px - 45px)` : `${terminalHeight}px` }}>
+            <div
+              className="flex-1 overflow-hidden"
+              style={isMobile ? undefined : { height: isAccepted ? `calc(${terminalHeight}px - 45px)` : `${terminalHeight}px` }}
+            >
               <ResultsPanel
                 results={results}
                 isRunning={isRunning || isSubmitting}
@@ -540,6 +672,21 @@ export const CodingProblemView = ({
                 action={lastAction}
               />
             </div>
+
+            {/* Mobile Back to Code Button in Results */}
+            {isMobile && mobileTab === 'results' && (
+              <div className="p-2.5 border-t border-white/[0.08] bg-[#0a0a0a] shrink-0 pb-safe">
+                <Button
+                  variant="secondary"
+                  size="md"
+                  onClick={() => setMobileTab('code')}
+                  className="w-full py-2.5 text-xs font-bold uppercase tracking-wider font-geist flex items-center justify-center gap-1.5"
+                >
+                  <Code2 size={13} />
+                  <span>Return to Code Editor</span>
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>

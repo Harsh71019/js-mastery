@@ -72,11 +72,11 @@ export const CategoryPage = (): React.JSX.Element => {
             Intelligence Sector
           </span>
         </div>
-        <div className="flex items-end justify-between">
-          <h1 className="text-text-primary text-4xl font-bold font-geist tracking-tighter uppercase">{category.title}</h1>
-          <span className="text-[10px] font-bold text-text-tertiary uppercase font-geist mb-2">Active Nodes: {problems.length}</span>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+          <h1 className="text-text-primary text-2xl sm:text-4xl font-bold font-geist tracking-tighter uppercase">{category.title}</h1>
+          <span className="text-[10px] font-bold text-text-tertiary uppercase font-geist mb-1 sm:mb-2">Active Nodes: {problems.length}</span>
         </div>
-        <p className="text-text-tertiary text-base max-w-2xl leading-relaxed font-medium">
+        <p className="text-text-tertiary text-xs sm:text-base max-w-2xl leading-relaxed font-medium">
           {category.description}
         </p>
       </div>

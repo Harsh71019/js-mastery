@@ -44,8 +44,8 @@ export const ConsistencyScore = (): React.JSX.Element => {
   const tierConfig = TIER_CONFIG[tier]
 
   return (
-    <Card className="p-8 bg-white/[0.01]">
-      <div className="flex flex-col md:flex-row items-center gap-10">
+    <Card className="p-4 sm:p-8 bg-white/[0.01]">
+      <div className="flex flex-col md:flex-row items-center gap-6 sm:gap-10">
         <ProgressRing progress={score} size={96} strokeWidth={4} color={tierConfig.color} glow>
           <span className="text-lg font-bold font-geist z-10 tracking-tighter" style={{ color: tierConfig.color }}>{score}%</span>
         </ProgressRing>

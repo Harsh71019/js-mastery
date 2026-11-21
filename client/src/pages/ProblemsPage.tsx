@@ -96,7 +96,7 @@ export const ProblemsPage = (): React.JSX.Element => {
         />
         
         {pagination.totalPages > 1 && (
-          <div className="flex items-center justify-between gap-4 py-4 px-6 glass-panel rounded-b-xl border-t-0 bg-white/[0.01]">
+          <div className="flex items-center justify-between gap-2 sm:gap-4 py-3.5 px-4 sm:px-6 glass-panel rounded-b-xl border-t-0 bg-white/[0.01]">
             <div className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-accent-blue/40 shadow-glow-sm" />
               <span className="text-[10px] font-bold text-text-tertiary font-geist uppercase tracking-widest">
@@ -104,24 +104,26 @@ export const ProblemsPage = (): React.JSX.Element => {
               </span>
             </div>
             
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <Button
                 variant="secondary"
                 size="sm"
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="font-geist text-[10px] uppercase tracking-widest px-4"
+                className="font-geist text-[10px] uppercase tracking-widest px-2.5 sm:px-4"
               >
-                PREV_SECTOR
+                <span className="sm:hidden">← Prev</span>
+                <span className="hidden sm:inline">PREV_SECTOR</span>
               </Button>
               <Button
                 variant="secondary"
                 size="sm"
                 onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
                 disabled={page === pagination.totalPages}
-                className="font-geist text-[10px] uppercase tracking-widest px-4"
+                className="font-geist text-[10px] uppercase tracking-widest px-2.5 sm:px-4"
               >
-                NEXT_SECTOR
+                <span className="sm:hidden">Next →</span>
+                <span className="hidden sm:inline">NEXT_SECTOR</span>
               </Button>
             </div>
           </div>

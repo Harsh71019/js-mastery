@@ -13,7 +13,7 @@ export const PatternCard = ({ pattern }: PatternCardProps): React.JSX.Element =>
     to={`/patterns/${encodeURIComponent(pattern.tag)}`}
     className="group block"
   >
-    <Card className="flex items-center justify-between gap-5 px-6 py-5 transition-all duration-500 hover:translate-x-1 border-white/5 hover:border-white/20">
+    <Card className="flex items-center justify-between gap-3 sm:gap-5 px-4 sm:px-6 py-4 sm:py-5 transition-all duration-300 hover:translate-x-1 border-white/5 hover:border-white/20">
       <div className="flex items-center gap-4 min-w-0">
         <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-text-tertiary group-hover:text-accent-blue transition-colors duration-500">
           <Cpu size={18} className="opacity-60 group-hover:opacity-100" />

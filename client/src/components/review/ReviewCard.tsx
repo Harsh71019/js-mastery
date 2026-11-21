@@ -44,9 +44,9 @@ export const ReviewCard = ({ item }: ReviewCardProps): React.JSX.Element | null 
       to={`/problem/${item.id}${item.isRecallDue ? '?mode=recall' : ''}`}
       className="group block"
     >
-      <Card className="flex items-center justify-between gap-6 px-6 py-5 transition-all duration-500 hover:translate-x-1 border-white/5 hover:border-white/20">
+      <Card className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-6 px-4 sm:px-6 py-4 sm:py-5 transition-all duration-300 hover:translate-x-1 border-white/5 hover:border-white/20">
         <div className="flex flex-col gap-2 min-w-0">
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
             <DifficultyBadge difficulty={item.difficulty as Difficulty} />
             <span className="text-text-tertiary text-[9px] font-bold uppercase tracking-[0.2em] bg-white/5 px-2 py-0.5 rounded border border-white/5 font-geist">
               {item.category?.replace(/-/g, '_') || 'GENERIC_CLUSTER'}
@@ -57,23 +57,23 @@ export const ReviewCard = ({ item }: ReviewCardProps): React.JSX.Element | null 
               </span>
             )}
           </div>
-          <p className="text-text-primary text-base font-bold font-geist tracking-tight truncate uppercase transition-colors duration-300 group-hover:text-accent-blue">
+          <p className="text-text-primary text-sm sm:text-base font-bold font-geist tracking-tight truncate uppercase transition-colors duration-300 group-hover:text-accent-blue">
             {item.title}
           </p>
         </div>
 
-        <div className="flex items-center gap-8 shrink-0">
-          <div className="flex flex-col items-end gap-1.5">
-            <span className={`text-[9px] font-bold tracking-[0.2em] border px-2 py-1 rounded-lg font-geist ${overdueColor(item.daysOverdue)} ${overdueBg(item.daysOverdue)} shadow-glow-sm`}>
+        <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-6 pt-2.5 sm:pt-0 border-t sm:border-t-0 border-white/5 sm:border-none shrink-0">
+          <div className="flex items-center sm:flex-col sm:items-end gap-2 sm:gap-1.5">
+            <span className={`text-[9px] font-bold tracking-[0.15em] sm:tracking-[0.2em] border px-2 py-0.5 sm:py-1 rounded-lg font-geist ${overdueColor(item.daysOverdue)} ${overdueBg(item.daysOverdue)} shadow-glow-sm`}>
               {overdueLabel(item.daysOverdue)}
             </span>
-            <span className="flex items-center gap-2 text-text-tertiary text-[10px] font-bold font-geist uppercase tracking-widest opacity-60">
+            <span className="flex items-center gap-1.5 text-text-tertiary text-[10px] font-bold font-geist uppercase tracking-widest opacity-60">
               <Clock size={11} className="opacity-60" />
               {intervalLabel(item.reviewInterval)}
             </span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-text-tertiary group-hover:bg-accent-blue group-hover:text-white transition-all duration-500 shadow-inner border border-white/5">
-            <ArrowRight size={18} className="transition-transform duration-500 group-hover:translate-x-0.5" />
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white/5 flex items-center justify-center text-text-tertiary group-hover:bg-accent-blue group-hover:text-white transition-all duration-300 shadow-inner border border-white/5">
+            <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-0.5" />
           </div>
         </div>
       </Card>

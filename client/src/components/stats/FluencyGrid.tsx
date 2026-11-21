@@ -30,18 +30,18 @@ export const FluencyGrid = (): React.JSX.Element => {
   const locked  = fluencies.filter((f) => !f.isStarted)
 
   return (
-    <Card className="p-8 bg-white/[0.01] flex flex-col gap-10">
-      <div className="flex flex-col md:flex-row items-center gap-10 pb-10 border-b border-white/5">
+    <Card className="p-4 sm:p-8 bg-white/[0.01] flex flex-col gap-6 sm:gap-10">
+      <div className="flex flex-col md:flex-row items-center gap-6 sm:gap-10 pb-6 sm:pb-10 border-b border-white/5">
         <ScoreRing score={overallScore} tier={overallTier} />
         <div className="flex flex-col gap-4 flex-1">
           <div className="flex items-center gap-3">
              <span className="text-text-tertiary text-[10px] font-bold uppercase tracking-[0.3em] font-geist">Logic_Fluency_Index</span>
              <div className="h-px bg-white/5 flex-1" />
           </div>
-          <p className="text-text-secondary text-sm font-medium font-geist leading-relaxed max-w-2xl">
+          <p className="text-text-secondary text-xs sm:text-sm font-medium font-geist leading-relaxed max-w-2xl">
             Overall system proficiency calculated at <span className={OVERALL_TIER_STYLE[overallTier].color}>{overallScore}%</span>. Node coverage encompasses <span className="text-text-primary font-bold">{started.length} sectors</span> with high-fidelity validation on <span className="text-text-primary font-bold">{started.reduce((s, f) => s + f.solvedCount, 0)} units</span>.
           </p>
-          <div className="flex gap-6 mt-2">
+          <div className="flex flex-wrap gap-4 sm:gap-6 mt-2">
             {(['Fluent', 'Advanced', 'Proficient', 'Learning', 'Novice'] as FluencyTier[]).map((tier) => {
               const count = started.filter((f) => f.tier === tier).length
               if (count === 0) return null

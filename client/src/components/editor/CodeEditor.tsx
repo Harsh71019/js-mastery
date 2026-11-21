@@ -88,10 +88,12 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
           onMount={handleMount}
           options={{
             minimap: { enabled: false },
-            fontSize: 14,
+            fontSize: typeof window !== 'undefined' && window.innerWidth < 768 ? 13 : 14,
             fontFamily: 'Geist Mono, JetBrains Mono, monospace',
             lineNumbers: 'on',
-            wordWrap: 'off',
+            lineNumbersMinChars: 3,
+            wordWrap: 'on',
+            wrappingIndent: 'indent',
             scrollBeyondLastLine: false,
             scrollbar: { vertical: 'auto', horizontal: 'auto', verticalScrollbarSize: 4, horizontalScrollbarSize: 4 },
             padding: { top: 16, bottom: 16 },

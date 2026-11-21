@@ -8,7 +8,7 @@ export const Select = ({ options, className = '', ...props }: SelectProps): Reac
   return (
     <select
       className={`
-        bg-white/[0.04] border border-white/10 text-text-primary text-xs font-geist rounded-lg 
+        bg-white/[0.04] border border-white/10 text-text-primary text-base sm:text-xs font-geist rounded-lg 
         px-3 py-2 hover:border-white/20 focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue/40
         transition-all duration-200 cursor-pointer appearance-none pr-8 bg-no-repeat bg-[right_0.5rem_center]
         ${className}

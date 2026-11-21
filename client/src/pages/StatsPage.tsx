@@ -65,13 +65,13 @@ export const StatsPage = (): React.JSX.Element => {
       <Glow color="var(--color-accent-purple)" size="lg" className="top-1/4 -right-20 opacity-[0.04]" />
 
       {/* Header Telemetry */}
-      <div className="flex items-center justify-between px-1 relative z-10">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-1 relative z-10">
         <div className="flex flex-col gap-1">
           <span className="text-accent-blue text-[10px] font-bold uppercase tracking-[0.4em] font-geist opacity-60">Intelligence Analytics</span>
-          <h1 className="text-text-primary text-2xl font-bold font-geist tracking-tighter uppercase">System Intelligence Analytics</h1>
+          <h1 className="text-text-primary text-xl sm:text-2xl font-bold font-geist tracking-tighter uppercase">System Intelligence Analytics</h1>
         </div>
         <div className="h-px bg-white/5 flex-1 mx-10 hidden md:block" />
-        <div className="flex flex-col items-end">
+        <div className="flex items-center sm:flex-col sm:items-end justify-between sm:justify-start gap-2">
           <span className="text-[10px] font-bold text-text-tertiary uppercase font-geist">Sync_Status: Online</span>
           <span className="text-[10px] font-bold text-accent-green uppercase font-geist animate-pulse">Real-time Telemetry Active</span>
         </div>
@@ -98,7 +98,7 @@ export const StatsPage = (): React.JSX.Element => {
                 accent="green"
                 meta="Window: 52_WEEKS"
               />
-              <Card className="p-8 bg-white/[0.01]">
+              <Card className="p-4 sm:p-8 bg-white/[0.01]">
                 {activity.isLoading ? (
                   <div className="h-32 flex flex-col items-center justify-center gap-4">
                     <div className="w-8 h-8 border-2 border-dashed border-accent-green/20 rounded-full animate-spin" />
@@ -208,7 +208,7 @@ export const StatsPage = (): React.JSX.Element => {
                 accent="blue"
                 meta="Metric: MS_LOG"
               />
-              <Card className="p-8 bg-white/[0.01]">
+              <Card className="p-4 sm:p-8 bg-white/[0.01]">
                 {executionTimes.isLoading ? (
                   <div className="h-32 flex flex-col items-center justify-center gap-4">
                     <div className="w-8 h-8 border-2 border-dashed border-accent-blue/20 rounded-full animate-spin" />

@@ -128,8 +128,8 @@ export const ResultsPanel = ({ results, isRunning, verdict, action }: ResultsPan
 
   return (
     <div className="h-full flex flex-col bg-bg-primary/30">
-      <div className={`flex items-center justify-between px-6 py-3 border-b border-white/5 ${headerGlow} transition-colors duration-500`}>
-        <div className="flex items-center gap-4">
+      <div className={`flex items-center justify-between px-3 sm:px-6 py-2.5 sm:py-3 border-b border-white/5 ${headerGlow} transition-colors duration-500`}>
+        <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
           <span className={`text-[10px] font-bold uppercase tracking-widest font-geist ${actionColor} opacity-60`}>
             {actionLabel}
           </span>
@@ -138,28 +138,29 @@ export const ResultsPanel = ({ results, isRunning, verdict, action }: ResultsPan
               {verdictInfo.label}
             </span>
           )}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <div className={`w-1.5 h-1.5 rounded-full ${allPassed ? 'bg-accent-green shadow-[0_0_8px_var(--color-accent-green)]' : 'bg-accent-red shadow-[0_0_8px_var(--color-accent-red)]'}`} />
             <p className="text-text-secondary text-[10px] font-bold uppercase tracking-widest font-geist">
               <span className={allPassed ? 'text-accent-green' : 'text-accent-red'}>
                 {passCount} / {results.length}
               </span>{' '}
-              Subroutines verified
+              <span className="hidden sm:inline">Subroutines verified</span>
+              <span className="sm:hidden">verified</span>
             </p>
           </div>
         </div>
-        <div className="text-[10px] font-bold text-text-tertiary font-geist uppercase tracking-tighter opacity-50">
+        <div className="text-[10px] font-bold text-text-tertiary font-geist uppercase tracking-tighter opacity-50 hidden sm:block">
           SYS_LOG: VERIFIED
         </div>
       </div>
 
-      <div className="flex-1 overflow-x-auto p-4 flex items-center">
+      <div className="flex-1 overflow-x-auto overflow-y-auto p-3 sm:p-4 flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center">
         {results.length === 0 ? (
           <div className="h-full w-full flex items-center justify-center text-text-tertiary text-xs font-bold uppercase tracking-wider opacity-40 font-geist">
             No sample tests available — use Submit to judge your code
           </div>
         ) : (
-          <div className="flex gap-4 min-w-max">
+          <>
             {results.map((result, index) => (
               <TestCard
                 key={index}
@@ -168,8 +169,8 @@ export const ResultsPanel = ({ results, isRunning, verdict, action }: ResultsPan
                 isHiddenResult={action === 'submit' && result.expected === null}
               />
             ))}
-            <div className="w-1 px-1 opacity-0" aria-hidden="true" />
-          </div>
+            <div className="hidden sm:block w-1 px-1 opacity-0 shrink-0" aria-hidden="true" />
+          </>
         )}
       </div>
     </div>

@@ -112,12 +112,12 @@ export const ExecutionTimeChart = ({ entries }: ExecutionTimeChartProps): React.
 
       <div className="flex flex-col gap-4">
         {visible.map((entry) => (
-          <div key={entry.id} className="group/row flex items-center gap-6">
-            <span className="w-48 text-[11px] font-bold text-text-secondary truncate text-right shrink-0 font-geist tracking-tight group-hover/row:text-text-primary transition-colors">
+          <div key={entry.id} className="group/row flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6">
+            <span className="w-full sm:w-48 text-[10px] sm:text-[11px] font-bold text-text-secondary truncate text-left sm:text-right shrink-0 font-geist tracking-tight group-hover/row:text-text-primary transition-colors">
               {entry.title.toUpperCase()}
             </span>
-            <div className="flex-1 flex items-center gap-4 min-w-0">
-              <div className="flex-1 h-3 bg-white/5 rounded-sm overflow-hidden relative border border-white/[0.03]">
+            <div className="w-full flex-1 flex items-center gap-3 sm:gap-4 min-w-0">
+              <div className="flex-1 h-2.5 sm:h-3 bg-white/5 rounded-sm overflow-hidden relative border border-white/[0.03]">
                 <div
                   className="h-full rounded-sm transition-all duration-1000 ease-out shadow-[0_0_12px_rgba(255,255,255,0.1)]"
                   style={{
