@@ -34,8 +34,14 @@ export const App = (): React.JSX.Element => {
         setIsCommandPaletteOpen(prev => !prev)
       }
     }
+    const handleCustomOpen = () => setIsCommandPaletteOpen(true)
+
     window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    window.addEventListener('open-command-palette', handleCustomOpen)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('open-command-palette', handleCustomOpen)
+    }
   }, [])
 
   return (

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ArrowRight } from 'lucide-react'
 import { useProgress } from '@/hooks/useProgress'
 import { useProblemCounts } from '@/hooks/useProblemCounts'
 import { StatCard } from '@/components/progress/StatCard'
@@ -101,11 +102,11 @@ export const ProgressPage = (): React.JSX.Element => {
                 >
                   <span className="text-text-primary text-xs font-bold font-geist uppercase tracking-widest group-hover:text-accent-blue transition-colors">{category.title}</span>
                   <div className="flex items-center gap-3">
-                    <span className="text-accent-green text-[10px] font-bold font-geist">
-                      {categorySolved} SOLVED
+                    <span className="text-accent-green text-[10px] font-bold font-geist px-2 py-0.5 rounded bg-accent-green/10 border border-accent-green/20">
+                      {categorySolved} Verified
                     </span>
                     <div className="w-6 h-6 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-accent-blue transition-colors">
-                      <div className="w-1 h-1 rounded-full bg-white/20" />
+                      <ArrowRight size={12} className="text-text-tertiary group-hover:text-white transition-colors" />
                     </div>
                   </div>
                 </button>

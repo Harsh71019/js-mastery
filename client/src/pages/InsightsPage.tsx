@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
-import { Flame, Trophy, Info } from 'lucide-react'
+import { Flame, Trophy, Info, BookOpen, RotateCcw } from 'lucide-react'
 import { useArticles } from '@/hooks/useArticles'
 import { ArticleCard } from '@/components/insights/ArticleCard'
 import { useProgressStore } from '@/store/useProgressStore'
+import { PageContainer } from '@/components/ui/PageContainer'
+import { Glow } from '@/components/ui/Glow'
+import { Select } from '@/components/ui/Select'
 
 export const InsightsPage: React.FC = () => {
   const [filters, setFilters] = useState({
@@ -20,112 +23,149 @@ export const InsightsPage: React.FC = () => {
   const regions = ['Global', 'India']
   const difficulties = ['Intro', 'Intermediate', 'Advanced']
 
+  const companyOptions = [
+    { value: '', label: 'All Companies' },
+    ...companies.map(c => ({ value: c, label: c }))
+  ]
+
+  const regionOptions = [
+    { value: '', label: 'All Regions' },
+    ...regions.map(r => ({ value: r, label: r }))
+  ]
+
+  const difficultyOptions = [
+    { value: '', label: 'All Difficulties' },
+    ...difficulties.map(d => ({ value: d, label: d }))
+  ]
+
+  const isFiltered = Boolean(filters.company || filters.region || filters.difficulty)
+
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-text-primary mb-2">Engineering Insights</h1>
-          <p className="text-text-secondary">
-            Curated articles from world-class engineering teams.
+    <PageContainer className="flex flex-col gap-10 relative pb-24">
+      <Glow color="var(--color-accent-purple)" size="xl" className="-top-40 -right-20 opacity-[0.06]" />
+      <Glow color="var(--color-accent-blue)" size="lg" className="top-1/2 -left-20 opacity-[0.04]" />
+
+      {/* Header Telemetry */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] font-geist text-accent-purple bg-accent-purple/10 px-2 py-0.5 rounded border border-accent-purple/20">
+              Knowledge Repository
+            </span>
+          </div>
+          <h1 className="text-3xl font-bold font-geist tracking-tight text-white uppercase">
+            Engineering Insights
+          </h1>
+          <p className="text-text-tertiary text-sm max-w-xl leading-relaxed font-medium">
+            Curated architectural postmortems, performance breakdowns, and system design patterns from world-class engineering teams.
           </p>
         </div>
 
-        <div className="flex gap-4">
-          <div className="bg-bg-secondary border border-border rounded-lg p-3 px-5 flex items-center gap-3">
-            <Flame className="text-accent-purple" size={20} />
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="glass-panel rounded-xl p-3 px-5 flex items-center gap-3.5 border-white/10 shadow-sm">
+            <div className="w-8 h-8 rounded-lg bg-accent-purple/10 flex items-center justify-center text-accent-purple">
+              <Flame size={18} className="fill-accent-purple/30 animate-pulse" />
+            </div>
             <div>
-              <div className="text-[10px] text-text-tertiary uppercase font-medium">Reading Streak</div>
-              <div className="text-xl font-bold text-white">{readingStreak} days</div>
+              <div className="text-[9px] text-text-tertiary uppercase font-bold tracking-widest font-geist">Reading Streak</div>
+              <div className="text-lg font-bold font-geist text-white">{readingStreak}D</div>
             </div>
           </div>
-          <div className="bg-bg-secondary border border-border rounded-lg p-3 px-5 flex items-center gap-3">
-            <Trophy className="text-accent-amber" size={20} />
+          <div className="glass-panel rounded-xl p-3 px-5 flex items-center gap-3.5 border-white/10 shadow-sm">
+            <div className="w-8 h-8 rounded-lg bg-accent-amber/10 flex items-center justify-center text-accent-amber">
+              <Trophy size={18} />
+            </div>
             <div>
-              <div className="text-[10px] text-text-tertiary uppercase font-medium">Total Read</div>
-              <div className="text-xl font-bold text-white">{readArticlesCount}</div>
+              <div className="text-[9px] text-text-tertiary uppercase font-bold tracking-widest font-geist">Verified Read</div>
+              <div className="text-lg font-bold font-geist text-white">{readArticlesCount}</div>
             </div>
           </div>
         </div>
-      </header>
+      </div>
 
-      <section className="bg-bg-secondary border border-border rounded-lg p-4 flex flex-wrap gap-6 items-center">
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] text-text-tertiary uppercase font-bold ml-1">Company</label>
-          <select
+      {/* Filter Section */}
+      <div className="glass-panel rounded-xl p-4 flex flex-wrap gap-4 items-center relative z-10 border-white/[0.08]">
+        <div className="flex flex-col gap-1">
+          <label className="text-[9px] text-text-tertiary uppercase font-bold tracking-widest font-geist ml-0.5">Company</label>
+          <Select
             value={filters.company}
             onChange={e => setFilters(prev => ({ ...prev, company: e.target.value }))}
-            className="bg-bg-tertiary border border-border rounded px-3 py-1.5 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-accent-blue"
-          >
-            <option value="">All Companies</option>
-            {companies.map(c => <option key={c} value={c}>{c}</option>)}
-          </select>
+            options={companyOptions}
+            className="text-xs font-geist bg-white/[0.03] border-white/10 w-40"
+          />
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] text-text-tertiary uppercase font-bold ml-1">Region</label>
-          <select
+        <div className="flex flex-col gap-1">
+          <label className="text-[9px] text-text-tertiary uppercase font-bold tracking-widest font-geist ml-0.5">Region</label>
+          <Select
             value={filters.region}
             onChange={e => setFilters(prev => ({ ...prev, region: e.target.value }))}
-            className="bg-bg-tertiary border border-border rounded px-3 py-1.5 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-accent-blue"
-          >
-            <option value="">All Regions</option>
-            {regions.map(r => <option key={r} value={r}>{r}</option>)}
-          </select>
+            options={regionOptions}
+            className="text-xs font-geist bg-white/[0.03] border-white/10 w-36"
+          />
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[10px] text-text-tertiary uppercase font-bold ml-1">Difficulty</label>
-          <select
+        <div className="flex flex-col gap-1">
+          <label className="text-[9px] text-text-tertiary uppercase font-bold tracking-widest font-geist ml-0.5">Difficulty</label>
+          <Select
             value={filters.difficulty}
             onChange={e => setFilters(prev => ({ ...prev, difficulty: e.target.value }))}
-            className="bg-bg-tertiary border border-border rounded px-3 py-1.5 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-accent-blue"
-          >
-            <option value="">All Difficulties</option>
-            {difficulties.map(d => <option key={d} value={d}>{d}</option>)}
-          </select>
+            options={difficultyOptions}
+            className="text-xs font-geist bg-white/[0.03] border-white/10 w-40"
+          />
         </div>
 
-        {(filters.company || filters.region || filters.difficulty) && (
+        {isFiltered && (
           <button
             onClick={() => setFilters({ company: '', region: '', difficulty: '' })}
-            className="mt-4 text-xs text-text-tertiary hover:text-white transition-colors"
+            className="mt-5 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-geist text-text-tertiary hover:text-white hover:bg-white/5 border border-dashed border-white/10 transition-colors cursor-pointer"
           >
-            Reset Filters
+            <RotateCcw size={12} />
+            <span>Reset</span>
           </button>
         )}
-      </section>
 
-      {isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="h-48 bg-bg-secondary border border-border rounded-lg animate-pulse" />
-          ))}
+        <div className="ml-auto mt-5 text-[11px] font-bold font-geist text-text-tertiary">
+          <span className="text-white">{articles.length}</span> Articles Indexed
         </div>
-      ) : error ? (
-        <div className="bg-accent-red/10 border border-accent-red/20 rounded-lg p-8 text-center">
-          <Info className="text-accent-red mx-auto mb-3" size={32} />
-          <p className="text-text-primary font-medium">{error}</p>
-        </div>
-      ) : articles.length === 0 ? (
-        <div className="bg-bg-secondary border border-border rounded-lg p-12 text-center">
-          <p className="text-text-secondary">No articles found matching your criteria.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {articles.map(article => (
-            <ArticleCard key={article.id} article={article} />
-          ))}
-        </div>
-      )}
+      </div>
+
+      {/* Content Grid */}
+      <div className="relative z-10">
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="h-60 glass-panel rounded-xl border border-dashed border-white/10 animate-pulse" />
+            ))}
+          </div>
+        ) : error ? (
+          <div className="bg-accent-red/5 border border-accent-red/20 rounded-xl p-10 text-center backdrop-blur-md">
+            <Info className="text-accent-red mx-auto mb-3" size={28} />
+            <p className="text-accent-red font-bold font-geist text-sm mb-1">{error}</p>
+            <p className="text-text-tertiary text-xs">Failed to load articles from the knowledge repository.</p>
+          </div>
+        ) : articles.length === 0 ? (
+          <div className="glass-panel rounded-xl p-16 text-center flex flex-col items-center gap-3">
+            <BookOpen size={32} className="text-text-tertiary opacity-40" />
+            <p className="text-text-secondary font-bold font-geist uppercase text-xs tracking-wider">No matching articles</p>
+            <p className="text-text-tertiary text-xs">Try selecting different filter options</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {articles.map(article => (
+              <ArticleCard key={article.id} article={article} />
+            ))}
+          </div>
+        )}
+      </div>
 
       {longestReadingStreak > 0 && (
-        <footer className="text-center pt-8 border-t border-border/50">
-          <p className="text-xs text-text-tertiary italic">
-            Your all-time best reading streak is <span className="text-text-secondary font-medium">{longestReadingStreak} days</span>.
-            Keep it up!
+        <footer className="text-center pt-8 border-t border-white/5 relative z-10">
+          <p className="text-xs text-text-tertiary font-geist">
+            Personal Record Reading Streak: <span className="text-accent-purple font-bold">{longestReadingStreak} consecutive days</span>
           </p>
         </footer>
       )}
-    </div>
+    </PageContainer>
   )
 }

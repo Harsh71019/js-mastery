@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import confetti from 'canvas-confetti'
-import { ChevronLeft, Zap } from 'lucide-react'
+import { ChevronLeft, Zap, FileText, Lightbulb, Table2, Code2, BookOpen, RotateCcw, Play, CheckCircle2 } from 'lucide-react'
 import type { Problem, TestCase, LogicStep } from '@/types/problem'
 import { useProgressStore } from '@/store/useProgressStore'
 import { useProgress } from '@/hooks/useProgress'
@@ -23,6 +23,7 @@ import { RecallDiffPanel } from '@/components/review/RecallDiffPanel'
 import { Modal } from '@/components/ui/Modal'
 import { Divider } from '@/components/ui/Divider'
 import { MarkdownContent } from '@/components/ui/MarkdownContent'
+import { DifficultyBadge } from '@/components/ui/Badge'
 
 const selectMarkSolved = (state: ReturnType<typeof useProgressStore.getState>) =>
   state.markSolved
@@ -87,6 +88,7 @@ export const CodingProblemView = ({
   const [lastAction, setLastAction] = useState<'run' | 'submit' | null>(null)
   const [isResetModalOpen, setIsResetModalOpen] = useState(false)
   const [isFocusMode, setIsFocusMode] = useState(false)
+  const [activeLeftTab, setActiveLeftTab] = useState<'description' | 'thinking' | 'simulation' | 'solution' | 'articles'>('description')
   const [activeStepIndex, setActiveStepIndex] = useState<number | null>(null)
   const [isRecallSuccess, setIsRecallSuccess] = useState(false)
   const [isGaveUp, setIsGaveUp] = useState(false)
@@ -248,115 +250,168 @@ export const CodingProblemView = ({
       >
         {!isFocusMode && (
           <div
-            className="flex flex-col overflow-y-auto border-r border-white/5 relative bg-bg-primary"
+            className="flex flex-col border-r border-white/[0.08] relative bg-[#0a0a0a]"
             style={{ width: `${leftRatio}%` }}
           >
-            <div className="flex flex-col gap-8 p-6">
-              <div>
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-accent-blue text-[10px] font-bold uppercase tracking-widest bg-accent-blue/10 px-2 py-0.5 rounded border border-accent-blue/20 font-geist">Problem</span>
-                  <span className="text-text-tertiary text-[10px] font-bold uppercase tracking-widest font-geist">{problem.difficulty}</span>
-                </div>
-                <h1 className="text-text-primary text-2xl font-bold mb-4 flex items-center gap-3 tracking-tight">
-                  {problem.title}
-                  {isSolved(problem.id) && (
-                    <span className="text-accent-green bg-accent-green/10 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest border border-accent-green/20 font-geist">Verified</span>
+            {/* Left Panel Tabs Header */}
+            <div className="flex items-center px-4 border-b border-white/[0.08] bg-[#0c0c0c] shrink-0 gap-1 overflow-x-auto no-scrollbar">
+              {[
+                { id: 'description', label: 'Problem', icon: <FileText size={13} /> },
+                ...(!isRecallMode && problem.whatShouldHappen?.length ? [{ id: 'thinking', label: 'Thinking', icon: <Lightbulb size={13} />, count: problem.whatShouldHappen.length }] : []),
+                ...(!isRecallMode && problem.traceTable ? [{ id: 'simulation', label: 'Simulation', icon: <Table2 size={13} /> }] : []),
+                ...(!isRecallMode ? [{ id: 'solution', label: 'Solution', icon: <Code2 size={13} /> }] : []),
+                ...(relatedArticles.length > 0 ? [{ id: 'articles', label: 'Articles', icon: <BookOpen size={13} />, count: relatedArticles.length }] : []),
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActiveLeftTab(tab.id as any)}
+                  className={`px-3 py-2.5 text-xs font-semibold font-geist uppercase tracking-wider transition-all border-b-2 -mb-px flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
+                    activeLeftTab === tab.id
+                      ? 'text-accent-blue border-accent-blue bg-white/[0.04]'
+                      : 'text-text-tertiary border-transparent hover:text-text-secondary hover:bg-white/[0.02]'
+                  }`}
+                >
+                  {tab.icon}
+                  <span>{tab.label}</span>
+                  {'count' in tab && tab.count !== undefined && (
+                    <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white/5 border border-white/10 text-text-tertiary">{tab.count}</span>
                   )}
-                </h1>
-                <MarkdownContent content={problem.description} />
+                </button>
+              ))}
+            </div>
 
-                <div className="mt-6 bg-white/[0.02] border border-white/5 rounded-xl p-5 font-geist text-xs text-text-secondary leading-relaxed shadow-inner">
-                  <p className="text-text-tertiary mb-3 font-bold uppercase tracking-widest text-[9px] opacity-50">Example Test Case</p>
-                  {problem.tests[0] && (
-                    <div className="flex flex-col gap-2">
-                      <p><span className="text-text-tertiary uppercase text-[9px] font-bold">Input:</span> <span className="bg-white/[0.03] px-1.5 py-0.5 rounded border border-white/5 ml-2">{JSON.stringify((problem.tests[0].input as unknown[])?.join(', ') ?? problem.tests[0].input)}</span></p>
-                      <p><span className="text-text-tertiary uppercase text-[9px] font-bold">Output:</span> <span className="bg-white/[0.03] px-1.5 py-0.5 rounded border border-white/5 ml-2 text-accent-green font-bold">{JSON.stringify(problem.tests[0].expected)}</span></p>
+            {/* Left Panel Body */}
+            <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+              {activeLeftTab === 'description' && (
+                <div className="flex flex-col gap-6">
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <DifficultyBadge difficulty={problem.difficulty} />
+                      <span className="text-text-tertiary text-[10px] font-bold uppercase tracking-wider bg-white/5 px-2 py-0.5 rounded border border-white/10 font-geist">
+                        {problem.patternTag}
+                      </span>
+                      {isSolved(problem.id) && (
+                        <span className="text-accent-green bg-accent-green/10 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border border-accent-green/20 font-geist flex items-center gap-1">
+                          <CheckCircle2 size={12} /> Solved
+                        </span>
+                      )}
+                    </div>
+                    <h1 className="text-text-primary text-2xl font-bold mb-4 tracking-tight">
+                      {problem.title}
+                    </h1>
+                    <MarkdownContent content={problem.description} />
+
+                    <div className="mt-6 bg-white/[0.02] border border-white/10 rounded-xl p-5 font-geist text-xs text-text-secondary leading-relaxed shadow-inner">
+                      <p className="text-text-tertiary mb-3 font-bold uppercase tracking-wider text-[10px]">Example Test Case</p>
+                      {problem.tests[0] && (
+                        <div className="flex flex-col gap-2.5">
+                          <div>
+                            <span className="text-text-tertiary uppercase text-[9px] font-bold mr-2">Input:</span> 
+                            <span className="bg-white/[0.04] px-2 py-1 rounded border border-white/10 font-geist text-text-primary">
+                              {JSON.stringify((problem.tests[0].input as unknown[])?.join(', ') ?? problem.tests[0].input)}
+                            </span>
+                          </div>
+                          <div>
+                            <span className="text-text-tertiary uppercase text-[9px] font-bold mr-2">Output:</span> 
+                            <span className="bg-white/[0.04] px-2 py-1 rounded border border-white/10 text-accent-green font-bold font-geist">
+                              {JSON.stringify(problem.tests[0].expected)}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-3">
+                    <h2 className="text-text-primary text-xs font-bold uppercase tracking-[0.2em] font-geist text-text-tertiary">Performance Metrics</h2>
+                    <RunTimingGraph timings={runTimings} />
+                  </div>
+
+                  {!isRecallMode && (
+                    <div className="flex flex-col gap-3">
+                      <h2 className="text-text-primary text-xs font-bold uppercase tracking-[0.2em] font-geist text-text-tertiary">Quick Skeleton Logic</h2>
+                      <SkeletonHint hint={problem.skeletonHint} />
                     </div>
                   )}
                 </div>
-              </div>
+              )}
 
-              <div className="flex flex-col gap-4">
-                <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] px-1 font-geist">Performance</h2>
-                <RunTimingGraph timings={runTimings} />
-              </div>
-
-              {!isRecallMode && (
-                <>
-                  <Divider className="opacity-20" />
-
-                  <div className="flex flex-col gap-4">
-                    <div className="flex items-center justify-between px-1">
-                      <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] font-geist">Thinking Process</h2>
-                      <div className="flex items-center gap-2 text-[9px] font-bold text-accent-blue uppercase tracking-widest animate-pulse">
-                        <Zap size={10} /> Neural_Link Active
-                      </div>
+              {activeLeftTab === 'thinking' && !isRecallMode && (
+                <div className="flex flex-col gap-6">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] font-geist">Logic Steps</h2>
+                    <div className="flex items-center gap-1.5 text-[10px] font-bold text-accent-blue uppercase tracking-wider">
+                      <Zap size={11} className="animate-pulse" /> Click step to inspect in code
                     </div>
-                    <ol className="flex flex-col gap-3">
-                      {problem.whatShouldHappen.map((step, stepIndex) => {
-                        const isObject = typeof step === 'object'
-                        const text = isObject ? step.text : step
-                        const pattern = isObject ? step.pattern : undefined
-                        const isActive = activeStepIndex === stepIndex
-
-                        return (
-                          <li 
-                            key={stepIndex} 
-                            onClick={() => handleStepClick(step, stepIndex)}
-                            className={`
-                              flex gap-4 text-sm text-text-secondary leading-relaxed bg-white/[0.02] p-4 rounded-xl border transition-all duration-300 group/step
-                              ${pattern ? 'cursor-pointer hover:bg-accent-blue/[0.03]' : ''}
-                              ${isActive ? 'border-accent-blue/40 bg-accent-blue/[0.05] shadow-glow-sm translate-x-1' : 'border-white/[0.04]'}
-                            `}
-                          >
-                            <span className={`font-bold font-geist text-xs mt-0.5 transition-colors ${isActive ? 'text-accent-blue' : 'text-accent-blue opacity-50 group-hover/step:opacity-100'}`}>
-                              {String(stepIndex + 1).padStart(2, '0')}
-                            </span>
-                            <span className={`flex-1 transition-colors ${isActive ? 'text-text-primary font-medium' : ''}`}>
-                              {formatInlineCode(text)}
-                            </span>
-                            {pattern && !isActive && (
-                              <Zap size={12} className="text-text-tertiary opacity-0 group-hover/step:opacity-40 transition-opacity" />
-                            )}
-                          </li>
-                        )
-                      })}
-                    </ol>
                   </div>
+                  <ol className="flex flex-col gap-3">
+                    {problem.whatShouldHappen.map((step, stepIndex) => {
+                      const isObject = typeof step === 'object'
+                      const text = isObject ? step.text : step
+                      const pattern = isObject ? step.pattern : undefined
+                      const isActive = activeStepIndex === stepIndex
+
+                      return (
+                        <li 
+                          key={stepIndex} 
+                          onClick={() => handleStepClick(step, stepIndex)}
+                          className={`
+                            flex gap-3.5 text-sm text-text-secondary leading-relaxed bg-white/[0.02] p-4 rounded-xl border transition-all duration-200 group/step
+                            ${pattern ? 'cursor-pointer hover:bg-accent-blue/[0.04]' : ''}
+                            ${isActive ? 'border-accent-blue/40 bg-accent-blue/[0.06] shadow-[0_0_15px_-3px_rgba(59,130,246,0.3)] translate-x-1' : 'border-white/[0.05]'}
+                          `}
+                        >
+                          <span className={`font-bold font-geist text-xs mt-0.5 transition-colors ${isActive ? 'text-accent-blue' : 'text-accent-blue opacity-50 group-hover/step:opacity-100'}`}>
+                            {String(stepIndex + 1).padStart(2, '0')}
+                          </span>
+                          <span className={`flex-1 transition-colors ${isActive ? 'text-white font-medium' : ''}`}>
+                            {formatInlineCode(text)}
+                          </span>
+                          {pattern && !isActive && (
+                            <Zap size={13} className="text-text-tertiary opacity-0 group-hover/step:opacity-60 transition-opacity shrink-0 mt-0.5" />
+                          )}
+                        </li>
+                      )
+                    })}
+                  </ol>
 
                   <Divider className="opacity-20" />
-
-                  <div className="flex flex-col gap-4">
-                    <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] px-1 font-geist">Simulation</h2>
-                    <TraceTable 
-                      traceTable={problem.traceTable} 
-                      onRowClick={() => editorRef.current?.highlightPattern('for \\(|while \\(|if \\(')}
-                    />
-                  </div>
-
-                  <Divider className="opacity-20" />
-
-                  <div className="flex flex-col gap-4">
-                    <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] px-1 font-geist">Skeleton Logic</h2>
+                  <div className="flex flex-col gap-3">
+                    <h2 className="text-text-primary text-xs font-bold uppercase tracking-[0.2em] font-geist text-text-tertiary">Skeleton Logic</h2>
                     <SkeletonHint hint={problem.skeletonHint} />
                   </div>
+                </div>
+              )}
 
-                  {relatedArticles.length > 0 && (
-                    <>
-                      <Divider className="opacity-20" />
-                      <RelatedArticles articles={relatedArticles} isLoading={isLoadingArticles} />
-                    </>
-                  )}
+              {activeLeftTab === 'simulation' && !isRecallMode && (
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] font-geist">State Simulation</h2>
+                    <span className="text-text-tertiary text-[10px] font-geist uppercase">Trace execution loops</span>
+                  </div>
+                  <TraceTable 
+                    traceTable={problem.traceTable} 
+                    onRowClick={() => editorRef.current?.highlightPattern('for \\(|while \\(|if \\(')}
+                  />
+                </div>
+              )}
 
-                  <Divider className="opacity-20" />
-
+              {activeLeftTab === 'solution' && !isRecallMode && (
+                <div className="flex flex-col gap-4">
                   <SolutionPanel
                     solution={problem.solution}
                     patternTag={problem.patternTag}
                     patternExplanation={problem.patternExplanation}
                     hasAttempted={hasAttempted}
                   />
-                </>
+                </div>
+              )}
+
+              {activeLeftTab === 'articles' && relatedArticles.length > 0 && (
+                <div className="flex flex-col gap-4">
+                  <RelatedArticles articles={relatedArticles} isLoading={isLoadingArticles} />
+                </div>
               )}
             </div>
           </div>
@@ -364,46 +419,49 @@ export const CodingProblemView = ({
 
         <div
           onMouseDown={handleMouseDown}
-          className={`w-1.5 bg-bg-secondary hover:bg-accent-blue/20 cursor-col-resize transition-all duration-300 shrink-0 active:bg-accent-blue/30 group relative flex items-center justify-center ${isFocusMode ? 'cursor-default w-0' : ''}`}
+          className={`w-1.5 bg-[#0a0a0a] hover:bg-accent-blue/30 cursor-col-resize transition-all duration-200 shrink-0 active:bg-accent-blue/40 group relative flex items-center justify-center ${isFocusMode ? 'cursor-default w-0' : ''}`}
         >
           {!isFocusMode && (
-            <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[1px] bg-white/5 group-hover:bg-accent-blue/40 transition-colors shadow-glow-sm" />
+            <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[1px] bg-white/10 group-hover:bg-accent-blue/50 transition-colors" />
           )}
 
           <button
             onClick={() => setIsFocusMode(!isFocusMode)}
-            className={`absolute z-20 w-6 h-10 bg-bg-secondary border border-white/10 rounded-full flex items-center justify-center text-text-tertiary hover:text-text-primary hover:border-white/20 transition-all duration-300 shadow-xl ${isFocusMode ? 'left-4 rotate-180' : '-translate-x-1/2'}`}
+            className={`absolute z-20 w-6 h-9 bg-[#111111] border border-white/10 rounded-full flex items-center justify-center text-text-tertiary hover:text-white hover:border-white/30 transition-all duration-200 shadow-xl ${isFocusMode ? 'left-4 rotate-180' : '-translate-x-1/2'}`}
             title={isFocusMode ? 'Show Description' : 'Focus Mode'}
           >
-            <ChevronLeft size={14} />
+            <ChevronLeft size={13} />
           </button>
         </div>
 
-        <div className="flex flex-col flex-1 overflow-hidden relative">
+        <div className="flex flex-col flex-1 overflow-hidden relative bg-[#050505]">
           {isFocusMode && (
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden opacity-10">
               <Glow color="var(--color-accent-blue)" size="xl" className="-top-1/2 -left-1/4" />
             </div>
           )}
 
-          <div className="flex items-center justify-between px-6 py-2 border-b border-white/5 bg-white/[0.01] shrink-0 z-10">
+          <div className="flex items-center justify-between px-5 py-2 border-b border-white/[0.08] bg-[#0c0c0c] shrink-0 z-10">
             <div className="flex items-center gap-3">
-              <span className="text-text-tertiary text-[10px] font-bold uppercase tracking-[0.2em] font-geist">SCR_JS_ENGINE</span>
+              <span className="text-text-secondary text-xs font-semibold font-geist flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-accent-blue shadow-[0_0_8px_var(--color-accent-blue)]" />
+                JavaScript (ES2024)
+              </span>
               {isFocusMode && (
-                <span className="text-accent-blue text-[9px] font-bold uppercase tracking-widest bg-accent-blue/10 px-2 py-0.5 rounded border border-accent-blue/20 animate-pulse font-geist">Focus Active</span>
+                <span className="text-accent-blue text-[9px] font-bold uppercase tracking-wider bg-accent-blue/10 px-2 py-0.5 rounded border border-accent-blue/20 animate-pulse font-geist">Focus Active</span>
               )}
               {isRecallMode && (
-                <span className="text-accent-amber text-[9px] font-bold uppercase tracking-widest bg-accent-amber/10 px-2 py-0.5 rounded border border-accent-amber/20 animate-pulse font-geist shadow-glow-sm">Recall Mode Active</span>
+                <span className="text-accent-amber text-[9px] font-bold uppercase tracking-wider bg-accent-amber/10 px-2 py-0.5 rounded border border-accent-amber/20 animate-pulse font-geist shadow-glow-sm">Recall Mode</span>
               )}
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2.5">
               {isRecallMode && (
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsGaveUp(true)}
                   disabled={isRecallSuccess || isGaveUp}
-                  className="text-accent-red text-[10px] font-bold uppercase tracking-widest hover:text-accent-red hover:bg-accent-red/5 font-geist border border-accent-red/10"
+                  className="text-accent-red text-xs font-bold uppercase tracking-wider hover:text-accent-red hover:bg-accent-red/10 font-geist border border-accent-red/20"
                 >
                   Give Up
                 </Button>
@@ -412,20 +470,23 @@ export const CodingProblemView = ({
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsResetModalOpen(true)}
-                className="text-text-tertiary text-[10px] font-bold uppercase tracking-widest hover:text-text-secondary font-geist"
+                className="text-text-tertiary text-xs font-bold uppercase tracking-wider hover:text-text-primary font-geist flex items-center gap-1.5"
+                title="Reset starter code"
               >
-                Reset
+                <RotateCcw size={12} />
+                <span>Reset</span>
               </Button>
               <div className="w-px h-4 bg-white/10" />
               <Button
-                variant="ghost"
+                variant="secondary"
                 size="sm"
                 onClick={handleRun}
                 isLoading={isRunning}
                 disabled={isRunning || isSubmitting}
-                className="text-text-secondary text-[10px] font-bold uppercase tracking-widest hover:text-text-primary font-geist border border-white/10 hover:border-white/20 px-3"
+                className="text-text-primary text-xs font-bold uppercase tracking-wider font-geist px-3.5 flex items-center gap-1.5"
               >
-                Run
+                <Play size={12} className="text-accent-blue" />
+                <span>Run</span>
               </Button>
               <Button
                 variant="primary"
@@ -433,9 +494,10 @@ export const CodingProblemView = ({
                 onClick={handleSubmit}
                 isLoading={isSubmitting}
                 disabled={isRunning || isSubmitting}
-                className="text-[10px] font-bold uppercase tracking-widest font-geist px-4 bg-accent-blue/90 hover:bg-accent-blue shadow-[0_0_12px_rgba(59,130,246,0.3)]"
+                className="text-xs font-bold uppercase tracking-wider font-geist px-4 flex items-center gap-1.5"
               >
-                Submit
+                <span>Submit</span>
+                <span className="text-[10px] opacity-70">↵</span>
               </Button>
             </div>
           </div>

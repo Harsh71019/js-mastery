@@ -23,13 +23,13 @@ export const Card = ({
       style={style}
       className={`
         glass-panel rounded-xl overflow-hidden relative group/card
-        ${onClick ? 'text-left cursor-pointer' : ''}
-        ${hoverable || onClick ? 'hover:bg-white/[0.04] hover:shadow-glow transition-all duration-500' : 'transition-all duration-300'}
+        ${onClick ? 'text-left cursor-pointer w-full' : ''}
+        ${hoverable || onClick ? 'glass-card-interactive hover:border-white/20' : 'transition-all duration-300'}
         ${className}
       `}
     >
       {(hoverable || onClick) && (
-        <div className="absolute inset-0 opacity-0 group-hover/card:opacity-10 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-accent-blue/20 to-transparent" />
+        <div className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-white/[0.03] via-transparent to-transparent" />
       )}
       {children}
     </Tag>
