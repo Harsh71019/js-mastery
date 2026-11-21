@@ -49,11 +49,24 @@ app.use(requestTimeout)
 app.get('/api/health', (_req: Request, res: Response) => {
   const dbState = mongoose.connection.readyState
   const dbStatus = dbState === 1 ? 'connected' : 'disconnected'
+  const mem = process.memoryUsage()
+  const cpu = process.cpuUsage()
   res.json({
     ok: dbState === 1,
     db: dbStatus,
     uptime: Math.floor(process.uptime()),
     timestamp: new Date().toISOString(),
+    metrics: {
+      memory: {
+        rssMb: Number((mem.rss / 1024 / 1024).toFixed(2)),
+        heapUsedMb: Number((mem.heapUsed / 1024 / 1024).toFixed(2)),
+        heapTotalMb: Number((mem.heapTotal / 1024 / 1024).toFixed(2)),
+      },
+      cpu: {
+        userMicroseconds: cpu.user,
+        systemMicroseconds: cpu.system,
+      },
+    },
   })
 })
 

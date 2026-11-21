@@ -24,7 +24,7 @@ export const DailyWidget = (): React.JSX.Element => {
   return (
     <Card
       onClick={() => navigate('/daily')}
-      className="p-6 hover:bg-white/[0.03] border-white/10 hover:border-accent-blue/40 transition-all duration-300 relative overflow-hidden flex flex-col justify-between"
+      className="p-4 sm:p-6 hover:bg-white/[0.03] border-white/10 hover:border-accent-blue/40 transition-all duration-300 relative overflow-hidden flex flex-col justify-between"
     >
       <div className="absolute top-0 right-0 w-48 h-48 bg-accent-blue/10 blur-[50px] rounded-full -mr-20 -mt-20 pointer-events-none" />
       <div className="flex items-center justify-between mb-4 relative z-10">

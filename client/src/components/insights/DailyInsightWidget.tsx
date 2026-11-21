@@ -26,7 +26,7 @@ export const DailyInsightWidget: React.FC = () => {
   return (
     <Card 
       onClick={() => navigate('/insights')}
-      className="p-6 bg-accent-purple/[0.03] border-white/10 hover:border-accent-purple/40 transition-all duration-300 cursor-pointer group flex flex-col justify-between relative overflow-hidden"
+      className="p-4 sm:p-6 bg-accent-purple/[0.03] border-white/10 hover:border-accent-purple/40 transition-all duration-300 cursor-pointer group flex flex-col justify-between relative overflow-hidden"
     >
       <div className="absolute top-0 right-0 w-48 h-48 bg-accent-purple/10 blur-[50px] rounded-full -mr-20 -mt-20 pointer-events-none" />
       <div className="flex items-center justify-between mb-4 relative z-10">

@@ -61,57 +61,57 @@ export const InsightsPage: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
-          <div className="glass-panel rounded-xl p-3 px-5 flex items-center gap-3.5 border-white/10 shadow-sm">
-            <div className="w-8 h-8 rounded-lg bg-accent-purple/10 flex items-center justify-center text-accent-purple">
-              <Flame size={18} className="fill-accent-purple/30 animate-pulse" />
+        <div className="grid grid-cols-2 sm:flex items-center gap-2.5 sm:gap-3 w-full sm:w-auto shrink-0">
+          <div className="glass-panel rounded-xl p-3 px-3.5 sm:px-5 flex items-center gap-2.5 sm:gap-3.5 border-white/10 shadow-sm">
+            <div className="w-8 h-8 rounded-lg bg-accent-purple/10 flex items-center justify-center text-accent-purple shrink-0">
+              <Flame size={17} className="fill-accent-purple/30 animate-pulse" />
             </div>
             <div>
-              <div className="text-[9px] text-text-tertiary uppercase font-bold tracking-widest font-geist">Reading Streak</div>
-              <div className="text-lg font-bold font-geist text-white">{readingStreak}D</div>
+              <div className="text-[9px] text-text-tertiary uppercase font-bold tracking-widest font-geist">Streak</div>
+              <div className="text-base sm:text-lg font-bold font-geist text-white">{readingStreak}D</div>
             </div>
           </div>
-          <div className="glass-panel rounded-xl p-3 px-5 flex items-center gap-3.5 border-white/10 shadow-sm">
-            <div className="w-8 h-8 rounded-lg bg-accent-amber/10 flex items-center justify-center text-accent-amber">
-              <Trophy size={18} />
+          <div className="glass-panel rounded-xl p-3 px-3.5 sm:px-5 flex items-center gap-2.5 sm:gap-3.5 border-white/10 shadow-sm">
+            <div className="w-8 h-8 rounded-lg bg-accent-amber/10 flex items-center justify-center text-accent-amber shrink-0">
+              <Trophy size={17} />
             </div>
             <div>
-              <div className="text-[9px] text-text-tertiary uppercase font-bold tracking-widest font-geist">Verified Read</div>
-              <div className="text-lg font-bold font-geist text-white">{readArticlesCount}</div>
+              <div className="text-[9px] text-text-tertiary uppercase font-bold tracking-widest font-geist">Read</div>
+              <div className="text-base sm:text-lg font-bold font-geist text-white">{readArticlesCount}</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Filter Section */}
-      <div className="glass-panel rounded-xl p-4 flex flex-wrap gap-4 items-center relative z-10 border-white/[0.08]">
-        <div className="flex flex-col gap-1">
+      <div className="glass-panel rounded-xl p-3.5 sm:p-4 flex flex-wrap gap-3 sm:gap-4 items-end relative z-10 border-white/[0.08]">
+        <div className="flex flex-col gap-1 flex-1 min-w-[130px] sm:flex-initial">
           <label className="text-[9px] text-text-tertiary uppercase font-bold tracking-widest font-geist ml-0.5">Company</label>
           <Select
             value={filters.company}
             onChange={e => setFilters(prev => ({ ...prev, company: e.target.value }))}
             options={companyOptions}
-            className="text-xs font-geist bg-white/[0.03] border-white/10 w-40"
+            className="text-xs font-geist bg-white/[0.03] border-white/10 w-full sm:w-40"
           />
         </div>
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 flex-1 min-w-[130px] sm:flex-initial">
           <label className="text-[9px] text-text-tertiary uppercase font-bold tracking-widest font-geist ml-0.5">Region</label>
           <Select
             value={filters.region}
             onChange={e => setFilters(prev => ({ ...prev, region: e.target.value }))}
             options={regionOptions}
-            className="text-xs font-geist bg-white/[0.03] border-white/10 w-36"
+            className="text-xs font-geist bg-white/[0.03] border-white/10 w-full sm:w-36"
           />
         </div>
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 flex-1 min-w-[130px] sm:flex-initial">
           <label className="text-[9px] text-text-tertiary uppercase font-bold tracking-widest font-geist ml-0.5">Difficulty</label>
           <Select
             value={filters.difficulty}
             onChange={e => setFilters(prev => ({ ...prev, difficulty: e.target.value }))}
             options={difficultyOptions}
-            className="text-xs font-geist bg-white/[0.03] border-white/10 w-40"
+            className="text-xs font-geist bg-white/[0.03] border-white/10 w-full sm:w-40"
           />
         </div>
 

@@ -51,6 +51,8 @@ html {
   letter-spacing: -0.01em;
   color-scheme: dark;
   accent-color: #3b82f6;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 :root {
@@ -130,4 +132,20 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* iOS Safe Area & Mobile Ergonomics */
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.bottom-safe {
+  bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Touch responsiveness */
+@media (hover: none) and (pointer: coarse) {
+  button, a, input, select {
+    -webkit-tap-highlight-color: transparent;
+  }
 }

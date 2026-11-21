@@ -215,5 +215,440 @@
     "patternTag": "Transform (Map)",
     "patternExplanation": "Apply a transformation to every element and collect the results — the foundational pattern behind Array.prototype.map.",
     "estimatedMinutes": 5
+  },
+  {
+    "id": "array-building-3",
+    "title": "Build Array from Permutation",
+    "category": "array-building",
+    "difficulty": "Beginner",
+    "functionName": "buildArray",
+    "description": "Given a zero-based permutation nums (0-indexed), build and return an array ans of the same length where ans[i] = nums[nums[i]] for each 0 <= i < nums.length.",
+    "whatShouldHappen": [
+      "Allocate a new array ans of length nums.length.",
+      "Iterate i from 0 up to nums.length - 1.",
+      "Assign ans[i] = nums[nums[i]].",
+      "Return the constructed array ans."
+    ],
+    "starterCode": "function buildArray(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [0, 2, 1, 5, 3, 4]",
+      "columns": [
+        "i",
+        "nums[i]",
+        "nums[nums[i]]",
+        "ans[i]"
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "nums[i]": 0,
+          "nums[nums[i]]": 0,
+          "ans[i]": 0
+        },
+        {
+          "i": 1,
+          "nums[i]": 2,
+          "nums[nums[i]]": 1,
+          "ans[i]": 1
+        },
+        {
+          "i": 2,
+          "nums[i]": 1,
+          "nums[nums[i]]": 2,
+          "ans[i]": 2
+        },
+        {
+          "i": 3,
+          "nums[i]": 5,
+          "nums[nums[i]]": 4,
+          "ans[i]": 4
+        }
+      ]
+    },
+    "skeletonHint": "function buildArray(nums) {\n  const ans = new Array(nums.length);\n  for (let i = 0; i < nums.length; i++) {\n    ans[i] = nums[nums[i]];\n  }\n  return ans;\n}",
+    "solution": "function buildArray(nums) {\n  const ans = new Array(nums.length);\n  for (let i = 0; i < nums.length; i++) {\n    ans[i] = nums[nums[i]];\n  }\n  return ans;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            0,
+            2,
+            1,
+            5,
+            3,
+            4
+          ]
+        ],
+        "expected": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          3
+        ],
+        "label": "standard permutation"
+      },
+      {
+        "input": [
+          [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "expected": [
+          4,
+          5,
+          0,
+          1,
+          2,
+          3
+        ],
+        "label": "cyclic permutation"
+      },
+      {
+        "input": [
+          [
+            0
+          ]
+        ],
+        "expected": [
+          0
+        ],
+        "label": "single element",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Array Building (Indexed Mapping)",
+    "patternExplanation": "Read values at index nums[i] and map them sequentially into the target buffer in O(n) time.",
+    "estimatedMinutes": 5
+  },
+  {
+    "id": "array-building-4",
+    "title": "Concatenation of Array",
+    "category": "array-building",
+    "difficulty": "Beginner",
+    "functionName": "getConcatenation",
+    "description": "Given an integer array nums of length n, return an array ans of length 2n where ans[i] == nums[i] and ans[i + n] == nums[i] for 0 <= i < n.",
+    "whatShouldHappen": [
+      "Let n = nums.length.",
+      "Create an array ans of length 2 * n.",
+      "Iterate i from 0 to n - 1.",
+      "Populate ans[i] = nums[i] and ans[i + n] = nums[i].",
+      "Return the concatenated array ans."
+    ],
+    "starterCode": "function getConcatenation(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 2, 1]",
+      "columns": [
+        "i",
+        "nums[i]",
+        "ans[i]",
+        "ans[i + n]"
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "nums[i]": 1,
+          "ans[i]": 1,
+          "ans[i + n]": 1
+        },
+        {
+          "i": 1,
+          "nums[i]": 2,
+          "ans[i]": 2,
+          "ans[i + n]": 2
+        },
+        {
+          "i": 2,
+          "nums[i]": 1,
+          "ans[i]": 1,
+          "ans[i + n]": 1
+        }
+      ]
+    },
+    "skeletonHint": "function getConcatenation(nums) {\n  const n = nums.length, ans = new Array(2 * n);\n  for (let i = 0; i < n; i++) {\n    ans[i] = nums[i];\n    ans[i + n] = nums[i];\n  }\n  return ans;\n}",
+    "solution": "function getConcatenation(nums) {\n  const n = nums.length;\n  const ans = new Array(2 * n);\n  for (let i = 0; i < n; i++) {\n    ans[i] = nums[i];\n    ans[i + n] = nums[i];\n  }\n  return ans;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            1
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          1,
+          1,
+          2,
+          1
+        ],
+        "label": "length 3 array"
+      },
+      {
+        "input": [
+          [
+            1,
+            3,
+            2,
+            1
+          ]
+        ],
+        "expected": [
+          1,
+          3,
+          2,
+          1,
+          1,
+          3,
+          2,
+          1
+        ],
+        "label": "length 4 array"
+      },
+      {
+        "input": [
+          [
+            0
+          ]
+        ],
+        "expected": [
+          0,
+          0
+        ],
+        "label": "single element",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Array Building (Duplicate Offset)",
+    "patternExplanation": "Writing to i and i + n in a single loop builds the doubled array with zero duplicate iteration overhead.",
+    "estimatedMinutes": 5
+  },
+  {
+    "id": "array-building-5",
+    "title": "Pascal's Triangle",
+    "category": "array-building",
+    "difficulty": "Easy",
+    "functionName": "generatePascal",
+    "description": "Given an integer numRows, return the first numRows of Pascal's triangle. In Pascal's triangle, each number is the sum of the two numbers directly above it.",
+    "whatShouldHappen": [
+      "Initialize an empty triangle array.",
+      "For each row index i from 0 to numRows - 1, create a row array filled with 1s of size i + 1.",
+      "For column indices j from 1 to i - 1, set row[j] = triangle[i-1][j-1] + triangle[i-1][j].",
+      "Push row to triangle and return triangle when done."
+    ],
+    "starterCode": "function generatePascal(numRows) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "numRows = 4",
+      "columns": [
+        "row i",
+        "length",
+        "computed values",
+        "full row"
+      ],
+      "rows": [
+        {
+          "row i": 0,
+          "length": 1,
+          "computed values": "none",
+          "full row": "[1]"
+        },
+        {
+          "row i": 1,
+          "length": 2,
+          "computed values": "none",
+          "full row": "[1, 1]"
+        },
+        {
+          "row i": 2,
+          "length": 3,
+          "computed values": "1 + 1 = 2",
+          "full row": "[1, 2, 1]"
+        },
+        {
+          "row i": 3,
+          "length": 4,
+          "computed values": "1+2=3, 2+1=3",
+          "full row": "[1, 3, 3, 1]"
+        }
+      ]
+    },
+    "skeletonHint": "function generatePascal(numRows) {\n  const triangle = [];\n  for (let i = 0; i < numRows; i++) {\n    const row = new Array(i + 1).fill(1);\n    for (let j = 1; j < i; j++) {\n      row[j] = triangle[i - 1][j - 1] + triangle[i - 1][j];\n    }\n    triangle.push(row);\n  }\n  return triangle;\n}",
+    "solution": "function generatePascal(numRows) {\n  const triangle = [];\n  for (let i = 0; i < numRows; i++) {\n    const row = new Array(i + 1).fill(1);\n    for (let j = 1; j < i; j++) {\n      row[j] = triangle[i - 1][j - 1] + triangle[i - 1][j];\n    }\n    triangle.push(row);\n  }\n  return triangle;\n}",
+    "tests": [
+      {
+        "input": [
+          5
+        ],
+        "expected": [
+          [
+            1
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            2,
+            1
+          ],
+          [
+            1,
+            3,
+            3,
+            1
+          ],
+          [
+            1,
+            4,
+            6,
+            4,
+            1
+          ]
+        ],
+        "label": "5 rows"
+      },
+      {
+        "input": [
+          1
+        ],
+        "expected": [
+          [
+            1
+          ]
+        ],
+        "label": "1 row"
+      },
+      {
+        "input": [
+          3
+        ],
+        "expected": [
+          [
+            1
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            2,
+            1
+          ]
+        ],
+        "label": "3 rows",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Array Building (Nested Row Construction)",
+    "patternExplanation": "Build 2D triangular structure row by row, referencing the previous row's adjacent cells to calculate interior elements.",
+    "estimatedMinutes": 12
+  },
+  {
+    "id": "array-building-6",
+    "title": "Generate 2D Grid Coordinates",
+    "category": "array-building",
+    "difficulty": "Easy",
+    "functionName": "generateGrid",
+    "description": "Given rows and cols, construct a 2D matrix of dimensions rows x cols filled with row-major sequential integers starting from 1.",
+    "whatShouldHappen": [
+      "Initialize grid = [] and counter = 1.",
+      "Iterate row from 0 to rows - 1.",
+      "In an inner loop, iterate col from 0 to cols - 1, pushing counter++ into the current row.",
+      "Push each completed row into grid and return grid."
+    ],
+    "starterCode": "function generateGrid(rows, cols) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "rows = 2, cols = 3",
+      "columns": [
+        "row",
+        "cols built",
+        "counter range",
+        "row array"
+      ],
+      "rows": [
+        {
+          "row": 0,
+          "cols built": 3,
+          "counter range": "1 to 3",
+          "row array": "[1, 2, 3]"
+        },
+        {
+          "row": 1,
+          "cols built": 3,
+          "counter range": "4 to 6",
+          "row array": "[4, 5, 6]"
+        }
+      ]
+    },
+    "skeletonHint": "function generateGrid(rows, cols) {\n  const grid = [];\n  let count = 1;\n  for (let r = 0; r < rows; r++) {\n    const row = [];\n    for (let c = 0; c < cols; c++) row.push(count++);\n    grid.push(row);\n  }\n  return grid;\n}",
+    "solution": "function generateGrid(rows, cols) {\n  const grid = [];\n  let count = 1;\n  for (let r = 0; r < rows; r++) {\n    const row = [];\n    for (let c = 0; c < cols; c++) {\n      row.push(count++);\n    }\n    grid.push(row);\n  }\n  return grid;\n}",
+    "tests": [
+      {
+        "input": [
+          2,
+          3
+        ],
+        "expected": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            4,
+            5,
+            6
+          ]
+        ],
+        "label": "2x3 grid"
+      },
+      {
+        "input": [
+          3,
+          1
+        ],
+        "expected": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "label": "single column"
+      },
+      {
+        "input": [
+          1,
+          4
+        ],
+        "expected": [
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "label": "single row",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Array Building (Row-Major 2D Grid)",
+    "patternExplanation": "Nested loops cleanly populate multi-dimensional matrices in row-major order with sequential indexing.",
+    "estimatedMinutes": 8
   }
 ]

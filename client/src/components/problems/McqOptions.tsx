@@ -14,7 +14,7 @@ const getOptionClass = (
   correctIndex: number | null,
   isSubmitted: boolean,
 ): string => {
-  const base = 'w-full text-left px-5 py-4 rounded-xl border text-[13px] font-medium transition-all duration-300 '
+  const base = 'w-full text-left px-3.5 sm:px-5 py-3 sm:py-4 rounded-xl border text-xs sm:text-[13px] font-medium transition-all duration-200 select-none min-h-[48px] active:scale-[0.99] '
   const isSelected = selectedIndex === index
   const isCorrect = correctIndex !== null && correctIndex === index
   const isWrongSelection = isSubmitted && isSelected && !isCorrect

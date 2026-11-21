@@ -40,8 +40,11 @@ export const MasteryRadar = ({ scores, size = 300 }: MasteryRadarProps): React.J
   }, [scores, categories, center, radius])
 
   return (
-    <div className="flex items-center justify-center relative">
-      <svg width={size} height={size} className="overflow-visible">
+    <div className="flex items-center justify-center relative w-full overflow-hidden p-4">
+      <svg
+        viewBox={`0 0 ${size} ${size}`}
+        className="w-full max-w-[280px] sm:max-w-[300px] aspect-square overflow-visible"
+      >
         {/* Background Grids */}
         {[0.2, 0.4, 0.6, 0.8, 1].map((scale) => (
           <polygon

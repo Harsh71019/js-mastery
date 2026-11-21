@@ -13,9 +13,9 @@ const SpeedRow = memo(({ month, maxAvgMs }: SpeedRowProps): React.JSX.Element | 
   const barWidth = (month.avgMs / maxAvgMs) * 100
 
   return (
-    <div className="flex items-center gap-6 group/speed">
-      <span className="text-[10px] font-bold font-geist text-text-tertiary w-10 shrink-0 group-hover/speed:text-text-secondary transition-colors">{month.label.toUpperCase()}</span>
-      <div className="flex-1 h-3 bg-white/5 rounded-sm overflow-hidden relative border border-white/[0.03]">
+    <div className="flex items-center gap-3 sm:gap-6 group/speed">
+      <span className="text-[10px] font-bold font-geist text-text-tertiary w-8 sm:w-10 shrink-0 group-hover/speed:text-text-secondary transition-colors">{month.label.toUpperCase()}</span>
+      <div className="flex-1 h-2.5 sm:h-3 bg-white/5 rounded-sm overflow-hidden relative border border-white/[0.03]">
         <div
           className="h-full rounded-sm transition-all duration-1000 ease-out"
           style={{ 
@@ -42,7 +42,7 @@ export const SpeedTrend = (): React.JSX.Element => {
   const { months, maxAvgMs, hasData } = useSpeedTrend()
 
   return (
-    <Card className="p-8 bg-white/[0.01] flex flex-col gap-5 h-full min-h-[300px] justify-center">
+    <Card className="p-4 sm:p-8 bg-white/[0.01] flex flex-col gap-5 h-full min-h-[300px] justify-center">
       {!hasData ? (
         <div className="h-full flex items-center justify-center">
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] font-geist text-text-tertiary opacity-30 text-center max-w-[200px]">

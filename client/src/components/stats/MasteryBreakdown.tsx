@@ -55,7 +55,7 @@ export const MasteryBreakdown = (): React.JSX.Element => {
   const { clean, struggled, grinded, total, byCategory } = useMasteryBreakdown()
 
   return (
-    <Card className="p-8 bg-white/[0.01] flex flex-col gap-8 h-full min-h-[300px]">
+    <Card className="p-4 sm:p-8 bg-white/[0.01] flex flex-col gap-6 sm:gap-8 h-full min-h-[300px]">
       {total === 0 ? (
         <div className="h-full flex items-center justify-center">
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] font-geist text-text-tertiary opacity-30 text-center max-w-[200px]">
@@ -64,7 +64,7 @@ export const MasteryBreakdown = (): React.JSX.Element => {
         </div>
       ) : (
         <>
-          <div className="flex flex-col md:flex-row items-center gap-10">
+          <div className="flex flex-col md:flex-row items-center gap-6 sm:gap-10">
             <div className="shrink-0 relative">
                <div className="absolute inset-0 bg-accent-amber/5 blur-3xl rounded-full" />
                <MasteryDonut clean={clean} struggled={struggled} grinded={grinded} total={total} />
@@ -82,7 +82,7 @@ export const MasteryBreakdown = (): React.JSX.Element => {
                  <span className="text-[10px] font-bold uppercase tracking-widest text-text-tertiary font-geist opacity-60">Node Segmentation</span>
                  <div className="h-px bg-white/5 flex-1" />
               </div>
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
                 {byCategory.map((cat) => (
                   <CategoryRow key={cat.slug} {...cat} />
                 ))}

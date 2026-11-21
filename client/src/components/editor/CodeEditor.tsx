@@ -12,6 +12,8 @@ interface CodeEditorProps {
 export interface CodeEditorHandle {
   readonly highlightPattern: (pattern: string) => void
   readonly clearHighlights: () => void
+  readonly format: () => void
+  readonly focus: () => void
 }
 
 const EditorSkeleton = (): React.JSX.Element => (
@@ -53,7 +55,15 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
         if (editorRef.current) {
           decorationsRef.current = editorRef.current.deltaDecorations(decorationsRef.current, [])
         }
-      }
+      },
+      format: () => {
+        if (editorRef.current) {
+          void editorRef.current.getAction('editor.action.formatDocument')?.run()
+        }
+      },
+      focus: () => {
+        editorRef.current?.focus()
+      },
     }))
 
     const handleMount: OnMount = (editorInstance, monaco) => {
@@ -88,10 +98,12 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
           onMount={handleMount}
           options={{
             minimap: { enabled: false },
-            fontSize: 14,
+            fontSize: typeof window !== 'undefined' && window.innerWidth < 768 ? 13 : 14,
             fontFamily: 'Geist Mono, JetBrains Mono, monospace',
             lineNumbers: 'on',
-            wordWrap: 'off',
+            lineNumbersMinChars: 3,
+            wordWrap: 'on',
+            wrappingIndent: 'indent',
             scrollBeyondLastLine: false,
             scrollbar: { vertical: 'auto', horizontal: 'auto', verticalScrollbarSize: 4, horizontalScrollbarSize: 4 },
             padding: { top: 16, bottom: 16 },

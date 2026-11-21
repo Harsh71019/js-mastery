@@ -37,7 +37,7 @@ export const RepetitionHealth = (): React.JSX.Element => {
   const masteredPct = total > 0 ? Math.round((mastered / total) * 100) : 0
 
   return (
-    <Card className="p-8 bg-white/[0.01] flex flex-col gap-6 h-full min-h-[300px]">
+    <Card className="p-4 sm:p-8 bg-white/[0.01] flex flex-col gap-6 h-full min-h-[300px]">
       {total === 0 ? (
         <div className="h-full flex items-center justify-center">
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] font-geist text-text-tertiary opacity-30 text-center max-w-[200px]">
@@ -53,7 +53,7 @@ export const RepetitionHealth = (): React.JSX.Element => {
             <HealthBar label="Unreviewed" count={unreviewed} total={total} color="text-text-tertiary" barColor="var(--color-text-tertiary)" />
           </div>
 
-          <div className="flex items-center justify-between gap-6 pt-6 border-t border-white/5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 pt-4 sm:pt-6 border-t border-white/5">
             <div className="flex items-center gap-6">
               {masteredPct > 0 && (
                 <div className="flex flex-col gap-1">

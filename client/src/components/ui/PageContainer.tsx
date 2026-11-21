@@ -6,7 +6,7 @@ interface PageContainerProps {
 }
 
 export const PageContainer = ({ children, className = '' }: PageContainerProps): React.JSX.Element => (
-  <div className={`max-w-[1200px] mx-auto px-6 py-6 ${className}`}>
+  <div className={`max-w-[1200px] mx-auto px-4 sm:px-6 py-4 sm:py-6 ${className}`}>
     {children}
   </div>
 )

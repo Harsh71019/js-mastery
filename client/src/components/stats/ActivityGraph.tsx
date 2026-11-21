@@ -130,11 +130,11 @@ export const ActivityGraph = ({ days, totalSolvedInWindow }: ActivityGraphProps)
         </div>
       </div>
 
-      <div className="flex items-center gap-4 border-t border-white/5 pt-4" style={{ marginLeft: 36 }}>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-t border-white/5 pt-4 sm:ml-9">
         <span className="text-[10px] font-bold text-text-tertiary font-geist uppercase tracking-widest">
           Telemetry: {totalSolvedInWindow} cycles verified in last year
         </span>
-        <div className="flex items-center gap-1.5 ml-auto">
+        <div className="flex items-center gap-1.5 self-end sm:self-auto sm:ml-auto">
           <span className="text-[10px] font-bold text-text-tertiary font-geist uppercase tracking-widest">Low</span>
           {COLORS.map((color, i) => (
             <span

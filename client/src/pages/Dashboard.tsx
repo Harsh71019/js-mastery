@@ -123,7 +123,7 @@ export const Dashboard = (): React.JSX.Element => {
                     } 
                   } 
                 })}
-                className={`p-6 group/col relative overflow-hidden transition-all duration-500 border-white/5 hover:border-white/20`}
+                className={`p-4 sm:p-6 group/col relative overflow-hidden transition-all duration-500 border-white/5 hover:border-white/20`}
               >
                 <div className={`absolute top-0 right-0 w-48 h-48 ${col.bg} blur-[60px] rounded-full -mr-20 -mt-20 opacity-40 group-hover/col:opacity-100 transition-opacity duration-700`} />
                 <div className="relative z-10">
@@ -193,7 +193,7 @@ export const Dashboard = (): React.JSX.Element => {
               <Card
                 key={category.slug}
                 onClick={() => navigate(`/category/${category.slug}`)}
-                className="p-5 transition-all duration-300 hover:border-white/20 relative overflow-hidden"
+                className="p-4 sm:p-5 transition-all duration-300 hover:border-white/20 relative overflow-hidden"
                 style={{ borderLeftColor: category.accentColor, borderLeftWidth: '2px' }}
               >
                 <div 

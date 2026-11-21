@@ -171,5 +171,382 @@
     "patternTag": "Object.entries Iteration",
     "patternExplanation": "Object.entries() yields [key, value] tuples — destructuring them in the loop header makes swapping or transforming key-value pairs clean and direct.",
     "estimatedMinutes": 8
+  },
+  {
+    "id": "object-loops-3",
+    "title": "Deep Equal Comparison",
+    "category": "object-loops",
+    "difficulty": "Medium",
+    "functionName": "areObjectsDeepEqual",
+    "description": "Write a function that deeply compares two objects or values for equality, checking all keys and nested structures recursively.",
+    "whatShouldHappen": [
+      "If values are strictly identical (===), return true.",
+      "If either is null, or not an object, return false.",
+      "Check array matching: if Array.isArray differs, return false.",
+      "Verify Object.keys lengths are equal.",
+      "Recursively compare every key's corresponding value."
+    ],
+    "starterCode": "function areObjectsDeepEqual(obj1, obj2) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "obj1 = { a: 1, b: { c: 2 } }, obj2 = { a: 1, b: { c: 2 } }",
+      "columns": [
+        "key",
+        "obj1[key]",
+        "obj2[key]",
+        "deep equal?",
+        "action"
+      ],
+      "rows": [
+        {
+          "key": "a",
+          "obj1[key]": 1,
+          "obj2[key]": 1,
+          "deep equal?": "true",
+          "action": "continue"
+        },
+        {
+          "key": "b",
+          "obj1[key]": "{c:2}",
+          "obj2[key]": "{c:2}",
+          "deep equal?": "true (recurse)",
+          "action": "recurse and match"
+        }
+      ]
+    },
+    "skeletonHint": "function areObjectsDeepEqual(obj1, obj2) {\n  if (obj1 === obj2) return true;\n  if (!obj1 || !obj2 || typeof obj1 !== 'object' || typeof obj2 !== 'object') return false;\n  if (Array.isArray(obj1) !== Array.isArray(obj2)) return false;\n  const k1 = Object.keys(obj1), k2 = Object.keys(obj2);\n  if (k1.length !== k2.length) return false;\n  for (const k of k1) {\n    if (!Object.prototype.hasOwnProperty.call(obj2, k)) return false;\n    if (!areObjectsDeepEqual(obj1[k], obj2[k])) return false;\n  }\n  return true;\n}",
+    "solution": "function areObjectsDeepEqual(obj1, obj2) {\n  if (obj1 === obj2) return true;\n  if (obj1 === null || obj2 === null || typeof obj1 !== 'object' || typeof obj2 !== 'object') return false;\n  if (Array.isArray(obj1) !== Array.isArray(obj2)) return false;\n  const keys1 = Object.keys(obj1);\n  const keys2 = Object.keys(obj2);\n  if (keys1.length !== keys2.length) return false;\n  for (const key of keys1) {\n    if (!Object.prototype.hasOwnProperty.call(obj2, key)) return false;\n    if (!areObjectsDeepEqual(obj1[key], obj2[key])) return false;\n  }\n  return true;\n}",
+    "tests": [
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": 2
+          },
+          {
+            "a": 1,
+            "b": 2
+          }
+        ],
+        "expected": true,
+        "label": "flat identical objects"
+      },
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": {
+              "c": 3
+            }
+          },
+          {
+            "a": 1,
+            "b": {
+              "c": 3
+            }
+          }
+        ],
+        "expected": true,
+        "label": "nested matching objects"
+      },
+      {
+        "input": [
+          {
+            "a": 1
+          },
+          {
+            "a": 2
+          }
+        ],
+        "expected": false,
+        "label": "value mismatch"
+      },
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": 2
+          },
+          {
+            "a": 1
+          }
+        ],
+        "expected": false,
+        "label": "key count mismatch",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Object Iteration (Recursive Key Traversal)",
+    "patternExplanation": "Traversing keys recursively handles nested object hierarchies while properly short-circuiting on primitive mismatches.",
+    "estimatedMinutes": 15
+  },
+  {
+    "id": "object-loops-4",
+    "title": "Invert Object Keys and Values",
+    "category": "object-loops",
+    "difficulty": "Easy",
+    "functionName": "invertObject",
+    "description": "Given an object, return a new object where keys become values and values become keys. If multiple keys have the same value, group the original keys into an array.",
+    "whatShouldHappen": [
+      "Initialize an empty result object.",
+      "Loop through each key in the input object using for...in with hasOwnProperty.",
+      "Convert value to string for inverted key.",
+      "If the new key already exists, convert to or push into an array.",
+      "Otherwise, assign the single key as value."
+    ],
+    "starterCode": "function invertObject(obj) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "obj = { a: 1, b: 2, c: 1 }",
+      "columns": [
+        "key",
+        "val",
+        "target exists?",
+        "result[val]"
+      ],
+      "rows": [
+        {
+          "key": "a",
+          "val": "1",
+          "target exists?": "false",
+          "result[val]": "\"a\""
+        },
+        {
+          "key": "b",
+          "val": "2",
+          "target exists?": "false",
+          "result[val]": "\"b\""
+        },
+        {
+          "key": "c",
+          "val": "1",
+          "target exists?": "true",
+          "result[val]": "[\"a\", \"c\"]"
+        }
+      ]
+    },
+    "skeletonHint": "function invertObject(obj) {\n  const result = {};\n  for (const k in obj) {\n    if (Object.prototype.hasOwnProperty.call(obj, k)) {\n      const val = String(obj[k]);\n      if (result[val] !== undefined) {\n        result[val] = Array.isArray(result[val]) ? [...result[val], k] : [result[val], k];\n      } else {\n        result[val] = k;\n      }\n    }\n  }\n  return result;\n}",
+    "solution": "function invertObject(obj) {\n  const result = {};\n  for (const key in obj) {\n    if (Object.prototype.hasOwnProperty.call(obj, key)) {\n      const val = String(obj[key]);\n      if (Object.prototype.hasOwnProperty.call(result, val)) {\n        if (Array.isArray(result[val])) {\n          result[val].push(key);\n        } else {\n          result[val] = [result[val], key];\n        }\n      } else {\n        result[val] = key;\n      }\n    }\n  }\n  return result;\n}",
+    "tests": [
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": 2,
+            "c": 1
+          }
+        ],
+        "expected": {
+          "1": [
+            "a",
+            "c"
+          ],
+          "2": "b"
+        },
+        "label": "duplicate values collision"
+      },
+      {
+        "input": [
+          {
+            "x": "apple",
+            "y": "banana"
+          }
+        ],
+        "expected": {
+          "apple": "x",
+          "banana": "y"
+        },
+        "label": "unique values"
+      },
+      {
+        "input": [
+          {}
+        ],
+        "expected": {},
+        "label": "empty object",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Object Iteration (Inversion Mapping)",
+    "patternExplanation": "Flipping keys and values tests dynamic key access and handling collisions through conditional array accumulation.",
+    "estimatedMinutes": 10
+  },
+  {
+    "id": "object-loops-5",
+    "title": "Pick Object Properties",
+    "category": "object-loops",
+    "difficulty": "Beginner",
+    "functionName": "pickProps",
+    "description": "Given an object and an array of string keys, return a new object containing only the properties whose keys appear in the provided keys array.",
+    "whatShouldHappen": [
+      "Initialize picked object = {}.",
+      "Create a Set from the keys array for fast O(1) checks.",
+      "Iterate over keys in Set: if obj has property, copy it to picked.",
+      "Return the picked object."
+    ],
+    "starterCode": "function pickProps(obj, keys) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "obj = { a: 1, b: 2, c: 3 }, keys = ['a', 'c', 'z']",
+      "columns": [
+        "key",
+        "in obj?",
+        "picked object"
+      ],
+      "rows": [
+        {
+          "key": "a",
+          "in obj?": "true",
+          "picked object": "{ a: 1 }"
+        },
+        {
+          "key": "c",
+          "in obj?": "true",
+          "picked object": "{ a: 1, c: 3 }"
+        },
+        {
+          "key": "z",
+          "in obj?": "false",
+          "picked object": "{ a: 1, c: 3 }"
+        }
+      ]
+    },
+    "skeletonHint": "function pickProps(obj, keys) {\n  const picked = {};\n  for (const k of keys) {\n    if (Object.prototype.hasOwnProperty.call(obj, k)) {\n      picked[k] = obj[k];\n    }\n  }\n  return picked;\n}",
+    "solution": "function pickProps(obj, keys) {\n  const picked = {};\n  const keySet = new Set(keys);\n  for (const k of keySet) {\n    if (Object.prototype.hasOwnProperty.call(obj, k)) {\n      picked[k] = obj[k];\n    }\n  }\n  return picked;\n}",
+    "tests": [
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": 2,
+            "c": 3
+          },
+          [
+            "a",
+            "c"
+          ]
+        ],
+        "expected": {
+          "a": 1,
+          "c": 3
+        },
+        "label": "subset of keys"
+      },
+      {
+        "input": [
+          {
+            "name": "Alice",
+            "age": 25
+          },
+          [
+            "name",
+            "salary"
+          ]
+        ],
+        "expected": {
+          "name": "Alice"
+        },
+        "label": "non-existent keys skipped"
+      },
+      {
+        "input": [
+          {
+            "x": 10
+          },
+          []
+        ],
+        "expected": {},
+        "label": "empty keys array",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Object Iteration (Property Whitelisting)",
+    "patternExplanation": "Filtering object properties based on a whitelist is a core utility pattern in data sanitization and state manipulation.",
+    "estimatedMinutes": 6
+  },
+  {
+    "id": "object-loops-6",
+    "title": "Count Frequency of Elements",
+    "category": "object-loops",
+    "difficulty": "Beginner",
+    "functionName": "frequencyCounter",
+    "description": "Given an array of string items, return an object mapping each unique item to its count of occurrences in the array.",
+    "whatShouldHappen": [
+      "Initialize an empty object freq = {}.",
+      "Loop through each item in the items array.",
+      "Set freq[item] = (freq[item] || 0) + 1.",
+      "Return freq."
+    ],
+    "starterCode": "function frequencyCounter(items) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "items = ['apple', 'banana', 'apple']",
+      "columns": [
+        "index",
+        "item",
+        "freq[item] before",
+        "freq[item] after"
+      ],
+      "rows": [
+        {
+          "index": 0,
+          "item": "apple",
+          "freq[item] before": 0,
+          "freq[item] after": 1
+        },
+        {
+          "index": 1,
+          "item": "banana",
+          "freq[item] before": 0,
+          "freq[item] after": 1
+        },
+        {
+          "index": 2,
+          "item": "apple",
+          "freq[item] before": 1,
+          "freq[item] after": 2
+        }
+      ]
+    },
+    "skeletonHint": "function frequencyCounter(items) {\n  const freq = {};\n  for (let i = 0; i < items.length; i++) {\n    const item = items[i];\n    freq[item] = (freq[item] || 0) + 1;\n  }\n  return freq;\n}",
+    "solution": "function frequencyCounter(items) {\n  const freq = {};\n  for (let i = 0; i < items.length; i++) {\n    const item = items[i];\n    freq[item] = (freq[item] || 0) + 1;\n  }\n  return freq;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            "a",
+            "b",
+            "a",
+            "c",
+            "b",
+            "a"
+          ]
+        ],
+        "expected": {
+          "a": 3,
+          "b": 2,
+          "c": 1
+        },
+        "label": "multiple duplicates"
+      },
+      {
+        "input": [
+          [
+            "cat"
+          ]
+        ],
+        "expected": {
+          "cat": 1
+        },
+        "label": "single item"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": {},
+        "label": "empty array",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Object Iteration (Hash Table Accumulation)",
+    "patternExplanation": "Using an object as a hash map to aggregate item counts in a single O(n) pass is the basis of countless frequency patterns.",
+    "estimatedMinutes": 5
   }
 ]

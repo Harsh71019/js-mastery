@@ -46,6 +46,7 @@ export interface TestCase {
   readonly isAsyncGenerator?: boolean
   readonly isAsyncIterable?: boolean
   readonly take?: number
+  readonly custom?: boolean
 }
 
 export interface ProblemSummary {

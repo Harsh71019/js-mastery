@@ -534,5 +534,305 @@
     "patternTag": "Seen Set",
     "patternExplanation": "A Set tracks membership in O(1) time. Checking seen.has() before seen.add() on each element catches the first repeated value in a single linear pass.",
     "estimatedMinutes": 10
+  },
+  {
+    "id": "basic-loops-6",
+    "title": "Count Occurrences of a Target",
+    "category": "basic-loops",
+    "difficulty": "Beginner",
+    "functionName": "countOccurrences",
+    "description": "Given an array of numbers and a target value, count how many times the target appears in the array.",
+    "whatShouldHappen": [
+      "Initialize count = 0.",
+      "Iterate through nums from index 0 to nums.length - 1.",
+      "If nums[i] === target, increment count.",
+      "Return count after the loop completes."
+    ],
+    "starterCode": "function countOccurrences(nums, target) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 2, 3, 2, 2], target = 2",
+      "columns": [
+        "i",
+        "nums[i]",
+        "match?",
+        "count"
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "nums[i]": 1,
+          "match?": "false",
+          "count": 0
+        },
+        {
+          "i": 1,
+          "nums[i]": 2,
+          "match?": "true",
+          "count": 1
+        },
+        {
+          "i": 2,
+          "nums[i]": 3,
+          "match?": "false",
+          "count": 1
+        },
+        {
+          "i": 3,
+          "nums[i]": 2,
+          "match?": "true",
+          "count": 2
+        },
+        {
+          "i": 4,
+          "nums[i]": 2,
+          "match?": "true",
+          "count": 3
+        }
+      ]
+    },
+    "skeletonHint": "function countOccurrences(nums, target) {\n  let count = 0;\n  for (let i = 0; i < nums.length; i++) {\n    if (nums[i] === target) count++;\n  }\n  return count;\n}",
+    "solution": "function countOccurrences(nums, target) {\n  let count = 0;\n  for (let i = 0; i < nums.length; i++) {\n    if (nums[i] === target) {\n      count++;\n    }\n  }\n  return count;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            2,
+            2
+          ],
+          2
+        ],
+        "expected": 3,
+        "label": "multiple matches"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          5
+        ],
+        "expected": 0,
+        "label": "target not present"
+      },
+      {
+        "input": [
+          [],
+          1
+        ],
+        "expected": 0,
+        "label": "empty array",
+        "hidden": true
+      },
+      {
+        "input": [
+          [
+            4,
+            4,
+            4,
+            4
+          ],
+          4
+        ],
+        "expected": 4,
+        "label": "all matches",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Basic Loops (Conditional Counting)",
+    "patternExplanation": "A standard linear scan with an accumulator counter tracks match occurrences in O(n) time.",
+    "estimatedMinutes": 5
+  },
+  {
+    "id": "basic-loops-7",
+    "title": "Find Minimum and Maximum",
+    "category": "basic-loops",
+    "difficulty": "Beginner",
+    "functionName": "findMinMax",
+    "description": "Given a non-empty array of numbers, return an array [min, max] containing the smallest and largest numbers found.",
+    "whatShouldHappen": [
+      "Initialize min = nums[0] and max = nums[0].",
+      "Loop from index 1 through nums.length - 1.",
+      "If nums[i] < min, update min = nums[i].",
+      "If nums[i] > max, update max = nums[i].",
+      "Return [min, max]."
+    ],
+    "starterCode": "function findMinMax(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [3, 1, 9, 2]",
+      "columns": [
+        "i",
+        "nums[i]",
+        "min",
+        "max"
+      ],
+      "rows": [
+        {
+          "i": "init",
+          "nums[i]": 3,
+          "min": 3,
+          "max": 3
+        },
+        {
+          "i": 1,
+          "nums[i]": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "i": 2,
+          "nums[i]": 9,
+          "min": 1,
+          "max": 9
+        },
+        {
+          "i": 3,
+          "nums[i]": 2,
+          "min": 1,
+          "max": 9
+        }
+      ]
+    },
+    "skeletonHint": "function findMinMax(nums) {\n  let min = nums[0], max = nums[0];\n  for (let i = 1; i < nums.length; i++) {\n    if (nums[i] < min) min = nums[i];\n    if (nums[i] > max) max = nums[i];\n  }\n  return [min, max];\n}",
+    "solution": "function findMinMax(nums) {\n  let min = nums[0];\n  let max = nums[0];\n  for (let i = 1; i < nums.length; i++) {\n    if (nums[i] < min) min = nums[i];\n    if (nums[i] > max) max = nums[i];\n  }\n  return [min, max];\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            3,
+            1,
+            9,
+            2
+          ]
+        ],
+        "expected": [
+          1,
+          9
+        ],
+        "label": "mixed array"
+      },
+      {
+        "input": [
+          [
+            5
+          ]
+        ],
+        "expected": [
+          5,
+          5
+        ],
+        "label": "single element"
+      },
+      {
+        "input": [
+          [
+            -10,
+            -5,
+            -20,
+            0
+          ]
+        ],
+        "expected": [
+          -20,
+          0
+        ],
+        "label": "negatives and zero",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Basic Loops (Simultaneous Extremes)",
+    "patternExplanation": "Initializing extremes with the first item and updating in a single pass finds min and max in O(n) without sorting.",
+    "estimatedMinutes": 5
+  },
+  {
+    "id": "basic-loops-8",
+    "title": "Calculate Average",
+    "category": "basic-loops",
+    "difficulty": "Beginner",
+    "functionName": "calculateAverage",
+    "description": "Given an array of numbers, return the mathematical average (mean) of all values. If the array is empty, return 0.",
+    "whatShouldHappen": [
+      "If nums.length === 0, return 0.",
+      "Initialize sum = 0.",
+      "Loop over nums adding each value to sum.",
+      "Return sum / nums.length."
+    ],
+    "starterCode": "function calculateAverage(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [2, 4, 6, 8]",
+      "columns": [
+        "index",
+        "val",
+        "running sum",
+        "average at end"
+      ],
+      "rows": [
+        {
+          "index": 0,
+          "val": 2,
+          "running sum": 2,
+          "average at end": "-"
+        },
+        {
+          "index": 1,
+          "val": 4,
+          "running sum": 6,
+          "average at end": "-"
+        },
+        {
+          "index": 2,
+          "val": 6,
+          "running sum": 12,
+          "average at end": "-"
+        },
+        {
+          "index": 3,
+          "val": 8,
+          "running sum": 20,
+          "average at end": "20 / 4 = 5"
+        }
+      ]
+    },
+    "skeletonHint": "function calculateAverage(nums) {\n  if (nums.length === 0) return 0;\n  let sum = 0;\n  for (let i = 0; i < nums.length; i++) sum += nums[i];\n  return sum / nums.length;\n}",
+    "solution": "function calculateAverage(nums) {\n  if (nums.length === 0) return 0;\n  let sum = 0;\n  for (let i = 0; i < nums.length; i++) {\n    sum += nums[i];\n  }\n  return sum / nums.length;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            2,
+            4,
+            6,
+            8
+          ]
+        ],
+        "expected": 5,
+        "label": "exact integer mean"
+      },
+      {
+        "input": [
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": 1.5,
+        "label": "decimal mean"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": 0,
+        "label": "empty array",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Basic Loops (Aggregation and Division)",
+    "patternExplanation": "Accumulate total sum in O(n) and divide by length, guarding against division by zero on empty input.",
+    "estimatedMinutes": 5
   }
 ]

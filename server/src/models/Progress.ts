@@ -11,6 +11,8 @@ const SolvedEntrySchema = new Schema(
     lastReviewedAt: { type: String },
     nextReviewDue: { type: String },
     executionTimeMs: { type: Number },
+    memoryBytes: { type: Number },
+    memoryUsageMb: { type: Number },
     runCount: { type: Number, default: 1 },
     runTimings: { type: [Schema.Types.Mixed], default: [] },
     acceptedCode: { type: String },
@@ -44,7 +46,7 @@ const ProgressSchema = new Schema(
             articleId: String,
             date: String,
           },
-          { _id: false }
+          { _id: false },
         ),
       ],
       default: [],

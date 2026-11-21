@@ -30,16 +30,16 @@ export const RecallDiffPanel = ({
       <Glow color={isGaveUp ? 'var(--color-accent-amber)' : 'var(--color-accent-green)'} size="xl" className="opacity-10" />
       
       <Card className="w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden border-white/10 shadow-2xl relative">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-white/[0.02]">
-          <div className="flex items-center gap-4">
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-glow-sm ${isGaveUp ? 'bg-accent-amber/10 text-accent-amber border border-accent-amber/20' : 'bg-accent-green/10 text-accent-green border border-accent-green/20'}`}>
-              {isGaveUp ? <AlertCircle size={20} /> : <CheckCircle2 size={20} />}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 sm:px-6 py-3.5 sm:py-4 border-b border-white/5 bg-white/[0.02]">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-glow-sm shrink-0 ${isGaveUp ? 'bg-accent-amber/10 text-accent-amber border border-accent-amber/20' : 'bg-accent-green/10 text-accent-green border border-accent-green/20'}`}>
+              {isGaveUp ? <AlertCircle size={18} /> : <CheckCircle2 size={18} />}
             </div>
             <div>
-              <h2 className="text-text-primary text-lg font-bold font-geist tracking-tight uppercase">
+              <h2 className="text-text-primary text-base sm:text-lg font-bold font-geist tracking-tight uppercase">
                 {isGaveUp ? 'Recall Skipped' : 'Sequence Recalled'}
               </h2>
-              <p className="text-text-tertiary text-[10px] font-bold uppercase tracking-widest opacity-60">
+              <p className="text-text-tertiary text-[9px] sm:text-[10px] font-bold uppercase tracking-widest opacity-60">
                 {isGaveUp ? 'Comparing Buffer with Stored Log' : 'Neural Pathway Re-established'}
               </p>
             </div>
@@ -47,15 +47,15 @@ export const RecallDiffPanel = ({
           <Button
             variant="primary"
             onClick={onComplete}
-            className={`font-geist text-[10px] font-bold uppercase tracking-widest px-6 gap-2 ${isGaveUp ? 'bg-accent-amber/90 hover:bg-accent-amber' : 'bg-accent-green/90 hover:bg-accent-green shadow-[0_0_12px_rgba(34,197,94,0.3)]'}`}
+            className={`w-full sm:w-auto font-geist text-[10px] font-bold uppercase tracking-widest px-5 py-2 gap-2 justify-center ${isGaveUp ? 'bg-accent-amber/90 hover:bg-accent-amber' : 'bg-accent-green/90 hover:bg-accent-green shadow-[0_0_12px_rgba(34,197,94,0.3)]'}`}
           >
-            {isGaveUp ? 'Return to Queue' : 'Mark as Recalled'}
+            <span>{isGaveUp ? 'Return to Queue' : 'Mark as Recalled'}</span>
             <ChevronRight size={14} />
           </Button>
         </div>
 
-        <div className="flex-1 min-h-[400px] relative">
-          <div className="absolute top-4 left-6 z-10 flex items-center gap-6">
+        <div className="flex-1 min-h-[350px] sm:min-h-[400px] relative">
+          <div className="hidden sm:flex absolute top-4 left-6 z-10 items-center gap-6">
              <span className="text-[9px] font-bold text-text-tertiary uppercase tracking-[0.2em] bg-black/60 backdrop-blur-md px-2 py-1 rounded border border-white/5">Local_Buffer</span>
              <span className="text-[9px] font-bold text-text-tertiary uppercase tracking-[0.2em] bg-black/60 backdrop-blur-md px-2 py-1 rounded border border-white/5 ml-[42%]">Stored_Log</span>
           </div>
@@ -68,13 +68,13 @@ export const RecallDiffPanel = ({
               theme="vs-dark"
               height="100%"
               options={{
-                renderSideBySide: true,
+                renderSideBySide: typeof window !== 'undefined' ? window.innerWidth >= 768 : true,
                 readOnly: true,
                 minimap: { enabled: false },
-                fontSize: 13,
+                fontSize: typeof window !== 'undefined' && window.innerWidth < 768 ? 12 : 13,
                 fontFamily: 'Geist Mono, JetBrains Mono, monospace',
                 scrollBeyondLastLine: false,
-                padding: { top: 48, bottom: 24 },
+                padding: { top: 32, bottom: 24 },
                 scrollbar: { verticalScrollbarSize: 4, horizontalScrollbarSize: 4 },
                 diffWordWrap: 'on',
                 originalEditable: false,

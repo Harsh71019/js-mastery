@@ -6,12 +6,16 @@ import { param } from '../utils/param'
 import { type CreateSubmissionInput } from '../types/schemas/submissionSchemas'
 
 export const create = catchAsync(async (req: Request, res: Response) => {
-  const { verdict, code, executionTimeMs } = req.body as CreateSubmissionInput
+  const { verdict, code, executionTimeMs, cpuTimeMs, memoryBytes, memoryUsageMb } =
+    req.body as CreateSubmissionInput
   const result = await submissionService.createSubmission({
     problemId: param(req, 'problemId'),
     verdict,
     code,
     executionTimeMs,
+    cpuTimeMs,
+    memoryBytes,
+    memoryUsageMb,
   })
   res.status(201).json(success(result))
 })
@@ -30,4 +34,9 @@ export const getOne = catchAsync(async (req: Request, res: Response) => {
     return
   }
   res.json(success(submission))
+})
+
+export const getDistribution = catchAsync(async (req: Request, res: Response) => {
+  const distribution = await submissionService.getProblemDistribution(param(req, 'problemId'))
+  res.json(success(distribution))
 })

@@ -78,23 +78,27 @@ export const CommandPalette = ({ isOpen, onClose }: CommandPaletteProps): React.
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center pt-[12vh] px-4 bg-black/60 backdrop-blur-md" onClick={onClose}>
+    <div className="fixed inset-0 z-[200] flex items-start justify-center pt-4 sm:pt-[12vh] px-3 sm:px-4 bg-black/70 backdrop-blur-md" onClick={onClose}>
       <div 
-        className="w-full max-w-xl glass-panel rounded-2xl shadow-[0_32px_70px_-15px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col border-white/[0.12] bg-[#0c0c0c]"
+        className="w-full max-w-xl glass-panel rounded-2xl shadow-[0_32px_70px_-15px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col border-white/[0.12] bg-[#0c0c0c] max-h-[85vh] sm:max-h-[70vh]"
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-center px-5 py-4 border-b border-white/[0.08] bg-white/[0.02]">
-          <Search size={18} className="text-accent-blue mr-3.5" />
+        <div className="flex items-center px-4 sm:px-5 py-3.5 sm:py-4 border-b border-white/[0.08] bg-white/[0.02]">
+          <Search size={18} className="text-accent-blue mr-3 shrink-0" />
           <input
             autoFocus
-            className="flex-1 bg-transparent border-none outline-none text-white text-sm font-geist placeholder:text-text-tertiary"
-            placeholder="Search problems, patterns, categories, actions..."
+            className="flex-1 bg-transparent border-none outline-none text-white text-base sm:text-sm font-geist placeholder:text-text-tertiary"
+            placeholder="Search problems, patterns, actions..."
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
-          <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-white/5 border border-white/10 ml-3">
-            <kbd className="text-[10px] font-bold text-text-tertiary font-geist uppercase">ESC</kbd>
-          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex items-center gap-1 px-2 py-0.5 rounded bg-white/5 border border-white/10 ml-2 text-text-tertiary hover:text-white cursor-pointer"
+          >
+            <kbd className="text-[10px] font-bold font-geist uppercase">ESC</kbd>
+          </button>
         </div>
 
         <div className="max-h-[60vh] overflow-y-auto p-2 scrollbar-none">

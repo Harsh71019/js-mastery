@@ -67,19 +67,21 @@ export const SolveHistory = ({ solvedProblems = {} }: SolveHistoryProps): React.
             <div
               key={entry.problemId}
               onClick={() => navigate(`/problem/${entry.problemId}`)}
-              className="flex items-center gap-3 py-3 px-4 rounded-xl glass-panel hover:bg-white/[0.04] hover:border-white/20 transition-all duration-200 cursor-pointer mb-2 group"
+              className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3 py-3 px-3.5 sm:px-4 rounded-xl glass-panel hover:bg-white/[0.04] hover:border-white/20 transition-all duration-200 cursor-pointer mb-2 group select-none"
             >
-              <span className="text-text-primary text-sm font-semibold flex-1 truncate group-hover:text-accent-blue transition-colors">{entry.title}</span>
-              <div className="flex items-center gap-2 shrink-0">
-                <CategoryBadge
-                  label={getCategoryTitle(entry.category)}
-                  color={getCategoryColor(entry.category)}
-                />
-                {entry.difficulty && <DifficultyBadge difficulty={entry.difficulty} />}
+              <span className="text-text-primary text-sm font-semibold truncate group-hover:text-accent-blue transition-colors">{entry.title}</span>
+              <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0">
+                <div className="flex items-center gap-2">
+                  <CategoryBadge
+                    label={getCategoryTitle(entry.category)}
+                    color={getCategoryColor(entry.category)}
+                  />
+                  {entry.difficulty && <DifficultyBadge difficulty={entry.difficulty} />}
+                </div>
+                <span className="text-text-tertiary text-[11px] font-geist shrink-0 text-right sm:w-16">
+                  {format(new Date(entry.solvedAt), 'h:mm a')}
+                </span>
               </div>
-              <span className="text-text-tertiary text-xs font-geist shrink-0 w-16 text-right">
-                {format(new Date(entry.solvedAt), 'h:mm a')}
-              </span>
             </div>
           ))}
         </div>

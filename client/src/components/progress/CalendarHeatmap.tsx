@@ -74,10 +74,14 @@ export const CalendarHeatmap = ({ dayData }: CalendarHeatmapProps): React.JSX.El
     <div className="relative">
       {tooltip && (
         <div
-          className="fixed z-50 bg-[#111111]/95 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl p-3 text-xs text-white pointer-events-none"
-          style={{ left: tooltip.x + 12, top: tooltip.y - 8 }}
+          className="fixed z-50 bg-[#111111]/95 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl p-3 text-xs text-white"
+          style={{ left: Math.min(window.innerWidth - 240, Math.max(16, tooltip.x + 12)), top: Math.max(16, tooltip.y - 8) }}
+          onClick={() => setTooltip(null)}
         >
-          <p className="font-bold font-geist mb-1 text-white">{tooltip.date}</p>
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <p className="font-bold font-geist text-white">{tooltip.date}</p>
+            <span className="text-[9px] text-text-tertiary">tap to close</span>
+          </div>
           <p className="text-text-secondary text-[11px] font-medium">
             {tooltip.count === 0 ? 'No problems solved' : `${tooltip.count} problem${tooltip.count > 1 ? 's' : ''} verified`}
           </p>
@@ -130,48 +134,53 @@ export const CalendarHeatmap = ({ dayData }: CalendarHeatmapProps): React.JSX.El
         </span>
       </div>
 
-      <svg width={svgW} height={svgH} className="block">
-        {COL_HEADERS.map((label, col) => (
-          <text
-            key={col}
-            x={DAY_LABEL_W + col * STEP + CELL / 2}
-            y={10}
-            textAnchor="middle"
-            style={{ fill: '#52525b', fontSize: 9 }}
-          >
-            {label}
-          </text>
-        ))}
+      <div className="overflow-x-auto no-scrollbar py-1">
+        <svg width={svgW} height={svgH} className="block">
+          {COL_HEADERS.map((label, col) => (
+            <text
+              key={col}
+              x={DAY_LABEL_W + col * STEP + CELL / 2}
+              y={10}
+              textAnchor="middle"
+              style={{ fill: '#52525b', fontSize: 9 }}
+            >
+              {label}
+            </text>
+          ))}
 
-        {days.map((day) => {
-          const dateStr = format(day, 'yyyy-MM-dd')
-          const col = getDay(day)
-          const row = Math.floor((firstOffset + day.getDate() - 1) / 7)
-          const data = dayData?.get(dateStr)
-          const count = data?.count ?? 0
-          const titles = data?.titles ?? []
+          {days.map((day) => {
+            const dateStr = format(day, 'yyyy-MM-dd')
+            const col = getDay(day)
+            const row = Math.floor((firstOffset + day.getDate() - 1) / 7)
+            const data = dayData?.get(dateStr)
+            const count = data?.count ?? 0
+            const titles = data?.titles ?? []
 
-          return (
-            <rect
-              key={dateStr}
-              x={DAY_LABEL_W + col * STEP}
-              y={HEADER_H + row * STEP}
-              width={CELL}
-              height={CELL}
-              rx={2}
-              fill={getCellColor(count)}
-              className="cursor-pointer"
-              onMouseEnter={(e) =>
-                setTooltip({ x: e.clientX, y: e.clientY, date: format(day, 'MMM d, yyyy'), count, titles })
-              }
-              onMouseMove={(e) =>
-                setTooltip((prev) => prev ? { ...prev, x: e.clientX, y: e.clientY } : null)
-              }
-              onMouseLeave={() => setTooltip(null)}
-            />
-          )
-        })}
-      </svg>
+            return (
+              <rect
+                key={dateStr}
+                x={DAY_LABEL_W + col * STEP}
+                y={HEADER_H + row * STEP}
+                width={CELL}
+                height={CELL}
+                rx={2}
+                fill={getCellColor(count)}
+                className="cursor-pointer"
+                onClick={(e) =>
+                  setTooltip({ x: e.clientX, y: e.clientY, date: format(day, 'MMM d, yyyy'), count, titles })
+                }
+                onMouseEnter={(e) =>
+                  setTooltip({ x: e.clientX, y: e.clientY, date: format(day, 'MMM d, yyyy'), count, titles })
+                }
+                onMouseMove={(e) =>
+                  setTooltip((prev) => prev ? { ...prev, x: e.clientX, y: e.clientY } : null)
+                }
+                onMouseLeave={() => setTooltip(null)}
+              />
+            )
+          })}
+        </svg>
+      </div>
 
       <div className="flex items-center gap-1.5 mt-2">
         <span className="text-text-tertiary text-xs">Less</span>

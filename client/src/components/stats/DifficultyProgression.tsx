@@ -54,7 +54,7 @@ export const DifficultyProgression = (): React.JSX.Element => {
   const hasData = months.some((m) => m.total > 0)
 
   return (
-    <Card className="p-8 bg-white/[0.01] flex flex-col gap-6 h-full min-h-[300px]">
+    <Card className="p-4 sm:p-8 bg-white/[0.01] flex flex-col gap-6 h-full min-h-[300px]">
       {!hasData ? (
         <div className="h-full flex items-center justify-center">
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] font-geist text-text-tertiary opacity-30 text-center max-w-[200px]">
@@ -63,13 +63,13 @@ export const DifficultyProgression = (): React.JSX.Element => {
         </div>
       ) : (
         <>
-          <div className="flex items-end gap-3 flex-1 min-h-[160px]">
+          <div className="flex items-end gap-2 sm:gap-3 flex-1 min-h-[160px] overflow-x-auto no-scrollbar">
             {months.map((month) => (
               <MonthBar key={month.key} month={month} maxTotal={maxTotal} />
             ))}
           </div>
 
-          <div className="flex items-center gap-6 flex-wrap pt-6 border-t border-white/5">
+          <div className="flex items-center gap-3 sm:gap-6 flex-wrap pt-4 sm:pt-6 border-t border-white/5">
             {LEGEND.map((item) => (
               <div key={item.key} className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: item.color, boxShadow: `0 0 8px ${item.color}44` }} />
