@@ -307,5 +307,405 @@
     "patternExplanation": "JavaScript is call-by-sharing. Modifying properties mutates the referenced heap object, but reassigning the parameter variable does not change the caller's reference.",
     "estimatedMinutes": 4,
     "status": "published"
+  },
+  {
+    "id": "trick-math-min-max",
+    "title": "Math.min() > Math.max()",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Easy",
+    "codeSnippet": "console.log(Math.min() > Math.max());",
+    "options": [
+      "true",
+      "false",
+      "TypeError",
+      "undefined"
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "Math.min() with no arguments returns Infinity, and Math.max() returns -Infinity. Therefore, Infinity > -Infinity evaluates to true!",
+    "patternTag": "Math extremes",
+    "patternExplanation": "Math.min starts with Infinity as the accumulator, and Math.max starts with -Infinity. When invoked with 0 arguments, they return their starting boundaries.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-map-parseint",
+    "title": "[\"1\", \"2\", \"3\"].map(parseInt)",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "codeSnippet": "console.log([\"1\", \"2\", \"3\"].map(parseInt));",
+    "options": [
+      "[1, 2, 3]",
+      "[1, NaN, NaN]",
+      "[1, NaN, 2]",
+      "[NaN, NaN, NaN]"
+    ],
+    "correctIndex": 1,
+    "gotchaExplanation": "Array.prototype.map passes three arguments to its callback: (value, index, array). parseInt accepts (string, radix). In the first pass: parseInt(\"1\", 0) -> 1 (radix 0 defaults to 10). In second pass: parseInt(\"2\", 1) -> NaN (radix 1 is invalid). In third pass: parseInt(\"3\", 2) -> NaN (\"3\" is not valid binary). Thus: [1, NaN, NaN].",
+    "patternTag": "Radix argument passing",
+    "patternExplanation": "Higher-order functions like map pass multiple arguments. If an unsuspecting function takes a second parameter as a radix or base, unexpected behavior occurs.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "trick-empty-array-not",
+    "title": "[] == ![]",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Easy",
+    "codeSnippet": "console.log([] == ![]);",
+    "options": [
+      "true",
+      "false",
+      "TypeError",
+      "NaN"
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "Logical NOT operator ! has higher precedence than ==. Since [] is a truthy object, ![] becomes false. Then [] == false triggers coercion: [] becomes \"\" (empty string), and \"\" == false converts both to 0 == 0, which is true!",
+    "patternTag": "Coercion cascading",
+    "patternExplanation": "Loose equality coerces primitives and objects through ToNumber and ToPrimitive steps, leading to surprising counter-intuitive results like [] == ![] being true.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-ba-na-na",
+    "title": "(b + a + + a + a).toLowerCase()",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Easy",
+    "codeSnippet": "console.log((\"b\" + \"a\" + + \"a\" + \"a\").toLowerCase());",
+    "options": [
+      "\"baaa\"",
+      "\"banana\"",
+      "\"ba+aa\"",
+      "\"ba-na-na\""
+    ],
+    "correctIndex": 1,
+    "gotchaExplanation": "\"b\" + \"a\" is \"ba\". Then + \"a\" uses the unary plus operator, trying to convert the string \"a\" into a number, resulting in NaN. \"ba\" + NaN becomes \"baNaN\", and + \"a\" gives \"baNaNa\". .toLowerCase() produces \"banana\"!",
+    "patternTag": "Unary plus NaN",
+    "patternExplanation": "Unary + attempts numeric coercion on non-numeric strings, returning NaN, which then coerces to string \"NaN\" when concatenated with other strings.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-parseint-octal",
+    "title": "parseInt(\"08\") vs parseInt(\"08\", 10)",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Easy",
+    "codeSnippet": "console.log([parseInt(\"08\"), parseInt(\"08\", 10)]);",
+    "options": [
+      "[8, 8]",
+      "[0, 8]",
+      "[NaN, 8]",
+      "[8, 0]"
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "In ECMAScript 5+, strings starting with \"0\" are treated as decimal unless \"0x\" is prefixed. Both parseInt(\"08\") and parseInt(\"08\", 10) return 8. However, always providing the radix explicitly is best practice.",
+    "patternTag": "parseInt radix",
+    "patternExplanation": "Always specify the radix in parseInt (e.g., parseInt(str, 10)) to avoid legacy ECMAScript 3 octal parsing surprises in older environments.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-boolean-object-wrapper",
+    "title": "Boolean(new Boolean(false))",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "codeSnippet": "const x = new Boolean(false);\nconsole.log(Boolean(x) && !!x);",
+    "options": [
+      "true",
+      "false",
+      "undefined",
+      "TypeError"
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "new Boolean(false) creates an object wrapper instance around the primitive false. In JavaScript, all object instances (even wrappers with false value) are truthy! Thus Boolean(object) is true.",
+    "patternTag": "Object wrapper truthiness",
+    "patternExplanation": "Never use new Boolean(), new Number(), or new String() constructors. Objects in JavaScript are always truthy regardless of the primitive value they wrap.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-typeof-typeof",
+    "title": "typeof typeof 1",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Easy",
+    "codeSnippet": "console.log(typeof typeof 1);",
+    "options": [
+      "\"number\"",
+      "\"string\"",
+      "\"object\"",
+      "\"undefined\""
+    ],
+    "correctIndex": 1,
+    "gotchaExplanation": "typeof 1 evaluates to the string \"number\". Then typeof \"number\" evaluates to \"string\"!",
+    "patternTag": "typeof operator return value",
+    "patternExplanation": "The typeof operator always returns a lowercase string representing the operand type. Calling typeof on any string yields \"string\".",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-object-is-negative-zero",
+    "title": "-0 === +0 vs Object.is(-0, +0)",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "codeSnippet": "console.log([-0 === +0, Object.is(-0, +0)]);",
+    "options": [
+      "[true, true]",
+      "[true, false]",
+      "[false, true]",
+      "[false, false]"
+    ],
+    "correctIndex": 1,
+    "gotchaExplanation": "In loose and strict equality (===), -0 and +0 are treated as equal. However, Object.is implements SameValue equality, distinguishing between signed zeros: Object.is(-0, +0) is false.",
+    "patternTag": "SameValue equality",
+    "patternExplanation": "Object.is differentiates -0 from +0, and treats NaN as equal to NaN, adhering to IEEE-754 sign bit differentiation.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-number-min-value",
+    "title": "Number.MIN_VALUE > 0",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Easy",
+    "codeSnippet": "console.log(Number.MIN_VALUE > 0);",
+    "options": [
+      "true",
+      "false",
+      "NaN",
+      "TypeError"
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "Number.MIN_VALUE is NOT the most negative number — it is the smallest positive non-zero floating-point number that can be represented (approx 5e-324). To get the most negative number, use -Number.MAX_VALUE or Number.MIN_SAFE_INTEGER.",
+    "patternTag": "Floating point constants",
+    "patternExplanation": "Number.MIN_VALUE is the smallest positive subnormal number closest to zero. For the minimum safe integer, use Number.MIN_SAFE_INTEGER.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-chained-comparisons",
+    "title": "Chained Comparisons [1 < 2 < 3, 3 > 2 > 1]",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "codeSnippet": "console.log([1 < 2 < 3, 3 > 2 > 1]);",
+    "options": [
+      "[true, true]",
+      "[true, false]",
+      "[false, true]",
+      "[false, false]"
+    ],
+    "correctIndex": 1,
+    "gotchaExplanation": "JavaScript evaluates relational operators from left to right: 1 < 2 evaluates to true. Then true < 3 coerces true to 1: 1 < 3 is true. For the second: 3 > 2 is true. Then true > 1 coerces true to 1: 1 > 1 is false! Result: [true, false].",
+    "patternTag": "Relational chaining coercion",
+    "patternExplanation": "JavaScript does not support mathematical chained comparisons like 3 > 2 > 1. Always use logical AND: (3 > 2 && 2 > 1).",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "trick-comma-operator",
+    "title": "Comma Operator Evaluation",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Easy",
+    "codeSnippet": "let a = (1, 5 - 1) * 2;\nconsole.log(a);",
+    "options": [
+      "8",
+      "2",
+      "6",
+      "NaN"
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "The comma operator evaluates each operand from left to right and returns the value of the last operand. (1, 5 - 1) evaluates 1, then evaluates 5 - 1 which is 4, returning 4. Then 4 * 2 = 8.",
+    "patternTag": "Comma operator",
+    "patternExplanation": "The comma operator discards the result of preceding expressions and yields only the value of the final expression.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-arguments-typeof",
+    "title": "typeof arguments in Function",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Easy",
+    "codeSnippet": "console.log((function() { return typeof arguments; })());",
+    "options": [
+      "\"array\"",
+      "\"object\"",
+      "\"arguments\"",
+      "\"undefined\""
+    ],
+    "correctIndex": 1,
+    "gotchaExplanation": "In standard functions, arguments is an array-like object with length and indexed properties, but it does NOT inherit from Array.prototype. typeof arguments returns \"object\".",
+    "patternTag": "Array-like objects",
+    "patternExplanation": "arguments is an object, not an array. To use array methods, convert it via Array.from(arguments) or use modern rest parameters (...args).",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-destructuring-alias",
+    "title": "Destructuring Key vs Local Variable Alias",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "codeSnippet": "const { a: b = 10 } = { a: 20 };\nconsole.log(typeof a, b);",
+    "options": [
+      "\"undefined\" 20",
+      "\"number\" 20",
+      "\"undefined\" 10",
+      "\"number\" 10"
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "{ a: b } in object destructuring binds the property \"a\" to the newly declared variable named \"b\". The identifier \"a\" is not declared as a variable in the local scope, so typeof a is \"undefined\", while b is 20!",
+    "patternTag": "Destructuring aliasing",
+    "patternExplanation": "In object destructuring, key: alias binds the value of key to a variable named alias. The key name is not created in scope.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-delete-array-length",
+    "title": "delete array.length",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "codeSnippet": "const arr = [1, 2, 3];\nconsole.log(delete arr.length, arr.length);",
+    "options": [
+      "true 3",
+      "false 3",
+      "true 0",
+      "false 0"
+    ],
+    "correctIndex": 1,
+    "gotchaExplanation": "The length property of arrays is non-configurable (configurable: false). Calling delete on a non-configurable property returns false (or throws a TypeError in strict mode), and the length remains untouched at 3.",
+    "patternTag": "Property descriptors & delete",
+    "patternExplanation": "Array.prototype.length is non-configurable and cannot be deleted. Modifying arr.length = 0 truncates the array, but delete fails.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-true-plus-true",
+    "title": "true + true and +!+[]",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Easy",
+    "codeSnippet": "console.log([true + true, +!+[]]);",
+    "options": [
+      "[2, 1]",
+      "[true, 0]",
+      "[\"truetrue\", 1]",
+      "[2, 0]"
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "The + operator between booleans coerces both to numbers: 1 + 1 = 2. In +!+[]: +[] coerces empty array to 0. !0 is true. Then +true coerces true to number 1. Result is [2, 1].",
+    "patternTag": "Boolean numeric coercion",
+    "patternExplanation": "Binary + with booleans uses ToNumber(val), where true becomes 1 and false becomes 0.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-null-vs-undefined-equality",
+    "title": "null == undefined and Relational Comparison",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "codeSnippet": "console.log([null == undefined, null === undefined, null >= 0, null > 0]);",
+    "options": [
+      "[true, false, true, false]",
+      "[true, true, true, false]",
+      "[false, false, false, false]",
+      "[true, false, false, false]"
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "By spec, null == undefined is true, but null === undefined is false. Furthermore, relational comparison null >= 0 coerces null to number 0, so 0 >= 0 is true. But null > 0 becomes 0 > 0 which is false!",
+    "patternTag": "Null comparisons",
+    "patternExplanation": "Equality comparison (==) treats null and undefined as equal only to each other. Relational operators (<, <=, >, >=) convert null to 0.",
+    "estimatedMinutes": 3,
+    "status": "published"
+  },
+  {
+    "id": "trick-number-vs-parseint-empty-string",
+    "title": "Number(\"\") vs parseInt(\"\")",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Easy",
+    "codeSnippet": "console.log([Number(\"\"), parseInt(\"\"), Number(null), parseInt(null)]);",
+    "options": [
+      "[0, NaN, 0, NaN]",
+      "[NaN, NaN, 0, NaN]",
+      "[0, 0, 0, 0]",
+      "[NaN, 0, NaN, 0]"
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "Number(\"\") converts whitespace and empty strings to 0, and Number(null) is 0. Conversely, parseInt parses characters until an invalid character is found; an empty string has no digits, returning NaN. parseInt(null) first converts null to string \"null\", cannot parse \"n\", returning NaN.",
+    "patternTag": "Number vs parseInt coercion",
+    "patternExplanation": "Number() converts the entire string according to grammar rules, mapping \"\" and null to 0. parseInt parses leading numeric substrings and fails on empty strings.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-array-addition-two-arrays",
+    "title": "[1, 2] + [3, 4] Array Addition",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Easy",
+    "codeSnippet": "console.log([1, 2] + [3, 4]);",
+    "options": [
+      "\"1,23,4\"",
+      "[1, 2, 3, 4]",
+      "NaN",
+      "TypeError"
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "When adding two arrays with +, JavaScript converts both operands to primitives via .toString(). [1, 2].toString() is \"1,2\" and [3, 4].toString() is \"3,4\". Concatenating them produces \"1,23,4\"!",
+    "patternTag": "Array string concatenation",
+    "patternExplanation": "Array addition (+) invokes Array.prototype.toString(), joining elements with commas, rather than concatenating array elements.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-function-length",
+    "title": "Function.length with Default Parameters",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "codeSnippet": "function fn(a, b = 2, c) {}\nconsole.log(fn.length);",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "0"
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "Function.length returns the number of arguments expected by the function before the first parameter with a default value. Since \"b\" has a default value (b = 2), counting stops before b, so fn.length is 1!",
+    "patternTag": "Function arity & default parameters",
+    "patternExplanation": "Function.length reports the function arity up to the first parameter with a default value or rest parameter.",
+    "estimatedMinutes": 2,
+    "status": "published"
+  },
+  {
+    "id": "trick-try-finally-return",
+    "title": "return in try vs finally block",
+    "type": "trick",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "codeSnippet": "function test() {\n  try {\n    return 1;\n  } finally {\n    return 2;\n  }\n}\nconsole.log(test());",
+    "options": [
+      "2",
+      "1",
+      "undefined",
+      "TypeError"
+    ],
+    "correctIndex": 0,
+    "gotchaExplanation": "The finally block always executes before control leaves the try/catch construct. If finally executes a return statement, it overrides any pending return value from the try block, so 2 is returned.",
+    "patternTag": "try-finally return override",
+    "patternExplanation": "Statements in finally blocks always execute, and an explicit return or throw in finally will supersede any return or throw in try or catch.",
+    "estimatedMinutes": 2,
+    "status": "published"
   }
 ]

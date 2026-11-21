@@ -781,5 +781,307 @@
     "patternTag": "Sliding Window (Counting Subarrays)",
     "patternExplanation": "Every time right expands, exactly (right - left + 1) contiguous subarrays ending at right are valid and counted in O(n) total operations.",
     "estimatedMinutes": 15
+  },
+  {
+    "id": "sliding-window-min-window-substring",
+    "title": "Minimum Window Substring",
+    "category": "sliding-window",
+    "difficulty": "Hard",
+    "functionName": "minWindow",
+    "description": "Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If no such substring exists, return empty string \"\".",
+    "whatShouldHappen": [
+      "Build a frequency map of characters in target t.",
+      "Use right pointer to expand window until all characters of t are satisfied (formedCount === requiredCount).",
+      "While valid, shrink window from left to minimize length, updating minimum window bounds.",
+      "Return the minimum substring, or \"\" if no valid window was found."
+    ],
+    "starterCode": "function minWindow(s, t) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "s = \"ADOBECODEBANC\", t = \"ABC\"",
+      "columns": [
+        "left",
+        "right",
+        "char",
+        "formed",
+        "minLen",
+        "minSub"
+      ],
+      "rows": [
+        {
+          "left": 0,
+          "right": 5,
+          "char": "C",
+          "formed": 3,
+          "minLen": 6,
+          "minSub": "ADOBEC"
+        },
+        {
+          "left": 5,
+          "right": 10,
+          "char": "A",
+          "formed": 3,
+          "minLen": 6,
+          "minSub": "ADOBEC"
+        },
+        {
+          "left": 9,
+          "right": 12,
+          "char": "C",
+          "formed": 3,
+          "minLen": 4,
+          "minSub": "BANC"
+        }
+      ]
+    },
+    "skeletonHint": "function minWindow(s, t) {\n  if (!s || !t) return '';\n  const need = {};\n  for (const c of t) need[c] = (need[c] || 0) + 1;\n  let required = Object.keys(need).length;\n  let left = 0, formed = 0;\n  const window = {};\n  let minLen = Infinity, minStart = 0;\n  for (let right = 0; right < s.length; right++) {\n    const c = s[right];\n    window[c] = (window[c] || 0) + 1;\n    if (need[c] && window[c] === need[c]) formed++;\n    while (left <= right && formed === required) {\n      if (right - left + 1 < minLen) {\n        minLen = right - left + 1;\n        minStart = left;\n      }\n      const leftChar = s[left];\n      window[leftChar]--;\n      if (need[leftChar] && window[leftChar] < need[leftChar]) formed--;\n      left++;\n    }\n  }\n  return minLen === Infinity ? '' : s.substring(minStart, minStart + minLen);\n}",
+    "solution": "function minWindow(s, t) {\n  if (!s || !t || s.length < t.length) return '';\n\n  const need = {};\n  for (let i = 0; i < t.length; i++) {\n    const char = t[i];\n    need[char] = (need[char] || 0) + 1;\n  }\n\n  const required = Object.keys(need).length;\n  let left = 0;\n  let formed = 0;\n  const window = {};\n  let minLen = Infinity;\n  let minStart = 0;\n\n  for (let right = 0; right < s.length; right++) {\n    const char = s[right];\n    window[char] = (window[char] || 0) + 1;\n\n    if (need[char] && window[char] === need[char]) {\n      formed++;\n    }\n\n    while (left <= right && formed === required) {\n      if (right - left + 1 < minLen) {\n        minLen = right - left + 1;\n        minStart = left;\n      }\n\n      const leftChar = s[left];\n      window[leftChar]--;\n      if (need[leftChar] && window[leftChar] < need[leftChar]) {\n        formed--;\n      }\n      left++;\n    }\n  }\n\n  return minLen === Infinity ? '' : s.substring(minStart, minStart + minLen);\n}",
+    "tests": [
+      {
+        "input": [
+          "ADOBECODEBANC",
+          "ABC"
+        ],
+        "expected": "BANC",
+        "label": "Classic minimum window"
+      },
+      {
+        "input": [
+          "a",
+          "a"
+        ],
+        "expected": "a",
+        "label": "Single character match"
+      },
+      {
+        "input": [
+          "a",
+          "aa"
+        ],
+        "expected": "",
+        "label": "Not enough characters"
+      },
+      {
+        "input": [
+          "ab",
+          "b"
+        ],
+        "expected": "b",
+        "label": "End of string match"
+      },
+      {
+        "input": [
+          "cabwefgewcwaefgcf",
+          "cae"
+        ],
+        "expected": "cwae",
+        "label": "Multiple occurrences with duplicates"
+      }
+    ],
+    "patternTag": "Variable Size Sliding Window (Expansion & Contraction)",
+    "patternExplanation": "Expand right pointer until condition is met, then contract left pointer while preserving valid condition to find minimum window in O(m + n).",
+    "estimatedMinutes": 25,
+    "status": "published"
+  },
+  {
+    "id": "sliding-window-longest-k-distinct",
+    "title": "Longest Substring with At Most K Distinct Characters",
+    "category": "sliding-window",
+    "difficulty": "Medium",
+    "functionName": "lengthOfLongestSubstringKDistinct",
+    "description": "Given a string s and an integer k, return the length of the longest substring of s that contains at most k distinct characters.",
+    "whatShouldHappen": [
+      "Maintain a Map of character frequencies in the current sliding window.",
+      "Expand right pointer through string, updating frequencies.",
+      "When distinct character count (map.size) exceeds k, advance left pointer and decrement counts until map.size <= k.",
+      "Track maximum window length right - left + 1 and return it."
+    ],
+    "starterCode": "function lengthOfLongestSubstringKDistinct(s, k) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "s = \"eceba\", k = 2",
+      "columns": [
+        "left",
+        "right",
+        "char",
+        "distinct",
+        "maxLen"
+      ],
+      "rows": [
+        {
+          "left": 0,
+          "right": 0,
+          "char": "e",
+          "distinct": 1,
+          "maxLen": 1
+        },
+        {
+          "left": 0,
+          "right": 1,
+          "char": "c",
+          "distinct": 2,
+          "maxLen": 2
+        },
+        {
+          "left": 0,
+          "right": 2,
+          "char": "e",
+          "distinct": 2,
+          "maxLen": 3
+        },
+        {
+          "left": 2,
+          "right": 3,
+          "char": "b",
+          "distinct": 2,
+          "maxLen": 3
+        }
+      ]
+    },
+    "skeletonHint": "function lengthOfLongestSubstringKDistinct(s, k) {\n  if (k === 0 || !s) return 0;\n  const map = new Map();\n  let left = 0, maxLen = 0;\n  for (let right = 0; right < s.length; right++) {\n    const c = s[right];\n    map.set(c, (map.get(c) || 0) + 1);\n    while (map.size > k) {\n      const lc = s[left];\n      map.set(lc, map.get(lc) - 1);\n      if (map.get(lc) === 0) map.delete(lc);\n      left++;\n    }\n    maxLen = Math.max(maxLen, right - left + 1);\n  }\n  return maxLen;\n}",
+    "solution": "function lengthOfLongestSubstringKDistinct(s, k) {\n  if (k === 0 || !s || s.length === 0) return 0;\n  const counts = new Map();\n  let left = 0;\n  let maxLen = 0;\n\n  for (let right = 0; right < s.length; right++) {\n    const char = s[right];\n    counts.set(char, (counts.get(char) || 0) + 1);\n\n    while (counts.size > k) {\n      const leftChar = s[left];\n      const count = counts.get(leftChar) - 1;\n      if (count === 0) {\n        counts.delete(leftChar);\n      } else {\n        counts.set(leftChar, count);\n      }\n      left++;\n    }\n\n    maxLen = Math.max(maxLen, right - left + 1);\n  }\n\n  return maxLen;\n}",
+    "tests": [
+      {
+        "input": [
+          "eceba",
+          2
+        ],
+        "expected": 3,
+        "label": "\"ece\" has length 3"
+      },
+      {
+        "input": [
+          "aa",
+          1
+        ],
+        "expected": 2,
+        "label": "All identical"
+      },
+      {
+        "input": [
+          "a",
+          0
+        ],
+        "expected": 0,
+        "label": "k = 0 returns 0"
+      },
+      {
+        "input": [
+          "abaccc",
+          2
+        ],
+        "expected": 4,
+        "label": "\"accc\" has length 4"
+      },
+      {
+        "input": [
+          "abcdef",
+          3
+        ],
+        "expected": 3,
+        "label": "Distinct characters"
+      }
+    ],
+    "patternTag": "Variable Size Sliding Window",
+    "patternExplanation": "A sliding window with a frequency hash map tracks distinct keys in O(n) time, shrinking when distinct count exceeds k.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "sliding-window-permutation-in-string",
+    "title": "Permutation in String",
+    "category": "sliding-window",
+    "difficulty": "Medium",
+    "functionName": "checkInclusion",
+    "description": "Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise. In other words, return true if one of s1 permutations is the substring of s2.",
+    "whatShouldHappen": [
+      "If s1.length > s2.length, return false.",
+      "Build character frequency array for s1 and initial window of length s1.length in s2.",
+      "Slide the fixed-size window of length s1.length one character at a time across s2.",
+      "Compare character frequencies; return true if they match at any window position.",
+      "Return false if window reaches end of s2 without a match."
+    ],
+    "starterCode": "function checkInclusion(s1, s2) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "s1 = \"ab\", s2 = \"eidbaooo\"",
+      "columns": [
+        "windowStart",
+        "windowEnd",
+        "subString",
+        "matches"
+      ],
+      "rows": [
+        {
+          "windowStart": 0,
+          "windowEnd": 1,
+          "subString": "ei",
+          "matches": "false"
+        },
+        {
+          "windowStart": 1,
+          "windowEnd": 2,
+          "subString": "id",
+          "matches": "false"
+        },
+        {
+          "windowStart": 2,
+          "windowEnd": 3,
+          "subString": "db",
+          "matches": "false"
+        },
+        {
+          "windowStart": 3,
+          "windowEnd": 4,
+          "subString": "ba",
+          "matches": "true"
+        }
+      ]
+    },
+    "skeletonHint": "function checkInclusion(s1, s2) {\n  if (s1.length > s2.length) return false;\n  const count1 = Array(26).fill(0);\n  const count2 = Array(26).fill(0);\n  const aCode = 'a'.charCodeAt(0);\n  for (let i = 0; i < s1.length; i++) {\n    count1[s1.charCodeAt(i) - aCode]++;\n    count2[s2.charCodeAt(i) - aCode]++;\n  }\n  // slide window\n  for (let i = 0; i < s2.length - s1.length; i++) {\n    if (count1.every((val, idx) => val === count2[idx])) return true;\n    count2[s2.charCodeAt(i + s1.length) - aCode]++;\n    count2[s2.charCodeAt(i) - aCode]--;\n  }\n  return count1.every((val, idx) => val === count2[idx]);\n}",
+    "solution": "function checkInclusion(s1, s2) {\n  if (s1.length > s2.length) return false;\n\n  const count1 = new Array(26).fill(0);\n  const count2 = new Array(26).fill(0);\n  const aCode = 97;\n\n  for (let i = 0; i < s1.length; i++) {\n    count1[s1.charCodeAt(i) - aCode]++;\n    count2[s2.charCodeAt(i) - aCode]++;\n  }\n\n  const matches = (c1, c2) => {\n    for (let i = 0; i < 26; i++) {\n      if (c1[i] !== c2[i]) return false;\n    }\n    return true;\n  };\n\n  for (let i = 0; i < s2.length - s1.length; i++) {\n    if (matches(count1, count2)) return true;\n    count2[s2.charCodeAt(i + s1.length) - aCode]++;\n    count2[s2.charCodeAt(i) - aCode]--;\n  }\n\n  return matches(count1, count2);\n}",
+    "tests": [
+      {
+        "input": [
+          "ab",
+          "eidbaooo"
+        ],
+        "expected": true,
+        "label": "Contains \"ba\""
+      },
+      {
+        "input": [
+          "ab",
+          "eidboaoo"
+        ],
+        "expected": false,
+        "label": "Characters separated"
+      },
+      {
+        "input": [
+          "adc",
+          "dcda"
+        ],
+        "expected": true,
+        "label": "Permutation \"cda\""
+      },
+      {
+        "input": [
+          "hello",
+          "ooolleoooleh"
+        ],
+        "expected": false,
+        "label": "Scattered characters"
+      },
+      {
+        "input": [
+          "a",
+          "a"
+        ],
+        "expected": true,
+        "label": "Single character match"
+      }
+    ],
+    "patternTag": "Fixed Size Sliding Window",
+    "patternExplanation": "A fixed-size window of size s1.length moves across s2, updating character frequencies in O(1) per step.",
+    "estimatedMinutes": 15,
+    "status": "published"
   }
 ]

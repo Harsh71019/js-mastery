@@ -94,3 +94,33 @@ export const completeArticle = catchAsync(async (req: Request, res: Response) =>
 
   res.json(success(serializeProgress(progress)))
 })
+
+export const toggleBookmarkArticle = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params
+  if (!id) {
+    throw new BadRequestError('Article ID is required')
+  }
+
+  const article = await Article.findOne({ id, status: 'published' })
+  if (!article) {
+    throw new NotFoundError('Article not found')
+  }
+
+  let progress = await Progress.findOne({ userId: USER_ID })
+  if (!progress) {
+    progress = new Progress({ userId: USER_ID })
+  }
+
+  const bookmarked: string[] = (progress as unknown as { bookmarkedArticles?: string[] }).bookmarkedArticles || []
+  const idx = bookmarked.indexOf(id)
+  if (idx > -1) {
+    bookmarked.splice(idx, 1)
+  } else {
+    bookmarked.push(id)
+  }
+  progress.set('bookmarkedArticles', bookmarked)
+
+  await progress.save()
+
+  res.json(success(serializeProgress(progress)))
+})

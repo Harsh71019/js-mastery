@@ -17,15 +17,52 @@
     "skeletonHint": "function getProperty(obj, key) {\n  return obj[____];\n}",
     "solution": "function getProperty(obj, key) {\n  // Use bracket notation for dynamic keys\n  return obj[key];\n}",
     "tests": [
-      { "input": [{ "a": 1, "b": 2 }, "a"], "expected": 1, "label": "Retrieve key 'a'" },
-      { "input": [{ "name": "JS Mastery", "active": true }, "name"], "expected": "JS Mastery", "label": "Retrieve key 'name'" },
-      { "input": [{ "123": "numbers" }, "123"], "expected": "numbers", "label": "Numeric key string" }
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": 2
+          },
+          "a"
+        ],
+        "expected": 1,
+        "label": "Retrieve key 'a'"
+      },
+      {
+        "input": [
+          {
+            "name": "JS Mastery",
+            "active": true
+          },
+          "name"
+        ],
+        "expected": "JS Mastery",
+        "label": "Retrieve key 'name'"
+      },
+      {
+        "input": [
+          {
+            "123": "numbers"
+          },
+          "123"
+        ],
+        "expected": "numbers",
+        "label": "Numeric key string"
+      }
     ],
     "traceTable": {
       "inputLabel": "getProperty({ a: 1 }, 'a')",
-      "columns": ["obj", "key", "result"],
+      "columns": [
+        "obj",
+        "key",
+        "result"
+      ],
       "rows": [
-        { "obj": "{ a: 1 }", "key": "'a'", "result": 1 }
+        {
+          "obj": "{ a: 1 }",
+          "key": "'a'",
+          "result": 1
+        }
       ]
     },
     "patternTag": "Dynamic Property Access",
@@ -52,15 +89,50 @@
     "skeletonHint": "function createObject(key, value) {\n  return {\n    [____]: ____\n  };\n}",
     "solution": "function createObject(key, value) {\n  // Computed property names allow dynamic keys in object literals\n  return {\n    [key]: value\n  };\n}",
     "tests": [
-      { "input": ["id", 101], "expected": { "id": 101 }, "label": "Key 'id'" },
-      { "input": ["status", "active"], "expected": { "status": "active" }, "label": "Key 'status'" },
-      { "input": ["user_name", "alex"], "expected": { "user_name": "alex" }, "label": "Key 'user_name'" }
+      {
+        "input": [
+          "id",
+          101
+        ],
+        "expected": {
+          "id": 101
+        },
+        "label": "Key 'id'"
+      },
+      {
+        "input": [
+          "status",
+          "active"
+        ],
+        "expected": {
+          "status": "active"
+        },
+        "label": "Key 'status'"
+      },
+      {
+        "input": [
+          "user_name",
+          "alex"
+        ],
+        "expected": {
+          "user_name": "alex"
+        },
+        "label": "Key 'user_name'"
+      }
     ],
     "traceTable": {
       "inputLabel": "createObject('color', 'blue')",
-      "columns": ["key", "value", "result"],
+      "columns": [
+        "key",
+        "value",
+        "result"
+      ],
       "rows": [
-        { "key": "'color'", "value": "'blue'", "result": "{ color: 'blue' }" }
+        {
+          "key": "'color'",
+          "value": "'blue'",
+          "result": "{ color: 'blue' }"
+        }
       ]
     },
     "patternTag": "Computed Property Names",
@@ -86,15 +158,50 @@
     "skeletonHint": "function hasKey(obj, key) {\n  return ____ in ____;\n}",
     "solution": "function hasKey(obj, key) {\n  // The 'in' operator checks for property existence\n  return key in obj;\n}",
     "tests": [
-      { "input": [{ "a": 1 }, "a"], "expected": true, "label": "Key exists" },
-      { "input": [{ "a": 1 }, "b"], "expected": false, "label": "Key does not exist" },
-      { "input": [{ "x": null }, "x"], "expected": true, "label": "Key exists with null value" }
+      {
+        "input": [
+          {
+            "a": 1
+          },
+          "a"
+        ],
+        "expected": true,
+        "label": "Key exists"
+      },
+      {
+        "input": [
+          {
+            "a": 1
+          },
+          "b"
+        ],
+        "expected": false,
+        "label": "Key does not exist"
+      },
+      {
+        "input": [
+          {
+            "x": null
+          },
+          "x"
+        ],
+        "expected": true,
+        "label": "Key exists with null value"
+      }
     ],
     "traceTable": {
       "inputLabel": "hasKey({ a: 1 }, 'a')",
-      "columns": ["obj", "key", "exists"],
+      "columns": [
+        "obj",
+        "key",
+        "exists"
+      ],
       "rows": [
-        { "obj": "{ a: 1 }", "key": "'a'", "exists": true }
+        {
+          "obj": "{ a: 1 }",
+          "key": "'a'",
+          "exists": true
+        }
       ]
     },
     "patternTag": "Property Existence",
@@ -120,15 +227,49 @@
     "skeletonHint": "function getAllKeys(obj) {\n  return Object.____(obj);\n}",
     "solution": "function getAllKeys(obj) {\n  // Object.keys returns an array of strings\n  return Object.keys(obj);\n}",
     "tests": [
-      { "input": [{ "a": 1, "b": 2 }], "expected": ["a", "b"], "label": "Multiple keys" },
-      { "input": [{ "name": "Alice" }], "expected": ["name"], "label": "Single key" },
-      { "input": [{}], "expected": [], "label": "Empty object" }
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": 2
+          }
+        ],
+        "expected": [
+          "a",
+          "b"
+        ],
+        "label": "Multiple keys"
+      },
+      {
+        "input": [
+          {
+            "name": "Alice"
+          }
+        ],
+        "expected": [
+          "name"
+        ],
+        "label": "Single key"
+      },
+      {
+        "input": [
+          {}
+        ],
+        "expected": [],
+        "label": "Empty object"
+      }
     ],
     "traceTable": {
       "inputLabel": "getAllKeys({ a: 1, b: 2 })",
-      "columns": ["obj", "keys"],
+      "columns": [
+        "obj",
+        "keys"
+      ],
       "rows": [
-        { "obj": "{ a: 1, b: 2 }", "keys": "['a', 'b']" }
+        {
+          "obj": "{ a: 1, b: 2 }",
+          "keys": "['a', 'b']"
+        }
       ]
     },
     "patternTag": "Object Reflection",
@@ -155,15 +296,48 @@
     "skeletonHint": "function sumValues(obj) {\n  const values = Object.____(obj);\n  return values.reduce((sum, val) => ____ + ____, 0);\n}",
     "solution": "function sumValues(obj) {\n  // Get array of values and reduce them to a sum\n  return Object.values(obj).reduce((sum, val) => sum + val, 0);\n}",
     "tests": [
-      { "input": [{ "a": 10, "b": 20, "c": 30 }], "expected": 60, "label": "Sum three values" },
-      { "input": [{ "price": 5.99, "tax": 0.41 }], "expected": 6.4, "label": "Decimals" },
-      { "input": [{}], "expected": 0, "label": "Empty object" }
+      {
+        "input": [
+          {
+            "a": 10,
+            "b": 20,
+            "c": 30
+          }
+        ],
+        "expected": 60,
+        "label": "Sum three values"
+      },
+      {
+        "input": [
+          {
+            "price": 5.99,
+            "tax": 0.41
+          }
+        ],
+        "expected": 6.4,
+        "label": "Decimals"
+      },
+      {
+        "input": [
+          {}
+        ],
+        "expected": 0,
+        "label": "Empty object"
+      }
     ],
     "traceTable": {
       "inputLabel": "sumValues({ a: 10, b: 20 })",
-      "columns": ["obj", "values", "sum"],
+      "columns": [
+        "obj",
+        "values",
+        "sum"
+      ],
       "rows": [
-        { "obj": "{ a: 10, b: 20 }", "values": "[10, 20]", "sum": 30 }
+        {
+          "obj": "{ a: 10, b: 20 }",
+          "values": "[10, 20]",
+          "sum": 30
+        }
       ]
     },
     "patternTag": "Object Value Processing",
@@ -189,15 +363,58 @@
     "skeletonHint": "function objectToArray(obj) {\n  return Object.____(obj);\n}",
     "solution": "function objectToArray(obj) {\n  // Object.entries returns an array of [key, value] arrays\n  return Object.entries(obj);\n}",
     "tests": [
-      { "input": [{ "a": 1, "b": 2 }], "expected": [["a", 1], ["b", 2]], "label": "Two pairs" },
-      { "input": [{ "name": "JS" }], "expected": [["name", "JS"]], "label": "Single pair" },
-      { "input": [{}], "expected": [], "label": "Empty object" }
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": 2
+          }
+        ],
+        "expected": [
+          [
+            "a",
+            1
+          ],
+          [
+            "b",
+            2
+          ]
+        ],
+        "label": "Two pairs"
+      },
+      {
+        "input": [
+          {
+            "name": "JS"
+          }
+        ],
+        "expected": [
+          [
+            "name",
+            "JS"
+          ]
+        ],
+        "label": "Single pair"
+      },
+      {
+        "input": [
+          {}
+        ],
+        "expected": [],
+        "label": "Empty object"
+      }
     ],
     "traceTable": {
       "inputLabel": "objectToArray({ x: 10 })",
-      "columns": ["obj", "entries"],
+      "columns": [
+        "obj",
+        "entries"
+      ],
       "rows": [
-        { "obj": "{ x: 10 }", "entries": "[['x', 10]]" }
+        {
+          "obj": "{ x: 10 }",
+          "entries": "[['x', 10]]"
+        }
       ]
     },
     "patternTag": "Object Transformation",
@@ -224,15 +441,48 @@
     "skeletonHint": "function getUserInfo(user) {\n  const { name = '____', role = '____' } = user;\n  return `Name: ${name}, Role: ${role}`;\n}",
     "solution": "function getUserInfo(user) {\n  // Destructure with default values\n  const { name = 'Anonymous', role = 'User' } = user;\n  return `Name: ${name}, Role: ${role}`;\n}",
     "tests": [
-      { "input": [{ "name": "Alice", "role": "Admin" }], "expected": "Name: Alice, Role: Admin", "label": "Both properties provided" },
-      { "input": [{ "name": "Bob" }], "expected": "Name: Bob, Role: User", "label": "One property missing" },
-      { "input": [{}], "expected": "Name: Anonymous, Role: User", "label": "Empty object" }
+      {
+        "input": [
+          {
+            "name": "Alice",
+            "role": "Admin"
+          }
+        ],
+        "expected": "Name: Alice, Role: Admin",
+        "label": "Both properties provided"
+      },
+      {
+        "input": [
+          {
+            "name": "Bob"
+          }
+        ],
+        "expected": "Name: Bob, Role: User",
+        "label": "One property missing"
+      },
+      {
+        "input": [
+          {}
+        ],
+        "expected": "Name: Anonymous, Role: User",
+        "label": "Empty object"
+      }
     ],
     "traceTable": {
       "inputLabel": "getUserInfo({ name: 'Eve' })",
-      "columns": ["user", "name", "role", "result"],
+      "columns": [
+        "user",
+        "name",
+        "role",
+        "result"
+      ],
       "rows": [
-        { "user": "{ name: 'Eve' }", "name": "'Eve'", "role": "'User'", "result": "'Name: Eve, Role: User'" }
+        {
+          "user": "{ name: 'Eve' }",
+          "name": "'Eve'",
+          "role": "'User'",
+          "result": "'Name: Eve, Role: User'"
+        }
       ]
     },
     "patternTag": "Object Destructuring",
@@ -260,15 +510,82 @@
     "skeletonHint": "function deepMerge(target, source) {\n  for (const key in source) {\n    if (source[key] instanceof Object && key in target) {\n      deepMerge(target[key], source[key]);\n    } else {\n      target[key] = source[key];\n    }\n  }\n  return target;\n}",
     "solution": "function deepMerge(target, source) {\n  for (const key in source) {\n    // Check if both values are objects to recurse\n    if (source[key] !== null && typeof source[key] === 'object' && \n        target[key] !== null && typeof target[key] === 'object') {\n      deepMerge(target[key], source[key]);\n    } else {\n      // Otherwise perform simple assignment\n      target[key] = source[key];\n    }\n  }\n  return target;\n}",
     "tests": [
-      { "input": [{ "a": 1, "b": { "x": 1 } }, { "b": { "y": 2 }, "c": 3 }], "expected": { "a": 1, "b": { "x": 1, "y": 2 }, "c": 3 }, "label": "Nested merge" },
-      { "input": [{ "settings": { "theme": "dark" } }, { "settings": { "theme": "light" } }], "expected": { "settings": { "theme": "light" } }, "label": "Overwrite nested property" },
-      { "input": [{ "a": 1 }, { "b": 2 }], "expected": { "a": 1, "b": 2 }, "label": "Simple shallow merge" }
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": {
+              "x": 1
+            }
+          },
+          {
+            "b": {
+              "y": 2
+            },
+            "c": 3
+          }
+        ],
+        "expected": {
+          "a": 1,
+          "b": {
+            "x": 1,
+            "y": 2
+          },
+          "c": 3
+        },
+        "label": "Nested merge"
+      },
+      {
+        "input": [
+          {
+            "settings": {
+              "theme": "dark"
+            }
+          },
+          {
+            "settings": {
+              "theme": "light"
+            }
+          }
+        ],
+        "expected": {
+          "settings": {
+            "theme": "light"
+          }
+        },
+        "label": "Overwrite nested property"
+      },
+      {
+        "input": [
+          {
+            "a": 1
+          },
+          {
+            "b": 2
+          }
+        ],
+        "expected": {
+          "a": 1,
+          "b": 2
+        },
+        "label": "Simple shallow merge"
+      }
     ],
     "traceTable": {
       "inputLabel": "deepMerge({ a: { x: 1 } }, { a: { y: 2 } })",
-      "columns": ["target", "source", "key", "result"],
+      "columns": [
+        "target",
+        "source",
+        "key",
+        "result"
+      ],
       "rows": [
-        { "target": "{ a: { x: 1 } }", "source": "{ a: { y: 2 } }", "key": "'a'", "result": "{ a: { x: 1, y: 2 } }" }
+        {
+          "target": "{ a: { x: 1 } }",
+          "source": "{ a: { y: 2 } }",
+          "key": "'a'",
+          "result": "{ a: { x: 1, y: 2 } }"
+        }
       ]
     },
     "patternTag": "Recursive Merging",
@@ -296,15 +613,67 @@
     "skeletonHint": "function deepClone(obj) {\n  if (typeof obj !== 'object' || obj === null) return obj;\n  const copy = Array.isArray(obj) ? [] : {};\n  for (const key in obj) {\n    copy[key] = ____(obj[key]);\n  }\n  return copy;\n}",
     "solution": "function deepClone(obj) {\n  // Primitive types and null\n  if (typeof obj !== 'object' || obj === null) {\n    return obj;\n  }\n\n  // Handle Array\n  if (Array.isArray(obj)) {\n    return obj.map(item => deepClone(item));\n  }\n\n  // Handle Object\n  const clonedObj = {};\n  for (const key in obj) {\n    if (Object.prototype.hasOwnProperty.call(obj, key)) {\n      clonedObj[key] = deepClone(obj[key]);\n    }\n  }\n  return clonedObj;\n}",
     "tests": [
-      { "input": [{ "a": 1, "b": { "c": 2 } }], "expected": { "a": 1, "b": { "c": 2 } }, "label": "Nested object clone" },
-      { "input": [[1, [2, 3]]], "expected": [1, [2, 3]], "label": "Nested array clone" },
-      { "input": [{ "x": 10 }], "expected": { "x": 10 }, "label": "Simple object" }
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": {
+              "c": 2
+            }
+          }
+        ],
+        "expected": {
+          "a": 1,
+          "b": {
+            "c": 2
+          }
+        },
+        "label": "Nested object clone"
+      },
+      {
+        "input": [
+          [
+            1,
+            [
+              2,
+              3
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          [
+            2,
+            3
+          ]
+        ],
+        "label": "Nested array clone"
+      },
+      {
+        "input": [
+          {
+            "x": 10
+          }
+        ],
+        "expected": {
+          "x": 10
+        },
+        "label": "Simple object"
+      }
     ],
     "traceTable": {
       "inputLabel": "deepClone({ a: [1] })",
-      "columns": ["obj", "isObject", "result"],
+      "columns": [
+        "obj",
+        "isObject",
+        "result"
+      ],
       "rows": [
-        { "obj": "{ a: [1] }", "isObject": "true", "result": "new reference { a: [1] }" }
+        {
+          "obj": "{ a: [1] }",
+          "isObject": "true",
+          "result": "new reference { a: [1] }"
+        }
       ]
     },
     "patternTag": "Deep Copying",
@@ -331,15 +700,63 @@
     "skeletonHint": "function shallowMerge(obj1, obj2) {\n  return { ...____, ...____ };\n}",
     "solution": "function shallowMerge(obj1, obj2) {\n  // Spread operator creates a new object and merges properties\n  return { ...obj1, ...obj2 };\n}",
     "tests": [
-      { "input": [{ "a": 1 }, { "b": 2 }], "expected": { "a": 1, "b": 2 }, "label": "Merge distinct keys" },
-      { "input": [{ "a": 1, "b": 1 }, { "b": 2 }], "expected": { "a": 1, "b": 2 }, "label": "Overwrite existing key" },
-      { "input": [{}, { "x": 10 }], "expected": { "x": 10 }, "label": "Merge with empty object" }
+      {
+        "input": [
+          {
+            "a": 1
+          },
+          {
+            "b": 2
+          }
+        ],
+        "expected": {
+          "a": 1,
+          "b": 2
+        },
+        "label": "Merge distinct keys"
+      },
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": 1
+          },
+          {
+            "b": 2
+          }
+        ],
+        "expected": {
+          "a": 1,
+          "b": 2
+        },
+        "label": "Overwrite existing key"
+      },
+      {
+        "input": [
+          {},
+          {
+            "x": 10
+          }
+        ],
+        "expected": {
+          "x": 10
+        },
+        "label": "Merge with empty object"
+      }
     ],
     "traceTable": {
       "inputLabel": "shallowMerge({ a: 1 }, { b: 2 })",
-      "columns": ["obj1", "obj2", "result"],
+      "columns": [
+        "obj1",
+        "obj2",
+        "result"
+      ],
       "rows": [
-        { "obj1": "{ a: 1 }", "obj2": "{ b: 2 }", "result": "{ a: 1, b: 2 }" }
+        {
+          "obj1": "{ a: 1 }",
+          "obj2": "{ b: 2 }",
+          "result": "{ a: 1, b: 2 }"
+        }
       ]
     },
     "patternTag": "Object Merging",
@@ -365,15 +782,39 @@
     "skeletonHint": "function makeImmutable(obj) {\n  return Object.____(obj);\n}",
     "solution": "function makeImmutable(obj) {\n  // Object.freeze prevents all modifications\n  return Object.freeze(obj);\n}",
     "tests": [
-      { "input": [{ "a": 1 }], "expected": true, "label": "Verify object is frozen", "isFrozenCheck": true },
-      { "input": [{ "status": "active" }], "expected": true, "label": "Verify status object is frozen", "isFrozenCheck": true }
+      {
+        "input": [
+          {
+            "a": 1
+          }
+        ],
+        "expected": true,
+        "label": "Verify object is frozen",
+        "isFrozenCheck": true
+      },
+      {
+        "input": [
+          {
+            "status": "active"
+          }
+        ],
+        "expected": true,
+        "label": "Verify status object is frozen",
+        "isFrozenCheck": true
+      }
     ],
     "testRunnerWrapper": "function runner(fn, input) {\n  const result = fn(input);\n  return Object.isFrozen(result);\n}",
     "traceTable": {
       "inputLabel": "makeImmutable({ a: 1 })",
-      "columns": ["obj", "isFrozen"],
+      "columns": [
+        "obj",
+        "isFrozen"
+      ],
       "rows": [
-        { "obj": "{ a: 1 }", "isFrozen": true }
+        {
+          "obj": "{ a: 1 }",
+          "isFrozen": true
+        }
       ]
     },
     "patternTag": "Immutability",
@@ -399,15 +840,40 @@
     "skeletonHint": "function makeSealed(obj) {\n  return Object.____(obj);\n}",
     "solution": "function makeSealed(obj) {\n  // Object.seal prevents adding/removing but allows value updates\n  return Object.seal(obj);\n}",
     "tests": [
-      { "input": [{ "a": 1 }], "expected": true, "label": "Verify object is sealed", "isSealedCheck": true },
-      { "input": [{ "x": 10, "y": 20 }], "expected": true, "label": "Verify coordinates are sealed", "isSealedCheck": true }
+      {
+        "input": [
+          {
+            "a": 1
+          }
+        ],
+        "expected": true,
+        "label": "Verify object is sealed",
+        "isSealedCheck": true
+      },
+      {
+        "input": [
+          {
+            "x": 10,
+            "y": 20
+          }
+        ],
+        "expected": true,
+        "label": "Verify coordinates are sealed",
+        "isSealedCheck": true
+      }
     ],
     "testRunnerWrapper": "function runner(fn, input) {\n  const result = fn(input);\n  return Object.isSealed(result) && !Object.isFrozen(result);\n}",
     "traceTable": {
       "inputLabel": "makeSealed({ a: 1 })",
-      "columns": ["obj", "isSealed"],
+      "columns": [
+        "obj",
+        "isSealed"
+      ],
       "rows": [
-        { "obj": "{ a: 1 }", "isSealed": true }
+        {
+          "obj": "{ a: 1 }",
+          "isSealed": true
+        }
       ]
     },
     "patternTag": "Object Integrity",
@@ -433,15 +899,37 @@
     "skeletonHint": "function createWithProto(proto) {\n  return Object.____(proto);\n}",
     "solution": "function createWithProto(proto) {\n  // Object.create links the new object to the prototype\n  return Object.create(proto);\n}",
     "tests": [
-      { "input": [{ "greet": "hello" }], "expected": "hello", "label": "Access prototype property" },
-      { "input": [{ "type": "animal" }], "expected": "animal", "label": "Inherited type" }
+      {
+        "input": [
+          {
+            "greet": "hello"
+          }
+        ],
+        "expected": "hello",
+        "label": "Access prototype property"
+      },
+      {
+        "input": [
+          {
+            "type": "animal"
+          }
+        ],
+        "expected": "animal",
+        "label": "Inherited type"
+      }
     ],
     "testRunnerWrapper": "function runner(fn, input) {\n  const result = fn(input);\n  return result.greet || result.type;\n}",
     "traceTable": {
       "inputLabel": "createWithProto({ x: 1 })",
-      "columns": ["proto", "resultHasProto"],
+      "columns": [
+        "proto",
+        "resultHasProto"
+      ],
       "rows": [
-        { "proto": "{ x: 1 }", "resultHasProto": true }
+        {
+          "proto": "{ x: 1 }",
+          "resultHasProto": true
+        }
       ]
     },
     "patternTag": "Prototypal Inheritance",
@@ -468,14 +956,36 @@
     "skeletonHint": "function createPerson(name, age) {\n  class Person {\n    constructor(name, age) {\n      this.name = name;\n      this.age = age;\n    }\n    getInfo() {\n      return `${this.name} is ${this.age} years old`;\n    }\n  }\n  const p = new Person(name, age);\n  return p.____();\n}",
     "solution": "function createPerson(name, age) {\n  class Person {\n    constructor(name, age) {\n      this.name = name;\n      this.age = age;\n    }\n    getInfo() {\n      return `${this.name} is ${this.age} years old`;\n    }\n  }\n  const person = new Person(name, age);\n  return person.getInfo();\n}",
     "tests": [
-      { "input": ["Alice", 25], "expected": "Alice is 25 years old", "label": "Alice's info" },
-      { "input": ["Bob", 30], "expected": "Bob is 30 years old", "label": "Bob's info" }
+      {
+        "input": [
+          "Alice",
+          25
+        ],
+        "expected": "Alice is 25 years old",
+        "label": "Alice's info"
+      },
+      {
+        "input": [
+          "Bob",
+          30
+        ],
+        "expected": "Bob is 30 years old",
+        "label": "Bob's info"
+      }
     ],
     "traceTable": {
       "inputLabel": "createPerson('Alice', 25)",
-      "columns": ["name", "age", "result"],
+      "columns": [
+        "name",
+        "age",
+        "result"
+      ],
       "rows": [
-        { "name": "'Alice'", "age": 25, "result": "'Alice is 25 years old'" }
+        {
+          "name": "'Alice'",
+          "age": 25,
+          "result": "'Alice is 25 years old'"
+        }
       ]
     },
     "patternTag": "Class Encapsulation",
@@ -504,14 +1014,36 @@
     "skeletonHint": "function createStudent(name, grade) {\n  class User {\n    constructor(name) { this.name = name; }\n  }\n  class Student extends User {\n    constructor(name, grade) {\n      super(____);\n      this.grade = grade;\n    }\n    getStudentInfo() {\n      return `${this.name} is in grade ${this.grade}`;\n    }\n  }\n  return new Student(name, grade).____();\n}",
     "solution": "function createStudent(name, grade) {\n  class User {\n    constructor(name) {\n      this.name = name;\n    }\n  }\n\n  class Student extends User {\n    constructor(name, grade) {\n      super(name);\n      this.grade = grade;\n    }\n    getStudentInfo() {\n      return `${this.name} is in grade ${this.grade}`;\n    }\n  }\n\n  const student = new Student(name, grade);\n  return student.getStudentInfo();\n}",
     "tests": [
-      { "input": ["Charlie", 10], "expected": "Charlie is in grade 10", "label": "Charlie's grade" },
-      { "input": ["Dana", 12], "expected": "Dana is in grade 12", "label": "Dana's grade" }
+      {
+        "input": [
+          "Charlie",
+          10
+        ],
+        "expected": "Charlie is in grade 10",
+        "label": "Charlie's grade"
+      },
+      {
+        "input": [
+          "Dana",
+          12
+        ],
+        "expected": "Dana is in grade 12",
+        "label": "Dana's grade"
+      }
     ],
     "traceTable": {
       "inputLabel": "createStudent('Charlie', 10)",
-      "columns": ["name", "grade", "result"],
+      "columns": [
+        "name",
+        "grade",
+        "result"
+      ],
       "rows": [
-        { "name": "'Charlie'", "grade": 10, "result": "'Charlie is in grade 10'" }
+        {
+          "name": "'Charlie'",
+          "grade": 10,
+          "result": "'Charlie is in grade 10'"
+        }
       ]
     },
     "patternTag": "Class Inheritance",
@@ -539,15 +1071,31 @@
     "skeletonHint": "function usePrivateField() {\n  class Counter {\n    #count = 0;\n    increment() {\n      this.____++;\n    }\n    getCount() {\n      return this.____;\n    }\n  }\n  const c = new Counter();\n  c.increment();\n  c.increment();\n  return c.getCount();\n}",
     "solution": "function usePrivateField() {\n  class Counter {\n    #count = 0;\n\n    increment() {\n      this.#count++;\n    }\n\n    getCount() {\n      return this.#count;\n    }\n  }\n\n  const counter = new Counter();\n  counter.increment();\n  counter.increment();\n  return counter.getCount();\n}",
     "tests": [
-      { "input": [], "expected": 2, "label": "Private counter incremented twice" }
+      {
+        "input": [],
+        "expected": 2,
+        "label": "Private counter incremented twice"
+      }
     ],
     "traceTable": {
       "inputLabel": "usePrivateField()",
-      "columns": ["action", "countValue"],
+      "columns": [
+        "action",
+        "countValue"
+      ],
       "rows": [
-        { "action": "init", "countValue": 0 },
-        { "action": "increment", "countValue": 1 },
-        { "action": "increment", "countValue": 2 }
+        {
+          "action": "init",
+          "countValue": 0
+        },
+        {
+          "action": "increment",
+          "countValue": 1
+        },
+        {
+          "action": "increment",
+          "countValue": 2
+        }
       ]
     },
     "patternTag": "Encapsulation",
@@ -574,14 +1122,36 @@
     "skeletonHint": "function useGetSet(initialCelsius, newFahrenheit) {\n  class Temperature {\n    constructor(celsius) { this.celsius = celsius; }\n    get fahrenheit() { return (this.celsius * 9/5) + 32; }\n    set fahrenheit(val) { this.celsius = (val - 32) * 5/9; }\n  }\n  const t = new Temperature(initialCelsius);\n  t.fahrenheit = newFahrenheit;\n  return t.celsius;\n}",
     "solution": "function useGetSet(initialCelsius, newFahrenheit) {\n  class Temperature {\n    constructor(celsius) {\n      this.celsius = celsius;\n    }\n\n    get fahrenheit() {\n      return (this.celsius * 9 / 5) + 32;\n    }\n\n    set fahrenheit(value) {\n      this.celsius = (value - 32) * 5 / 9;\n    }\n  }\n\n  const temp = new Temperature(initialCelsius);\n  temp.fahrenheit = newFahrenheit;\n  return temp.celsius;\n}",
     "tests": [
-      { "input": [25, 86], "expected": 30, "label": "Convert 86F to 30C" },
-      { "input": [0, 32], "expected": 0, "label": "Freezing point check" }
+      {
+        "input": [
+          25,
+          86
+        ],
+        "expected": 30,
+        "label": "Convert 86F to 30C"
+      },
+      {
+        "input": [
+          0,
+          32
+        ],
+        "expected": 0,
+        "label": "Freezing point check"
+      }
     ],
     "traceTable": {
       "inputLabel": "useGetSet(25, 86)",
-      "columns": ["celsius", "fahrenheitSetter", "finalCelsius"],
+      "columns": [
+        "celsius",
+        "fahrenheitSetter",
+        "finalCelsius"
+      ],
       "rows": [
-        { "celsius": 25, "fahrenheitSetter": 86, "finalCelsius": 30 }
+        {
+          "celsius": 25,
+          "fahrenheitSetter": 86,
+          "finalCelsius": 30
+        }
       ]
     },
     "patternTag": "Accessor Properties",
@@ -608,14 +1178,32 @@
     "skeletonHint": "function useStaticMethod(val) {\n  class MathUtil {\n    static square(n) {\n      return ____ * ____;\n    }\n  }\n  return MathUtil.____(val);\n}",
     "solution": "function useStaticMethod(val) {\n  class MathUtil {\n    static square(n) {\n      return n * n;\n    }\n  }\n\n  return MathUtil.square(val);\n}",
     "tests": [
-      { "input": [5], "expected": 25, "label": "Square of 5" },
-      { "input": [10], "expected": 100, "label": "Square of 10" }
+      {
+        "input": [
+          5
+        ],
+        "expected": 25,
+        "label": "Square of 5"
+      },
+      {
+        "input": [
+          10
+        ],
+        "expected": 100,
+        "label": "Square of 10"
+      }
     ],
     "traceTable": {
       "inputLabel": "useStaticMethod(4)",
-      "columns": ["val", "result"],
+      "columns": [
+        "val",
+        "result"
+      ],
       "rows": [
-        { "val": 4, "result": 16 }
+        {
+          "val": 4,
+          "result": 16
+        }
       ]
     },
     "patternTag": "Static Members",
@@ -642,14 +1230,36 @@
     "skeletonHint": "function verifyConstructor(brand, model) {\n  class Car {\n    constructor(brand, model) {\n      this.____ = brand;\n      this.____ = model;\n    }\n  }\n  const myCar = new Car(brand, model);\n  return myCar.brand;\n}",
     "solution": "function verifyConstructor(brand, model) {\n  class Car {\n    constructor(brand, model) {\n      this.brand = brand;\n      this.model = model;\n    }\n  }\n\n  const myCar = new Car(brand, model);\n  return myCar.brand;\n}",
     "tests": [
-      { "input": ["Tesla", "Model 3"], "expected": "Tesla", "label": "Tesla brand" },
-      { "input": ["Toyota", "Corolla"], "expected": "Toyota", "label": "Toyota brand" }
+      {
+        "input": [
+          "Tesla",
+          "Model 3"
+        ],
+        "expected": "Tesla",
+        "label": "Tesla brand"
+      },
+      {
+        "input": [
+          "Toyota",
+          "Corolla"
+        ],
+        "expected": "Toyota",
+        "label": "Toyota brand"
+      }
     ],
     "traceTable": {
       "inputLabel": "verifyConstructor('Ford', 'Mustang')",
-      "columns": ["brand", "model", "instance.brand"],
+      "columns": [
+        "brand",
+        "model",
+        "instance.brand"
+      ],
       "rows": [
-        { "brand": "'Ford'", "model": "'Mustang'", "instance.brand": "'Ford'" }
+        {
+          "brand": "'Ford'",
+          "model": "'Mustang'",
+          "instance.brand": "'Ford'"
+        }
       ]
     },
     "patternTag": "Constructor Assignment",
@@ -676,13 +1286,25 @@
     "skeletonHint": "function testOverriding() {\n  class Bird {\n    speak() { return 'Tweet'; }\n  }\n  class Duck extends Bird {\n    speak() {\n      return '____';\n    }\n  }\n  return new Duck().speak();\n}",
     "solution": "function testOverriding() {\n  class Bird {\n    speak() {\n      return 'Tweet';\n    }\n  }\n\n  class Duck extends Bird {\n    speak() {\n      return 'Quack';\n    }\n  }\n\n  const duck = new Duck();\n  return duck.speak();\n}",
     "tests": [
-      { "input": [], "expected": "Quack", "label": "Duck overrides Bird's speak" }
+      {
+        "input": [],
+        "expected": "Quack",
+        "label": "Duck overrides Bird's speak"
+      }
     ],
     "traceTable": {
       "inputLabel": "testOverriding()",
-      "columns": ["class", "method", "result"],
+      "columns": [
+        "class",
+        "method",
+        "result"
+      ],
       "rows": [
-        { "class": "Duck", "method": "speak()", "result": "'Quack'" }
+        {
+          "class": "Duck",
+          "method": "speak()",
+          "result": "'Quack'"
+        }
       ]
     },
     "patternTag": "Polymorphism",
@@ -710,16 +1332,42 @@
     "skeletonHint": "function getPrototypeChain(obj) {\n  const chain = [];\n  let proto = Object.getPrototypeOf(____);\n  while (proto !== ____) {\n    chain.push(proto);\n    proto = Object.getPrototypeOf(____);\n  }\n  return chain;\n}",
     "solution": "function getPrototypeChain(obj) {\n  const chain = [];\n  let proto = Object.getPrototypeOf(obj);\n  while (proto !== null) {\n    chain.push(proto);\n    proto = Object.getPrototypeOf(proto);\n  }\n  return chain;\n}",
     "tests": [
-      { "input": [{}], "expected": true, "label": "Plain object has Object.prototype", "isChainCheck": true },
-      { "input": [[]], "expected": true, "label": "Array has Array.prototype and Object.prototype", "isChainCheck": true }
+      {
+        "input": [
+          {}
+        ],
+        "expected": true,
+        "label": "Plain object has Object.prototype",
+        "isChainCheck": true
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": true,
+        "label": "Array has Array.prototype and Object.prototype",
+        "isChainCheck": true
+      }
     ],
     "testRunnerWrapper": "function runner(fn, input) {\n  const chain = fn(input);\n  if (Array.isArray(input)) {\n    return chain.length >= 2 && chain[0] === Array.prototype && chain[1] === Object.prototype;\n  }\n  return chain.length >= 1 && chain[0] === Object.prototype;\n}",
     "traceTable": {
       "inputLabel": "getPrototypeChain({})",
-      "columns": ["current", "proto", "chain"],
+      "columns": [
+        "current",
+        "proto",
+        "chain"
+      ],
       "rows": [
-        { "current": "{}", "proto": "Object.prototype", "chain": "[Object.prototype]" },
-        { "current": "Object.prototype", "proto": "null", "chain": "[Object.prototype]" }
+        {
+          "current": "{}",
+          "proto": "Object.prototype",
+          "chain": "[Object.prototype]"
+        },
+        {
+          "current": "Object.prototype",
+          "proto": "null",
+          "chain": "[Object.prototype]"
+        }
       ]
     },
     "patternTag": "Prototype Chain",
@@ -747,16 +1395,45 @@
     "skeletonHint": "function myInstanceof(obj, target) {\n  if (obj === null || typeof obj !== 'object') return false;\n  let proto = Object.getPrototypeOf(obj);\n  while (proto !== null) {\n    if (proto === target.____) return true;\n    proto = Object.getPrototypeOf(____);\n  }\n  return false;\n}",
     "solution": "function myInstanceof(obj, target) {\n  if (obj === null || (typeof obj !== 'object' && typeof obj !== 'function')) return false;\n  \n  let proto = Object.getPrototypeOf(obj);\n  const targetProto = target.prototype;\n  \n  while (proto !== null) {\n    if (proto === targetProto) return true;\n    proto = Object.getPrototypeOf(proto);\n  }\n  \n  return false;\n}",
     "tests": [
-      { "input": [[], "Array"], "expected": true, "label": "[] instanceof Array" },
-      { "input": [[], "Object"], "expected": true, "label": "[] instanceof Object" },
-      { "input": [{}, "Array"], "expected": false, "label": "{} instanceof Array" }
+      {
+        "input": [
+          [],
+          "Array"
+        ],
+        "expected": true,
+        "label": "[] instanceof Array"
+      },
+      {
+        "input": [
+          [],
+          "Object"
+        ],
+        "expected": true,
+        "label": "[] instanceof Object"
+      },
+      {
+        "input": [
+          {},
+          "Array"
+        ],
+        "expected": false,
+        "label": "{} instanceof Array"
+      }
     ],
     "testRunnerWrapper": "function runner(fn, input) {\n  const targets = { 'Array': Array, 'Object': Object };\n  return fn(input[0], targets[input[1]]);\n}",
     "traceTable": {
       "inputLabel": "myInstanceof([], Array)",
-      "columns": ["proto", "target.prototype", "match"],
+      "columns": [
+        "proto",
+        "target.prototype",
+        "match"
+      ],
       "rows": [
-        { "proto": "Array.prototype", "target.prototype": "Array.prototype", "match": "true" }
+        {
+          "proto": "Array.prototype",
+          "target.prototype": "Array.prototype",
+          "match": "true"
+        }
       ]
     },
     "patternTag": "Type Checking",
@@ -783,15 +1460,30 @@
     "skeletonHint": "function setupConstructor() {\n  function Animal(name) {\n    this.name = name;\n  }\n  Animal.prototype.____ = function() {\n    return `${this.name} is eating`;\n  };\n  return Animal;\n}",
     "solution": "function setupConstructor() {\n  function Animal(name) {\n    this.name = name;\n  }\n\n  Animal.prototype.eat = function() {\n    return `${this.name} is eating`;\n  };\n\n  return Animal;\n}",
     "tests": [
-      { "input": ["Lion"], "expected": "Lion is eating", "label": "Lion instance eats" }
+      {
+        "input": [
+          "Lion"
+        ],
+        "expected": "Lion is eating",
+        "label": "Lion instance eats"
+      }
     ],
     "testRunnerWrapper": "function runner(fn, input) {\n  const Animal = fn();\n  const instance = new Animal(input);\n  return instance.eat();\n}",
     "traceTable": {
       "inputLabel": "setupConstructor()",
-      "columns": ["operation", "result"],
+      "columns": [
+        "operation",
+        "result"
+      ],
       "rows": [
-        { "operation": "new Animal('Lion')", "result": "{ name: 'Lion' }" },
-        { "operation": "instance.eat()", "result": "'Lion is eating'" }
+        {
+          "operation": "new Animal('Lion')",
+          "result": "{ name: 'Lion' }"
+        },
+        {
+          "operation": "instance.eat()",
+          "result": "'Lion is eating'"
+        }
       ]
     },
     "patternTag": "Constructor Pattern",
@@ -818,16 +1510,41 @@
     "skeletonHint": "function createUserFactory(initialUsername) {\n  function createUser(name) {\n    let _name = name;\n    return {\n      getUsername: () => ____,\n      setUsername: (newName) => { ____ = newName; }\n    };\n  }\n  return createUser(initialUsername);\n}",
     "solution": "function createUserFactory(initialUsername) {\n  function createUser(username) {\n    let _username = username;\n    \n    return {\n      getUsername: () => _username,\n      setUsername: (newUsername) => {\n        _username = newUsername;\n      }\n    };\n  }\n  \n  return createUser(initialUsername);\n}",
     "tests": [
-      { "input": ["alice"], "expected": "alice", "label": "Get initial username" },
-      { "input": ["alice", "bob"], "expected": "bob", "label": "Update username via setter" }
+      {
+        "input": [
+          "alice"
+        ],
+        "expected": "alice",
+        "label": "Get initial username"
+      },
+      {
+        "input": [
+          "alice",
+          "bob"
+        ],
+        "expected": "bob",
+        "label": "Update username via setter"
+      }
     ],
     "testRunnerWrapper": "function runner(fn, input) {\n  const user = fn(input[0]);\n  if (input.length > 1) {\n    user.setUsername(input[1]);\n  }\n  return user.getUsername();\n}",
     "traceTable": {
       "inputLabel": "createUserFactory('alice')",
-      "columns": ["action", "internal_state", "result"],
+      "columns": [
+        "action",
+        "internal_state",
+        "result"
+      ],
       "rows": [
-        { "action": "getUsername()", "internal_state": "'alice'", "result": "'alice'" },
-        { "action": "setUsername('bob')", "internal_state": "'bob'", "result": "undefined" }
+        {
+          "action": "getUsername()",
+          "internal_state": "'alice'",
+          "result": "'alice'"
+        },
+        {
+          "action": "setUsername('bob')",
+          "internal_state": "'bob'",
+          "result": "undefined"
+        }
       ]
     },
     "patternTag": "Factory Pattern",
@@ -855,16 +1572,53 @@
     "skeletonHint": "function defineSecretProp(obj, key, value) {\n  Object.defineProperty(obj, key, {\n    value: ____,\n    enumerable: ____,\n    writable: ____\n  });\n  return obj;\n}",
     "solution": "function defineSecretProp(obj, key, value) {\n  Object.defineProperty(obj, key, {\n    value: value,\n    enumerable: false,\n    writable: false,\n    configurable: true\n  });\n  return obj;\n}",
     "tests": [
-      { "input": [{}, "secret", "123", "enumerable"], "expected": true, "label": "Property is non-enumerable" },
-      { "input": [{}, "secret", "123", "value"], "expected": "123", "label": "Property has correct value" },
-      { "input": [{}, "secret", "123", "writable"], "expected": true, "label": "Property is read-only" }
+      {
+        "input": [
+          {},
+          "secret",
+          "123",
+          "enumerable"
+        ],
+        "expected": true,
+        "label": "Property is non-enumerable"
+      },
+      {
+        "input": [
+          {},
+          "secret",
+          "123",
+          "value"
+        ],
+        "expected": "123",
+        "label": "Property has correct value"
+      },
+      {
+        "input": [
+          {},
+          "secret",
+          "123",
+          "writable"
+        ],
+        "expected": true,
+        "label": "Property is read-only"
+      }
     ],
     "testRunnerWrapper": "function runner(fn, input) {\n  const target = input[0];\n  const key = input[1];\n  const val = input[2];\n  const checkType = input[3];\n  const obj = fn(target, key, val);\n  \n  if (checkType === 'enumerable') {\n    return !Object.keys(obj).includes(key);\n  }\n  if (checkType === 'writable') {\n    try {\n      obj[key] = 'changed';\n    } catch (e) {}\n    return obj[key] === val;\n  }\n  return obj[key];\n}",
     "traceTable": {
       "inputLabel": "defineSecretProp({}, 'id', 1)",
-      "columns": ["property", "enumerable", "writable", "visible in keys"],
+      "columns": [
+        "property",
+        "enumerable",
+        "writable",
+        "visible in keys"
+      ],
       "rows": [
-        { "property": "'id'", "enumerable": "false", "writable": "false", "visible in keys": "false" }
+        {
+          "property": "'id'",
+          "enumerable": "false",
+          "writable": "false",
+          "visible in keys": "false"
+        }
       ]
     },
     "patternTag": "Property Descriptors",
@@ -891,15 +1645,47 @@
     "skeletonHint": "function toQueryString(params) {\n  return Object.entries(params)\n    .map(([key, val]) => `${encodeURIComponent(____)}=${encodeURIComponent(____)}`)\n    .join('____');\n}",
     "solution": "function toQueryString(params) {\n  return Object.entries(params)\n    .map(([key, val]) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)\n    .join('&');\n}",
     "tests": [
-      { "input": [{ "name": "JS", "type": "pro" }], "expected": "name=JS&type=pro", "label": "Simple object" },
-      { "input": [{ "search": "hello world", "page": 1 }], "expected": "search=hello%20world&page=1", "label": "Encoding spaces" },
-      { "input": [{}], "expected": "", "label": "Empty object" }
+      {
+        "input": [
+          {
+            "name": "JS",
+            "type": "pro"
+          }
+        ],
+        "expected": "name=JS&type=pro",
+        "label": "Simple object"
+      },
+      {
+        "input": [
+          {
+            "search": "hello world",
+            "page": 1
+          }
+        ],
+        "expected": "search=hello%20world&page=1",
+        "label": "Encoding spaces"
+      },
+      {
+        "input": [
+          {}
+        ],
+        "expected": "",
+        "label": "Empty object"
+      }
     ],
     "traceTable": {
       "inputLabel": "toQueryString({ a: 1, b: 2 })",
-      "columns": ["params", "entries", "result"],
+      "columns": [
+        "params",
+        "entries",
+        "result"
+      ],
       "rows": [
-        { "params": "{ a: 1, b: 2 }", "entries": "[['a', 1], ['b', 2]]", "result": "'a=1&b=2'" }
+        {
+          "params": "{ a: 1, b: 2 }",
+          "entries": "[['a', 1], ['b', 2]]",
+          "result": "'a=1&b=2'"
+        }
       ]
     },
     "patternTag": "URL Encoding",
@@ -928,15 +1714,47 @@
     "skeletonHint": "function parseQueryString(str) {\n  if (!str) return {};\n  const result = {};\n  str.split('&').forEach(pair => {\n    const [key, val] = pair.split('=');\n    result[decodeURIComponent(____)] = decodeURIComponent(____);\n  });\n  return result;\n}",
     "solution": "function parseQueryString(str) {\n  if (!str) return {};\n  return str.split('&').reduce((acc, pair) => {\n    const [key, val] = pair.split('=');\n    acc[decodeURIComponent(key)] = decodeURIComponent(val || '');\n    return acc;\n  }, {});\n}",
     "tests": [
-      { "input": ["name=JS&type=pro"], "expected": { "name": "JS", "type": "pro" }, "label": "Simple string" },
-      { "input": ["search=hello%20world&page=1"], "expected": { "search": "hello world", "page": "1" }, "label": "Decoding spaces" },
-      { "input": [""], "expected": {}, "label": "Empty string" }
+      {
+        "input": [
+          "name=JS&type=pro"
+        ],
+        "expected": {
+          "name": "JS",
+          "type": "pro"
+        },
+        "label": "Simple string"
+      },
+      {
+        "input": [
+          "search=hello%20world&page=1"
+        ],
+        "expected": {
+          "search": "hello world",
+          "page": "1"
+        },
+        "label": "Decoding spaces"
+      },
+      {
+        "input": [
+          ""
+        ],
+        "expected": {},
+        "label": "Empty string"
+      }
     ],
     "traceTable": {
       "inputLabel": "parseQueryString('a=1&b=2')",
-      "columns": ["str", "pairs", "result"],
+      "columns": [
+        "str",
+        "pairs",
+        "result"
+      ],
       "rows": [
-        { "str": "'a=1&b=2'", "pairs": "['a=1', 'b=2']", "result": "{ a: '1', b: '2' }" }
+        {
+          "str": "'a=1&b=2'",
+          "pairs": "['a=1', 'b=2']",
+          "result": "{ a: '1', b: '2' }"
+        }
       ]
     },
     "patternTag": "Data Parsing",
@@ -964,17 +1782,63 @@
     "skeletonHint": "function stringifyWithoutNumbers(obj) {\n  return JSON.stringify(obj, (key, value) => {\n    if (typeof value === '____') return undefined;\n    return value;\n  });\n}",
     "solution": "function stringifyWithoutNumbers(obj) {\n  return JSON.stringify(obj, (key, value) => {\n    // If value is a number, returning undefined removes it from the JSON\n    if (typeof value === 'number') {\n      return undefined;\n    }\n    return value;\n  });\n}",
     "tests": [
-      { "input": [{ "name": "Alice", "age": 25, "active": true }], "expected": "{\"name\":\"Alice\",\"active\":true}", "label": "Exclude age" },
-      { "input": [{ "count": 10, "items": [] }], "expected": "{\"items\":[]}", "label": "Exclude count" },
-      { "input": [{ "id": "user_1", "meta": { "score": 100 } }], "expected": "{\"id\":\"user_1\",\"meta\":{}}", "label": "Nested exclusion" }
+      {
+        "input": [
+          {
+            "name": "Alice",
+            "age": 25,
+            "active": true
+          }
+        ],
+        "expected": "{\"name\":\"Alice\",\"active\":true}",
+        "label": "Exclude age"
+      },
+      {
+        "input": [
+          {
+            "count": 10,
+            "items": []
+          }
+        ],
+        "expected": "{\"items\":[]}",
+        "label": "Exclude count"
+      },
+      {
+        "input": [
+          {
+            "id": "user_1",
+            "meta": {
+              "score": 100
+            }
+          }
+        ],
+        "expected": "{\"id\":\"user_1\",\"meta\":{}}",
+        "label": "Nested exclusion"
+      }
     ],
     "traceTable": {
       "inputLabel": "stringifyWithoutNumbers({ a: 1, b: 'hi' })",
-      "columns": ["key", "value", "replacer_result"],
+      "columns": [
+        "key",
+        "value",
+        "replacer_result"
+      ],
       "rows": [
-        { "key": "''", "value": "{ a: 1, b: 'hi' }", "replacer_result": "{ a: 1, b: 'hi' }" },
-        { "key": "'a'", "value": "1", "replacer_result": "undefined" },
-        { "key": "'b'", "value": "'hi'", "replacer_result": "'hi'" }
+        {
+          "key": "''",
+          "value": "{ a: 1, b: 'hi' }",
+          "replacer_result": "{ a: 1, b: 'hi' }"
+        },
+        {
+          "key": "'a'",
+          "value": "1",
+          "replacer_result": "undefined"
+        },
+        {
+          "key": "'b'",
+          "value": "'hi'",
+          "replacer_result": "'hi'"
+        }
       ]
     },
     "patternTag": "Serialization Control",
@@ -1002,17 +1866,45 @@
     "skeletonHint": "function isCircular(obj) {\n  const seen = new WeakSet();\n  function detect(current) {\n    if (current && typeof current === 'object') {\n      if (seen.has(current)) return ____;\n      seen.add(____);\n      return Object.values(current).some(____);\n    }\n    return false;\n  }\n  return detect(obj);\n}",
     "solution": "function isCircular(obj) {\n  const seen = new WeakSet();\n\n  function check(value) {\n    if (value !== null && typeof value === 'object') {\n      if (seen.has(value)) {\n        return true;\n      }\n      seen.add(value);\n      for (const key in value) {\n        if (Object.prototype.hasOwnProperty.call(value, key)) {\n          if (check(value[key])) return true;\n        }\n      }\n    }\n    return false;\n  }\n\n  return check(obj);\n}",
     "tests": [
-      { "input": [{ "a": 1 }], "expected": false, "label": "No circle" },
-      { "input": "circular", "expected": true, "label": "Direct circle" },
-      { "input": "indirect", "expected": true, "label": "Indirect circle" }
+      {
+        "input": [
+          {
+            "a": 1
+          }
+        ],
+        "expected": false,
+        "label": "No circle"
+      },
+      {
+        "input": "circular",
+        "expected": true,
+        "label": "Direct circle"
+      },
+      {
+        "input": "indirect",
+        "expected": true,
+        "label": "Indirect circle"
+      }
     ],
     "testRunnerWrapper": "function runner(fn, type) {\n  if (type === 'circular') {\n    const obj = {};\n    obj.self = obj;\n    return fn(obj);\n  }\n  if (type === 'indirect') {\n    const a = { b: {} };\n    a.b.a = a;\n    return fn(a);\n  }\n  return fn({ a: 1 });\n}",
     "traceTable": {
       "inputLabel": "isCircular(obj_with_cycle)",
-      "columns": ["current_obj", "seen_set", "is_circular"],
+      "columns": [
+        "current_obj",
+        "seen_set",
+        "is_circular"
+      ],
       "rows": [
-        { "current_obj": "obj_a", "seen_set": "{obj_a}", "is_circular": "false" },
-        { "current_obj": "obj_a", "seen_set": "{obj_a}", "is_circular": "true" }
+        {
+          "current_obj": "obj_a",
+          "seen_set": "{obj_a}",
+          "is_circular": "false"
+        },
+        {
+          "current_obj": "obj_a",
+          "seen_set": "{obj_a}",
+          "is_circular": "true"
+        }
       ]
     },
     "patternTag": "Cycle Detection",
@@ -1039,15 +1931,44 @@
     "skeletonHint": "function safeMerge(target, source) {\n  for (const key in source) {\n    if (key === '____' || key === '____' || key === '____') continue;\n    // recursive merge logic here\n  }\n  return target;\n}",
     "solution": "function safeMerge(target, source) {\n  for (const key in source) {\n    if (key === '__proto__' || key === 'constructor' || key === 'prototype') {\n      continue;\n    }\n\n    if (source[key] !== null && typeof source[key] === 'object' &&\n        target[key] !== null && typeof target[key] === 'object') {\n      safeMerge(target[key], source[key]);\n    } else {\n      target[key] = source[key];\n    }\n  }\n  return target;\n}",
     "tests": [
-      { "input": [{ "a": 1 }, { "b": 2 }], "expected": { "a": 1, "b": 2 }, "label": "Normal merge" },
-      { "input": [{}, "pollute"], "expected": true, "label": "Block prototype pollution" }
+      {
+        "input": [
+          {
+            "a": 1
+          },
+          {
+            "b": 2
+          }
+        ],
+        "expected": {
+          "a": 1,
+          "b": 2
+        },
+        "label": "Normal merge"
+      },
+      {
+        "input": [
+          {},
+          "pollute"
+        ],
+        "expected": true,
+        "label": "Block prototype pollution"
+      }
     ],
     "testRunnerWrapper": "function runner(fn, input) {\n  if (input === 'pollute') {\n    const malicious = JSON.parse('{\"__proto__\": {\"polluted\": true}}');\n    const target = {};\n    fn(target, malicious);\n    return ({}).polluted === undefined;\n  }\n  return fn(input[0], input[1]);\n}",
     "traceTable": {
       "inputLabel": "safeMerge({}, { __proto__: { x: 1 } })",
-      "columns": ["key", "is_dangerous", "action"],
+      "columns": [
+        "key",
+        "is_dangerous",
+        "action"
+      ],
       "rows": [
-        { "key": "'__proto__'", "is_dangerous": "true", "action": "skip" }
+        {
+          "key": "'__proto__'",
+          "is_dangerous": "true",
+          "action": "skip"
+        }
       ]
     },
     "patternTag": "Security / Defending",
@@ -1074,20 +1995,266 @@
     "skeletonHint": "function useSymbolKey(obj, description, value) {\n  const sym = Symbol(____);\n  obj[____] = value;\n  return obj;\n}",
     "solution": "function useSymbolKey(obj, description, value) {\n  const sym = Symbol(description);\n  obj[sym] = value;\n  return obj;\n}",
     "tests": [
-      { "input": [{}, "myKey", "secret"], "expected": "secret", "label": "Symbol property value match" },
-      { "input": [{}, "unique", 123], "expected": true, "label": "Symbol key is not a string", "isSymbolCheck": true }
+      {
+        "input": [
+          {},
+          "myKey",
+          "secret"
+        ],
+        "expected": "secret",
+        "label": "Symbol property value match"
+      },
+      {
+        "input": [
+          {},
+          "unique",
+          123
+        ],
+        "expected": true,
+        "label": "Symbol key is not a string",
+        "isSymbolCheck": true
+      }
     ],
     "testRunnerWrapper": "function runner(fn, input) {\n  const obj = fn(input[0], input[1], input[2]);\n  const symbols = Object.getOwnPropertySymbols(obj);\n  if (input[3] === true || (typeof input[2] === 'boolean' && input[2] === true)) {\n      return symbols.length > 0 && typeof symbols[0] === 'symbol';\n  }\n  return symbols.length > 0 ? obj[symbols[0]] : null;\n}",
     "traceTable": {
       "inputLabel": "useSymbolKey({}, 'id', 101)",
-      "columns": ["description", "value", "symbol_created", "obj_has_symbol"],
+      "columns": [
+        "description",
+        "value",
+        "symbol_created",
+        "obj_has_symbol"
+      ],
       "rows": [
-        { "description": "'id'", "value": 101, "symbol_created": "Symbol(id)", "obj_has_symbol": true }
+        {
+          "description": "'id'",
+          "value": 101,
+          "symbol_created": "Symbol(id)",
+          "obj_has_symbol": true
+        }
       ]
     },
     "patternTag": "Unique Identifiers",
     "patternExplanation": "Symbols provide a way to add 'hidden' or non-colliding properties to objects, which is useful for internal library state or metadata.",
     "estimatedMinutes": 6,
+    "status": "published"
+  },
+  {
+    "id": "practical-flatten-object",
+    "title": "Flatten Nested Object with Dot Notation",
+    "category": "objects-and-classes",
+    "difficulty": "Medium",
+    "functionName": "flattenObject",
+    "description": "Implement a function that flattens a deeply nested object into a single-level object whose keys are dot-separated paths.",
+    "whatShouldHappen": [
+      "Initialize result object.",
+      "Recursively traverse properties of the input object with a prefix path.",
+      "If a value is a plain object and non-null (and not an array), recurse into its keys.",
+      "If a value is a primitive, array, or null, assign it to result[currentPath].",
+      "Return the flattened object."
+    ],
+    "starterCode": "function flattenObject(obj) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "obj = { a: 1, b: { c: 2, d: { e: 3 } } }",
+      "columns": [
+        "path",
+        "value",
+        "action"
+      ],
+      "rows": [
+        {
+          "path": "a",
+          "value": "1",
+          "action": "result['a'] = 1"
+        },
+        {
+          "path": "b.c",
+          "value": "2",
+          "action": "result['b.c'] = 2"
+        },
+        {
+          "path": "b.d.e",
+          "value": "3",
+          "action": "result['b.d.e'] = 3"
+        }
+      ]
+    },
+    "skeletonHint": "function flattenObject(obj) {\n  const result = {};\n  function recurse(curr, prefix) {\n    for (const key of Object.keys(curr)) {\n      const val = curr[key];\n      const newKey = prefix ? prefix + '.' + key : key;\n      if (val && typeof val === 'object' && !Array.isArray(val)) {\n        recurse(val, newKey);\n      } else {\n        result[newKey] = val;\n      }\n    }\n  }\n  recurse(obj, '');\n  return result;\n}",
+    "solution": "function flattenObject(obj) {\n  const result = {};\n\n  function recurse(current, prefix) {\n    if (!current || typeof current !== 'object') return;\n\n    for (const key of Object.keys(current)) {\n      const val = current[key];\n      const newPath = prefix ? prefix + '.' + key : key;\n\n      if (val !== null && typeof val === 'object' && !Array.isArray(val) && Object.keys(val).length > 0) {\n        recurse(val, newPath);\n      } else {\n        result[newPath] = val;\n      }\n    }\n  }\n\n  recurse(obj, '');\n  return result;\n}",
+    "tests": [
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": {
+              "c": 2,
+              "d": {
+                "e": 3
+              }
+            }
+          }
+        ],
+        "expected": {
+          "a": 1,
+          "b.c": 2,
+          "b.d.e": 3
+        },
+        "label": "Deeply nested object"
+      },
+      {
+        "input": [
+          {
+            "user": {
+              "name": "Alice",
+              "active": true
+            }
+          }
+        ],
+        "expected": {
+          "user.name": "Alice",
+          "user.active": true
+        },
+        "label": "User metadata"
+      },
+      {
+        "input": [
+          {
+            "a": null,
+            "b": [
+              1,
+              2
+            ]
+          }
+        ],
+        "expected": {
+          "a": null,
+          "b": [
+            1,
+            2
+          ]
+        },
+        "label": "Preserves arrays and null"
+      },
+      {
+        "input": [
+          {
+            "x": 10,
+            "y": 20
+          }
+        ],
+        "expected": {
+          "x": 10,
+          "y": 20
+        },
+        "label": "Already flat object"
+      }
+    ],
+    "patternTag": "Recursive Tree Traversal",
+    "patternExplanation": "Recursively walks nested dictionary nodes building dot-separated property paths.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "practical-unflatten-object",
+    "title": "Unflatten Object from Dot Paths",
+    "category": "objects-and-classes",
+    "difficulty": "Medium",
+    "functionName": "unflattenObject",
+    "description": "Implement a function that reconstructs a deeply nested object from a flattened single-level object with dot-separated keys.",
+    "whatShouldHappen": [
+      "Initialize an empty result object.",
+      "For each key-value pair in the input object, split the key by \".\" to obtain path tokens.",
+      "Traverse through the path tokens, creating nested objects if they do not exist.",
+      "Assign the value at the final leaf token.",
+      "Return the reconstructed nested object."
+    ],
+    "starterCode": "function unflattenObject(obj) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "obj = { 'a.b.c': 1, 'a.b.d': 2 }",
+      "columns": [
+        "key",
+        "parts",
+        "treeAssignment"
+      ],
+      "rows": [
+        {
+          "key": "a.b.c",
+          "parts": "['a', 'b', 'c']",
+          "treeAssignment": "result.a.b.c = 1"
+        },
+        {
+          "key": "a.b.d",
+          "parts": "['a', 'b', 'd']",
+          "treeAssignment": "result.a.b.d = 2"
+        }
+      ]
+    },
+    "skeletonHint": "function unflattenObject(obj) {\n  const result = {};\n  for (const key of Object.keys(obj)) {\n    const parts = key.split('.');\n    let curr = result;\n    for (let i = 0; i < parts.length - 1; i++) {\n      const part = parts[i];\n      if (!curr[part] || typeof curr[part] !== 'object') curr[part] = {};\n      curr = curr[part];\n    }\n    curr[parts[parts.length - 1]] = obj[key];\n  }\n  return result;\n}",
+    "solution": "function unflattenObject(obj) {\n  const result = {};\n\n  for (const key of Object.keys(obj)) {\n    const parts = key.split('.');\n    let current = result;\n\n    for (let i = 0; i < parts.length - 1; i++) {\n      const part = parts[i];\n      if (!current[part] || typeof current[part] !== 'object') {\n        current[part] = {};\n      }\n      current = current[part];\n    }\n\n    current[parts[parts.length - 1]] = obj[key];\n  }\n\n  return result;\n}",
+    "tests": [
+      {
+        "input": [
+          {
+            "a.b.c": 1,
+            "a.b.d": 2
+          }
+        ],
+        "expected": {
+          "a": {
+            "b": {
+              "c": 1,
+              "d": 2
+            }
+          }
+        },
+        "label": "Reconstruct nested object"
+      },
+      {
+        "input": [
+          {
+            "name": "John",
+            "address.city": "NYC"
+          }
+        ],
+        "expected": {
+          "name": "John",
+          "address": {
+            "city": "NYC"
+          }
+        },
+        "label": "Mixed depth paths"
+      },
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": 2
+          }
+        ],
+        "expected": {
+          "a": 1,
+          "b": 2
+        },
+        "label": "Single level keys"
+      },
+      {
+        "input": [
+          {
+            "deep.nested.leaf": true
+          }
+        ],
+        "expected": {
+          "deep": {
+            "nested": {
+              "leaf": true
+            }
+          }
+        },
+        "label": "Deep single branch"
+      }
+    ],
+    "patternTag": "Path Tokenization & Tree Construction",
+    "patternExplanation": "Tokenizes string keys by delimiter and traverses pointers to construct the nested hierarchy.",
+    "estimatedMinutes": 15,
     "status": "published"
   }
 ]

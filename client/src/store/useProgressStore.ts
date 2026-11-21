@@ -43,6 +43,7 @@ interface ProgressState {
   longestDailyStreak:       number
   completedDailies:         string[]
   readArticles:             string[]
+  bookmarkedArticles:       string[]
   readingStreak:            number
   longestReadingStreak:     number
   lastArticleReadAt:        string
@@ -60,6 +61,7 @@ interface ProgressActions {
   dismissBackupBanner:    (milestone: number) => void
   completeDailyChallenge: () => Promise<void>
   completeArticle:        (id: string) => Promise<void>
+  toggleBookmarkArticle:  (id: string) => Promise<void>
 }
 
 type ProgressStore = ProgressState & ProgressActions
@@ -74,6 +76,7 @@ const INITIAL_STATE: ProgressState = {
   longestDailyStreak:       0,
   completedDailies:         [],
   readArticles:             [],
+  bookmarkedArticles:       [],
   readingStreak:            0,
   longestReadingStreak:     0,
   lastArticleReadAt:        '',
@@ -257,6 +260,21 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
       set({ ...applyServerState(data), isLoaded: true })
     } catch (error: unknown) {
       console.error('Failed to complete article:', error)
+    }
+  },
+
+  toggleBookmarkArticle: async (id) => {
+    const current = get().bookmarkedArticles || []
+    const next = current.includes(id) ? current.filter((x) => x !== id) : [...current, id]
+    set({ bookmarkedArticles: next })
+
+    try {
+      const response = await fetch(`/api/articles/bookmark/${id}`, { method: 'POST' })
+      if (!response.ok) throw new Error(`Server error: ${response.status}`)
+      const { data } = (await response.json()) as { success: boolean; data: Omit<ProgressState, 'isLoaded'> }
+      set({ ...applyServerState(data), isLoaded: true })
+    } catch (error: unknown) {
+      console.error('Failed to toggle bookmark:', error)
     }
   },
 }))

@@ -5,7 +5,11 @@
     "url": "https://stripe.com/blog/idempotency",
     "company": "Stripe",
     "region": "Global",
-    "tags": ["API Design", "Distributed Systems", "Reliability"],
+    "tags": [
+      "API Design",
+      "Distributed Systems",
+      "Reliability"
+    ],
     "summary": "How Stripe uses idempotency keys to ensure that API requests are safely retried without double-charging customers.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 12,
@@ -17,7 +21,12 @@
     "url": "https://bytes.swiggy.com/designing-resilient-microservices-part-1-e5900277987d5",
     "company": "Swiggy",
     "region": "India",
-    "tags": ["Microservices", "Resilience", "Go", "Java"],
+    "tags": [
+      "Microservices",
+      "Resilience",
+      "Go",
+      "Java"
+    ],
     "summary": "How Swiggy ensures that millions of daily orders are fulfilled reliably using fault-tolerance patterns like Circuit Breakers and Bulkheads.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 15,
@@ -29,7 +38,11 @@
     "url": "https://blog.zomato.com/how-we-rebuilt-zomato-frontend-via-microfrontends",
     "company": "Zomato",
     "region": "India",
-    "tags": ["Frontend", "React", "Micro-frontends"],
+    "tags": [
+      "Frontend",
+      "React",
+      "Micro-frontends"
+    ],
     "summary": "Why Zomato moved away from a monolithic PHP frontend to a modern, decentralized React architecture using Module Federation.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 10,
@@ -41,7 +54,11 @@
     "url": "https://sre.google/sre-book/introduction/",
     "company": "Google",
     "region": "Global",
-    "tags": ["SRE", "Operations", "Reliability"],
+    "tags": [
+      "SRE",
+      "Operations",
+      "Reliability"
+    ],
     "summary": "The foundational definition of Site Reliability Engineering and how Google bridges the gap between software development and operations.",
     "difficulty": "Intro",
     "estimatedReadingTime": 10,
@@ -53,7 +70,11 @@
     "url": "https://blog.x.com/engineering/en_us/topics/open-source/2023/twitter-recommendation-algorithm",
     "company": "X",
     "region": "Global",
-    "tags": ["Machine Learning", "Algorithms", "Social Media"],
+    "tags": [
+      "Machine Learning",
+      "Algorithms",
+      "Social Media"
+    ],
     "summary": "A deep dive into the three-stage pipeline (Candidate Sourcing, Ranking, Heuristics) that powers the X timeline.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 18,
@@ -65,7 +86,11 @@
     "url": "https://netflixtechblog.com/chaos-engineering-ab4696193d9f",
     "company": "Netflix",
     "region": "Global",
-    "tags": ["Reliability", "Chaos Engineering", "Resilience"],
+    "tags": [
+      "Reliability",
+      "Chaos Engineering",
+      "Resilience"
+    ],
     "summary": "How Netflix pioneered Chaos Engineering to build systems that remain reliable even when underlying infrastructure fails.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 15,
@@ -77,7 +102,11 @@
     "url": "https://www.uber.com/blog/schemaless-part-one/",
     "company": "Uber",
     "region": "Global",
-    "tags": ["Database", "Distributed Systems", "MySQL"],
+    "tags": [
+      "Database",
+      "Distributed Systems",
+      "MySQL"
+    ],
     "summary": "How Uber built a scalable, fault-tolerant key-value store on top of MySQL to handle massive ride data growth.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 14,
@@ -89,7 +118,11 @@
     "url": "https://medium.com/airbnb-engineering/building-services-at-airbnb-part-1-1424d8aa3e1b",
     "company": "Airbnb",
     "region": "Global",
-    "tags": ["Microservices", "Architecture", "SOA"],
+    "tags": [
+      "Microservices",
+      "Architecture",
+      "SOA"
+    ],
     "summary": "The technical journey of decomposing Airbnb's monolithic 'Monorail' into a service-oriented architecture.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 14,
@@ -101,7 +134,11 @@
     "url": "https://engineering.razorpay.com/handling-concurrency-and-race-conditions-in-database-transactions-7ad71958314",
     "company": "Razorpay",
     "region": "India",
-    "tags": ["Concurrency", "Payments", "Database"],
+    "tags": [
+      "Concurrency",
+      "Payments",
+      "Database"
+    ],
     "summary": "How Razorpay handles high-concurrency payment processing and avoids race conditions in financial ledgers.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 12,
@@ -113,7 +150,11 @@
     "url": "https://medium.com/flipkart-tech-blog/search-at-flipkart-scale-72d8a0c6e0b",
     "company": "Flipkart",
     "region": "India",
-    "tags": ["Search", "Scalability", "Apache Solr"],
+    "tags": [
+      "Search",
+      "Scalability",
+      "Apache Solr"
+    ],
     "summary": "A deep dive into the architecture of Flipkart's search engine and how it handles millions of queries during peak sales.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 16,
@@ -125,7 +166,11 @@
     "url": "https://medium.com/ola-tech/high-performant-real-time-tracking-on-web-using-google-maps-b6849752111e",
     "company": "Ola",
     "region": "India",
-    "tags": ["Real-time", "Frontend", "Geo-spatial"],
+    "tags": [
+      "Real-time",
+      "Frontend",
+      "Geo-spatial"
+    ],
     "summary": "How Ola implemented smooth, 60fps real-time driver tracking in their Progressive Web App using Google Maps.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 13,
@@ -137,7 +182,11 @@
     "url": "https://www.phonepe.com/blog/engineering/bullhorn-phonepes-pubsub-platform/",
     "company": "PhonePe",
     "region": "India",
-    "tags": ["Infrastructure", "PubSub", "Reliability"],
+    "tags": [
+      "Infrastructure",
+      "PubSub",
+      "Reliability"
+    ],
     "summary": "The architecture behind PhonePe's reliable notification and message persistence system.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 11,
@@ -149,7 +198,11 @@
     "url": "https://blog.cred.club/the-cosmos-of-cred-application-security/",
     "company": "CRED",
     "region": "India",
-    "tags": ["Security", "Architecture", "Fintech"],
+    "tags": [
+      "Security",
+      "Architecture",
+      "Fintech"
+    ],
     "summary": "The engineering and security principles that protect CRED's high-trust financial environment.",
     "difficulty": "Intro",
     "estimatedReadingTime": 9,
@@ -161,7 +214,11 @@
     "url": "https://engineering.fb.com/2020/05/08/web/facebook-redesign/",
     "company": "Meta",
     "region": "Global",
-    "tags": ["Frontend", "React", "Performance"],
+    "tags": [
+      "Frontend",
+      "React",
+      "Performance"
+    ],
     "summary": "How Meta used Concurrent Mode, Suspense, and Relay to build a high-performance web experience.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 17,
@@ -173,7 +230,11 @@
     "url": "https://research.google/pubs/archive/40671/",
     "company": "Google",
     "region": "Global",
-    "tags": ["Database", "Distributed Systems", "Cloud"],
+    "tags": [
+      "Database",
+      "Distributed Systems",
+      "Cloud"
+    ],
     "summary": "The groundbreaking paper on the first database to provide both global scale and external consistency.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 25,
@@ -185,7 +246,11 @@
     "url": "https://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf",
     "company": "Amazon",
     "region": "Global",
-    "tags": ["Database", "Distributed Systems", "Storage"],
+    "tags": [
+      "Database",
+      "Distributed Systems",
+      "Storage"
+    ],
     "summary": "The foundational paper that defined the NoSQL movement and the principles of eventual consistency.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 30,
@@ -197,7 +262,11 @@
     "url": "https://blog.cloudflare.com/why-we-use-rust/",
     "company": "Cloudflare",
     "region": "Global",
-    "tags": ["Rust", "Performance", "Security"],
+    "tags": [
+      "Rust",
+      "Performance",
+      "Security"
+    ],
     "summary": "How Rust solved critical security and performance issues in Cloudflare's global edge network.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 12,
@@ -209,7 +278,11 @@
     "url": "https://vercel.com/blog/how-next-js-app-router-works",
     "company": "Vercel",
     "region": "Global",
-    "tags": ["Frontend", "Next.js", "React"],
+    "tags": [
+      "Frontend",
+      "Next.js",
+      "React"
+    ],
     "summary": "A deep dive into Server Components, Streaming, and the internal caching mechanisms of the App Router.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 15,
@@ -221,7 +294,11 @@
     "url": "https://discord.com/blog/how-discord-stores-trillions-of-messages",
     "company": "Discord",
     "region": "Global",
-    "tags": ["Database", "Scalability", "ScyllaDB"],
+    "tags": [
+      "Database",
+      "Scalability",
+      "ScyllaDB"
+    ],
     "summary": "The migration from Cassandra to ScyllaDB and how Discord handles massive write-heavy workloads.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 14,
@@ -233,7 +310,11 @@
     "url": "https://slack.engineering/evolving-the-slack-api/",
     "company": "Slack",
     "region": "Global",
-    "tags": ["API Design", "Scalability", "Infrastructure"],
+    "tags": [
+      "API Design",
+      "Scalability",
+      "Infrastructure"
+    ],
     "summary": "How Slack moved to the Conversations API to solve performance and dependency bottlenecks.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 13,
@@ -245,7 +326,11 @@
     "url": "https://github.blog/engineering/architecture-hosting/how-we-rebuilt-github-actions-core-architecture/",
     "company": "GitHub",
     "region": "Global",
-    "tags": ["CI/CD", "Distributed Systems", "Cloud"],
+    "tags": [
+      "CI/CD",
+      "Distributed Systems",
+      "Cloud"
+    ],
     "summary": "The 2025 re-architecture of Actions to handle over 71 million jobs per day.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 16,
@@ -257,7 +342,11 @@
     "url": "https://bytes.swiggy.com/dreaming-up-the-in-house-caching-system-90963064602e",
     "company": "Swiggy",
     "region": "India",
-    "tags": ["Caching", "Scalability", "Performance"],
+    "tags": [
+      "Caching",
+      "Scalability",
+      "Performance"
+    ],
     "summary": "How Swiggy built a custom asset caching mechanism to reduce hybrid app load times from 13s to sub-second.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 14,
@@ -269,7 +358,11 @@
     "url": "https://blog.zomato.com/handling-ipl-traffic-surges/",
     "company": "Zomato",
     "region": "India",
-    "tags": ["Scalability", "Infrastructure", "Peak Traffic"],
+    "tags": [
+      "Scalability",
+      "Infrastructure",
+      "Peak Traffic"
+    ],
     "summary": "Strategies for handling massive real-time order spikes during India's biggest sporting events.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 18,
@@ -281,7 +374,11 @@
     "url": "https://engineering.razorpay.com/outboxer-a-transactional-outbox-implementation-in-go-7ad71958314",
     "company": "Razorpay",
     "region": "India",
-    "tags": ["Microservices", "Consistency", "Go"],
+    "tags": [
+      "Microservices",
+      "Consistency",
+      "Go"
+    ],
     "summary": "How Razorpay ensures consistency between database updates and downstream notifications.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 15,
@@ -293,7 +390,11 @@
     "url": "https://tech.flipkart.com/flash-sale-architecture-flipkart-6819a86a6042",
     "company": "Flipkart",
     "region": "India",
-    "tags": ["Scalability", "Architecture", "Peak Traffic"],
+    "tags": [
+      "Scalability",
+      "Architecture",
+      "Peak Traffic"
+    ],
     "summary": "How Flipkart's systems survive the massive concurrency of 'Big Billion Day' flash sales.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 20,
@@ -305,7 +406,11 @@
     "url": "https://stripe.com/blog/rate-limiters",
     "company": "Stripe",
     "region": "Global",
-    "tags": ["API Design", "Distributed Systems", "Performance"],
+    "tags": [
+      "API Design",
+      "Distributed Systems",
+      "Performance"
+    ],
     "summary": "The different strategies and algorithms Stripe uses to protect their API from overloads.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 11,
@@ -317,7 +422,11 @@
     "url": "https://netflixtechblog.com/full-cycle-developers-at-netflix-a08c31f83249",
     "company": "Netflix",
     "region": "Global",
-    "tags": ["DevOps", "Culture", "Engineering"],
+    "tags": [
+      "DevOps",
+      "Culture",
+      "Engineering"
+    ],
     "summary": "Why Netflix expects engineers to own their code from design to production operations.",
     "difficulty": "Intro",
     "estimatedReadingTime": 12,
@@ -329,7 +438,11 @@
     "url": "https://www.uber.com/blog/michelangelo-machine-learning-platform/",
     "company": "Uber",
     "region": "Global",
-    "tags": ["Machine Learning", "Platform", "Infrastructure"],
+    "tags": [
+      "Machine Learning",
+      "Platform",
+      "Infrastructure"
+    ],
     "summary": "The architecture behind Uber's unified platform for training and deploying ML models globally.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 22,
@@ -341,7 +454,11 @@
     "url": "https://medium.com/airbnb-engineering/server-driven-ui-at-airbnb-87f5d4f3b8b6",
     "company": "Airbnb",
     "region": "Global",
-    "tags": ["Frontend", "Mobile", "Architecture"],
+    "tags": [
+      "Frontend",
+      "Mobile",
+      "Architecture"
+    ],
     "summary": "How Airbnb dynamically updates its mobile app interfaces via backend API responses.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 13,
@@ -353,7 +470,11 @@
     "url": "https://research.google/pubs/archive/43438/",
     "company": "Google",
     "region": "Global",
-    "tags": ["Infrastructure", "Cloud", "Orchestration"],
+    "tags": [
+      "Infrastructure",
+      "Cloud",
+      "Orchestration"
+    ],
     "summary": "The internal system that defined modern container orchestration before Kubernetes.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 24,
@@ -365,7 +486,11 @@
     "url": "https://www.allthingsdistributed.com/2021/01/s3-strong-consistency.html",
     "company": "Amazon",
     "region": "Global",
-    "tags": ["Cloud", "Storage", "Distributed Systems"],
+    "tags": [
+      "Cloud",
+      "Storage",
+      "Distributed Systems"
+    ],
     "summary": "How Amazon provided strong read-after-write consistency in S3 without sacrificing availability.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 16,
@@ -377,7 +502,11 @@
     "url": "https://blog.cloudflare.com/introducing-cloudflare-workers/",
     "company": "Cloudflare",
     "region": "Global",
-    "tags": ["Serverless", "Edge Computing", "Performance"],
+    "tags": [
+      "Serverless",
+      "Edge Computing",
+      "Performance"
+    ],
     "summary": "The launch of edge-based compute that runs JavaScript with zero cold starts.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 10,
@@ -389,7 +518,11 @@
     "url": "https://www.datadoghq.com/knowledge-center/what-is-observability/",
     "company": "Datadog",
     "region": "Global",
-    "tags": ["Observability", "Monitoring", "SRE"],
+    "tags": [
+      "Observability",
+      "Monitoring",
+      "SRE"
+    ],
     "summary": "Understanding the conceptual shift from components health to system internal states.",
     "difficulty": "Intro",
     "estimatedReadingTime": 8,
@@ -401,7 +534,11 @@
     "url": "https://planetscale.com/blog/how-does-vitess-work",
     "company": "PlanetScale",
     "region": "Global",
-    "tags": ["Database", "Scalability", "Vitess"],
+    "tags": [
+      "Database",
+      "Scalability",
+      "Vitess"
+    ],
     "summary": "Understanding the proxy and sidecar architecture that allows MySQL to shard horizontally.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 15,
@@ -413,7 +550,11 @@
     "url": "https://blog.railway.app/posts/how-we-build-railway",
     "company": "Railway",
     "region": "Global",
-    "tags": ["Cloud", "DevOps", "Infrastructure"],
+    "tags": [
+      "Cloud",
+      "DevOps",
+      "Infrastructure"
+    ],
     "summary": "The technical design of Railway's developer-focused deployment platform.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 11,
@@ -425,7 +566,11 @@
     "url": "https://blog.twitter.com/engineering/en_us/topics/open-source/2023/twitter-recommendation-algorithm",
     "company": "X",
     "region": "Global",
-    "tags": ["Machine Learning", "Algorithms", "Social Media"],
+    "tags": [
+      "Machine Learning",
+      "Algorithms",
+      "Social Media"
+    ],
     "summary": "Deep dive into the neural network models that score and rank posts for millions of users.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 19,
@@ -437,7 +582,11 @@
     "url": "https://stripe.com/blog/distributed-tracing-at-stripe",
     "company": "Stripe",
     "region": "Global",
-    "tags": ["Observability", "Reliability", "Distributed Systems"],
+    "tags": [
+      "Observability",
+      "Reliability",
+      "Distributed Systems"
+    ],
     "summary": "How Stripe tracks request lifecycles across hundreds of microservices to minimize MTTR.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 14,
@@ -449,7 +598,11 @@
     "url": "https://netflixtechblog.com/how-netflix-works-with-isps-around-the-globe-to-deliver-enormous-amounts-of-content-86b930b30c5a",
     "company": "Netflix",
     "region": "Global",
-    "tags": ["CDN", "Infrastructure", "Video"],
+    "tags": [
+      "CDN",
+      "Infrastructure",
+      "Video"
+    ],
     "summary": "The internal architecture of Open Connect, Netflix's purpose-built global delivery network.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 17,
@@ -461,7 +614,11 @@
     "url": "https://www.uber.com/blog/ubers-next-gen-push-platform-on-grpc/",
     "company": "Uber",
     "region": "Global",
-    "tags": ["Real-time", "gRPC", "Infrastructure"],
+    "tags": [
+      "Real-time",
+      "gRPC",
+      "Infrastructure"
+    ],
     "summary": "The transition from SSE to gRPC for sending sub-second push notifications to millions of apps.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 12,
@@ -473,7 +630,11 @@
     "url": "https://engineering.fb.com/2021/09/14/web/graphql-scaling/",
     "company": "Meta",
     "region": "Global",
-    "tags": ["GraphQL", "API Design", "Performance"],
+    "tags": [
+      "GraphQL",
+      "API Design",
+      "Performance"
+    ],
     "summary": "The optimizations that allow Meta to serve billions of GraphQL queries with minimal latency.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 16,
@@ -485,7 +646,11 @@
     "url": "https://research.google/pubs/archive/36632/",
     "company": "Google",
     "region": "Global",
-    "tags": ["Big Data", "Analytics", "BigQuery"],
+    "tags": [
+      "Big Data",
+      "Analytics",
+      "BigQuery"
+    ],
     "summary": "The internal Google engine that inspired BigQuery and Apache Parquet.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 22,
@@ -497,7 +662,11 @@
     "url": "http://highscalability.com/amazon-architecture",
     "company": "Amazon",
     "region": "Global",
-    "tags": ["Architecture", "Scalability", "SOA"],
+    "tags": [
+      "Architecture",
+      "Scalability",
+      "SOA"
+    ],
     "summary": "A high-level breakdown of how Amazon scales using loosely coupled service primitives.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 13,
@@ -509,7 +678,11 @@
     "url": "https://devblogs.microsoft.com/typescript/the-evolution-of-typescript/",
     "company": "Microsoft",
     "region": "Global",
-    "tags": ["TypeScript", "Programming Languages", "History"],
+    "tags": [
+      "TypeScript",
+      "Programming Languages",
+      "History"
+    ],
     "summary": "The journey of how TypeScript became the industry standard for safe JS development.",
     "difficulty": "Intro",
     "estimatedReadingTime": 15,
@@ -521,7 +694,11 @@
     "url": "https://blog.cloudflare.com/edge-middleware-architecture/",
     "company": "Cloudflare",
     "region": "Global",
-    "tags": ["Edge Computing", "Serverless", "Performance"],
+    "tags": [
+      "Edge Computing",
+      "Serverless",
+      "Performance"
+    ],
     "summary": "The architectural shift towards running complex logic at the network edge.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 11,
@@ -533,7 +710,11 @@
     "url": "https://www.datadoghq.com/resources/microservice-observability-at-scale/",
     "company": "Datadog",
     "region": "Global",
-    "tags": ["Observability", "Microservices", "SRE"],
+    "tags": [
+      "Observability",
+      "Microservices",
+      "SRE"
+    ],
     "summary": "A practical guide to managing the complexity of highly distributed microservices.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 14,
@@ -545,7 +726,11 @@
     "url": "https://bytes.swiggy.com/checkout-service-at-swiggy-8b301a238711",
     "company": "Swiggy",
     "region": "India",
-    "tags": ["Microservices", "Concurrency", "Payments"],
+    "tags": [
+      "Microservices",
+      "Concurrency",
+      "Payments"
+    ],
     "summary": "How Swiggy re-engineered its checkout flow to handle millions of consistent transactions.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 15,
@@ -557,7 +742,11 @@
     "url": "https://blog.zomato.com/ml-for-menu-extraction/",
     "company": "Zomato",
     "region": "India",
-    "tags": ["Machine Learning", "Automation", "OCR"],
+    "tags": [
+      "Machine Learning",
+      "Automation",
+      "OCR"
+    ],
     "summary": "How Zomato uses deep learning to extract structured data from thousands of physical menus.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 16,
@@ -569,7 +758,11 @@
     "url": "https://engineering.razorpay.com/idempotency-in-payment-systems-87f5d4f3b8b6",
     "company": "Razorpay",
     "region": "India",
-    "tags": ["Payments", "API Design", "Distributed Systems"],
+    "tags": [
+      "Payments",
+      "API Design",
+      "Distributed Systems"
+    ],
     "summary": "Why idempotency is non-negotiable in financial infra and how Razorpay enforces it.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 13,
@@ -581,7 +774,11 @@
     "url": "https://blog.flipkart.tech/flipkart-data-platform-indias-largest-ecommerce-big-data-platform-33398f4437d3",
     "company": "Flipkart",
     "region": "India",
-    "tags": ["Big Data", "Data Engineering", "Scalability"],
+    "tags": [
+      "Big Data",
+      "Data Engineering",
+      "Scalability"
+    ],
     "summary": "The architectural pillars of the data platform that powers India's largest e-commerce operations.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 18,
@@ -593,7 +790,11 @@
     "url": "https://x.com/engineering",
     "company": "X",
     "region": "Global",
-    "tags": ["Infrastructure", "Cloud", "Operations"],
+    "tags": [
+      "Infrastructure",
+      "Cloud",
+      "Operations"
+    ],
     "summary": "The 2023 overhaul focused on consolidating data centers and Hadoop stacks for efficiency.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 21,
@@ -605,7 +806,11 @@
     "url": "https://vercel.com/blog/edge-functions-explained",
     "company": "Vercel",
     "region": "Global",
-    "tags": ["Serverless", "Edge Computing", "V8"],
+    "tags": [
+      "Serverless",
+      "Edge Computing",
+      "V8"
+    ],
     "summary": "Why the V8 isolate runtime is superior to traditional serverless for low-latency tasks.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 9,
@@ -617,7 +822,11 @@
     "url": "https://stripe.com/blog/distributed-systems-robustness",
     "company": "Stripe",
     "region": "Global",
-    "tags": ["Distributed Systems", "Reliability", "Architecture"],
+    "tags": [
+      "Distributed Systems",
+      "Reliability",
+      "Architecture"
+    ],
     "summary": "Operational lessons from building Stripe's highly available financial infrastructure.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 16,
@@ -629,7 +838,11 @@
     "url": "https://cacm.acm.org/magazines/2016/7/204032-why-google-stores-billions-of-lines-of-code-in-a-single-repository/fulltext",
     "company": "Google",
     "region": "Global",
-    "tags": ["DevOps", "Architecture", "Engineering"],
+    "tags": [
+      "DevOps",
+      "Architecture",
+      "Engineering"
+    ],
     "summary": "The comprehensive research paper on the benefits and challenges of the Google monorepo.",
     "difficulty": "Intermediate",
     "estimatedReadingTime": 18,
@@ -641,7 +854,11 @@
     "url": "https://netflixtechblog.com/high-quality-video-encoding-at-scale-d1010375a03",
     "company": "Netflix",
     "region": "Global",
-    "tags": ["Video", "Cloud", "Scalability"],
+    "tags": [
+      "Video",
+      "Cloud",
+      "Scalability"
+    ],
     "summary": "How Netflix uses elastic AWS compute to encode thousands of titles into optimized formats.",
     "difficulty": "Advanced",
     "estimatedReadingTime": 15,
@@ -653,9 +870,352 @@
     "url": "https://www.uber.com/blog/real-time-push-platform/",
     "company": "Uber",
     "region": "Global",
-    "tags": ["Real-time", "Infrastructure", "Scaling"],
+    "tags": [
+      "Real-time",
+      "Infrastructure",
+      "Scaling"
+    ],
     "summary": "The original design of the persistent connection engine that powers the Uber app.",
     "difficulty": "Intermediate",
+    "estimatedReadingTime": 14,
+    "status": "published"
+  },
+  {
+    "id": "v8-fast-properties",
+    "title": "Fast Properties in V8: Hidden Classes and In-Object Properties",
+    "url": "https://v8.dev/blog/fast-properties",
+    "company": "Google",
+    "region": "Global",
+    "tags": [
+      "V8",
+      "JavaScript",
+      "Performance",
+      "Internals"
+    ],
+    "summary": "How V8 represents JavaScript objects in memory using Hidden Classes (Shapes) and how in-object properties provide lightning-fast property accesses without hash lookups.",
+    "difficulty": "Advanced",
+    "estimatedReadingTime": 14,
+    "status": "published"
+  },
+  {
+    "id": "mathias-shapes-ics",
+    "title": "JavaScript Engine Fundamentals: Shapes and Inline Caches",
+    "url": "https://mathiasbynens.be/notes/shapes-ics",
+    "company": "Google",
+    "region": "Global",
+    "tags": [
+      "V8",
+      "JavaScript",
+      "Compilers",
+      "Optimization"
+    ],
+    "summary": "A deep dive by Mathias Bynens into how all major JavaScript engines optimize property lookups using Shapes/Hidden Classes and Monomorphic vs Megamorphic Inline Caches.",
+    "difficulty": "Intermediate",
+    "estimatedReadingTime": 16,
+    "status": "published"
+  },
+  {
+    "id": "jake-event-loop",
+    "title": "Tasks, Microtasks, Queues and Schedules",
+    "url": "https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/",
+    "company": "Google",
+    "region": "Global",
+    "tags": [
+      "Event Loop",
+      "JavaScript",
+      "Browser",
+      "Asynchronous"
+    ],
+    "summary": "Jake Archibald definitive interactive masterclass explaining task queues vs microtask checkpoints, Promise resolution order, MutationObserver, and browser rendering phases.",
+    "difficulty": "Intermediate",
+    "estimatedReadingTime": 15,
+    "status": "published"
+  },
+  {
+    "id": "lydia-js-engine-event-loop",
+    "title": "JavaScript Visualized: The Event Loop & Async Mechanics",
+    "url": "https://dev.to/lydiahallie/javascript-visualized-event-loop-3dif",
+    "company": "Frontend Masters",
+    "region": "Global",
+    "tags": [
+      "JavaScript",
+      "Event Loop",
+      "Call Stack",
+      "Async"
+    ],
+    "summary": "Lydia Hallie visual guide breaking down the call stack, Web APIs, task queue, and microtask queue with step-by-step runtime execution diagrams.",
+    "difficulty": "Intro",
+    "estimatedReadingTime": 10,
+    "status": "published"
+  },
+  {
+    "id": "dan-abramov-useeffect",
+    "title": "A Complete Guide to useEffect & React Lifecycles",
+    "url": "https://overreacted.io/a-complete-guide-to-useeffect/",
+    "company": "Meta",
+    "region": "Global",
+    "tags": [
+      "React",
+      "Frontend",
+      "JavaScript",
+      "Architecture"
+    ],
+    "summary": "Dan Abramov seminal breakdown of closures inside React render functions, synchronization vs lifecycles, and how useEffect captures props and state values from each render.",
+    "difficulty": "Intermediate",
+    "estimatedReadingTime": 22,
+    "status": "published"
+  },
+  {
+    "id": "chrome-inside-browser-part1",
+    "title": "Inside look at modern web browser: Architecture & Multi-Process Model",
+    "url": "https://developer.chrome.com/blog/inside-browser-part1/",
+    "company": "Google",
+    "region": "Global",
+    "tags": [
+      "Browser",
+      "Chrome",
+      "Architecture",
+      "Security"
+    ],
+    "summary": "An in-depth tour by the Chrome team exploring how multi-process architecture isolates browser tabs, GPU, network, and sandbox processes for resilience and security.",
+    "difficulty": "Intermediate",
+    "estimatedReadingTime": 14,
+    "status": "published"
+  },
+  {
+    "id": "chrome-inside-browser-rendering",
+    "title": "Inside look at modern web browser: The Rendering Pipeline",
+    "url": "https://developer.chrome.com/blog/inside-browser-part3/",
+    "company": "Google",
+    "region": "Global",
+    "tags": [
+      "Browser",
+      "Rendering",
+      "CSS",
+      "Performance"
+    ],
+    "summary": "How the browser renderer turns HTML, CSS, and JavaScript into pixels on screen: DOM parsing, style calculation, layout, paint, rastering, and compositing on the compositor thread.",
+    "difficulty": "Advanced",
+    "estimatedReadingTime": 18,
+    "status": "published"
+  },
+  {
+    "id": "webdev-optimize-lcp-inp",
+    "title": "Optimizing Core Web Vitals: LCP and Interaction to Next Paint (INP)",
+    "url": "https://web.dev/articles/optimize-lcp",
+    "company": "Google",
+    "region": "Global",
+    "tags": [
+      "Performance",
+      "Web Vitals",
+      "Optimization",
+      "Frontend"
+    ],
+    "summary": "Comprehensive guidelines on breaking down Largest Contentful Paint (LCP) into time-to-first-byte, resource load delay, and render delay, plus minimizing INP input lag.",
+    "difficulty": "Intermediate",
+    "estimatedReadingTime": 12,
+    "status": "published"
+  },
+  {
+    "id": "figma-multiplayer-engine",
+    "title": "How Figma Multiplayer Technology Works: CRDTs and WebSockets",
+    "url": "https://www.figma.com/blog/how-figmas-multiplayer-technology-works/",
+    "company": "Figma",
+    "region": "Global",
+    "tags": [
+      "Real-time",
+      "Architecture",
+      "WebSockets",
+      "CRDT"
+    ],
+    "summary": "How Figma built a real-time collaborative document engine in C++ compiled to WebAssembly, handling conflict resolution and syncing mutations across thousands of active clients.",
+    "difficulty": "Advanced",
+    "estimatedReadingTime": 16,
+    "status": "published"
+  },
+  {
+    "id": "discord-why-rust",
+    "title": "Why Discord is Switching from Go to Rust",
+    "url": "https://discord.com/blog/why-discord-is-switching-from-go-to-rust",
+    "company": "Discord",
+    "region": "Global",
+    "tags": [
+      "Rust",
+      "Go",
+      "Performance",
+      "Systems"
+    ],
+    "summary": "How Discord solved catastrophic tail latency spikes and garbage collection pauses in their Read States service by rewriting it from Go to Rust.",
+    "difficulty": "Intermediate",
+    "estimatedReadingTime": 12,
+    "status": "published"
+  },
+  {
+    "id": "shopify-40m-flash-sale",
+    "title": "Under the Hood of a 40 Million Request Per Minute Flash Sale",
+    "url": "https://shopify.engineering/under-the-hood-of-a-40-million-request-per-minute-flash-sale",
+    "company": "Shopify",
+    "region": "Global",
+    "tags": [
+      "Scalability",
+      "High Traffic",
+      "Database",
+      "Resilience"
+    ],
+    "summary": "How Shopify engineered their checkout platform and Redis clusters to withstand 40M requests per minute during Black Friday without dropping a single order.",
+    "difficulty": "Advanced",
+    "estimatedReadingTime": 15,
+    "status": "published"
+  },
+  {
+    "id": "netflix-fault-tolerance-hystrix",
+    "title": "Fault Tolerance in a High Volume Distributed System",
+    "url": "https://netflixtechblog.com/fault-tolerance-in-a-high-volume-distributed-system-912ad4da0e8b",
+    "company": "Netflix",
+    "region": "Global",
+    "tags": [
+      "Resilience",
+      "Microservices",
+      "Distributed Systems"
+    ],
+    "summary": "The architectural principles behind circuit breaking, thread isolation, and graceful fallback that allow Netflix to remain available during downstream outages.",
+    "difficulty": "Intermediate",
+    "estimatedReadingTime": 14,
+    "status": "published"
+  },
+  {
+    "id": "uber-cash-platform",
+    "title": "Designing Cash: Uber Distributed Cash Transaction Platform",
+    "url": "https://www.uber.com/blog/designing-cash/",
+    "company": "Uber",
+    "region": "Global",
+    "tags": [
+      "Payments",
+      "Distributed Systems",
+      "Idempotency",
+      "Fintech"
+    ],
+    "summary": "How Uber designed a globally distributed, double-entry transactional ledger for handling cash trips across emerging markets with offline-first support.",
+    "difficulty": "Advanced",
+    "estimatedReadingTime": 15,
+    "status": "published"
+  },
+  {
+    "id": "whatsapp-1m-connections",
+    "title": "1 Million Connections Per Server with Erlang and FreeBSD",
+    "url": "https://blog.whatsapp.com/1-million-connections-per-server",
+    "company": "Meta",
+    "region": "Global",
+    "tags": [
+      "Erlang",
+      "Networking",
+      "Concurrency",
+      "Infrastructure"
+    ],
+    "summary": "How WhatsApp small engineering team scaled their messaging servers to handle over 1 million concurrent persistent TCP connections on a single FreeBSD host.",
+    "difficulty": "Advanced",
+    "estimatedReadingTime": 12,
+    "status": "published"
+  },
+  {
+    "id": "cloudflare-pingora-rust",
+    "title": "How Cloudflare Built Pingora: A Fast Proxy in Rust",
+    "url": "https://blog.cloudflare.com/how-we-built-pingora-in-rust/",
+    "company": "Cloudflare",
+    "region": "Global",
+    "tags": [
+      "Rust",
+      "Networking",
+      "Proxy",
+      "Security"
+    ],
+    "summary": "Why Cloudflare replaced NGINX with Pingora, an in-house asynchronous Rust proxy that processes over 1 trillion requests per day with 70% less CPU and 67% less memory.",
+    "difficulty": "Advanced",
+    "estimatedReadingTime": 15,
+    "status": "published"
+  },
+  {
+    "id": "github-ruby-upgrade-zero-downtime",
+    "title": "Upgrading GitHub.com to Ruby 3.3 with Zero Downtime",
+    "url": "https://github.blog/engineering/architecture-optimization/how-we-upgraded-github-to-ruby-3-3-with-zero-downtime/",
+    "company": "GitHub",
+    "region": "Global",
+    "tags": [
+      "Ruby",
+      "CI/CD",
+      "Performance",
+      "Infrastructure"
+    ],
+    "summary": "How GitHub safely upgraded one of the world largest production monolithic codebases to Ruby 3.3 and YJIT using dual-booting, dark canary deploys, and automated profiling.",
+    "difficulty": "Intermediate",
+    "estimatedReadingTime": 14,
+    "status": "published"
+  },
+  {
+    "id": "nodejs-memory-leak-profiling",
+    "title": "Diagnosing Memory Leaks and Heap Profiling in V8 & Node.js",
+    "url": "https://nodejs.org/en/docs/guides/diagnostics/memory-leaks/",
+    "company": "Node.js",
+    "region": "Global",
+    "tags": [
+      "Node.js",
+      "Memory",
+      "V8",
+      "Debugging"
+    ],
+    "summary": "A step-by-step technical guide to inspecting V8 heap snapshots, identifying retaining trees, detecting closure memory leaks, and eliminating uncollected EventEmitters.",
+    "difficulty": "Intermediate",
+    "estimatedReadingTime": 13,
+    "status": "published"
+  },
+  {
+    "id": "mozilla-csp-nonce-hardening",
+    "title": "Hardening Web App Security with Content Security Policy Nonces",
+    "url": "https://hacks.mozilla.org/2016/01/improving-security-with-cryptographic-nonces/",
+    "company": "Mozilla",
+    "region": "Global",
+    "tags": [
+      "Security",
+      "Web Security",
+      "CSP",
+      "XSS"
+    ],
+    "summary": "Deep dive into preventing XSS injection attacks using cryptographic nonce-based Content Security Policies and strict dynamic script loading.",
+    "difficulty": "Intermediate",
+    "estimatedReadingTime": 11,
+    "status": "published"
+  },
+  {
+    "id": "kleppmann-btrees-vs-lsm",
+    "title": "B-Trees vs LSM-Trees: The Architectural Trade-offs in Storage Engines",
+    "url": "https://martin.kleppmann.com/2015/05/27/logs-for-data-infrastructure.html",
+    "company": "Martin Kleppmann",
+    "region": "Global",
+    "tags": [
+      "Database",
+      "Data Structures",
+      "Storage",
+      "Architecture"
+    ],
+    "summary": "An authoritative comparison of read-heavy B-Tree indexes versus write-optimized Log-Structured Merge (LSM) trees, write amplification, and compaction algorithms.",
+    "difficulty": "Advanced",
+    "estimatedReadingTime": 16,
+    "status": "published"
+  },
+  {
+    "id": "swiggy-cart-pricing-engine",
+    "title": "Building a Fault-Tolerant High-Throughput Pricing Engine at Swiggy",
+    "url": "https://bytes.swiggy.com/how-swiggy-delivers-food-in-lightning-speed-a81d11394e1e",
+    "company": "Swiggy",
+    "region": "India",
+    "tags": [
+      "Architecture",
+      "High Concurrency",
+      "Fintech",
+      "Microservices"
+    ],
+    "summary": "How Swiggy cart and pricing services evaluate complex coupon rules, surge pricing, and multi-restaurant delivery calculations in under 20ms during peak IPL spikes.",
+    "difficulty": "Advanced",
     "estimatedReadingTime": 14,
     "status": "published"
   }

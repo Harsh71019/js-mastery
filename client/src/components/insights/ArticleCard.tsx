@@ -1,5 +1,5 @@
 import React from 'react'
-import { CheckCircle2, Clock, Globe, MapPin, ArrowUpRight } from 'lucide-react'
+import { CheckCircle2, Clock, Globe, MapPin, ArrowUpRight, Bookmark } from 'lucide-react'
 import type { Article } from '@/types/article'
 import { useProgressStore } from '@/store/useProgressStore'
 import { Card } from '@/components/ui/Card'
@@ -10,7 +10,9 @@ interface ArticleCardProps {
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
   const isRead = useProgressStore(state => state.readArticles.includes(article.id))
+  const isBookmarked = useProgressStore(state => (state.bookmarkedArticles || []).includes(article.id))
   const completeArticle = useProgressStore(state => state.completeArticle)
+  const toggleBookmarkArticle = useProgressStore(state => state.toggleBookmarkArticle)
 
   const handleComplete = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -18,6 +20,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
     if (!isRead) {
       completeArticle(article.id)
     }
+  }
+
+  const handleToggleBookmark = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    toggleBookmarkArticle(article.id)
   }
 
   const difficultyColors = {
@@ -74,7 +82,19 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <button
+            type="button"
+            onClick={handleToggleBookmark}
+            className={`p-1.5 rounded-lg border transition-all cursor-pointer flex items-center justify-center ${
+              isBookmarked
+                ? 'text-accent-purple bg-accent-purple/15 border-accent-purple/30 shadow-sm'
+                : 'text-text-tertiary border-transparent hover:text-white hover:bg-white/10'
+            }`}
+            title={isBookmarked ? 'Remove bookmark' : 'Bookmark article'}
+          >
+            <Bookmark size={15} className={isBookmarked ? 'fill-accent-purple' : ''} />
+          </button>
           {!isRead && (
             <button
               type="button"
