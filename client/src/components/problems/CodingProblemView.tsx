@@ -17,6 +17,7 @@ import {
   Check,
   AlignLeft,
   StickyNote,
+  Sparkles,
 } from 'lucide-react'
 import type { Problem, TestCase, LogicStep } from '@/types/problem'
 import { useProgressStore } from '@/store/useProgressStore'
@@ -30,6 +31,7 @@ import { CodeEditor, type CodeEditorHandle } from '@/components/editor/CodeEdito
 import { ResultsPanel } from '@/components/editor/ResultsPanel'
 import { SubmissionsPanel } from '@/components/problems/SubmissionsPanel'
 import { NotesPanel } from '@/components/problems/NotesPanel'
+import { JsMentorModal } from '@/components/editor/JsMentorModal'
 import { useProblemNote } from '@/hooks/useProblemNote'
 import { Button } from '@/components/ui/Button'
 import { Glow } from '@/components/ui/Glow'
@@ -112,6 +114,7 @@ export const CodingProblemView = ({
   const [beatsRuntime, setBeatsRuntime] = useState<number | undefined>(undefined)
   const [beatsMemory, setBeatsMemory] = useState<number | undefined>(undefined)
   const [isResetModalOpen, setIsResetModalOpen] = useState(false)
+  const [isMentorOpen, setIsMentorOpen] = useState(false)
   const [isFocusMode, setIsFocusMode] = useState(false)
   const [activeLeftTab, setActiveLeftTab] = useState<'description' | 'thinking' | 'simulation' | 'solution' | 'articles' | 'submissions' | 'notes'>('description')
   const [activeStepIndex, setActiveStepIndex] = useState<number | null>(null)
@@ -690,6 +693,16 @@ export const CodingProblemView = ({
                 <RotateCcw size={12} />
                 <span className="hidden sm:inline">Reset</span>
               </Button>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => setIsMentorOpen(true)}
+                className="text-accent-amber hover:text-white bg-accent-amber/10 border-accent-amber/30 hover:bg-accent-amber/20 text-xs font-bold uppercase tracking-wider font-geist flex items-center gap-1.5 px-2.5 sm:px-3 shadow-[0_0_12px_rgba(245,158,11,0.15)]"
+                title="Inspect code with JavaScript Code Mentor"
+              >
+                <Sparkles size={12} className="text-accent-amber" />
+                <span className="hidden sm:inline">JS Mentor</span>
+              </Button>
               <div className="hidden sm:block w-px h-4 bg-white/10" />
               <Button
                 variant="secondary"
@@ -839,6 +852,12 @@ export const CodingProblemView = ({
         cancelLabel="Cancel"
         onConfirm={handleReset}
         onCancel={() => setIsResetModalOpen(false)}
+      />
+
+      <JsMentorModal
+        isOpen={isMentorOpen}
+        onClose={() => setIsMentorOpen(false)}
+        code={code}
       />
 
       {(isRecallSuccess || isGaveUp) && (
