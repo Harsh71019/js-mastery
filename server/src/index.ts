@@ -55,11 +55,12 @@ app.use(requestTimeout)
 
 app.get('/api/health', (_req: Request, res: Response) => {
   const dbState = mongoose.connection.readyState
-  const dbStatus = dbState === 1 ? 'connected' : 'disconnected'
+  const isHealthy = dbState === 1
+  const dbStatus = isHealthy ? 'connected' : 'disconnected'
   const mem = process.memoryUsage()
   const cpu = process.cpuUsage()
-  res.json({
-    ok: dbState === 1,
+  res.status(isHealthy ? 200 : 503).json({
+    ok: isHealthy,
     db: dbStatus,
     uptime: Math.floor(process.uptime()),
     timestamp: new Date().toISOString(),
@@ -109,8 +110,15 @@ process.on('uncaughtException', (err) => {
 const shutdown = (server: http.Server, signal: string) => {
   logger.info(`${signal} received — shutting down gracefully`)
 
+  const forceTimer = setTimeout(() => {
+    logger.error('Graceful shutdown timed out after 10s — forcing exit')
+    process.exit(1)
+  }, 10_000)
+  forceTimer.unref()
+
   server.close(async () => {
     logger.info('HTTP server closed')
+    clearTimeout(forceTimer)
     try {
       await mongoose.disconnect()
       logger.info('MongoDB disconnected')

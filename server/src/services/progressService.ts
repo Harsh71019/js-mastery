@@ -1,6 +1,7 @@
 import { format, differenceInCalendarDays, differenceInHours } from 'date-fns'
 import * as progressRepo from '../repositories/progressRepository'
 import * as problemRepo from '../repositories/problemRepository'
+import { NotFoundError } from '../middleware/AppError'
 import { getUpdatedStreak } from '../utils/streak'
 import { computeNextReview, isMastered } from '../utils/review'
 import { serializeProgress } from '../utils/serializeProgress'
@@ -13,6 +14,7 @@ import {
   RECALL_ELIGIBLE_INTERVAL,
   RECALL_MIN_HOURS_SINCE_SOLVE
 } from '../constants/review'
+import type { ImportBodyInput } from '../types/schemas/progressSchemas'
 
 export type RunTiming = { ms: number; memoryMb?: number; accepted: boolean }
 
@@ -165,7 +167,7 @@ export const recallProgress = async (problemId: string) => {
   const existing = doc.solvedProblems.get(problemId)
 
   if (!existing) {
-    throw new Error('Problem progress not found')
+    throw new NotFoundError('Problem progress not found')
   }
 
   const review = computeNextReview(
@@ -203,7 +205,7 @@ export const skipRecallProgress = async (problemId: string) => {
   const existing = doc.solvedProblems.get(problemId)
 
   if (!existing) {
-    throw new Error('Problem progress not found')
+    throw new NotFoundError('Problem progress not found')
   }
 
   doc.solvedProblems.set(problemId, {
@@ -315,22 +317,27 @@ export const dismissBanner = async (milestone: number) => {
   return serializeProgress(doc)
 }
 
-export type ImportBody = {
-  solvedProblems:           Record<string, unknown>
-  lastActiveDate?:          string
-  currentStreak?:           number
-  longestStreak?:           number
-  dismissedBackupMilestone?: number
-}
-
-export const importProgress = async (body: ImportBody) => {
-  const doc = await progressRepo.replaceProgress({
+export const importProgress = async (body: ImportBodyInput) => {
+  const updatePayload: Record<string, unknown> = {
     solvedProblems:           body.solvedProblems,
     lastActiveDate:           body.lastActiveDate ?? '',
     currentStreak:            body.currentStreak ?? 0,
     longestStreak:            body.longestStreak ?? 0,
     dismissedBackupMilestone: body.dismissedBackupMilestone ?? 0,
-  })
+  }
+
+  if (body.dailyStreak !== undefined) updatePayload.dailyStreak = body.dailyStreak
+  if (body.longestDailyStreak !== undefined) updatePayload.longestDailyStreak = body.longestDailyStreak
+  if (body.lastDailySolvedAt !== undefined) updatePayload.lastDailySolvedAt = body.lastDailySolvedAt
+  if (body.completedDailies !== undefined) updatePayload.completedDailies = body.completedDailies
+  if (body.readArticles !== undefined) updatePayload.readArticles = body.readArticles
+  if (body.bookmarkedArticles !== undefined) updatePayload.bookmarkedArticles = body.bookmarkedArticles
+  if (body.readingStreak !== undefined) updatePayload.readingStreak = body.readingStreak
+  if (body.longestReadingStreak !== undefined) updatePayload.longestReadingStreak = body.longestReadingStreak
+  if (body.lastArticleReadAt !== undefined) updatePayload.lastArticleReadAt = body.lastArticleReadAt
+  if (body.readingHistory !== undefined) updatePayload.readingHistory = body.readingHistory
+
+  const doc = await progressRepo.replaceProgress(updatePayload)
   return serializeProgress(doc!)
 }
 

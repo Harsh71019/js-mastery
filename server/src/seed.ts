@@ -5,7 +5,20 @@ import mongoose from 'mongoose'
 import { Problem } from './models/Problem'
 import { validateProblem } from './utils/problem-validation'
 
-const PROBLEMS_DIR = path.resolve(__dirname, '../../server/data/problems')
+const resolveDataDir = (folder: string): string => {
+  const candidates = [
+    path.resolve(__dirname, '../data', folder),
+    path.resolve(__dirname, '../../server/data', folder),
+    path.resolve(process.cwd(), 'server/data', folder),
+    path.resolve(process.cwd(), 'data', folder),
+  ]
+  for (const c of candidates) {
+    if (fs.existsSync(c)) return c
+  }
+  return candidates[0]!
+}
+
+const PROBLEMS_DIR = resolveDataDir('problems')
 
 const REQUIRED_FIELDS = [
   'id', 'title', 'category', 'difficulty', 'functionName',
