@@ -195,5 +195,476 @@
     "patternTag": "Higher-Order Function",
     "patternExplanation": "map collects callback return values into a new array — it never modifies the original. Building it from scratch cements the difference between forEach (side effects) and map (new array).",
     "estimatedMinutes": 8
+  },
+  {
+    "id": "polyfills-3",
+    "title": "Implement Array.prototype.flat",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "functionName": "flattenArray",
+    "description": "Implement a recursive/iterative array flattening function that flattens nested arrays up to the specified depth (default 1) without using Array.prototype.flat.",
+    "whatShouldHappen": [
+      "Default depth to 1 if undefined.",
+      "If depth <= 0, return a copy of arr.",
+      "Iterate through elements of arr: if an element is an array, recursively flatten it with depth - 1 and push unpacked items to result.",
+      "If not an array, push directly to result.",
+      "Return result."
+    ],
+    "starterCode": "function flattenArray(arr, depth) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, [2, [3]]], depth = 1",
+      "columns": [
+        "index",
+        "item",
+        "isArray?",
+        "action",
+        "result"
+      ],
+      "rows": [
+        {
+          "index": 0,
+          "item": "1",
+          "isArray?": "false",
+          "action": "push 1",
+          "result": "[1]"
+        },
+        {
+          "index": 1,
+          "item": "[2, [3]]",
+          "isArray?": "true",
+          "action": "recurse depth 0 -> [2, [3]]",
+          "result": "[1, 2, [3]]"
+        }
+      ]
+    },
+    "skeletonHint": "function flattenArray(arr, depth = 1) {\n  if (depth <= 0) return arr.slice();\n  const result = [];\n  for (let i = 0; i < arr.length; i++) {\n    if (Array.isArray(arr[i])) {\n      result.push(...flattenArray(arr[i], depth - 1));\n    } else {\n      result.push(arr[i]);\n    }\n  }\n  return result;\n}",
+    "solution": "function flattenArray(arr, depth) {\n  const d = depth === undefined ? 1 : depth;\n  if (d <= 0) return arr.slice();\n  const result = [];\n  for (let i = 0; i < arr.length; i++) {\n    const item = arr[i];\n    if (Array.isArray(item)) {\n      result.push(...flattenArray(item, d - 1));\n    } else {\n      result.push(item);\n    }\n  }\n  return result;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            [
+              2,
+              [
+                3
+              ]
+            ]
+          ],
+          1
+        ],
+        "expected": [
+          1,
+          2,
+          [
+            3
+          ]
+        ],
+        "label": "depth 1 flat"
+      },
+      {
+        "input": [
+          [
+            1,
+            [
+              2,
+              [
+                3
+              ]
+            ]
+          ],
+          2
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ],
+        "label": "depth 2 flat"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          1
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ],
+        "label": "already flat",
+        "hidden": true
+      },
+      {
+        "input": [
+          [
+            [
+              1
+            ]
+          ],
+          0
+        ],
+        "expected": [
+          [
+            1
+          ]
+        ],
+        "label": "depth 0 leaves untouched",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Polyfill (Recursive Array Traversal)",
+    "patternExplanation": "Polyfilling Array.prototype.flat demonstrates recursion depth control and dynamic array concatenation.",
+    "estimatedMinutes": 12
+  },
+  {
+    "id": "polyfills-4",
+    "title": "Custom Array Filter",
+    "category": "polyfills",
+    "difficulty": "Easy",
+    "functionName": "customFilter",
+    "description": "Implement a custom filter function that returns a new array with all elements that pass the test implemented by the provided callback function fn(element, index, array) without using Array.prototype.filter.",
+    "whatShouldHappen": [
+      "Initialize filtered array = [].",
+      "Loop through arr from index 0 to arr.length - 1.",
+      "Invoke callback(arr[i], i, arr).",
+      "If the return value is truthy, push arr[i] into filtered array.",
+      "Return filtered array."
+    ],
+    "starterCode": "function customFilter(arr, callback) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4], callback = x => x % 2 === 0",
+      "columns": [
+        "i",
+        "arr[i]",
+        "callback result",
+        "action"
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "arr[i]": 1,
+          "callback result": "false",
+          "action": "skip"
+        },
+        {
+          "i": 1,
+          "arr[i]": 2,
+          "callback result": "true",
+          "action": "push 2"
+        },
+        {
+          "i": 2,
+          "arr[i]": 3,
+          "callback result": "false",
+          "action": "skip"
+        },
+        {
+          "i": 3,
+          "arr[i]": 4,
+          "callback result": "true",
+          "action": "push 4"
+        }
+      ]
+    },
+    "skeletonHint": "function customFilter(arr, callback) {\n  const filtered = [];\n  for (let i = 0; i < arr.length; i++) {\n    if (callback(arr[i], i, arr)) filtered.push(arr[i]);\n  }\n  return filtered;\n}",
+    "solution": "function customFilter(arr, callback) {\n  const filtered = [];\n  for (let i = 0; i < arr.length; i++) {\n    if (callback(arr[i], i, arr)) {\n      filtered.push(arr[i]);\n    }\n  }\n  return filtered;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "x => x % 2 === 0"
+        ],
+        "expected": [
+          2,
+          4,
+          6
+        ],
+        "label": "filter evens",
+        "isEval": true
+      },
+      {
+        "input": [
+          [
+            "a",
+            "bb",
+            "ccc"
+          ],
+          "s => s.length > 1"
+        ],
+        "expected": [
+          "bb",
+          "ccc"
+        ],
+        "label": "filter by string length",
+        "isEval": true
+      },
+      {
+        "input": [
+          [
+            10,
+            20
+          ],
+          "() => false"
+        ],
+        "expected": [],
+        "label": "filter none",
+        "isEval": true,
+        "hidden": true
+      }
+    ],
+    "patternTag": "Polyfill (Callback Predicate Application)",
+    "patternExplanation": "Implementing functional array iteration primitives reinforces the underlying mechanics of higher-order JavaScript functions.",
+    "estimatedMinutes": 8
+  },
+  {
+    "id": "polyfills-5",
+    "title": "Custom Array Reduce",
+    "category": "polyfills",
+    "difficulty": "Medium",
+    "functionName": "customReduce",
+    "description": "Implement a custom reduce function that executes a user-supplied reducer callback function on each element of the array, in order, passing in the return value from the calculation on the preceding element.",
+    "whatShouldHappen": [
+      "Check if array is empty and initialValue is undefined; throw TypeError.",
+      "If initialValue is provided, set accumulator = initialValue, startIndex = 0.",
+      "Otherwise, accumulator = arr[0], startIndex = 1.",
+      "Loop from startIndex through array, setting accumulator = callback(accumulator, arr[i], i, arr).",
+      "Return accumulator."
+    ],
+    "starterCode": "function customReduce(arr, callback, initialValue) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4], callback = (acc, x) => acc + x, initialValue = 0",
+      "columns": [
+        "step",
+        "acc",
+        "curr",
+        "new acc"
+      ],
+      "rows": [
+        {
+          "step": "init",
+          "acc": 0,
+          "curr": "-",
+          "new acc": 0
+        },
+        {
+          "step": "i=0",
+          "acc": 0,
+          "curr": 1,
+          "new acc": 1
+        },
+        {
+          "step": "i=1",
+          "acc": 1,
+          "curr": 2,
+          "new acc": 3
+        },
+        {
+          "step": "i=2",
+          "acc": 3,
+          "curr": 3,
+          "new acc": 6
+        },
+        {
+          "step": "i=3",
+          "acc": 6,
+          "curr": 4,
+          "new acc": 10
+        }
+      ]
+    },
+    "skeletonHint": "function customReduce(arr, callback, initialValue) {\n  let acc = initialValue !== undefined ? initialValue : arr[0];\n  let start = initialValue !== undefined ? 0 : 1;\n  for (let i = start; i < arr.length; i++) {\n    acc = callback(acc, arr[i], i, arr);\n  }\n  return acc;\n}",
+    "solution": "function customReduce(arr, callback, initialValue) {\n  if (arr.length === 0 && initialValue === undefined) {\n    throw new TypeError('Reduce of empty array with no initial value');\n  }\n  let startIndex = 0;\n  let accumulator = initialValue;\n  if (accumulator === undefined) {\n    accumulator = arr[0];\n    startIndex = 1;\n  }\n  for (let i = startIndex; i < arr.length; i++) {\n    accumulator = callback(accumulator, arr[i], i, arr);\n  }\n  return accumulator;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          "(acc, x) => acc + x",
+          0
+        ],
+        "expected": 10,
+        "label": "sum with initial value",
+        "isEval": true
+      },
+      {
+        "input": [
+          [
+            2,
+            3,
+            4
+          ],
+          "(acc, x) => acc * x"
+        ],
+        "expected": 24,
+        "label": "product without initial value",
+        "isEval": true
+      },
+      {
+        "input": [
+          [
+            "a",
+            "b",
+            "c"
+          ],
+          "(acc, x) => acc + x",
+          ""
+        ],
+        "expected": "abc",
+        "label": "string concatenation",
+        "isEval": true,
+        "hidden": true
+      }
+    ],
+    "patternTag": "Polyfill (Stateful Folding Loop)",
+    "patternExplanation": "Understanding how reduce folds state sequentially across iterations is fundamental for building transducers and state pipelines.",
+    "estimatedMinutes": 12
+  },
+  {
+    "id": "polyfills-6",
+    "title": "Chunk Array into Subarrays",
+    "category": "polyfills",
+    "difficulty": "Easy",
+    "functionName": "chunkArray",
+    "description": "Given an array arr and a chunk size size, return a chunked array consisting of subarrays each of maximum length size.",
+    "whatShouldHappen": [
+      "Initialize chunked = [].",
+      "Loop with step size: for (let i = 0; i < arr.length; i += size).",
+      "Slice subarray arr.slice(i, i + size) and push to chunked.",
+      "Return chunked."
+    ],
+    "starterCode": "function chunkArray(arr, size) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4, 5], size = 2",
+      "columns": [
+        "i",
+        "slice range",
+        "chunk",
+        "chunked length"
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "slice range": "0 to 2",
+          "chunk": "[1, 2]",
+          "chunked length": 1
+        },
+        {
+          "i": 2,
+          "slice range": "2 to 4",
+          "chunk": "[3, 4]",
+          "chunked length": 2
+        },
+        {
+          "i": 4,
+          "slice range": "4 to 6",
+          "chunk": "[5]",
+          "chunked length": 3
+        }
+      ]
+    },
+    "skeletonHint": "function chunkArray(arr, size) {\n  const chunked = [];\n  for (let i = 0; i < arr.length; i += size) {\n    chunked.push(arr.slice(i, i + size));\n  }\n  return chunked;\n}",
+    "solution": "function chunkArray(arr, size) {\n  const chunked = [];\n  for (let i = 0; i < arr.length; i += size) {\n    chunked.push(arr.slice(i, i + size));\n  }\n  return chunked;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          2
+        ],
+        "expected": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            5
+          ]
+        ],
+        "label": "odd remainder chunk"
+      },
+      {
+        "input": [
+          [
+            1,
+            9,
+            6,
+            3,
+            2
+          ],
+          3
+        ],
+        "expected": [
+          [
+            1,
+            9,
+            6
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "label": "chunk size 3"
+      },
+      {
+        "input": [
+          [
+            8,
+            5,
+            3,
+            2,
+            6
+          ],
+          6
+        ],
+        "expected": [
+          [
+            8,
+            5,
+            3,
+            2,
+            6
+          ]
+        ],
+        "label": "size greater than length"
+      },
+      {
+        "input": [
+          [],
+          1
+        ],
+        "expected": [],
+        "label": "empty array",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Polyfill (Strided Slice Chunking)",
+    "patternExplanation": "Advancing the loop counter by arbitrary stride k enables batching array streams efficiently.",
+    "estimatedMinutes": 6
   }
 ]

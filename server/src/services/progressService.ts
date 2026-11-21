@@ -14,13 +14,15 @@ import {
   RECALL_MIN_HOURS_SINCE_SOLVE
 } from '../constants/review'
 
-export type RunTiming = { ms: number; accepted: boolean }
+export type RunTiming = { ms: number; memoryMb?: number; accepted: boolean }
 
 export type SolveBody = {
   title?: string
   category?: string
   difficulty?: string
   executionTimeMs?: number
+  memoryBytes?: number
+  memoryUsageMb?: number
   acceptedCode?: string
 }
 
@@ -30,7 +32,7 @@ export const getProgress = async () => {
 }
 
 export const solveProgress = async (problemId: string, body: SolveBody) => {
-  const { title, category, difficulty, executionTimeMs, acceptedCode } = body
+  const { title, category, difficulty, executionTimeMs, memoryBytes, memoryUsageMb, acceptedCode } = body
 
   const validExecutionTimeMs =
     typeof executionTimeMs === 'number' && Number.isFinite(executionTimeMs) && executionTimeMs > 0
@@ -44,7 +46,7 @@ export const solveProgress = async (problemId: string, body: SolveBody) => {
 
   const prevTimings  = (existing?.runTimings ?? []) as RunTiming[]
   const nextTimings: RunTiming[] = validExecutionTimeMs
-    ? [...prevTimings, { ms: validExecutionTimeMs, accepted: true }].slice(-20)
+    ? [...prevTimings, { ms: validExecutionTimeMs, memoryMb: memoryUsageMb, accepted: true }].slice(-20)
     : prevTimings
 
   const review = computeNextReview(
@@ -64,6 +66,8 @@ export const solveProgress = async (problemId: string, body: SolveBody) => {
     lastReviewedAt:  review.lastReviewedAt,
     nextReviewDue:   review.nextReviewDue,
     executionTimeMs: validExecutionTimeMs ?? existing?.executionTimeMs,
+    memoryBytes:     memoryBytes ?? existing?.memoryBytes,
+    memoryUsageMb:   memoryUsageMb ?? existing?.memoryUsageMb,
     runCount:        (existing?.runCount ?? 0) + 1,
     runTimings:      nextTimings,
     acceptedCode:    existing?.acceptedCode ?? acceptedCode,
@@ -111,7 +115,12 @@ export const solveProgress = async (problemId: string, body: SolveBody) => {
   return serializeProgress(doc)
 }
 
-export const attemptProgress = async (problemId: string, executionTimeMs?: number) => {
+export const attemptProgress = async (
+  problemId: string,
+  executionTimeMs?: number,
+  memoryUsageMb?: number,
+  memoryBytes?: number,
+) => {
   const validMs =
     typeof executionTimeMs === 'number' && Number.isFinite(executionTimeMs) && executionTimeMs > 0
       ? Math.round(executionTimeMs)
@@ -122,7 +131,7 @@ export const attemptProgress = async (problemId: string, executionTimeMs?: numbe
 
   const prevTimings = (existing?.runTimings ?? []) as RunTiming[]
   const nextTimings: RunTiming[] = validMs
-    ? [...prevTimings, { ms: validMs, accepted: false }].slice(-20)
+    ? [...prevTimings, { ms: validMs, memoryMb: memoryUsageMb, accepted: false }].slice(-20)
     : prevTimings
 
   doc.solvedProblems.set(problemId, {
@@ -135,8 +144,11 @@ export const attemptProgress = async (problemId: string, executionTimeMs?: numbe
     lastReviewedAt:  existing?.lastReviewedAt,
     nextReviewDue:   existing?.nextReviewDue,
     executionTimeMs: existing?.executionTimeMs,
+    memoryBytes:     memoryBytes ?? existing?.memoryBytes,
+    memoryUsageMb:   memoryUsageMb ?? existing?.memoryUsageMb,
     runCount:        (existing?.runCount ?? 0) + 1,
     runTimings:      nextTimings,
+    acceptedCode:    existing?.acceptedCode,
     recallCount:     existing?.recallCount ?? 0,
     recallSkipped:   existing?.recallSkipped ?? 0,
     lastRecalledAt:  existing?.lastRecalledAt,

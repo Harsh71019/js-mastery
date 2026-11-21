@@ -476,5 +476,266 @@
     "patternTag": "Nested for...of",
     "patternExplanation": "Nesting for...of loops is ideal for traversing collections of iterables — the outer loop visits each sub-array and the inner loop drains it into the result.",
     "estimatedMinutes": 10
+  },
+  {
+    "id": "for-in-for-of-6",
+    "title": "Filter Object by Minimum Value",
+    "category": "for-in-for-of",
+    "difficulty": "Easy",
+    "functionName": "filterObjectByMin",
+    "description": "Given an object with numeric values and a threshold number minVal, use a for...in loop to return a new object with only the properties whose values are >= minVal.",
+    "whatShouldHappen": [
+      "Initialize an empty result object.",
+      "Use for (const key in obj) to iterate enumerable keys.",
+      "Ensure key belongs to obj using Object.prototype.hasOwnProperty.",
+      "If obj[key] >= minVal, assign result[key] = obj[key].",
+      "Return result."
+    ],
+    "starterCode": "function filterObjectByMin(obj, minVal) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "obj = { a: 10, b: 5, c: 20 }, minVal = 10",
+      "columns": [
+        "key",
+        "obj[key]",
+        ">= 10?",
+        "result object"
+      ],
+      "rows": [
+        {
+          "key": "a",
+          "obj[key]": 10,
+          ">= 10?": "true",
+          "result object": "{ a: 10 }"
+        },
+        {
+          "key": "b",
+          "obj[key]": 5,
+          ">= 10?": "false",
+          "result object": "{ a: 10 }"
+        },
+        {
+          "key": "c",
+          "obj[key]": 20,
+          ">= 10?": "true",
+          "result object": "{ a: 10, c: 20 }"
+        }
+      ]
+    },
+    "skeletonHint": "function filterObjectByMin(obj, minVal) {\n  const result = {};\n  for (const key in obj) {\n    if (Object.prototype.hasOwnProperty.call(obj, key) && obj[key] >= minVal) {\n      result[key] = obj[key];\n    }\n  }\n  return result;\n}",
+    "solution": "function filterObjectByMin(obj, minVal) {\n  const result = {};\n  for (const key in obj) {\n    if (Object.prototype.hasOwnProperty.call(obj, key)) {\n      if (obj[key] >= minVal) {\n        result[key] = obj[key];\n      }\n    }\n  }\n  return result;\n}",
+    "tests": [
+      {
+        "input": [
+          {
+            "a": 10,
+            "b": 5,
+            "c": 20
+          },
+          10
+        ],
+        "expected": {
+          "a": 10,
+          "c": 20
+        },
+        "label": "filters below 10"
+      },
+      {
+        "input": [
+          {
+            "x": 1,
+            "y": 2
+          },
+          5
+        ],
+        "expected": {},
+        "label": "all below threshold"
+      },
+      {
+        "input": [
+          {},
+          0
+        ],
+        "expected": {},
+        "label": "empty object",
+        "hidden": true
+      }
+    ],
+    "patternTag": "for...in (Property Value Filtering)",
+    "patternExplanation": "Using for...in with hasOwnProperty guards enables safe iteration over object properties while filtering values.",
+    "estimatedMinutes": 6
+  },
+  {
+    "id": "for-in-for-of-7",
+    "title": "Count Vowels with for...of",
+    "category": "for-in-for-of",
+    "difficulty": "Beginner",
+    "functionName": "countVowelsForOf",
+    "description": "Given a string s, use a for...of loop to count and return the total number of vowel letters ('a', 'e', 'i', 'o', 'u', case-insensitive).",
+    "whatShouldHappen": [
+      "Initialize count = 0.",
+      "Use for (const char of s) to iterate character by character.",
+      "Check if char in lowercase is one of 'a', 'e', 'i', 'o', 'u'.",
+      "If so, increment count.",
+      "Return count."
+    ],
+    "starterCode": "function countVowelsForOf(s) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "s = \"Hello\"",
+      "columns": [
+        "char",
+        "is vowel?",
+        "count"
+      ],
+      "rows": [
+        {
+          "char": "H",
+          "is vowel?": "false",
+          "count": 0
+        },
+        {
+          "char": "e",
+          "is vowel?": "true",
+          "count": 1
+        },
+        {
+          "char": "l",
+          "is vowel?": "false",
+          "count": 1
+        },
+        {
+          "char": "l",
+          "is vowel?": "false",
+          "count": 1
+        },
+        {
+          "char": "o",
+          "is vowel?": "true",
+          "count": 2
+        }
+      ]
+    },
+    "skeletonHint": "function countVowelsForOf(s) {\n  let count = 0;\n  const vowels = new Set(['a', 'e', 'i', 'o', 'u']);\n  for (const char of s) {\n    if (vowels.has(char.toLowerCase())) count++;\n  }\n  return count;\n}",
+    "solution": "function countVowelsForOf(s) {\n  let count = 0;\n  const vowels = new Set(['a', 'e', 'i', 'o', 'u']);\n  for (const char of s) {\n    if (vowels.has(char.toLowerCase())) {\n      count++;\n    }\n  }\n  return count;\n}",
+    "tests": [
+      {
+        "input": [
+          "Hello World"
+        ],
+        "expected": 3,
+        "label": "mixed case string"
+      },
+      {
+        "input": [
+          "AEIOU"
+        ],
+        "expected": 5,
+        "label": "all uppercase vowels"
+      },
+      {
+        "input": [
+          "xyz"
+        ],
+        "expected": 0,
+        "label": "no vowels",
+        "hidden": true
+      }
+    ],
+    "patternTag": "for...of (String Character Stream)",
+    "patternExplanation": "for...of naturally iterates strings by Unicode code points, eliminating manual charAt or index lookups.",
+    "estimatedMinutes": 5
+  },
+  {
+    "id": "for-in-for-of-8",
+    "title": "Sum Even Values with for...of",
+    "category": "for-in-for-of",
+    "difficulty": "Beginner",
+    "functionName": "sumEvenWithForOf",
+    "description": "Given an array of integers, iterate using for...of and return the sum of all even numbers.",
+    "whatShouldHappen": [
+      "Initialize sum = 0.",
+      "Loop using for (const num of nums).",
+      "If num % 2 === 0, add num to sum.",
+      "Return sum."
+    ],
+    "starterCode": "function sumEvenWithForOf(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 2, 3, 4, 5, 6]",
+      "columns": [
+        "num",
+        "even?",
+        "running sum"
+      ],
+      "rows": [
+        {
+          "num": 1,
+          "even?": "false",
+          "running sum": 0
+        },
+        {
+          "num": 2,
+          "even?": "true",
+          "running sum": 2
+        },
+        {
+          "num": 3,
+          "even?": "false",
+          "running sum": 2
+        },
+        {
+          "num": 4,
+          "even?": "true",
+          "running sum": 6
+        },
+        {
+          "num": 6,
+          "even?": "true",
+          "running sum": 12
+        }
+      ]
+    },
+    "skeletonHint": "function sumEvenWithForOf(nums) {\n  let sum = 0;\n  for (const num of nums) {\n    if (num % 2 === 0) sum += num;\n  }\n  return sum;\n}",
+    "solution": "function sumEvenWithForOf(nums) {\n  let sum = 0;\n  for (const num of nums) {\n    if (num % 2 === 0) {\n      sum += num;\n    }\n  }\n  return sum;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        ],
+        "expected": 12,
+        "label": "mixed evens and odds"
+      },
+      {
+        "input": [
+          [
+            1,
+            3,
+            5
+          ]
+        ],
+        "expected": 0,
+        "label": "no evens"
+      },
+      {
+        "input": [
+          [
+            -2,
+            -4,
+            3
+          ]
+        ],
+        "expected": -6,
+        "label": "negative evens",
+        "hidden": true
+      }
+    ],
+    "patternTag": "for...of (Conditional Array Accumulation)",
+    "patternExplanation": "for...of provides idiomatic, clean iteration directly over array items without index baggage.",
+    "estimatedMinutes": 4
   }
 ]

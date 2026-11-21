@@ -5,8 +5,9 @@ import { CreateSubmissionSchema } from '../types/schemas/submissionSchemas'
 
 const router = Router()
 
-router.post('/:problemId',              validate(CreateSubmissionSchema), submissionController.create)
-router.get('/:problemId',               submissionController.list)
+router.post('/:problemId', validate(CreateSubmissionSchema), submissionController.create)
+router.get('/:problemId', submissionController.list)
+router.get('/:problemId/distribution', submissionController.getDistribution)
 router.get('/:problemId/:submissionId', submissionController.getOne)
 
 export default router

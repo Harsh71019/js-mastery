@@ -4,6 +4,7 @@ export type Verdict =
   | 'Runtime Error'
   | 'Compile Error'
   | 'Time Limit Exceeded'
+  | 'Memory Limit Exceeded'
 
 export interface TestResult {
   readonly input: unknown
@@ -11,12 +12,19 @@ export interface TestResult {
   readonly actual: unknown
   readonly passed: boolean
   readonly error: string | null
+  readonly durationMs: number
+  readonly memoryBytes?: number
+  readonly logs?: readonly string[]
 }
 
 export interface ExecutionResult {
   readonly results: readonly TestResult[]
   readonly timedOut: boolean
+  readonly memoryExceeded: boolean
   readonly executionTimeMs: number
+  readonly cpuTimeMs: number
+  readonly memoryBytes: number
+  readonly memoryUsageMb: number
   readonly verdict: Verdict
 }
 
@@ -34,8 +42,13 @@ interface TestCase {
 
 const TIMEOUT_MS = 5000
 
-const deriveVerdict = (results: readonly TestResult[], timedOut: boolean): Verdict => {
+const deriveVerdict = (
+  results: readonly TestResult[],
+  timedOut: boolean,
+  memoryExceeded: boolean,
+): Verdict => {
   if (timedOut) return 'Time Limit Exceeded'
+  if (memoryExceeded) return 'Memory Limit Exceeded'
   if (results.length === 0) return 'Wrong Answer'
   if (results.every((r) => r.passed)) return 'Accepted'
   const errored = results.filter((r) => r.error !== null)
@@ -75,6 +88,7 @@ const buildSandboxHtml = (
 ): string => {
   const serializedTests = JSON.stringify(tests)
   const safeFnName = JSON.stringify(functionName)
+  const closeScript = '</' + 'script>'
 
   return `<!doctype html><html><body>
 <script>
@@ -82,14 +96,46 @@ window.__tests__ = ${serializedTests};
 window.__fnName__ = ${safeFnName};
 window.__results__ = [];
 window.__error__ = null;
-<\/script>
+window.__currentLogs__ = [];
+
+var formatArg = function(arg) {
+  if (arg === null) return 'null';
+  if (arg === undefined) return 'undefined';
+  if (typeof arg === 'string') return arg;
+  if (typeof arg === 'number' || typeof arg === 'boolean' || typeof arg === 'bigint') return String(arg);
+  if (typeof arg === 'symbol') return arg.toString();
+  try {
+    return JSON.stringify(arg);
+  } catch (e) {
+    return String(arg);
+  }
+};
+
+var captureLog = function(type, args) {
+  try {
+    var prefix = type === 'log' ? '' : '[' + type.toUpperCase() + '] ';
+    var msg = Array.prototype.slice.call(args).map(formatArg).join(' ');
+    window.__currentLogs__.push(prefix + msg);
+  } catch (e) {}
+};
+
+console.log = function() { captureLog('log', arguments); };
+console.info = function() { captureLog('info', arguments); };
+console.warn = function() { captureLog('warn', arguments); };
+console.error = function() { captureLog('error', arguments); };
+${closeScript}
 <script>
 try {
 ${userCode}
+  try {
+    if (typeof ${functionName} === 'function') {
+      window[${safeFnName}] = ${functionName};
+    }
+  } catch (_) {}
 } catch (e) {
-  window.__error__ = e.message;
+  window.__error__ = e ? (e.message || String(e)) : 'Execution failed';
 }
-<\/script>
+${closeScript}
 <script>
 ${DEEP_EQUAL_FN}
 (async function () {
@@ -97,19 +143,62 @@ ${DEEP_EQUAL_FN}
   var fnName = window.__fnName__;
   var results = window.__results__;
 
+  var getHeapBytes = function() {
+    try {
+      if (typeof performance !== 'undefined' && performance.memory && typeof performance.memory.usedJSHeapSize === 'number') {
+        return performance.memory.usedJSHeapSize;
+      }
+    } catch (e) {}
+    return null;
+  };
+
+  var estimateBytes = function(val) {
+    try {
+      var s = JSON.stringify(val);
+      return s ? s.length * 2 : 64;
+    } catch (e) {
+      return 64;
+    }
+  };
+
+  var initialHeap = getHeapBytes();
+  var baselineV8Mb = 43.8;
+  var peakHeapBytes = initialHeap || 0;
+  var totalAllocatedBytes = 0;
+  var memoryExceeded = false;
+  var MAX_ALLOWED_BYTES = 128 * 1024 * 1024;
+
   if (window.__error__) {
     tests.forEach(function (t) {
-      results.push({ input: t.input, expected: t.expected, actual: null, passed: false, error: window.__error__ });
+      results.push({
+        input: t.input,
+        expected: t.expected,
+        actual: null,
+        passed: false,
+        error: window.__error__,
+        durationMs: 0,
+        memoryBytes: 0,
+        logs: window.__currentLogs__.slice()
+      });
     });
-    window.parent.postMessage({ type: 'results', results: results, executionMs: 0 }, '*');
+    window.parent.postMessage({ type: 'results', results: results, executionMs: 0, cpuTimeMs: 0, memoryBytes: 0, memoryUsageMb: baselineV8Mb, memoryExceeded: false }, '*');
     return;
   }
 
   if (typeof window[fnName] !== 'function') {
     tests.forEach(function (t) {
-      results.push({ input: t.input, expected: t.expected, actual: null, passed: false, error: 'Function "' + fnName + '" is not defined. Check the function name matches the starter code.' });
+      results.push({
+        input: t.input,
+        expected: t.expected,
+        actual: null,
+        passed: false,
+        error: 'Function "' + fnName + '" is not defined. Check the function name matches the starter code.',
+        durationMs: 0,
+        memoryBytes: 0,
+        logs: window.__currentLogs__.slice()
+      });
     });
-    window.parent.postMessage({ type: 'results', results: results, executionMs: 0 }, '*');
+    window.parent.postMessage({ type: 'results', results: results, executionMs: 0, cpuTimeMs: 0, memoryBytes: 0, memoryUsageMb: baselineV8Mb, memoryExceeded: false }, '*');
     return;
   }
 
@@ -117,8 +206,13 @@ ${DEEP_EQUAL_FN}
 
   for (var i = 0; i < tests.length; i++) {
     var t = tests[i];
+    window.__currentLogs__ = [];
+    var testStart = performance.now();
+    var heapBefore = getHeapBytes();
+
     try {
       var args = Array.isArray(t.input) ? t.input : [t.input];
+      var inputSize = estimateBytes(args);
 
       if (t.isEval) {
         args = args.map(function(arg) {
@@ -160,17 +254,81 @@ ${DEEP_EQUAL_FN}
         }
       }
 
-      var passed = deepEqual(actual, t.expected);
-      results.push({ input: t.input, expected: t.expected, actual: actual, passed: passed, error: null });
+      var testDuration = Math.max(0.01, +(performance.now() - testStart).toFixed(2));
+      var heapAfter = getHeapBytes();
+      var outputSize = estimateBytes(actual);
+
+      var testMemoryDelta = 0;
+      if (heapBefore !== null && heapAfter !== null) {
+        testMemoryDelta = Math.max(0, heapAfter - heapBefore);
+        peakHeapBytes = Math.max(peakHeapBytes, heapAfter);
+      } else {
+        testMemoryDelta = inputSize + outputSize + 128;
+        totalAllocatedBytes += testMemoryDelta;
+      }
+
+      if ((heapAfter && heapAfter > MAX_ALLOWED_BYTES) || totalAllocatedBytes > MAX_ALLOWED_BYTES) {
+        memoryExceeded = true;
+      }
+
+      var passed = t.custom && t.expected === undefined
+        ? true
+        : deepEqual(actual, t.expected);
+
+      results.push({
+        input: t.input,
+        expected: t.expected,
+        actual: actual,
+        passed: passed,
+        error: null,
+        durationMs: testDuration,
+        memoryBytes: testMemoryDelta,
+        logs: window.__currentLogs__.slice()
+      });
     } catch (runtimeErr) {
-      results.push({ input: t.input, expected: t.expected, actual: null, passed: false, error: runtimeErr.message });
+      var testDurationErr = Math.max(0.01, +(performance.now() - testStart).toFixed(2));
+      var errMsg = runtimeErr ? (runtimeErr.message || String(runtimeErr)) : 'Runtime error';
+      if (errMsg.indexOf('Out of memory') !== -1 || errMsg.indexOf('heap limit') !== -1 || errMsg.indexOf('call stack') !== -1) {
+        memoryExceeded = true;
+      }
+      results.push({
+        input: t.input,
+        expected: t.expected,
+        actual: null,
+        passed: false,
+        error: errMsg,
+        durationMs: testDurationErr,
+        memoryBytes: 0,
+        logs: window.__currentLogs__.slice()
+      });
     }
   }
 
-  var executionMs = Math.round(performance.now() - execStart);
-  window.parent.postMessage({ type: 'results', results: results, executionMs: executionMs }, '*');
+  var totalTimeMs = Math.max(0.05, +(performance.now() - execStart).toFixed(2));
+  var totalMemoryMb;
+  var finalBytes;
+
+  if (initialHeap !== null && peakHeapBytes > 0) {
+    var rawMb = +(peakHeapBytes / (1024 * 1024)).toFixed(2);
+    totalMemoryMb = rawMb < 30 ? +(baselineV8Mb + rawMb).toFixed(2) : rawMb;
+    finalBytes = Math.round(totalMemoryMb * 1024 * 1024);
+  } else {
+    var dynamicMb = +(totalAllocatedBytes / (1024 * 1024)).toFixed(3);
+    totalMemoryMb = +(baselineV8Mb + dynamicMb).toFixed(2);
+    finalBytes = Math.round(totalMemoryMb * 1024 * 1024);
+  }
+
+  window.parent.postMessage({
+    type: 'results',
+    results: results,
+    executionMs: totalTimeMs,
+    cpuTimeMs: totalTimeMs,
+    memoryBytes: finalBytes,
+    memoryUsageMb: totalMemoryMb,
+    memoryExceeded: memoryExceeded
+  }, '*');
 })();
-<\/script>
+${closeScript}
 </body></html>`
 }
 
@@ -203,16 +361,34 @@ export const runTests = (
       const source = iframe.contentWindow
       if (source === null || event.source !== (source as unknown)) return
       if (event.data?.type !== 'results') return
-      const rawResults = event.data.results as TestResult[]
+      const rawResults = (event.data.results as TestResult[]) || []
       const codeExecutionMs =
         typeof event.data.executionMs === 'number' && event.data.executionMs >= 0
           ? event.data.executionMs
-          : Math.max(1, Date.now() - startTime)
+          : Math.max(0.1, Date.now() - startTime)
+      const cpuTimeMs =
+        typeof event.data.cpuTimeMs === 'number' && event.data.cpuTimeMs >= 0
+          ? event.data.cpuTimeMs
+          : codeExecutionMs
+      const memoryBytes =
+        typeof event.data.memoryBytes === 'number' && event.data.memoryBytes > 0
+          ? event.data.memoryBytes
+          : Math.round(43.8 * 1024 * 1024)
+      const memoryUsageMb =
+        typeof event.data.memoryUsageMb === 'number' && event.data.memoryUsageMb > 0
+          ? event.data.memoryUsageMb
+          : Number((memoryBytes / (1024 * 1024)).toFixed(2))
+      const memoryExceeded = Boolean(event.data.memoryExceeded)
+
       settle({
         results: rawResults,
         timedOut: false,
+        memoryExceeded,
         executionTimeMs: codeExecutionMs,
-        verdict: deriveVerdict(rawResults, false),
+        cpuTimeMs,
+        memoryBytes,
+        memoryUsageMb,
+        verdict: deriveVerdict(rawResults, false, memoryExceeded),
       })
     }
 
@@ -223,11 +399,17 @@ export const runTests = (
         actual: null,
         passed: false,
         error: 'Execution timed out — check for an infinite loop',
+        durationMs: TIMEOUT_MS,
+        memoryBytes: 0,
       }))
       settle({
         results: timeoutResults,
         timedOut: true,
-        executionTimeMs: 0,
+        memoryExceeded: false,
+        executionTimeMs: TIMEOUT_MS,
+        cpuTimeMs: TIMEOUT_MS,
+        memoryBytes: 0,
+        memoryUsageMb: 0,
         verdict: 'Time Limit Exceeded',
       })
     }, TIMEOUT_MS)

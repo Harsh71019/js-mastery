@@ -12,6 +12,8 @@ interface CodeEditorProps {
 export interface CodeEditorHandle {
   readonly highlightPattern: (pattern: string) => void
   readonly clearHighlights: () => void
+  readonly format: () => void
+  readonly focus: () => void
 }
 
 const EditorSkeleton = (): React.JSX.Element => (
@@ -53,7 +55,15 @@ export const CodeEditor = forwardRef<CodeEditorHandle, CodeEditorProps>(
         if (editorRef.current) {
           decorationsRef.current = editorRef.current.deltaDecorations(decorationsRef.current, [])
         }
-      }
+      },
+      format: () => {
+        if (editorRef.current) {
+          void editorRef.current.getAction('editor.action.formatDocument')?.run()
+        }
+      },
+      focus: () => {
+        editorRef.current?.focus()
+      },
     }))
 
     const handleMount: OnMount = (editorInstance, monaco) => {

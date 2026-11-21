@@ -1,7 +1,22 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import confetti from 'canvas-confetti'
-import { ChevronLeft, Zap, FileText, Lightbulb, Table2, Code2, BookOpen, RotateCcw, Play, CheckCircle2 } from 'lucide-react'
+import {
+  ChevronLeft,
+  Zap,
+  FileText,
+  Lightbulb,
+  Table2,
+  Code2,
+  BookOpen,
+  RotateCcw,
+  Play,
+  CheckCircle2,
+  History,
+  Copy,
+  Check,
+  AlignLeft,
+} from 'lucide-react'
 import type { Problem, TestCase, LogicStep } from '@/types/problem'
 import { useProgressStore } from '@/store/useProgressStore'
 import { useProgress } from '@/hooks/useProgress'
@@ -12,6 +27,7 @@ import { usePatternArticles } from '@/hooks/usePatternArticles'
 import { runTests, type TestResult, type Verdict } from '@/runner/executor'
 import { CodeEditor, type CodeEditorHandle } from '@/components/editor/CodeEditor'
 import { ResultsPanel } from '@/components/editor/ResultsPanel'
+import { SubmissionsPanel } from '@/components/problems/SubmissionsPanel'
 import { Button } from '@/components/ui/Button'
 import { Glow } from '@/components/ui/Glow'
 import { RunTimingGraph } from '@/components/problems/RunTimingGraph'
@@ -54,9 +70,11 @@ const fetchFullTests = async (problemId: string): Promise<readonly TestCase[]> =
   return data.tests
 }
 
-const toServerVerdict = (verdict: Verdict): 'accepted' | 'wrong-answer' | 'error' => {
+const toServerVerdict = (verdict: Verdict): string => {
   if (verdict === 'Accepted') return 'accepted'
   if (verdict === 'Wrong Answer') return 'wrong-answer'
+  if (verdict === 'Time Limit Exceeded') return 'time-limit-exceeded'
+  if (verdict === 'Memory Limit Exceeded') return 'memory-limit-exceeded'
   return 'error'
 }
 
@@ -86,12 +104,22 @@ export const CodingProblemView = ({
   const [hasAttempted, setHasAttempted] = useState(false)
   const [verdict, setVerdict] = useState<Verdict | null>(null)
   const [lastAction, setLastAction] = useState<'run' | 'submit' | null>(null)
+  const [executionTimeMs, setExecutionTimeMs] = useState<number | undefined>(undefined)
+  const [memoryUsageMb, setMemoryUsageMb] = useState<number | undefined>(undefined)
+  const [beatsRuntime, setBeatsRuntime] = useState<number | undefined>(undefined)
+  const [beatsMemory, setBeatsMemory] = useState<number | undefined>(undefined)
   const [isResetModalOpen, setIsResetModalOpen] = useState(false)
   const [isFocusMode, setIsFocusMode] = useState(false)
-  const [activeLeftTab, setActiveLeftTab] = useState<'description' | 'thinking' | 'simulation' | 'solution' | 'articles'>('description')
+  const [activeLeftTab, setActiveLeftTab] = useState<'description' | 'thinking' | 'simulation' | 'solution' | 'articles' | 'submissions'>('description')
   const [activeStepIndex, setActiveStepIndex] = useState<number | null>(null)
   const [isRecallSuccess, setIsRecallSuccess] = useState(false)
   const [isGaveUp, setIsGaveUp] = useState(false)
+  const [hasCopiedCode, setHasCopiedCode] = useState(false)
+  const [testcases, setTestcases] = useState<readonly TestCase[]>(() =>
+    problem.tests.filter((t) => !t.hidden),
+  )
+  const [activeCaseIndex, setActiveCaseIndex] = useState(0)
+  const [activeBottomTab, setActiveBottomTab] = useState<'testcase' | 'result'>('testcase')
   const confettiFired = useRef(false)
 
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false)
@@ -143,41 +171,88 @@ export const CodingProblemView = ({
     setActiveStepIndex(null)
     setIsRecallSuccess(false)
     setIsGaveUp(false)
+    setTestcases(problem.tests.filter((t) => !t.hidden))
+    setActiveCaseIndex(0)
+    setActiveBottomTab('testcase')
     confettiFired.current = false
-  }, [problem.id, isRecallMode])
+  }, [problem.id, isRecallMode, problem.tests, problem.starterCode])
 
   useEffect(() => {
     if (!savedCode || isRecallMode) return
     setCode((current) => (current === problem.starterCode ? savedCode : current))
   }, [savedCode, problem.starterCode, isRecallMode])
 
+  const handleCopyCode = useCallback(() => {
+    void navigator.clipboard.writeText(code)
+    setHasCopiedCode(true)
+    setTimeout(() => setHasCopiedCode(false), 2000)
+  }, [code])
+
+  const handleUpdateCaseInput = useCallback((index: number, newInput: unknown) => {
+    setTestcases((prev) => {
+      const next = [...prev]
+      if (next[index]) {
+        next[index] = { ...next[index], input: newInput, custom: true }
+      }
+      return next
+    })
+  }, [])
+
+  const handleAddCustomCase = useCallback(() => {
+    const newCase: TestCase = {
+      input: [],
+      expected: undefined,
+      custom: true,
+    }
+    setTestcases((prev) => {
+      const updated = [...prev, newCase]
+      setActiveCaseIndex(updated.length - 1)
+      return updated
+    })
+  }, [setActiveCaseIndex])
+
+  const handleDeleteCase = useCallback((index: number) => {
+    setTestcases((prev) => prev.filter((_, i) => i !== index))
+    setActiveCaseIndex((prev) => Math.max(0, prev - 1))
+  }, [setActiveCaseIndex])
+
+  const handleResetTestcases = useCallback(() => {
+    setTestcases(problem.tests.filter((t) => !t.hidden))
+    setActiveCaseIndex(0)
+  }, [problem.tests])
+
   const handleRun = useCallback(async (): Promise<void> => {
     if (isRunning || isSubmitting) return
     setIsRunning(true)
     setHasAttempted(true)
     setLastAction('run')
+    setActiveBottomTab('result')
     if (isMobile) {
       setMobileTab('results')
     }
 
-    const visibleTests = problem.tests.filter((t) => !t.hidden)
     const start = Date.now()
-    const execution = await runTests(code, problem.functionName, visibleTests)
+    const execution = await runTests(code, problem.functionName, testcases)
     const elapsed = Date.now() - start
     if (elapsed < MIN_LOADING_MS) await new Promise((r) => setTimeout(r, MIN_LOADING_MS - elapsed))
 
     setResults(execution.results)
     setVerdict(execution.verdict)
+    setExecutionTimeMs(execution.executionTimeMs)
+    setMemoryUsageMb(execution.memoryUsageMb)
+    setBeatsRuntime(undefined)
+    setBeatsMemory(undefined)
     setIsRunning(false)
 
-    incrementAttempts(problem.id, execution.executionTimeMs)
-  }, [problem, code, isRunning, isSubmitting, isMobile, incrementAttempts])
+    incrementAttempts(problem.id, execution.executionTimeMs, execution.memoryUsageMb, execution.memoryBytes)
+  }, [problem.id, problem.functionName, code, testcases, isRunning, isSubmitting, isMobile, incrementAttempts])
 
   const handleSubmit = useCallback(async (): Promise<void> => {
     if (isRunning || isSubmitting) return
     setIsSubmitting(true)
     setHasAttempted(true)
     setLastAction('submit')
+    setActiveBottomTab('result')
     if (isMobile) {
       setMobileTab('results')
     }
@@ -191,6 +266,8 @@ export const CodingProblemView = ({
 
       setResults(execution.results)
       setVerdict(execution.verdict)
+      setExecutionTimeMs(execution.executionTimeMs)
+      setMemoryUsageMb(execution.memoryUsageMb)
 
       if (execution.verdict === 'Accepted') {
         if (isRecallMode) {
@@ -201,6 +278,8 @@ export const CodingProblemView = ({
             { title: problem.title, category: problem.category, difficulty: problem.difficulty },
             execution.executionTimeMs,
             code,
+            execution.memoryUsageMb,
+            execution.memoryBytes,
           )
         }
         if (!confettiFired.current) {
@@ -208,7 +287,7 @@ export const CodingProblemView = ({
           confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } })
         }
       } else {
-        incrementAttempts(problem.id, execution.executionTimeMs)
+        incrementAttempts(problem.id, execution.executionTimeMs, execution.memoryUsageMb, execution.memoryBytes)
       }
 
       fetch(`/api/submissions/${problem.id}`, {
@@ -218,8 +297,22 @@ export const CodingProblemView = ({
           verdict: toServerVerdict(execution.verdict),
           code,
           executionTimeMs: execution.executionTimeMs,
+          cpuTimeMs: execution.cpuTimeMs,
+          memoryUsageMb: execution.memoryUsageMb,
+          memoryBytes: execution.memoryBytes,
         }),
-      }).catch(() => undefined)
+      })
+        .then((res) => {
+          if (!res.ok) return null
+          return res.json() as Promise<{ success: boolean; data: { beatsRuntime?: number; beatsMemory?: number } }>
+        })
+        .then((payload) => {
+          if (payload?.data) {
+            if (typeof payload.data.beatsRuntime === 'number') setBeatsRuntime(payload.data.beatsRuntime)
+            if (typeof payload.data.beatsMemory === 'number') setBeatsMemory(payload.data.beatsMemory)
+          }
+        })
+        .catch(() => undefined)
     } catch {
       setVerdict('Runtime Error')
     } finally {
@@ -324,6 +417,7 @@ export const CodingProblemView = ({
                 ...(!isRecallMode && problem.whatShouldHappen?.length ? [{ id: 'thinking', label: 'Thinking', icon: <Lightbulb size={13} />, count: problem.whatShouldHappen.length }] : []),
                 ...(!isRecallMode && problem.traceTable ? [{ id: 'simulation', label: 'Simulation', icon: <Table2 size={13} /> }] : []),
                 ...(!isRecallMode ? [{ id: 'solution', label: 'Solution', icon: <Code2 size={13} /> }] : []),
+                ...(!isRecallMode ? [{ id: 'submissions', label: 'Submissions', icon: <History size={13} /> }] : []),
                 ...(relatedArticles.length > 0 ? [{ id: 'articles', label: 'Articles', icon: <BookOpen size={13} />, count: relatedArticles.length }] : []),
               ].map(tab => (
                 <button
@@ -472,6 +566,15 @@ export const CodingProblemView = ({
                 </div>
               )}
 
+              {activeLeftTab === 'submissions' && !isRecallMode && (
+                <div className="flex flex-col gap-4">
+                  <SubmissionsPanel
+                    problemId={problem.id}
+                    onLoadCode={(savedCode) => setCode(savedCode)}
+                  />
+                </div>
+              )}
+
               {activeLeftTab === 'articles' && relatedArticles.length > 0 && (
                 <div className="flex flex-col gap-4">
                   <RelatedArticles articles={relatedArticles} isLoading={isLoadingArticles} />
@@ -543,6 +646,26 @@ export const CodingProblemView = ({
               )}
             </div>
             <div className="flex items-center gap-1.5 sm:gap-2.5">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => editorRef.current?.format()}
+                className="text-text-tertiary text-xs font-bold uppercase tracking-wider hover:text-text-primary font-geist flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5"
+                title="Format code"
+              >
+                <AlignLeft size={12} />
+                <span className="hidden lg:inline">Format</span>
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleCopyCode}
+                className="text-text-tertiary text-xs font-bold uppercase tracking-wider hover:text-text-primary font-geist flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5"
+                title="Copy code to clipboard"
+              >
+                {hasCopiedCode ? <Check size={12} className="text-accent-green" /> : <Copy size={12} />}
+                <span className="hidden lg:inline">{hasCopiedCode ? 'Copied' : 'Copy'}</span>
+              </Button>
               {isRecallMode && (
                 <Button
                   variant="ghost"
@@ -670,6 +793,20 @@ export const CodingProblemView = ({
                 isRunning={isRunning || isSubmitting}
                 verdict={verdict ?? undefined}
                 action={lastAction}
+                executionTimeMs={executionTimeMs}
+                memoryUsageMb={memoryUsageMb}
+                beatsRuntime={beatsRuntime}
+                beatsMemory={beatsMemory}
+                testcases={testcases}
+                activeCaseIndex={activeCaseIndex}
+                onSelectCase={setActiveCaseIndex}
+                onUpdateCaseInput={handleUpdateCaseInput}
+                onAddCustomCase={handleAddCustomCase}
+                onDeleteCase={handleDeleteCase}
+                onResetTestcases={handleResetTestcases}
+                activeBottomTab={activeBottomTab}
+                onTabChange={setActiveBottomTab}
+                onRun={handleRun}
               />
             </div>
 

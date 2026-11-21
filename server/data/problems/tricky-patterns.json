@@ -239,5 +239,497 @@
     "patternTag": "Write Pointer",
     "patternExplanation": "A write pointer only advances when a valid element is found — this compacts all valid elements to the front in one pass, then fills the tail separately.",
     "estimatedMinutes": 10
+  },
+  {
+    "id": "tricky-patterns-3",
+    "title": "Spiral Matrix Traversal",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "functionName": "spiralOrder",
+    "description": "Given an m x n matrix, return all elements of the matrix in spiral order using boundary pointers (top, bottom, left, right).",
+    "whatShouldHappen": [
+      "Define 4 boundaries: top = 0, bottom = m - 1, left = 0, right = n - 1.",
+      "Traverse right along top boundary, then increment top.",
+      "Traverse down along right boundary, then decrement right.",
+      "If top <= bottom, traverse left along bottom boundary, then decrement bottom.",
+      "If left <= right, traverse up along left boundary, then increment left.",
+      "Continue while top <= bottom and left <= right."
+    ],
+    "starterCode": "function spiralOrder(matrix) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]",
+      "columns": [
+        "step",
+        "direction",
+        "elements added",
+        "new boundaries"
+      ],
+      "rows": [
+        {
+          "step": 1,
+          "direction": "right",
+          "elements added": "1, 2, 3",
+          "new boundaries": "top=1"
+        },
+        {
+          "step": 2,
+          "direction": "down",
+          "elements added": "6, 9",
+          "new boundaries": "right=1"
+        },
+        {
+          "step": 3,
+          "direction": "left",
+          "elements added": "8, 7",
+          "new boundaries": "bottom=1"
+        },
+        {
+          "step": 4,
+          "direction": "up",
+          "elements added": "4",
+          "new boundaries": "left=1"
+        },
+        {
+          "step": 5,
+          "direction": "center",
+          "elements added": "5",
+          "new boundaries": "done"
+        }
+      ]
+    },
+    "skeletonHint": "function spiralOrder(matrix) {\n  const res = [];\n  let top = 0, bottom = matrix.length - 1, left = 0, right = matrix[0].length - 1;\n  while (top <= bottom && left <= right) {\n    for (let c = left; c <= right; c++) res.push(matrix[top][c]);\n    top++;\n    for (let r = top; r <= bottom; r++) res.push(matrix[r][right]);\n    right--;\n    if (top <= bottom) {\n      for (let c = right; c >= left; c--) res.push(matrix[bottom][c]);\n      bottom--;\n    }\n    if (left <= right) {\n      for (let r = bottom; r >= top; r--) res.push(matrix[r][left]);\n      left++;\n    }\n  }\n  return res;\n}",
+    "solution": "function spiralOrder(matrix) {\n  if (!matrix.length || !matrix[0].length) return [];\n  const result = [];\n  let top = 0;\n  let bottom = matrix.length - 1;\n  let left = 0;\n  let right = matrix[0].length - 1;\n  while (top <= bottom && left <= right) {\n    for (let c = left; c <= right; c++) result.push(matrix[top][c]);\n    top++;\n    for (let r = top; r <= bottom; r++) result.push(matrix[r][right]);\n    right--;\n    if (top <= bottom) {\n      for (let c = right; c >= left; c--) result.push(matrix[bottom][c]);\n      bottom--;\n    }\n    if (left <= right) {\n      for (let r = bottom; r >= top; r--) result.push(matrix[r][left]);\n      left++;\n    }\n  }\n  return result;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6
+            ],
+            [
+              7,
+              8,
+              9
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          6,
+          9,
+          8,
+          7,
+          4,
+          5
+        ],
+        "label": "3x3 square"
+      },
+      {
+        "input": [
+          [
+            [
+              1,
+              2,
+              3,
+              4
+            ],
+            [
+              5,
+              6,
+              7,
+              8
+            ],
+            [
+              9,
+              10,
+              11,
+              12
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4,
+          8,
+          12,
+          11,
+          10,
+          9,
+          5,
+          6,
+          7
+        ],
+        "label": "3x4 rectangular"
+      },
+      {
+        "input": [
+          [
+            [
+              1
+            ]
+          ]
+        ],
+        "expected": [
+          1
+        ],
+        "label": "1x1 matrix",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Tricky Patterns (4-Boundary Shrinking Box)",
+    "patternExplanation": "Contracting 4 boundary variables after each perimeter cycle ensures every cell is visited exactly once in clockwise spiral order.",
+    "estimatedMinutes": 15
+  },
+  {
+    "id": "tricky-patterns-4",
+    "title": "Rotate Array by K Steps In-Place",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "functionName": "rotateArray",
+    "description": "Given an integer array nums, rotate the array to the right by k steps in-place using the three-reversal trick with O(1) extra space.",
+    "whatShouldHappen": [
+      "Normalize k = k % nums.length.",
+      "Reverse the entire array from 0 to n - 1.",
+      "Reverse the first k elements from 0 to k - 1.",
+      "Reverse the remaining elements from k to n - 1.",
+      "Return the rotated nums array."
+    ],
+    "starterCode": "function rotateArray(nums, k) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 2, 3, 4, 5, 6, 7], k = 3",
+      "columns": [
+        "operation",
+        "start",
+        "end",
+        "nums"
+      ],
+      "rows": [
+        {
+          "operation": "reverse all",
+          "start": 0,
+          "end": 6,
+          "nums": "[7, 6, 5, 4, 3, 2, 1]"
+        },
+        {
+          "operation": "reverse first k",
+          "start": 0,
+          "end": 2,
+          "nums": "[5, 6, 7, 4, 3, 2, 1]"
+        },
+        {
+          "operation": "reverse remaining",
+          "start": 3,
+          "end": 6,
+          "nums": "[5, 6, 7, 1, 2, 3, 4]"
+        }
+      ]
+    },
+    "skeletonHint": "function rotateArray(nums, k) {\n  k %= nums.length;\n  function rev(arr, l, r) {\n    while (l < r) { const t = arr[l]; arr[l] = arr[r]; arr[r] = t; l++; r--; }\n  }\n  rev(nums, 0, nums.length - 1);\n  rev(nums, 0, k - 1);\n  rev(nums, k, nums.length - 1);\n  return nums;\n}",
+    "solution": "function rotateArray(nums, k) {\n  const n = nums.length;\n  if (n === 0) return nums;\n  k = k % n;\n  function reverse(arr, start, end) {\n    while (start < end) {\n      const temp = arr[start];\n      arr[start] = arr[end];\n      arr[end] = temp;\n      start++;\n      end--;\n    }\n  }\n  reverse(nums, 0, n - 1);\n  reverse(nums, 0, k - 1);\n  reverse(nums, k, n - 1);\n  return nums;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          3
+        ],
+        "expected": [
+          5,
+          6,
+          7,
+          1,
+          2,
+          3,
+          4
+        ],
+        "label": "standard rotation"
+      },
+      {
+        "input": [
+          [
+            -1,
+            -100,
+            3,
+            99
+          ],
+          2
+        ],
+        "expected": [
+          3,
+          99,
+          -1,
+          -100
+        ],
+        "label": "k = 2 with negatives"
+      },
+      {
+        "input": [
+          [
+            1,
+            2
+          ],
+          3
+        ],
+        "expected": [
+          2,
+          1
+        ],
+        "label": "k greater than length",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Tricky Patterns (Three-Reversal Rotation)",
+    "patternExplanation": "Reversing the entire array followed by reversing both individual halves accomplishes full cyclical rotation in O(n) time and O(1) memory.",
+    "estimatedMinutes": 12
+  },
+  {
+    "id": "tricky-patterns-5",
+    "title": "Next Greater Element",
+    "category": "tricky-patterns",
+    "difficulty": "Medium",
+    "functionName": "nextGreaterElements",
+    "description": "Given an array of numbers, for each element find the first greater element to its right. If no greater element exists, set it to -1.",
+    "whatShouldHappen": [
+      "Initialize result array filled with -1.",
+      "Maintain a monotonic decreasing stack of indices.",
+      "Iterate through array with index i: while stack is not empty and nums[stack.top] < nums[i], pop top and set result[top] = nums[i].",
+      "Push current index i onto stack.",
+      "Return result."
+    ],
+    "starterCode": "function nextGreaterElements(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [2, 1, 2, 4, 3]",
+      "columns": [
+        "i",
+        "nums[i]",
+        "stack before",
+        "popped indices",
+        "stack after",
+        "result"
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "nums[i]": 2,
+          "stack before": "[]",
+          "popped indices": "none",
+          "stack after": "[0]",
+          "result": "[-1,-1,-1,-1,-1]"
+        },
+        {
+          "i": 1,
+          "nums[i]": 1,
+          "stack before": "[0]",
+          "popped indices": "none",
+          "stack after": "[0, 1]",
+          "result": "[-1,-1,-1,-1,-1]"
+        },
+        {
+          "i": 2,
+          "nums[i]": 2,
+          "stack before": "[0, 1]",
+          "popped indices": "1 (nums[1]=1 < 2)",
+          "stack after": "[0, 2]",
+          "result": "[-1, 2,-1,-1,-1]"
+        },
+        {
+          "i": 3,
+          "nums[i]": 4,
+          "stack before": "[0, 2]",
+          "popped indices": "2, 0",
+          "stack after": "[3]",
+          "result": "[4, 2, 4,-1,-1]"
+        }
+      ]
+    },
+    "skeletonHint": "function nextGreaterElements(nums) {\n  const res = new Array(nums.length).fill(-1), stack = [];\n  for (let i = 0; i < nums.length; i++) {\n    while (stack.length && nums[stack[stack.length - 1]] < nums[i]) {\n      res[stack.pop()] = nums[i];\n    }\n    stack.push(i);\n  }\n  return res;\n}",
+    "solution": "function nextGreaterElements(nums) {\n  const n = nums.length;\n  const result = new Array(n).fill(-1);\n  const stack = [];\n  for (let i = 0; i < n; i++) {\n    while (stack.length > 0 && nums[stack[stack.length - 1]] < nums[i]) {\n      const idx = stack.pop();\n      result[idx] = nums[i];\n    }\n    stack.push(i);\n  }\n  return result;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            2,
+            1,
+            2,
+            4,
+            3
+          ]
+        ],
+        "expected": [
+          4,
+          2,
+          4,
+          -1,
+          -1
+        ],
+        "label": "multiple peaks"
+      },
+      {
+        "input": [
+          [
+            1,
+            3,
+            4,
+            2
+          ]
+        ],
+        "expected": [
+          3,
+          4,
+          -1,
+          -1
+        ],
+        "label": "increasing then decreasing"
+      },
+      {
+        "input": [
+          [
+            5,
+            4,
+            3,
+            2,
+            1
+          ]
+        ],
+        "expected": [
+          -1,
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "label": "strictly decreasing",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Tricky Patterns (Monotonic Stack)",
+    "patternExplanation": "A monotonic stack stores indices of elements waiting for a larger value. Each element is pushed and popped at most once in O(n) total time.",
+    "estimatedMinutes": 15
+  },
+  {
+    "id": "tricky-patterns-6",
+    "title": "Find First Missing Positive",
+    "category": "tricky-patterns",
+    "difficulty": "Hard",
+    "functionName": "firstMissingPositive",
+    "description": "Given an unsorted integer array nums, return the smallest positive integer that is not present in nums in O(n) time and O(1) auxiliary space using cyclic placement.",
+    "whatShouldHappen": [
+      "Use cyclic sort: place each number x where 1 <= x <= n at index x - 1.",
+      "Iterate i from 0 to n - 1: while nums[i] is in [1, n] and nums[nums[i]-1] !== nums[i], swap nums[i] with nums[nums[i]-1].",
+      "After placement, scan the array: the first index where nums[i] !== i + 1 corresponds to missing number i + 1.",
+      "If all indices match, return n + 1."
+    ],
+    "starterCode": "function firstMissingPositive(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [3, 4, -1, 1]",
+      "columns": [
+        "i",
+        "nums[i]",
+        "targetIdx",
+        "action",
+        "nums array"
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "nums[i]": 3,
+          "targetIdx": 2,
+          "action": "swap with nums[2]",
+          "nums": "[-1, 4, 3, 1]"
+        },
+        {
+          "i": 0,
+          "nums[i]": -1,
+          "targetIdx": "-",
+          "action": "skip negative",
+          "nums": "[-1, 4, 3, 1]"
+        },
+        {
+          "i": 1,
+          "nums[i]": 4,
+          "targetIdx": 3,
+          "action": "swap with nums[3]",
+          "nums": "[-1, 1, 3, 4]"
+        },
+        {
+          "i": 1,
+          "nums[i]": 1,
+          "targetIdx": 0,
+          "action": "swap with nums[0]",
+          "nums": "[1, -1, 3, 4]"
+        }
+      ]
+    },
+    "skeletonHint": "function firstMissingPositive(nums) {\n  const n = nums.length;\n  for (let i = 0; i < n; i++) {\n    while (nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] !== nums[i]) {\n      const t = nums[nums[i] - 1]; nums[nums[i] - 1] = nums[i]; nums[i] = t;\n    }\n  }\n  for (let i = 0; i < n; i++) if (nums[i] !== i + 1) return i + 1;\n  return n + 1;\n}",
+    "solution": "function firstMissingPositive(nums) {\n  const n = nums.length;\n  for (let i = 0; i < n; i++) {\n    while (nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] !== nums[i]) {\n      const targetIdx = nums[i] - 1;\n      const temp = nums[targetIdx];\n      nums[targetIdx] = nums[i];\n      nums[i] = temp;\n    }\n  }\n  for (let i = 0; i < n; i++) {\n    if (nums[i] !== i + 1) return i + 1;\n  }\n  return n + 1;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            0
+          ]
+        ],
+        "expected": 3,
+        "label": "zero included"
+      },
+      {
+        "input": [
+          [
+            3,
+            4,
+            -1,
+            1
+          ]
+        ],
+        "expected": 2,
+        "label": "missing in middle"
+      },
+      {
+        "input": [
+          [
+            7,
+            8,
+            9,
+            11,
+            12
+          ]
+        ],
+        "expected": 1,
+        "label": "missing 1"
+      },
+      {
+        "input": [
+          [
+            1
+          ]
+        ],
+        "expected": 2,
+        "label": "single 1",
+        "hidden": true
+      }
+    ],
+    "patternTag": "Tricky Patterns (Cyclic Bucket Placement)",
+    "patternExplanation": "Using array indices as a direct hash table allows mapping values to indices in O(n) time while maintaining O(1) auxiliary space.",
+    "estimatedMinutes": 20
   }
 ]

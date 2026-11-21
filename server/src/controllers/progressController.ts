@@ -14,8 +14,17 @@ export const solve = catchAsync(async (req: Request, res: Response) => {
 })
 
 export const attempt = catchAsync(async (req: Request, res: Response) => {
-  const { executionTimeMs } = req.body as AttemptBodyInput
-  res.json(success(await progressService.attemptProgress(param(req, 'problemId'), executionTimeMs)))
+  const { executionTimeMs, memoryUsageMb, memoryBytes } = req.body as AttemptBodyInput
+  res.json(
+    success(
+      await progressService.attemptProgress(
+        param(req, 'problemId'),
+        executionTimeMs,
+        memoryUsageMb,
+        memoryBytes,
+      ),
+    ),
+  )
 })
 
 export const recall = catchAsync(async (req: Request, res: Response) => {
