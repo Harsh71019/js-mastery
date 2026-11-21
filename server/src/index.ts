@@ -1,4 +1,10 @@
-import 'dotenv/config'
+import dotenv from 'dotenv'
+import path from 'path'
+
+dotenv.config()
+dotenv.config({ path: path.resolve(__dirname, '../.env') })
+dotenv.config({ path: path.resolve(process.cwd(), 'server/.env') })
+
 import './config/env'
 import http from 'http'
 import express, { type Request, type Response } from 'express'
@@ -43,7 +49,7 @@ app.use(
   }),
 )
 app.use(express.json({ limit: '1mb' }))
-// app.use(defaultLimiter)
+app.use(defaultLimiter)
 app.use(requestTimeout)
 
 app.get('/api/health', (_req: Request, res: Response) => {

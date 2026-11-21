@@ -68,5 +68,6 @@ const ProblemSchema = new Schema(
 ProblemSchema.index({ status: 1, category: 1, difficulty: 1 })
 ProblemSchema.index({ status: 1, collectionId: 1 })
 ProblemSchema.index({ status: 1, patternTag: 1 })
+ProblemSchema.index({ status: 1, type: 1 })
 
 export const Problem = model('Problem', ProblemSchema)

@@ -46,7 +46,7 @@ export const CATEGORY_METRICS: Record<CategorySlug, NeuralScores> = {
   'functions-and-closures': { iteration: 2, logic: 10, ds: 3, speed: 4, memory: 9 },
 }
 
-export const calculateNeuralCoverage = (solvedProblems: Record<string, any>): NeuralScores => {
+export const calculateNeuralCoverage = (solvedProblems: Record<string, unknown>): NeuralScores => {
   const totals = { iteration: 0, logic: 0, ds: 0, speed: 0, memory: 0 }
   const solvedCount = Object.keys(solvedProblems).length
   

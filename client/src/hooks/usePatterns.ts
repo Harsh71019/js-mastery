@@ -14,7 +14,6 @@ export const usePatterns = (): UsePatternsResult => {
 
   useEffect(() => {
     let cancelled = false
-    setLoading(true)
 
     fetch('/api/problems/patterns')
       .then((r) => {

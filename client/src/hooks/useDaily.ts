@@ -16,8 +16,6 @@ export const useDaily = (): UseDailyResult => {
 
   useEffect(() => {
     let cancelled = false
-    setLoading(true)
-    setError(null)
 
     fetch('/api/daily')
       .then((r) => {
@@ -38,7 +36,11 @@ export const useDaily = (): UseDailyResult => {
     return () => { cancelled = true }
   }, [tick])
 
-  const refresh = useCallback(() => setTick((t) => t + 1), [])
+  const refresh = useCallback(() => {
+    setLoading(true)
+    setError(null)
+    setTick((t) => t + 1)
+  }, [])
 
   return { daily, isLoading, error, refresh }
 }

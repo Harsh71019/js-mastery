@@ -8,11 +8,12 @@ import { serializeProgress } from '../utils/serializeProgress'
 import { selectDailyIndex } from '../utils/daily'
 import { format } from 'date-fns'
 import { success } from '../utils/apiResponse'
+import { USER_ID } from '../constants'
 
 export const getArticles = catchAsync(async (req: Request, res: Response) => {
   const { company, region, tag, difficulty } = req.query
 
-  const query: any = { status: 'published' }
+  const query: Record<string, unknown> = { status: 'published' }
   if (company) query.company = company
   if (region) query.region = region
   if (tag) query.tags = tag
@@ -37,7 +38,7 @@ export const getDailyArticle = catchAsync(async (_req: Request, res: Response) =
     throw new NotFoundError('No articles available')
   }
 
-  const progress = await Progress.findOne({ userId: 'default' })
+  const progress = await Progress.findOne({ userId: USER_ID })
   const isRead = progress?.readArticles.includes(article.id) || false
 
   res.json(success({
@@ -59,9 +60,9 @@ export const completeArticle = catchAsync(async (req: Request, res: Response) =>
     throw new NotFoundError('Article not found')
   }
 
-  let progress = await Progress.findOne({ userId: 'default' })
+  let progress = await Progress.findOne({ userId: USER_ID })
   if (!progress) {
-    progress = new Progress({ userId: 'default' })
+    progress = new Progress({ userId: USER_ID })
   }
 
   // Avoid duplicates in readArticles
@@ -91,5 +92,5 @@ export const completeArticle = catchAsync(async (req: Request, res: Response) =>
 
   await progress.save()
 
-  res.json(success(serializeProgress(progress as any)))
+  res.json(success(serializeProgress(progress)))
 })

@@ -7,6 +7,7 @@ import { ProblemTable } from '@/components/problems/ProblemTable'
 import { PageContainer } from '@/components/ui/PageContainer'
 import { Glow } from '@/components/ui/Glow'
 import { CATEGORIES } from '@/data/categories'
+import type { CategorySlug } from '@/types/problem'
 
 const DEFAULT_FILTERS: FilterState = {
   search: '',
@@ -27,7 +28,7 @@ export const CategoryPage = (): React.JSX.Element => {
     () => ({
       search: filters.search,
       difficulty: filters.difficulty,
-      category: slug as any,
+      category: slug as CategorySlug,
       type: filters.type,
       collectionId: filters.collectionId === 'all' ? undefined : filters.collectionId,
     }),

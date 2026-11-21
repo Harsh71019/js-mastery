@@ -30,7 +30,8 @@ const applyStatusFilter = (
 
 export const ProblemsPage = (): React.JSX.Element => {
   const location = useLocation()
-  const initialFilters = (location.state as any)?.filters ?? DEFAULT_FILTERS
+  const locationState = location.state as { filters?: FilterState } | null
+  const initialFilters = locationState?.filters ?? DEFAULT_FILTERS
   const [filters, setFilters] = useState<FilterState>(initialFilters)
   const [page, setPage] = useState(1)
   const { solvedProblems } = useProgress()

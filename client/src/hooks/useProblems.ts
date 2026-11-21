@@ -36,12 +36,12 @@ export const useProblems = (filters: ProblemFilters, page = 1): UseProblemsResul
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  const queryString = buildQuery(filters, page)
+
   useEffect(() => {
     let cancelled = false
-    setIsLoading(true)
-    setError(null)
 
-    fetch(`/api/problems?${buildQuery(filters, page)}`)
+    fetch(`/api/problems?${queryString}`)
       .then((response) => {
         if (!response.ok) throw new Error(`Server error: ${response.status}`)
         return response.json() as Promise<{ success: boolean; data: ProblemSummary[]; pagination: Pagination }>
@@ -59,7 +59,7 @@ export const useProblems = (filters: ProblemFilters, page = 1): UseProblemsResul
       })
 
     return () => { cancelled = true }
-  }, [filters.search, filters.difficulty, filters.category, filters.type, filters.patternTag, filters.collectionId, page])
+  }, [queryString])
 
   return { problems, pagination, isLoading, error }
 }

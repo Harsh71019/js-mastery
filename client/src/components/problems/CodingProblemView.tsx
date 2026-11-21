@@ -162,23 +162,9 @@ export const CodingProblemView = ({
   }, [handleTerminalMouseMove, handleTerminalMouseUp])
 
   useEffect(() => {
-    const saved = useProgressStore.getState().solvedProblems[problem.id]?.acceptedCode
-    setCode(isRecallMode ? '' : (saved ?? problem.starterCode))
-    setResults(null)
-    setHasAttempted(false)
-    setVerdict(null)
-    setLastAction(null)
-    setActiveStepIndex(null)
-    setIsRecallSuccess(false)
-    setIsGaveUp(false)
-    setTestcases(problem.tests.filter((t) => !t.hidden))
-    setActiveCaseIndex(0)
-    setActiveBottomTab('testcase')
-    confettiFired.current = false
-  }, [problem.id, isRecallMode, problem.tests, problem.starterCode])
-
-  useEffect(() => {
     if (!savedCode || isRecallMode) return
+    // Synchronize starter code with asynchronously loaded accepted code from progress store
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCode((current) => (current === problem.starterCode ? savedCode : current))
   }, [savedCode, problem.starterCode, isRecallMode])
 
@@ -219,7 +205,7 @@ export const CodingProblemView = ({
   const handleResetTestcases = useCallback(() => {
     setTestcases(problem.tests.filter((t) => !t.hidden))
     setActiveCaseIndex(0)
-  }, [problem.tests])
+  }, [problem.tests, setActiveCaseIndex])
 
   const handleRun = useCallback(async (): Promise<void> => {
     if (isRunning || isSubmitting) return
@@ -245,7 +231,7 @@ export const CodingProblemView = ({
     setIsRunning(false)
 
     incrementAttempts(problem.id, execution.executionTimeMs, execution.memoryUsageMb, execution.memoryBytes)
-  }, [problem.id, problem.functionName, code, testcases, isRunning, isSubmitting, isMobile, incrementAttempts])
+  }, [problem.id, problem.functionName, code, testcases, isRunning, isSubmitting, isMobile, incrementAttempts, setActiveBottomTab, setMobileTab])
 
   const handleSubmit = useCallback(async (): Promise<void> => {
     if (isRunning || isSubmitting) return
@@ -318,14 +304,14 @@ export const CodingProblemView = ({
     } finally {
       setIsSubmitting(false)
     }
-  }, [problem, code, isRunning, isSubmitting, isMobile, markSolved, incrementAttempts, isRecallMode])
+  }, [problem, code, isRunning, isSubmitting, isMobile, markSolved, incrementAttempts, isRecallMode, setActiveBottomTab, setMobileTab])
 
   useKeyboardShortcut('Enter', handleSubmit)
 
   const handleReset = useCallback((): void => {
     setCode(isRecallMode ? '' : problem.starterCode)
     setIsResetModalOpen(false)
-  }, [problem.starterCode, isRecallMode])
+  }, [problem.starterCode, isRecallMode, setCode, setIsResetModalOpen])
 
   const handleRecallComplete = useCallback(async () => {
     if (isGaveUp) {
@@ -423,7 +409,7 @@ export const CodingProblemView = ({
                 <button
                   key={tab.id}
                   type="button"
-                  onClick={() => setActiveLeftTab(tab.id as any)}
+                  onClick={() => setActiveLeftTab(tab.id as typeof activeLeftTab)}
                   className={`px-3 py-2.5 text-xs font-semibold font-geist uppercase tracking-wider transition-all border-b-2 -mb-px flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
                     activeLeftTab === tab.id
                       ? 'text-accent-blue border-accent-blue bg-white/[0.04]'

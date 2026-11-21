@@ -25,10 +25,10 @@ export const useSubmissions = (problemId: string): UseSubmissionsResult => {
   const [submissions, setSubmissions] = useState<readonly SubmissionSummary[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [tick, setTick] = useState(0)
 
-  const fetchSubmissions = useCallback(() => {
-    setIsLoading(true)
-    setError(null)
+  useEffect(() => {
+    let cancelled = false
 
     fetch(`/api/submissions/${problemId}`)
       .then((r) => {
@@ -36,18 +36,24 @@ export const useSubmissions = (problemId: string): UseSubmissionsResult => {
         return r.json() as Promise<{ success: boolean; data: { submissions: SubmissionSummary[] } }>
       })
       .then(({ data }) => {
+        if (cancelled) return
         setSubmissions(data?.submissions ?? [])
         setIsLoading(false)
       })
       .catch((err: unknown) => {
+        if (cancelled) return
         setError(err instanceof Error ? err.message : 'Failed to load submissions')
         setIsLoading(false)
       })
-  }, [problemId])
 
-  useEffect(() => {
-    fetchSubmissions()
-  }, [fetchSubmissions])
+    return () => { cancelled = true }
+  }, [problemId, tick])
 
-  return { submissions, isLoading, error, refetch: fetchSubmissions }
+  const refetch = useCallback(() => {
+    setIsLoading(true)
+    setError(null)
+    setTick((t) => t + 1)
+  }, [])
+
+  return { submissions, isLoading, error, refetch }
 }

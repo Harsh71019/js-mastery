@@ -46,7 +46,7 @@ interface ProgressState {
   readingStreak:            number
   longestReadingStreak:     number
   lastArticleReadAt:        string
-  readingHistory:           any[]
+  readingHistory:           { articleId: string; date: string }[]
   isLoaded:                 boolean
 }
 
