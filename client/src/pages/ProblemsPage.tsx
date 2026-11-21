@@ -88,7 +88,12 @@ export const ProblemsPage = (): React.JSX.Element => {
             hideTypeFilter
           />
         </div>
-        <ProblemTable problems={filtered} solvedProblems={solvedProblems} isLoading={isLoading} />
+        <ProblemTable
+          problems={filtered}
+          solvedProblems={solvedProblems}
+          isLoading={isLoading}
+          startIndex={(page - 1) * (pagination?.limit || 50)}
+        />
         
         {pagination.totalPages > 1 && (
           <div className="flex items-center justify-between gap-4 py-4 px-6 glass-panel rounded-b-xl border-t-0 bg-white/[0.01]">

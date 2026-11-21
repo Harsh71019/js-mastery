@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Code2, BarChart2, Flame, CheckCircle2, HelpCircle, RefreshCw, Tag, CalendarDays, LineChart } from 'lucide-react'
+import { LayoutDashboard, Code2, BarChart2, Flame, CheckCircle2, HelpCircle, RefreshCw, Tag, CalendarDays, LineChart, BookOpen } from 'lucide-react'
 import { useProgress } from '@/hooks/useProgress'
 import { useProblemCounts } from '@/hooks/useProblemCounts'
 import { getMasteryRank } from '@/utils/ranks'
@@ -18,6 +18,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { to: '/quiz',     label: 'Quiz',     icon: <HelpCircle size={16} /> },
   { to: '/review',   label: 'Review',   icon: <RefreshCw size={16} /> },
   { to: '/patterns', label: 'Patterns', icon: <Tag size={16} /> },
+  { to: '/insights', label: 'Insights', icon: <BookOpen size={16} /> },
   { to: '/progress', label: 'Progress', icon: <BarChart2 size={16} /> },
   { to: '/stats',    label: 'Stats',    icon: <LineChart size={16} /> },
 ]

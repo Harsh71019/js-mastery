@@ -12,6 +12,7 @@ import { PatternsPage } from '@/pages/PatternsPage'
 import { PatternPage } from '@/pages/PatternPage'
 import { DailyChallengePage } from '@/pages/DailyChallengePage'
 import { StatsPage } from '@/pages/StatsPage'
+import { InsightsPage } from '@/pages/InsightsPage'
 import { useProgressStore } from '@/store/useProgressStore'
 import { CommandPalette } from '@/components/ui/CommandPalette'
 
@@ -54,6 +55,7 @@ export const App = (): React.JSX.Element => {
           <Route path="review" element={<ReviewPage />} />
           <Route path="patterns" element={<PatternsPage />} />
           <Route path="patterns/:tag" element={<PatternPage />} />
+          <Route path="insights" element={<InsightsPage />} />
           <Route path="progress" element={<ProgressPage />} />
           <Route path="stats" element={<StatsPage />} />
         </Route>

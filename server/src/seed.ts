@@ -3,6 +3,7 @@ import fs from 'fs'
 import path from 'path'
 import mongoose from 'mongoose'
 import { Problem } from './models/Problem'
+import { validateProblem } from './utils/problem-validation'
 
 const PROBLEMS_DIR = path.resolve(__dirname, '../../server/data/problems')
 
@@ -14,9 +15,13 @@ const REQUIRED_FIELDS = [
 ]
 
 const validate = (doc: Record<string, unknown>, slug: string, index: number): string | null => {
-  // Only validate coding problems for now using this strict list
-  // MCQ/Trick problems have different required fields but aren't typically in this dir
-  if (doc.type && doc.type !== 'coding') return null;
+  if (doc.type === 'mcq' || doc.type === 'trick') {
+    const errors = validateProblem(doc)
+    if (errors.length > 0) {
+      return `[${slug}][${index}] invalid ${String(doc.id ?? 'item')}: ${errors.map((e) => `${e.field}: ${e.message}`).join(', ')}`
+    }
+    return null
+  }
 
   for (const field of REQUIRED_FIELDS) {
     if (doc[field] === undefined || doc[field] === null || doc[field] === '') {
@@ -60,9 +65,9 @@ const seedCategory = async (
     }
 
     try {
-      const result = await Problem.updateOne(
+      const result = await Problem.replaceOne(
         { id: doc.id },
-        { $setOnInsert: { ...doc, status: 'published' } },
+        { ...doc, status: (doc.status as string) ?? 'published' },
         { upsert: true },
       )
       if (result.upsertedCount > 0) {
