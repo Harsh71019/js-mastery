@@ -1,0 +1,4700 @@
+[
+  {
+    "id": "array-methods-find-first-even",
+    "title": "Array Find: First Even Number",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "findFirstEven",
+    "description": "Given an array of numbers nums, use Array.prototype.find to return the first even number. If no even number exists, return undefined.",
+    "whatShouldHappen": [
+      "Call nums.find(callback).",
+      "The callback returns true if num % 2 === 0.",
+      "Return the found even number or undefined."
+    ],
+    "starterCode": "function findFirstEven(nums) {\n  // your code here\n}",
+    "solution": "function findFirstEven(nums) {\n  return nums.find(n => n % 2 === 0);\n}",
+    "skeletonHint": "function findFirstEven(nums) {\n  return nums.find(n => n % 2 === ____);\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 3, 4, 6]",
+      "columns": [
+        "n",
+        "n % 2 === 0",
+        "found?"
+      ],
+      "rows": [
+        {
+          "n": 1,
+          "n % 2 === 0": "false",
+          "found?": "no"
+        },
+        {
+          "n": 3,
+          "n % 2 === 0": "false",
+          "found?": "no"
+        },
+        {
+          "n": 4,
+          "n % 2 === 0": "true",
+          "found?": "yes (returns 4)"
+        }
+      ]
+    },
+    "patternTag": "Predicate Search",
+    "patternExplanation": ".find() stops at the first element matching a predicate function, avoiding unnecessary iterations.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            3,
+            4,
+            6
+          ]
+        ],
+        "expected": 4,
+        "label": "even in middle"
+      },
+      {
+        "input": [
+          [
+            1,
+            3,
+            5
+          ]
+        ],
+        "label": "no even numbers"
+      },
+      {
+        "input": [
+          [
+            2,
+            4,
+            6
+          ]
+        ],
+        "expected": 2,
+        "label": "first element is even"
+      },
+      {
+        "input": [
+          []
+        ],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-find-index-negative",
+    "title": "Array FindIndex: First Negative Value",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "findFirstNegativeIndex",
+    "description": "Given an array of numbers nums, use Array.prototype.findIndex to return the 0-based index of the first negative number. Return -1 if no negative number is present.",
+    "whatShouldHappen": [
+      "Call nums.findIndex(callback).",
+      "The predicate checks if n < 0.",
+      "Return the resulting index."
+    ],
+    "starterCode": "function findFirstNegativeIndex(nums) {\n  // your code here\n}",
+    "solution": "function findFirstNegativeIndex(nums) {\n  return nums.findIndex(n => n < 0);\n}",
+    "skeletonHint": "function findFirstNegativeIndex(nums) {\n  return nums.findIndex(n => n < ____);\n}",
+    "traceTable": {
+      "inputLabel": "nums = [5, 12, -3, 8]",
+      "columns": [
+        "index",
+        "n",
+        "n < 0",
+        "match?"
+      ],
+      "rows": [
+        {
+          "index": 0,
+          "n": 5,
+          "n < 0": "false",
+          "match?": "no"
+        },
+        {
+          "index": 1,
+          "n": 12,
+          "n < 0": "false",
+          "match?": "no"
+        },
+        {
+          "index": 2,
+          "n": -3,
+          "n < 0": "true",
+          "match?": "yes (returns 2)"
+        }
+      ]
+    },
+    "patternTag": "Index Search",
+    "patternExplanation": ".findIndex() locates the position of an element based on a dynamic condition rather than exact primitive equality.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            5,
+            12,
+            -3,
+            8
+          ]
+        ],
+        "expected": 2,
+        "label": "negative at index 2"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": -1,
+        "label": "all positive"
+      },
+      {
+        "input": [
+          [
+            -10,
+            0,
+            10
+          ]
+        ],
+        "expected": 0,
+        "label": "negative at index 0"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": -1,
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-find-last-odd",
+    "title": "Array FindLast: Last Odd Number",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "findLastOdd",
+    "description": "Given an array of integers nums, use Array.prototype.findLast to find the last odd number (Math.abs(n) % 2 === 1). Return undefined if none is found.",
+    "whatShouldHappen": [
+      "Call nums.findLast(callback).",
+      "The callback checks Math.abs(n) % 2 === 1.",
+      "Return the last matching odd number."
+    ],
+    "starterCode": "function findLastOdd(nums) {\n  // your code here\n}",
+    "solution": "function findLastOdd(nums) {\n  return nums.findLast(n => Math.abs(n) % 2 === 1);\n}",
+    "skeletonHint": "function findLastOdd(nums) {\n  return nums.findLast(n => Math.abs(n) % 2 === ____);\n}",
+    "traceTable": {
+      "inputLabel": "nums = [2, 5, 8, 7, 10]",
+      "columns": [
+        "n (from right)",
+        "odd?",
+        "action"
+      ],
+      "rows": [
+        {
+          "n (from right)": 10,
+          "odd?": "false",
+          "action": "continue left"
+        },
+        {
+          "n (from right)": 7,
+          "odd?": "true",
+          "action": "return 7"
+        }
+      ]
+    },
+    "patternTag": "Reverse Predicate Search",
+    "patternExplanation": ".findLast() iterates backwards from the end of the array, returning the rightmost match without reversing the array.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            2,
+            5,
+            8,
+            7,
+            10
+          ]
+        ],
+        "expected": 7,
+        "label": "last odd is 7"
+      },
+      {
+        "input": [
+          [
+            2,
+            4,
+            6
+          ]
+        ],
+        "label": "no odds"
+      },
+      {
+        "input": [
+          [
+            3,
+            2,
+            4
+          ]
+        ],
+        "expected": 3,
+        "label": "first element is only odd"
+      },
+      {
+        "input": [
+          [
+            -5,
+            -2,
+            -4
+          ]
+        ],
+        "expected": -5,
+        "label": "negative odd"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-find-last-index-match",
+    "title": "Array FindLastIndex: Last Target Occurrence",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "findLastTargetIndex",
+    "description": "Given an array of strings words and a target string target, use Array.prototype.findLastIndex to return the last index where word === target. Return -1 if not found.",
+    "whatShouldHappen": [
+      "Call words.findLastIndex(w => w === target).",
+      "Return the index of the rightmost match or -1."
+    ],
+    "starterCode": "function findLastTargetIndex(words, target) {\n  // your code here\n}",
+    "solution": "function findLastTargetIndex(words, target) {\n  return words.findLastIndex(w => w === target);\n}",
+    "skeletonHint": "function findLastTargetIndex(words, target) {\n  return words.findLastIndex(w => w === ____);\n}",
+    "traceTable": {
+      "inputLabel": "words = ['a', 'b', 'c', 'b'], target = 'b'",
+      "columns": [
+        "index (from right)",
+        "word",
+        "match?"
+      ],
+      "rows": [
+        {
+          "index (from right)": 3,
+          "word": "b",
+          "match?": "yes (returns 3)"
+        }
+      ]
+    },
+    "patternTag": "Reverse Index Search",
+    "patternExplanation": ".findLastIndex() finds the index of the last element satisfying a predicate function.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "a",
+            "b",
+            "c",
+            "b"
+          ],
+          "b"
+        ],
+        "expected": 3,
+        "label": "last occurrence at 3"
+      },
+      {
+        "input": [
+          [
+            "x",
+            "y",
+            "z"
+          ],
+          "a"
+        ],
+        "expected": -1,
+        "label": "not found"
+      },
+      {
+        "input": [
+          [
+            "apple",
+            "banana"
+          ],
+          "apple"
+        ],
+        "expected": 0,
+        "label": "only occurrence at 0"
+      },
+      {
+        "input": [
+          [],
+          "test"
+        ],
+        "expected": -1,
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-index-of-from-offset",
+    "title": "Array IndexOf with FromIndex Offset",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "findNextOccurrence",
+    "description": "Given an array items, a target value target, and a starting offset fromIndex, use items.indexOf(target, fromIndex) to search for target starting from fromIndex. Return the index or -1.",
+    "whatShouldHappen": [
+      "Call items.indexOf(target, fromIndex).",
+      "Return the found index."
+    ],
+    "starterCode": "function findNextOccurrence(items, target, fromIndex) {\n  // your code here\n}",
+    "solution": "function findNextOccurrence(items, target, fromIndex) {\n  return items.indexOf(target, fromIndex);\n}",
+    "skeletonHint": "function findNextOccurrence(items, target, fromIndex) {\n  return items.indexOf(____, ____);\n}",
+    "traceTable": {
+      "inputLabel": "items = ['a', 'b', 'a', 'c'], target = 'a', fromIndex = 1",
+      "columns": [
+        "start index",
+        "first match from offset"
+      ],
+      "rows": [
+        {
+          "start index": 1,
+          "first match from offset": "index 2"
+        }
+      ]
+    },
+    "patternTag": "Offset Search",
+    "patternExplanation": "Providing the optional fromIndex argument to indexOf ignores earlier occurrences and begins the forward search at a specified position.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "a",
+            "b",
+            "a",
+            "c"
+          ],
+          "a",
+          1
+        ],
+        "expected": 2,
+        "label": "second a found at 2"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            2
+          ],
+          2,
+          2
+        ],
+        "expected": 3,
+        "label": "search from index 2"
+      },
+      {
+        "input": [
+          [
+            10,
+            20,
+            30
+          ],
+          10,
+          1
+        ],
+        "expected": -1,
+        "label": "skipped target"
+      },
+      {
+        "input": [
+          [],
+          "x",
+          0
+        ],
+        "expected": -1,
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-flat-one-level",
+    "title": "Array Flat: Single Level Flatten",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "flattenShallow",
+    "description": "Given an array arr containing nested sub-arrays, use Array.prototype.flat() to flatten it by one depth level.",
+    "whatShouldHappen": [
+      "Call arr.flat(1).",
+      "Return the shallowly flattened array."
+    ],
+    "starterCode": "function flattenShallow(arr) {\n  // your code here\n}",
+    "solution": "function flattenShallow(arr) {\n  return arr.flat(1);\n}",
+    "skeletonHint": "function flattenShallow(arr) {\n  return arr.flat(____);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [[1, 2], [3, 4]]",
+      "columns": [
+        "element",
+        "flattened output"
+      ],
+      "rows": [
+        {
+          "element": "[1, 2]",
+          "flattened output": "1, 2"
+        },
+        {
+          "element": "[3, 4]",
+          "flattened output": "3, 4"
+        }
+      ]
+    },
+    "patternTag": "Array Flattening",
+    "patternExplanation": ".flat(1) concatenates sub-array elements up to specified depth into a new array.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "label": "pairs of numbers"
+      },
+      {
+        "input": [
+          [
+            [
+              1,
+              [
+                2
+              ]
+            ],
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          [
+            2
+          ],
+          3
+        ],
+        "label": "flattens only top depth"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ],
+        "label": "already flat"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-flat-depth",
+    "title": "Array Flat: Multi-Level Depth",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "flattenToDepth",
+    "description": "Given an array arr and a depth integer depth, use arr.flat(depth) to flatten nested arrays up to depth levels deep.",
+    "whatShouldHappen": [
+      "Call arr.flat(depth).",
+      "Return the flattened array."
+    ],
+    "starterCode": "function flattenToDepth(arr, depth) {\n  // your code here\n}",
+    "solution": "function flattenToDepth(arr, depth) {\n  return arr.flat(depth);\n}",
+    "skeletonHint": "function flattenToDepth(arr, depth) {\n  return arr.flat(____);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, [2, [3]]], depth = 2",
+      "columns": [
+        "depth level",
+        "result"
+      ],
+      "rows": [
+        {
+          "depth level": 2,
+          "result": "[1, 2, 3]"
+        }
+      ]
+    },
+    "patternTag": "Deep Flattening",
+    "patternExplanation": "Passing an explicit depth parameter controls recursion depth when flattening multi-level arrays.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            [
+              2,
+              [
+                3
+              ]
+            ]
+          ],
+          2
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ],
+        "label": "flatten depth 2"
+      },
+      {
+        "input": [
+          [
+            1,
+            [
+              2,
+              [
+                3,
+                [
+                  4
+                ]
+              ]
+            ]
+          ],
+          1
+        ],
+        "expected": [
+          1,
+          2,
+          [
+            3,
+            [
+              4
+            ]
+          ]
+        ],
+        "label": "flatten depth 1"
+      },
+      {
+        "input": [
+          [
+            [
+              []
+            ]
+          ],
+          3
+        ],
+        "expected": [],
+        "label": "empty nested arrays"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          0
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ],
+        "label": "depth 0"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-flatmap-split-words",
+    "title": "Array FlatMap: Split Sentences into Words",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "extractAllWords",
+    "description": "Given an array of sentence strings sentences, use Array.prototype.flatMap to split each sentence by spaces (' ') and return a single flat array of words.",
+    "whatShouldHappen": [
+      "Use sentences.flatMap(sentence => sentence.split(' ')).",
+      "Return the flat list of words."
+    ],
+    "starterCode": "function extractAllWords(sentences) {\n  // your code here\n}",
+    "solution": "function extractAllWords(sentences) {\n  return sentences.flatMap(s => s.split(' '));\n}",
+    "skeletonHint": "function extractAllWords(sentences) {\n  return sentences.flatMap(s => s.split(____));\n}",
+    "traceTable": {
+      "inputLabel": "sentences = ['hello world', 'js code']",
+      "columns": [
+        "sentence",
+        "split array",
+        "flat mapped"
+      ],
+      "rows": [
+        {
+          "sentence": "'hello world'",
+          "split array": "['hello', 'world']",
+          "flat mapped": "hello, world"
+        },
+        {
+          "sentence": "'js code'",
+          "split array": "['js', 'code']",
+          "flat mapped": "js, code"
+        }
+      ]
+    },
+    "patternTag": "Map and Flatten",
+    "patternExplanation": ".flatMap() maps each item to an array and flattens the result by one level, equivalent to .map().flat(1) but in a single efficient pass.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "hello world",
+            "js code"
+          ]
+        ],
+        "expected": [
+          "hello",
+          "world",
+          "js",
+          "code"
+        ],
+        "label": "two sentences"
+      },
+      {
+        "input": [
+          [
+            "single"
+          ]
+        ],
+        "expected": [
+          "single"
+        ],
+        "label": "one word sentence"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      },
+      {
+        "input": [
+          [
+            "a b c",
+            "d e"
+          ]
+        ],
+        "expected": [
+          "a",
+          "b",
+          "c",
+          "d",
+          "e"
+        ],
+        "label": "multiple words"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-flatmap-duplicate-evens",
+    "title": "Array FlatMap: Duplicate Even Numbers",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "duplicateEvens",
+    "description": "Given an array of numbers nums, use Array.prototype.flatMap to return a new array where even numbers appear duplicated ([n, n]) and odd numbers appear once ([n]).",
+    "whatShouldHappen": [
+      "Call nums.flatMap(n => n % 2 === 0 ? [n, n] : [n]).",
+      "Return the expanded flat array."
+    ],
+    "starterCode": "function duplicateEvens(nums) {\n  // your code here\n}",
+    "solution": "function duplicateEvens(nums) {\n  return nums.flatMap(n => n % 2 === 0 ? [n, n] : [n]);\n}",
+    "skeletonHint": "function duplicateEvens(nums) {\n  return nums.flatMap(n => n % 2 === 0 ? [____, ____] : [____]);\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 2, 3]",
+      "columns": [
+        "n",
+        "even?",
+        "mapped array"
+      ],
+      "rows": [
+        {
+          "n": 1,
+          "even?": "false",
+          "mapped array": "[1]"
+        },
+        {
+          "n": 2,
+          "even?": "true",
+          "mapped array": "[2, 2]"
+        },
+        {
+          "n": 3,
+          "even?": "false",
+          "mapped array": "[3]"
+        }
+      ]
+    },
+    "patternTag": "Variable Size Expansion",
+    "patternExplanation": ".flatMap() allows mapping 1 element to 0, 1, or multiple elements, dynamically expanding or shrinking arrays.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          2,
+          3
+        ],
+        "label": "duplicate single even"
+      },
+      {
+        "input": [
+          [
+            2,
+            4
+          ]
+        ],
+        "expected": [
+          2,
+          2,
+          4,
+          4
+        ],
+        "label": "all evens"
+      },
+      {
+        "input": [
+          [
+            1,
+            3,
+            5
+          ]
+        ],
+        "expected": [
+          1,
+          3,
+          5
+        ],
+        "label": "all odds"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-array-from-length",
+    "title": "Array.from: Generate Integer Sequence",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "generateSequence",
+    "description": "Given length and startVal, use Array.from({ length }, (_, i) => startVal + i) to generate an array of sequential integers starting from startVal.",
+    "whatShouldHappen": [
+      "Call Array.from({ length }, (_, i) => startVal + i).",
+      "Return the generated array."
+    ],
+    "starterCode": "function generateSequence(length, startVal) {\n  // your code here\n}",
+    "solution": "function generateSequence(length, startVal) {\n  return Array.from({ length }, (_, i) => startVal + i);\n}",
+    "skeletonHint": "function generateSequence(length, startVal) {\n  return Array.from({ length }, (_, i) => ____ + i);\n}",
+    "traceTable": {
+      "inputLabel": "length = 3, startVal = 10",
+      "columns": [
+        "i",
+        "startVal + i",
+        "element"
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "startVal + i": 10,
+          "element": 10
+        },
+        {
+          "i": 1,
+          "startVal + i": 11,
+          "element": 11
+        },
+        {
+          "i": 2,
+          "startVal + i": 12,
+          "element": 12
+        }
+      ]
+    },
+    "patternTag": "Array Generation",
+    "patternExplanation": "Array.from with an array-like object { length } and a mapping function constructs sequences without manual loop pushes.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          3,
+          10
+        ],
+        "expected": [
+          10,
+          11,
+          12
+        ],
+        "label": "three numbers starting at 10"
+      },
+      {
+        "input": [
+          4,
+          1
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "label": "four numbers starting at 1"
+      },
+      {
+        "input": [
+          0,
+          5
+        ],
+        "expected": [],
+        "label": "length zero"
+      },
+      {
+        "input": [
+          1,
+          -2
+        ],
+        "expected": [
+          -2
+        ],
+        "label": "negative start"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-every-positive",
+    "title": "Array Every: All Numbers Positive",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "allPositive",
+    "description": "Given an array of numbers nums, use Array.prototype.every to check if every number is strictly greater than 0. Return true if all are positive (or if the array is empty), otherwise false.",
+    "whatShouldHappen": [
+      "Call nums.every(n => n > 0).",
+      "Return boolean."
+    ],
+    "starterCode": "function allPositive(nums) {\n  // your code here\n}",
+    "solution": "function allPositive(nums) {\n  return nums.every(n => n > 0);\n}",
+    "skeletonHint": "function allPositive(nums) {\n  return nums.every(n => n > ____);\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 2, -1]",
+      "columns": [
+        "n",
+        "n > 0",
+        "every result"
+      ],
+      "rows": [
+        {
+          "n": 1,
+          "n > 0": "true",
+          "every result": "continue"
+        },
+        {
+          "n": 2,
+          "n > 0": "true",
+          "every result": "continue"
+        },
+        {
+          "n": -1,
+          "n > 0": "false",
+          "every result": "short-circuit false"
+        }
+      ]
+    },
+    "patternTag": "Universal Quantification",
+    "patternExplanation": ".every() returns true only if the callback returns truthy for all elements, short-circuiting on the first falsy result.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": true,
+        "label": "all positive"
+      },
+      {
+        "input": [
+          [
+            1,
+            0,
+            3
+          ]
+        ],
+        "expected": false,
+        "label": "zero is not strictly positive"
+      },
+      {
+        "input": [
+          [
+            -1,
+            -2
+          ]
+        ],
+        "expected": false,
+        "label": "negatives"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": true,
+        "label": "vacuous truth for empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-some-divisible",
+    "title": "Array Some: Divisible by Divisor",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "hasDivisibleBy",
+    "description": "Given an array of numbers nums and an integer k, use Array.prototype.some to check if at least one number in nums is divisible by k (n % k === 0). Return boolean.",
+    "whatShouldHappen": [
+      "Call nums.some(n => n % k === 0).",
+      "Return true if any element satisfies the condition, else false."
+    ],
+    "starterCode": "function hasDivisibleBy(nums, k) {\n  // your code here\n}",
+    "solution": "function hasDivisibleBy(nums, k) {\n  return nums.some(n => n % k === 0);\n}",
+    "skeletonHint": "function hasDivisibleBy(nums, k) {\n  return nums.some(n => n % ____ === 0);\n}",
+    "traceTable": {
+      "inputLabel": "nums = [7, 14, 9], k = 7",
+      "columns": [
+        "n",
+        "n % 7 === 0",
+        "some result"
+      ],
+      "rows": [
+        {
+          "n": 7,
+          "n % 7 === 0": "true",
+          "some result": "short-circuit true"
+        }
+      ]
+    },
+    "patternTag": "Existential Quantification",
+    "patternExplanation": ".some() returns true as soon as any element satisfies the predicate, avoiding inspecting the rest of the array.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            7,
+            14,
+            9
+          ],
+          7
+        ],
+        "expected": true,
+        "label": "divisible found"
+      },
+      {
+        "input": [
+          [
+            1,
+            3,
+            5
+          ],
+          2
+        ],
+        "expected": false,
+        "label": "no evens"
+      },
+      {
+        "input": [
+          [
+            100
+          ],
+          10
+        ],
+        "expected": true,
+        "label": "single match"
+      },
+      {
+        "input": [
+          [],
+          5
+        ],
+        "expected": false,
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-includes-with-from-index",
+    "title": "Array Includes with Starting Offset",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "checkIncludesFrom",
+    "description": "Given an array arr, a searchElement, and a fromIndex integer, return whether arr.includes(searchElement, fromIndex) is true.",
+    "whatShouldHappen": [
+      "Call arr.includes(searchElement, fromIndex).",
+      "Return boolean."
+    ],
+    "starterCode": "function checkIncludesFrom(arr, searchElement, fromIndex) {\n  // your code here\n}",
+    "solution": "function checkIncludesFrom(arr, searchElement, fromIndex) {\n  return arr.includes(searchElement, fromIndex);\n}",
+    "skeletonHint": "function checkIncludesFrom(arr, searchElement, fromIndex) {\n  return arr.includes(____, ____);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3], searchElement = 1, fromIndex = 1",
+      "columns": [
+        "fromIndex",
+        "search slice",
+        "found?"
+      ],
+      "rows": [
+        {
+          "fromIndex": 1,
+          "search slice": "[2, 3]",
+          "found?": "false"
+        }
+      ]
+    },
+    "patternTag": "Offset Inclusion",
+    "patternExplanation": "Using the secondary index parameter of includes restricts lookup to elements at or after the given position.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          1,
+          1
+        ],
+        "expected": false,
+        "label": "1 is before index 1"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          2,
+          1
+        ],
+        "expected": true,
+        "label": "2 is at index 1"
+      },
+      {
+        "input": [
+          [
+            "a",
+            "b",
+            "c"
+          ],
+          "c",
+          0
+        ],
+        "expected": true,
+        "label": "found from 0"
+      },
+      {
+        "input": [
+          [],
+          5,
+          0
+        ],
+        "expected": false,
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-is-array-check",
+    "title": "Array.isArray: Count Sub-Arrays",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "countNestedArrays",
+    "description": "Given an array items containing mixed elements, use Array.isArray to count how many elements are themselves arrays.",
+    "whatShouldHappen": [
+      "Filter items using Array.isArray.",
+      "Return the length of the filtered array."
+    ],
+    "starterCode": "function countNestedArrays(items) {\n  // your code here\n}",
+    "solution": "function countNestedArrays(items) {\n  return items.filter(Array.isArray).length;\n}",
+    "skeletonHint": "function countNestedArrays(items) {\n  return items.filter(Array.____).length;\n}",
+    "traceTable": {
+      "inputLabel": "items = [1, [2, 3], 'str', []]",
+      "columns": [
+        "item",
+        "Array.isArray?",
+        "keep?"
+      ],
+      "rows": [
+        {
+          "item": 1,
+          "Array.isArray?": "false",
+          "keep?": "no"
+        },
+        {
+          "item": "[2, 3]",
+          "Array.isArray?": "true",
+          "keep?": "yes"
+        },
+        {
+          "item": "'str'",
+          "Array.isArray?": "false",
+          "keep?": "no"
+        },
+        {
+          "item": "[]",
+          "Array.isArray?": "true",
+          "keep?": "yes"
+        }
+      ]
+    },
+    "patternTag": "Type Discrimination",
+    "patternExplanation": "Array.isArray() is the reliable standard way to verify array types, avoiding false positives from typeof returning \"object\".",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            [
+              2,
+              3
+            ],
+            "str",
+            []
+          ]
+        ],
+        "expected": 2,
+        "label": "two nested arrays"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": 0,
+        "label": "no nested arrays"
+      },
+      {
+        "input": [
+          [
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              3
+            ]
+          ]
+        ],
+        "expected": 3,
+        "label": "all nested arrays"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": 0,
+        "label": "empty items"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-all-strings-nonempty",
+    "title": "Array Every: All Strings Non-Empty",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "allNonEmptyStrings",
+    "description": "Given an array arr, use Array.prototype.every to check if every element is both of type \"string\" and has length > 0. Return boolean.",
+    "whatShouldHappen": [
+      "Call arr.every(x => typeof x === \"string\" && x.length > 0).",
+      "Return boolean."
+    ],
+    "starterCode": "function allNonEmptyStrings(arr) {\n  // your code here\n}",
+    "solution": "function allNonEmptyStrings(arr) {\n  return arr.every(x => typeof x === \"string\" && x.length > 0);\n}",
+    "skeletonHint": "function allNonEmptyStrings(arr) {\n  return arr.every(x => typeof x === \"____\" && x.length > ____);\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['hello', 'world']",
+      "columns": [
+        "x",
+        "typeof string && length > 0",
+        "valid?"
+      ],
+      "rows": [
+        {
+          "x": "'hello'",
+          "typeof string && length > 0": "true",
+          "valid?": "yes"
+        },
+        {
+          "x": "'world'",
+          "typeof string && length > 0": "true",
+          "valid?": "yes"
+        }
+      ]
+    },
+    "patternTag": "Compound Type Guard",
+    "patternExplanation": "Combining typeof with length validation inside .every() ensures schema compliance across collections.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "hello",
+            "world"
+          ]
+        ],
+        "expected": true,
+        "label": "all valid strings"
+      },
+      {
+        "input": [
+          [
+            "hello",
+            ""
+          ]
+        ],
+        "expected": false,
+        "label": "empty string present"
+      },
+      {
+        "input": [
+          [
+            "test",
+            123
+          ]
+        ],
+        "expected": false,
+        "label": "number present"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": true,
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-to-sorted-asc",
+    "title": "Array toSorted: Ascending Numeric Order",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "immutableSortAsc",
+    "description": "Given an array of numbers nums, use Array.prototype.toSorted((a, b) => a - b) to return a new sorted copy in ascending order without modifying nums.",
+    "whatShouldHappen": [
+      "Call nums.toSorted((a, b) => a - b).",
+      "Return the new sorted array."
+    ],
+    "starterCode": "function immutableSortAsc(nums) {\n  // your code here\n}",
+    "solution": "function immutableSortAsc(nums) {\n  return nums.toSorted((a, b) => a - b);\n}",
+    "skeletonHint": "function immutableSortAsc(nums) {\n  return nums.toSorted((a, b) => a - ____);\n}",
+    "traceTable": {
+      "inputLabel": "nums = [5, 2, 8, 1]",
+      "columns": [
+        "original",
+        "toSorted return"
+      ],
+      "rows": [
+        {
+          "original": "[5, 2, 8, 1]",
+          "toSorted return": "[1, 2, 5, 8]"
+        }
+      ]
+    },
+    "patternTag": "Immutable Sorting",
+    "patternExplanation": ".toSorted() sorts an array immutably, returning a newly created copy and leaving the original array intact.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            5,
+            2,
+            8,
+            1
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          5,
+          8
+        ],
+        "label": "sort four numbers"
+      },
+      {
+        "input": [
+          [
+            3,
+            3,
+            1
+          ]
+        ],
+        "expected": [
+          1,
+          3,
+          3
+        ],
+        "label": "duplicates"
+      },
+      {
+        "input": [
+          [
+            -2,
+            4,
+            0
+          ]
+        ],
+        "expected": [
+          -2,
+          0,
+          4
+        ],
+        "label": "negatives and zero"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-to-reversed-copy",
+    "title": "Array toReversed: Immutable Reverse",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "immutableReverse",
+    "description": "Given an array arr, use Array.prototype.toReversed() to return a new array with elements in reversed order without mutating arr.",
+    "whatShouldHappen": [
+      "Call arr.toReversed().",
+      "Return the new reversed array."
+    ],
+    "starterCode": "function immutableReverse(arr) {\n  // your code here\n}",
+    "solution": "function immutableReverse(arr) {\n  return arr.toReversed();\n}",
+    "skeletonHint": "function immutableReverse(arr) {\n  return arr.to____();\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['a', 'b', 'c']",
+      "columns": [
+        "original",
+        "reversed copy"
+      ],
+      "rows": [
+        {
+          "original": "['a', 'b', 'c']",
+          "reversed copy": "['c', 'b', 'a']"
+        }
+      ]
+    },
+    "patternTag": "Immutable Reversal",
+    "patternExplanation": ".toReversed() creates a reversed copy without the side-effects of in-place .reverse().",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "a",
+            "b",
+            "c"
+          ]
+        ],
+        "expected": [
+          "c",
+          "b",
+          "a"
+        ],
+        "label": "reverse strings"
+      },
+      {
+        "input": [
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": [
+          2,
+          1
+        ],
+        "label": "two elements"
+      },
+      {
+        "input": [
+          [
+            5
+          ]
+        ],
+        "expected": [
+          5
+        ],
+        "label": "single element"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-to-spliced-remove",
+    "title": "Array toSpliced: Remove Elements Immutably",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "immutableRemoveAt",
+    "description": "Given an array arr, a start index, and deleteCount, use arr.toSpliced(start, deleteCount) to return a new array with those elements removed without mutating arr.",
+    "whatShouldHappen": [
+      "Call arr.toSpliced(start, deleteCount).",
+      "Return the modified copy."
+    ],
+    "starterCode": "function immutableRemoveAt(arr, start, deleteCount) {\n  // your code here\n}",
+    "solution": "function immutableRemoveAt(arr, start, deleteCount) {\n  return arr.toSpliced(start, deleteCount);\n}",
+    "skeletonHint": "function immutableRemoveAt(arr, start, deleteCount) {\n  return arr.toSpliced(____, ____);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4], start = 1, deleteCount = 2",
+      "columns": [
+        "start",
+        "deleteCount",
+        "returned array"
+      ],
+      "rows": [
+        {
+          "start": 1,
+          "deleteCount": 2,
+          "returned array": "[1, 4]"
+        }
+      ]
+    },
+    "patternTag": "Immutable Splicing",
+    "patternExplanation": ".toSpliced() performs splice insertions and deletions immutably, preserving state purity.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          1,
+          2
+        ],
+        "expected": [
+          1,
+          4
+        ],
+        "label": "remove elements at index 1 and 2"
+      },
+      {
+        "input": [
+          [
+            "a",
+            "b",
+            "c"
+          ],
+          0,
+          1
+        ],
+        "expected": [
+          "b",
+          "c"
+        ],
+        "label": "remove first"
+      },
+      {
+        "input": [
+          [
+            10,
+            20
+          ],
+          1,
+          0
+        ],
+        "expected": [
+          10,
+          20
+        ],
+        "label": "deleteCount zero"
+      },
+      {
+        "input": [
+          [],
+          0,
+          1
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-with-replace",
+    "title": "Array with: Replace Value at Index",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "immutableReplaceAt",
+    "description": "Given an array arr, an index, and a newVal, use arr.with(index, newVal) to return a new array with the element at index replaced, without modifying arr.",
+    "whatShouldHappen": [
+      "Call arr.with(index, newVal).",
+      "Return the new array."
+    ],
+    "starterCode": "function immutableReplaceAt(arr, index, newVal) {\n  // your code here\n}",
+    "solution": "function immutableReplaceAt(arr, index, newVal) {\n  return arr.with(index, newVal);\n}",
+    "skeletonHint": "function immutableReplaceAt(arr, index, newVal) {\n  return arr.with(____, ____);\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['a', 'b', 'c'], index = 1, newVal = 'Z'",
+      "columns": [
+        "index",
+        "newVal",
+        "resulting array"
+      ],
+      "rows": [
+        {
+          "index": 1,
+          "newVal": "'Z'",
+          "resulting array": "['a', 'Z', 'c']"
+        }
+      ]
+    },
+    "patternTag": "Immutable Element Replacement",
+    "patternExplanation": ".with(index, value) replaces a single item by index immutably in a concise single statement.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "a",
+            "b",
+            "c"
+          ],
+          1,
+          "Z"
+        ],
+        "expected": [
+          "a",
+          "Z",
+          "c"
+        ],
+        "label": "replace middle"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          0,
+          99
+        ],
+        "expected": [
+          99,
+          2,
+          3
+        ],
+        "label": "replace first"
+      },
+      {
+        "input": [
+          [
+            10,
+            20,
+            30
+          ],
+          -1,
+          40
+        ],
+        "expected": [
+          10,
+          20,
+          40
+        ],
+        "label": "negative index (-1 for last)"
+      },
+      {
+        "input": [
+          [
+            "x"
+          ],
+          0,
+          "y"
+        ],
+        "expected": [
+          "y"
+        ],
+        "label": "single element"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-to-sorted-desc",
+    "title": "Array toSorted: Descending Numeric Order",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "immutableSortDesc",
+    "description": "Given an array of numbers nums, use Array.prototype.toSorted((a, b) => b - a) to return a new sorted copy in descending order without mutating nums.",
+    "whatShouldHappen": [
+      "Call nums.toSorted((a, b) => b - a).",
+      "Return the descending sorted array."
+    ],
+    "starterCode": "function immutableSortDesc(nums) {\n  // your code here\n}",
+    "solution": "function immutableSortDesc(nums) {\n  return nums.toSorted((a, b) => b - a);\n}",
+    "skeletonHint": "function immutableSortDesc(nums) {\n  return nums.toSorted((a, b) => b - ____);\n}",
+    "traceTable": {
+      "inputLabel": "nums = [3, 1, 4, 2]",
+      "columns": [
+        "original",
+        "descending copy"
+      ],
+      "rows": [
+        {
+          "original": "[3, 1, 4, 2]",
+          "descending copy": "[4, 3, 2, 1]"
+        }
+      ]
+    },
+    "patternTag": "Descending Sort Comparator",
+    "patternExplanation": "Using (a, b) => b - a reverses comparator precedence to achieve descending order.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            3,
+            1,
+            4,
+            2
+          ]
+        ],
+        "expected": [
+          4,
+          3,
+          2,
+          1
+        ],
+        "label": "standard descending"
+      },
+      {
+        "input": [
+          [
+            10,
+            -5,
+            20
+          ]
+        ],
+        "expected": [
+          20,
+          10,
+          -5
+        ],
+        "label": "with negative"
+      },
+      {
+        "input": [
+          [
+            5
+          ]
+        ],
+        "expected": [
+          5
+        ],
+        "label": "single number"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-reduce-product",
+    "title": "Reduce: Product of All Numbers",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "calculateProduct",
+    "description": "Given an array of numbers nums, use Array.prototype.reduce with initial value 1 to return the product of all elements. For empty array, return 1.",
+    "whatShouldHappen": [
+      "Call nums.reduce((acc, n) => acc * n, 1).",
+      "Return product."
+    ],
+    "starterCode": "function calculateProduct(nums) {\n  // your code here\n}",
+    "solution": "function calculateProduct(nums) {\n  return nums.reduce((acc, n) => acc * n, 1);\n}",
+    "skeletonHint": "function calculateProduct(nums) {\n  return nums.reduce((acc, n) => acc * ____, 1);\n}",
+    "traceTable": {
+      "inputLabel": "nums = [2, 3, 4]",
+      "columns": [
+        "n",
+        "acc before",
+        "acc after"
+      ],
+      "rows": [
+        {
+          "n": 2,
+          "acc before": 1,
+          "acc after": 2
+        },
+        {
+          "n": 3,
+          "acc before": 2,
+          "acc after": 6
+        },
+        {
+          "n": 4,
+          "acc before": 6,
+          "acc after": 24
+        }
+      ]
+    },
+    "patternTag": "Multiplicative Reduction",
+    "patternExplanation": "Starting a reduce accumulator at 1 produces the total product across array elements.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            2,
+            3,
+            4
+          ]
+        ],
+        "expected": 24,
+        "label": "product 2*3*4"
+      },
+      {
+        "input": [
+          [
+            5,
+            10
+          ]
+        ],
+        "expected": 50,
+        "label": "two numbers"
+      },
+      {
+        "input": [
+          [
+            1,
+            0,
+            5
+          ]
+        ],
+        "expected": 0,
+        "label": "with zero"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": 1,
+        "label": "empty array product identity"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-reduce-right-concat",
+    "title": "Array reduceRight: Reverse String Concatenation",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "reverseConcatWords",
+    "description": "Given an array of strings words, use Array.prototype.reduceRight to concatenate words in right-to-left order into a single string.",
+    "whatShouldHappen": [
+      "Call words.reduceRight((acc, w) => acc + w, '').",
+      "Return concatenated string."
+    ],
+    "starterCode": "function reverseConcatWords(words) {\n  // your code here\n}",
+    "solution": "function reverseConcatWords(words) {\n  return words.reduceRight((acc, w) => acc + w, '');\n}",
+    "skeletonHint": "function reverseConcatWords(words) {\n  return words.reduceRight((acc, w) => acc + ____, '');\n}",
+    "traceTable": {
+      "inputLabel": "words = ['a', 'b', 'c']",
+      "columns": [
+        "w (from right)",
+        "acc before",
+        "acc after"
+      ],
+      "rows": [
+        {
+          "w (from right)": "'c'",
+          "acc before": "''",
+          "acc after": "'c'"
+        },
+        {
+          "w (from right)": "'b'",
+          "acc before": "'c'",
+          "acc after": "'cb'"
+        },
+        {
+          "w (from right)": "'a'",
+          "acc before": "'cb'",
+          "acc after": "'cba'"
+        }
+      ]
+    },
+    "patternTag": "Right-to-Left Accumulation",
+    "patternExplanation": ".reduceRight() processes elements from right to left, useful for reverse traversals and right-associative operations.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "a",
+            "b",
+            "c"
+          ]
+        ],
+        "expected": "cba",
+        "label": "three chars"
+      },
+      {
+        "input": [
+          [
+            "hello",
+            " ",
+            "world"
+          ]
+        ],
+        "expected": "world hello",
+        "label": "words"
+      },
+      {
+        "input": [
+          [
+            "solo"
+          ]
+        ],
+        "expected": "solo",
+        "label": "single word"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": "",
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-reduce-max-value",
+    "title": "Reduce: Find Maximum Number",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "reduceFindMax",
+    "description": "Given a non-empty array of numbers nums, use Array.prototype.reduce to find the maximum value without using Math.max.",
+    "whatShouldHappen": [
+      "Call nums.reduce((max, n) => n > max ? n : max, nums[0]).",
+      "Return the maximum number."
+    ],
+    "starterCode": "function reduceFindMax(nums) {\n  // your code here\n}",
+    "solution": "function reduceFindMax(nums) {\n  return nums.reduce((max, n) => n > max ? n : max, nums[0]);\n}",
+    "skeletonHint": "function reduceFindMax(nums) {\n  return nums.reduce((max, n) => n > max ? ____ : ____, nums[0]);\n}",
+    "traceTable": {
+      "inputLabel": "nums = [3, 7, 2, 9]",
+      "columns": [
+        "n",
+        "max before",
+        "max after"
+      ],
+      "rows": [
+        {
+          "n": 3,
+          "max before": 3,
+          "max after": 3
+        },
+        {
+          "n": 7,
+          "max before": 3,
+          "max after": 7
+        },
+        {
+          "n": 2,
+          "max before": 7,
+          "max after": 7
+        },
+        {
+          "n": 9,
+          "max before": 7,
+          "max after": 9
+        }
+      ]
+    },
+    "patternTag": "Extremum Reduction",
+    "patternExplanation": "Comparing each element with the running accumulator in reduce tracks the extremum in single-pass O(n) time.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            3,
+            7,
+            2,
+            9
+          ]
+        ],
+        "expected": 9,
+        "label": "max is 9"
+      },
+      {
+        "input": [
+          [
+            -10,
+            -3,
+            -20
+          ]
+        ],
+        "expected": -3,
+        "label": "negative numbers"
+      },
+      {
+        "input": [
+          [
+            42
+          ]
+        ],
+        "expected": 42,
+        "label": "single element"
+      },
+      {
+        "input": [
+          [
+            5,
+            5,
+            5
+          ]
+        ],
+        "expected": 5,
+        "label": "all identical"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-reduce-partition-parity",
+    "title": "Reduce: Partition Numbers by Parity",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "partitionByParity",
+    "description": "Given an array of integers nums, use Array.prototype.reduce to partition them into an object { evens: number[], odds: number[] }.",
+    "whatShouldHappen": [
+      "Call nums.reduce((acc, n) => { ... }, { evens: [], odds: [] }).",
+      "If n % 2 === 0, push to acc.evens, else push to acc.odds.",
+      "Return acc.",
+      "Return the partitioned object."
+    ],
+    "starterCode": "function partitionByParity(nums) {\n  // your code here\n}",
+    "solution": "function partitionByParity(nums) {\n  return nums.reduce((acc, n) => {\n    if (n % 2 === 0) acc.evens.push(n);\n    else acc.odds.push(n);\n    return acc;\n  }, { evens: [], odds: [] });\n}",
+    "skeletonHint": "function partitionByParity(nums) {\n  return nums.reduce((acc, n) => {\n    if (n % 2 === 0) acc.____.push(n);\n    else acc.____.push(n);\n    return acc;\n  }, { evens: [], odds: [] });\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 2, 3]",
+      "columns": [
+        "n",
+        "parity",
+        "acc state"
+      ],
+      "rows": [
+        {
+          "n": 1,
+          "parity": "odd",
+          "acc state": "{ evens: [], odds: [1] }"
+        },
+        {
+          "n": 2,
+          "parity": "even",
+          "acc state": "{ evens: [2], odds: [1] }"
+        },
+        {
+          "n": 3,
+          "parity": "odd",
+          "acc state": "{ evens: [2], odds: [1, 3] }"
+        }
+      ]
+    },
+    "patternTag": "Partition Reduction",
+    "patternExplanation": "Using an object of arrays as the accumulator partitions a dataset into categories in one traversal.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "expected": {
+          "evens": [
+            2,
+            4
+          ],
+          "odds": [
+            1,
+            3
+          ]
+        },
+        "label": "mixed evens and odds"
+      },
+      {
+        "input": [
+          [
+            2,
+            4,
+            6
+          ]
+        ],
+        "expected": {
+          "evens": [
+            2,
+            4,
+            6
+          ],
+          "odds": []
+        },
+        "label": "all evens"
+      },
+      {
+        "input": [
+          [
+            1,
+            3,
+            5
+          ]
+        ],
+        "expected": {
+          "evens": [],
+          "odds": [
+            1,
+            3,
+            5
+          ]
+        },
+        "label": "all odds"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": {
+          "evens": [],
+          "odds": []
+        },
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-reduce-word-lengths",
+    "title": "Reduce: Map Words to Lengths Object",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "mapWordLengths",
+    "description": "Given an array of strings words, use Array.prototype.reduce to construct an object where each key is a word and its value is the length of that word.",
+    "whatShouldHappen": [
+      "Call words.reduce((acc, word) => { acc[word] = word.length; return acc; }, {}).",
+      "Return the resulting dictionary."
+    ],
+    "starterCode": "function mapWordLengths(words) {\n  // your code here\n}",
+    "solution": "function mapWordLengths(words) {\n  return words.reduce((acc, w) => {\n    acc[w] = w.length;\n    return acc;\n  }, {});\n}",
+    "skeletonHint": "function mapWordLengths(words) {\n  return words.reduce((acc, w) => {\n    acc[w] = w.____;\n    return acc;\n  }, {});\n}",
+    "traceTable": {
+      "inputLabel": "words = ['cat', 'apple']",
+      "columns": [
+        "word",
+        "word.length",
+        "acc after"
+      ],
+      "rows": [
+        {
+          "word": "'cat'",
+          "word.length": 3,
+          "acc after": "{ cat: 3 }"
+        },
+        {
+          "word": "'apple'",
+          "word.length": 5,
+          "acc after": "{ cat: 3, apple: 5 }"
+        }
+      ]
+    },
+    "patternTag": "Object Construction Reduction",
+    "patternExplanation": "Building dictionary mappings from arrays using .reduce() transforms flat collections into key-value property lookups.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "cat",
+            "apple",
+            "dog"
+          ]
+        ],
+        "expected": {
+          "cat": 3,
+          "apple": 5,
+          "dog": 3
+        },
+        "label": "three words"
+      },
+      {
+        "input": [
+          [
+            "a"
+          ]
+        ],
+        "expected": {
+          "a": 1
+        },
+        "label": "single char"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": {},
+        "label": "empty array"
+      },
+      {
+        "input": [
+          [
+            "js",
+            "code"
+          ]
+        ],
+        "expected": {
+          "js": 2,
+          "code": 4
+        },
+        "label": "two words"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-slice-first-n-items",
+    "title": "Array Slice: Take First N Elements",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "takeFirstN",
+    "description": "Given an array arr and integer n, use arr.slice(0, n) to return the first n elements. If n <= 0, return [].",
+    "whatShouldHappen": [
+      "If n <= 0 return [].",
+      "Call arr.slice(0, n).",
+      "Return the sliced array."
+    ],
+    "starterCode": "function takeFirstN(arr, n) {\n  // your code here\n}",
+    "solution": "function takeFirstN(arr, n) {\n  if (n <= 0) return [];\n  return arr.slice(0, n);\n}",
+    "skeletonHint": "function takeFirstN(arr, n) {\n  if (n <= 0) return [];\n  return arr.slice(0, ____);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [10, 20, 30, 40], n = 2",
+      "columns": [
+        "n",
+        "slice range",
+        "result"
+      ],
+      "rows": [
+        {
+          "n": 2,
+          "slice range": "0 to 2",
+          "result": "[10, 20]"
+        }
+      ]
+    },
+    "patternTag": "Subarray Extraction",
+    "patternExplanation": ".slice(0, n) safely extracts the head of an array without altering the original array.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            10,
+            20,
+            30,
+            40
+          ],
+          2
+        ],
+        "expected": [
+          10,
+          20
+        ],
+        "label": "first 2 elements"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          5
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ],
+        "label": "n greater than length"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          0
+        ],
+        "expected": [],
+        "label": "n zero"
+      },
+      {
+        "input": [
+          [],
+          2
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-slice-skip-first-n",
+    "title": "Array Slice: Drop First N Elements",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "dropFirstN",
+    "description": "Given an array arr and integer n, use arr.slice(n) to return all elements after skipping the first n items.",
+    "whatShouldHappen": [
+      "If n < 0, use n = 0.",
+      "Call arr.slice(n).",
+      "Return the tail of the array."
+    ],
+    "starterCode": "function dropFirstN(arr, n) {\n  // your code here\n}",
+    "solution": "function dropFirstN(arr, n) {\n  if (n <= 0) return arr.slice();\n  return arr.slice(n);\n}",
+    "skeletonHint": "function dropFirstN(arr, n) {\n  if (n <= 0) return arr.slice();\n  return arr.slice(____);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4], n = 2",
+      "columns": [
+        "n",
+        "start index",
+        "result"
+      ],
+      "rows": [
+        {
+          "n": 2,
+          "start index": 2,
+          "result": "[3, 4]"
+        }
+      ]
+    },
+    "patternTag": "Tail Extraction",
+    "patternExplanation": "Calling .slice(n) with a single positive argument drops the initial n items.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          2
+        ],
+        "expected": [
+          3,
+          4
+        ],
+        "label": "drop first 2"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          0
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ],
+        "label": "drop 0"
+      },
+      {
+        "input": [
+          [
+            1,
+            2
+          ],
+          5
+        ],
+        "expected": [],
+        "label": "drop more than length"
+      },
+      {
+        "input": [
+          [],
+          2
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-slice-last-k",
+    "title": "Array Slice: Extract Last K Items",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "takeLastK",
+    "description": "Given an array arr and integer k, use arr.slice(-k) to return the last k elements. If k <= 0, return [].",
+    "whatShouldHappen": [
+      "If k <= 0, return [].",
+      "Call arr.slice(-k).",
+      "Return the slice."
+    ],
+    "starterCode": "function takeLastK(arr, k) {\n  // your code here\n}",
+    "solution": "function takeLastK(arr, k) {\n  if (k <= 0) return [];\n  return arr.slice(-k);\n}",
+    "skeletonHint": "function takeLastK(arr, k) {\n  if (k <= 0) return [];\n  return arr.slice(-____);\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['a', 'b', 'c', 'd'], k = 2",
+      "columns": [
+        "k",
+        "slice(-2)",
+        "result"
+      ],
+      "rows": [
+        {
+          "k": 2,
+          "slice(-2)": "from length-2",
+          "result": "['c', 'd']"
+        }
+      ]
+    },
+    "patternTag": "Negative Index Slicing",
+    "patternExplanation": "Negative index arguments in .slice() count from the end of the array, cleanly extracting trailing elements.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "a",
+            "b",
+            "c",
+            "d"
+          ],
+          2
+        ],
+        "expected": [
+          "c",
+          "d"
+        ],
+        "label": "last 2 items"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          1
+        ],
+        "expected": [
+          3
+        ],
+        "label": "last 1 item"
+      },
+      {
+        "input": [
+          [
+            10,
+            20
+          ],
+          0
+        ],
+        "expected": [],
+        "label": "k zero"
+      },
+      {
+        "input": [
+          [],
+          3
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-slice-middle-portion",
+    "title": "Array Slice: Subarray Between Indices",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "extractSubarray",
+    "description": "Given an array arr and two non-negative indices startIdx and endIdx, use arr.slice(startIdx, endIdx) to return the elements from startIdx up to (not including) endIdx.",
+    "whatShouldHappen": [
+      "Call arr.slice(startIdx, endIdx).",
+      "Return the sliced subarray."
+    ],
+    "starterCode": "function extractSubarray(arr, startIdx, endIdx) {\n  // your code here\n}",
+    "solution": "function extractSubarray(arr, startIdx, endIdx) {\n  return arr.slice(startIdx, endIdx);\n}",
+    "skeletonHint": "function extractSubarray(arr, startIdx, endIdx) {\n  return arr.slice(____, ____);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4, 5], startIdx = 1, endIdx = 4",
+      "columns": [
+        "startIdx",
+        "endIdx",
+        "subarray"
+      ],
+      "rows": [
+        {
+          "startIdx": 1,
+          "endIdx": 4,
+          "subarray": "[2, 3, 4]"
+        }
+      ]
+    },
+    "patternTag": "Range Slicing",
+    "patternExplanation": ".slice(start, end) creates a shallow slice bounded by [start, end) without mutating input.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          1,
+          4
+        ],
+        "expected": [
+          2,
+          3,
+          4
+        ],
+        "label": "indices 1 to 4"
+      },
+      {
+        "input": [
+          [
+            10,
+            20,
+            30
+          ],
+          0,
+          2
+        ],
+        "expected": [
+          10,
+          20
+        ],
+        "label": "indices 0 to 2"
+      },
+      {
+        "input": [
+          [
+            1,
+            2
+          ],
+          1,
+          1
+        ],
+        "expected": [],
+        "label": "start equals end"
+      },
+      {
+        "input": [
+          [],
+          0,
+          2
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-chunk-pairs",
+    "title": "Array Slice: Chunk into Pairs",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "chunkIntoPairs",
+    "description": "Given an array arr, use a loop with arr.slice(i, i + 2) to partition arr into pairs of 2 elements. If the last chunk has only 1 element, include it as a single-element array.",
+    "whatShouldHappen": [
+      "Initialize an empty array chunks.",
+      "Loop i from 0 up to arr.length, advancing by i += 2.",
+      "Push arr.slice(i, i + 2) into chunks.",
+      "Return chunks."
+    ],
+    "starterCode": "function chunkIntoPairs(arr) {\n  // your code here\n}",
+    "solution": "function chunkIntoPairs(arr) {\n  const chunks = [];\n  for (let i = 0; i < arr.length; i += 2) {\n    chunks.push(arr.slice(i, i + 2));\n  }\n  return chunks;\n}",
+    "skeletonHint": "function chunkIntoPairs(arr) {\n  const chunks = [];\n  for (let i = 0; i < arr.length; i += ____) {\n    chunks.push(arr.slice(i, i + ____));\n  }\n  return chunks;\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4, 5]",
+      "columns": [
+        "i",
+        "arr.slice(i, i + 2)",
+        "chunks array"
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "arr.slice(i, i + 2)": "[1, 2]",
+          "chunks array": "[[1, 2]]"
+        },
+        {
+          "i": 2,
+          "arr.slice(i, i + 2)": "[3, 4]",
+          "chunks array": "[[1, 2], [3, 4]]"
+        },
+        {
+          "i": 4,
+          "arr.slice(i, i + 2)": "[5]",
+          "chunks array": "[[1, 2], [3, 4], [5]]"
+        }
+      ]
+    },
+    "patternTag": "Chunked Slicing",
+    "patternExplanation": "Advancing a loop index by chunk size k with .slice(i, i + k) partitions lists into fixed-size segments.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            5
+          ]
+        ],
+        "label": "odd length chunking"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "label": "even length chunking"
+      },
+      {
+        "input": [
+          [
+            42
+          ]
+        ],
+        "expected": [
+          [
+            42
+          ]
+        ],
+        "label": "single element"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-fill-range",
+    "title": "Array Fill: Fill Range with Value",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "fillSubrange",
+    "description": "Given an array arr, a value val, start index, and end index, return a new array copy where elements from start up to end are replaced using .fill(val, start, end).",
+    "whatShouldHappen": [
+      "Create a copy with arr.slice().",
+      "Call copy.fill(val, start, end).",
+      "Return the filled copy."
+    ],
+    "starterCode": "function fillSubrange(arr, val, start, end) {\n  // your code here\n}",
+    "solution": "function fillSubrange(arr, val, start, end) {\n  return arr.slice().fill(val, start, end);\n}",
+    "skeletonHint": "function fillSubrange(arr, val, start, end) {\n  return arr.slice().fill(____, ____, ____);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4], val = 0, start = 1, end = 3",
+      "columns": [
+        "start",
+        "end",
+        "filled array"
+      ],
+      "rows": [
+        {
+          "start": 1,
+          "end": 3,
+          "filled array": "[1, 0, 0, 4]"
+        }
+      ]
+    },
+    "patternTag": "Batch Array Fill",
+    "patternExplanation": ".fill() quickly replaces elements across a range with a static value.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          0,
+          1,
+          3
+        ],
+        "expected": [
+          1,
+          0,
+          0,
+          4
+        ],
+        "label": "fill middle elements"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          9,
+          0,
+          3
+        ],
+        "expected": [
+          9,
+          9,
+          9
+        ],
+        "label": "fill entire array"
+      },
+      {
+        "input": [
+          [
+            5,
+            6
+          ],
+          1,
+          1,
+          1
+        ],
+        "expected": [
+          5,
+          6
+        ],
+        "label": "empty range"
+      },
+      {
+        "input": [
+          [],
+          0,
+          0,
+          0
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-copy-within-shift",
+    "title": "Array copyWithin: Shift Subarray",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "copyWithinShift",
+    "description": "Given an array arr, a target index, and a source start index, return a copy of arr after calling copyWithin(target, start).",
+    "whatShouldHappen": [
+      "Copy arr with arr.slice().",
+      "Call copy.copyWithin(target, start).",
+      "Return modified copy."
+    ],
+    "starterCode": "function copyWithinShift(arr, target, start) {\n  // your code here\n}",
+    "solution": "function copyWithinShift(arr, target, start) {\n  return arr.slice().copyWithin(target, start);\n}",
+    "skeletonHint": "function copyWithinShift(arr, target, start) {\n  return arr.slice().copyWithin(____, ____);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3, 4, 5], target = 0, start = 3",
+      "columns": [
+        "target",
+        "start",
+        "result"
+      ],
+      "rows": [
+        {
+          "target": 0,
+          "start": 3,
+          "result": "[4, 5, 3, 4, 5]"
+        }
+      ]
+    },
+    "patternTag": "In-Memory Copy Within",
+    "patternExplanation": ".copyWithin() transfers array sequences internally without altering array length.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          0,
+          3
+        ],
+        "expected": [
+          4,
+          5,
+          3,
+          4,
+          5
+        ],
+        "label": "copy tail to head"
+      },
+      {
+        "input": [
+          [
+            10,
+            20,
+            30
+          ],
+          1,
+          0
+        ],
+        "expected": [
+          10,
+          10,
+          20
+        ],
+        "label": "shift forward"
+      },
+      {
+        "input": [
+          [
+            1,
+            2
+          ],
+          0,
+          0
+        ],
+        "expected": [
+          1,
+          2
+        ],
+        "label": "target equals start"
+      },
+      {
+        "input": [
+          [],
+          0,
+          0
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-splice-insert-at",
+    "title": "Array Splice: Insert Element at Index",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "insertAtPosition",
+    "description": "Given an array arr, an index, and an item, return a new array with item inserted at index using splice on a clone.",
+    "whatShouldHappen": [
+      "Copy arr with [...arr].",
+      "Call copy.splice(index, 0, item).",
+      "Return copy."
+    ],
+    "starterCode": "function insertAtPosition(arr, index, item) {\n  // your code here\n}",
+    "solution": "function insertAtPosition(arr, index, item) {\n  const copy = [...arr];\n  copy.splice(index, 0, item);\n  return copy;\n}",
+    "skeletonHint": "function insertAtPosition(arr, index, item) {\n  const copy = [...arr];\n  copy.splice(index, ____, item);\n  return copy;\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 4], index = 2, item = 3",
+      "columns": [
+        "index",
+        "inserted item",
+        "result"
+      ],
+      "rows": [
+        {
+          "index": 2,
+          "inserted item": 3,
+          "result": "[1, 2, 3, 4]"
+        }
+      ]
+    },
+    "patternTag": "Splice Insertion",
+    "patternExplanation": "Passing 0 as deleteCount to .splice(index, 0, item) inserts an element without overwriting existing items.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            4
+          ],
+          2,
+          3
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "label": "insert 3 at index 2"
+      },
+      {
+        "input": [
+          [
+            2,
+            3
+          ],
+          0,
+          1
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ],
+        "label": "insert at index 0"
+      },
+      {
+        "input": [
+          [
+            1,
+            2
+          ],
+          2,
+          3
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ],
+        "label": "insert at end"
+      },
+      {
+        "input": [
+          [],
+          0,
+          10
+        ],
+        "expected": [
+          10
+        ],
+        "label": "insert into empty"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-splice-replace-span",
+    "title": "Array Splice: Replace Subarray Span",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "replaceSpan",
+    "description": "Given an array arr, start index, deleteCount, and replacement array newItems, return a new array where the span is replaced using splice.",
+    "whatShouldHappen": [
+      "Clone arr into copy.",
+      "Call copy.splice(start, deleteCount, ...newItems).",
+      "Return copy."
+    ],
+    "starterCode": "function replaceSpan(arr, start, deleteCount, newItems) {\n  // your code here\n}",
+    "solution": "function replaceSpan(arr, start, deleteCount, newItems) {\n  const copy = [...arr];\n  copy.splice(start, deleteCount, ...newItems);\n  return copy;\n}",
+    "skeletonHint": "function replaceSpan(arr, start, deleteCount, newItems) {\n  const copy = [...arr];\n  copy.splice(start, deleteCount, ...____);\n  return copy;\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['a', 'b', 'c', 'd'], start = 1, deleteCount = 2, newItems = ['X', 'Y']",
+      "columns": [
+        "start",
+        "deleteCount",
+        "newItems",
+        "result"
+      ],
+      "rows": [
+        {
+          "start": 1,
+          "deleteCount": 2,
+          "newItems": "['X', 'Y']",
+          "result": "['a', 'X', 'Y', 'd']"
+        }
+      ]
+    },
+    "patternTag": "Splice Replacement",
+    "patternExplanation": "Using splice with both a deleteCount and replacement elements performs atomic in-place replacement.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "a",
+            "b",
+            "c",
+            "d"
+          ],
+          1,
+          2,
+          [
+            "X",
+            "Y"
+          ]
+        ],
+        "expected": [
+          "a",
+          "X",
+          "Y",
+          "d"
+        ],
+        "label": "replace 2 items with 2"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          1,
+          1,
+          [
+            20,
+            21
+          ]
+        ],
+        "expected": [
+          1,
+          20,
+          21,
+          3
+        ],
+        "label": "replace 1 item with 2"
+      },
+      {
+        "input": [
+          [
+            10,
+            20
+          ],
+          0,
+          1,
+          []
+        ],
+        "expected": [
+          20
+        ],
+        "label": "remove without replacement"
+      },
+      {
+        "input": [
+          [],
+          0,
+          0,
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": [
+          1,
+          2
+        ],
+        "label": "insert into empty"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-reverse-in-place-copy",
+    "title": "Array Reverse: Create Inverted Array",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "reverseArrayCopy",
+    "description": "Given an array arr, clone it and use .reverse() to return the reversed array without modifying the original input.",
+    "whatShouldHappen": [
+      "Create a copy with [...arr].",
+      "Call copy.reverse().",
+      "Return copy."
+    ],
+    "starterCode": "function reverseArrayCopy(arr) {\n  // your code here\n}",
+    "solution": "function reverseArrayCopy(arr) {\n  return [...arr].reverse();\n}",
+    "skeletonHint": "function reverseArrayCopy(arr) {\n  return [...arr].____();\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 3]",
+      "columns": [
+        "original",
+        "reversed"
+      ],
+      "rows": [
+        {
+          "original": "[1, 2, 3]",
+          "reversed": "[3, 2, 1]"
+        }
+      ]
+    },
+    "patternTag": "Safe Reversal",
+    "patternExplanation": "Spreading [...arr] before calling .reverse() prevents unintended mutation of the input array.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": [
+          3,
+          2,
+          1
+        ],
+        "label": "three numbers"
+      },
+      {
+        "input": [
+          [
+            "x",
+            "y"
+          ]
+        ],
+        "expected": [
+          "y",
+          "x"
+        ],
+        "label": "two strings"
+      },
+      {
+        "input": [
+          [
+            100
+          ]
+        ],
+        "expected": [
+          100
+        ],
+        "label": "single element"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-sort-by-length",
+    "title": "Array Sort: By String Length",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "sortByStringLength",
+    "description": "Given an array of strings words, return a new array sorted by string length ascending (shortest to longest).",
+    "whatShouldHappen": [
+      "Clone words with [...words].",
+      "Call copy.sort((a, b) => a.length - b.length).",
+      "Return copy."
+    ],
+    "starterCode": "function sortByStringLength(words) {\n  // your code here\n}",
+    "solution": "function sortByStringLength(words) {\n  return [...words].sort((a, b) => a.length - b.length);\n}",
+    "skeletonHint": "function sortByStringLength(words) {\n  return [...words].sort((a, b) => a.length - ____.length);\n}",
+    "traceTable": {
+      "inputLabel": "words = ['elephant', 'cat', 'doggy']",
+      "columns": [
+        "word",
+        "length",
+        "sorted position"
+      ],
+      "rows": [
+        {
+          "word": "cat",
+          "length": 3,
+          "sorted position": "1st"
+        },
+        {
+          "word": "doggy",
+          "length": 5,
+          "sorted position": "2nd"
+        },
+        {
+          "word": "elephant",
+          "length": 8,
+          "sorted position": "3rd"
+        }
+      ]
+    },
+    "patternTag": "Attribute Comparator",
+    "patternExplanation": "Using (a, b) => a.prop - b.prop sorts objects or strings based on a numerical attribute.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "elephant",
+            "cat",
+            "doggy"
+          ]
+        ],
+        "expected": [
+          "cat",
+          "doggy",
+          "elephant"
+        ],
+        "label": "sort by length"
+      },
+      {
+        "input": [
+          [
+            "bb",
+            "a"
+          ]
+        ],
+        "expected": [
+          "a",
+          "bb"
+        ],
+        "label": "two words"
+      },
+      {
+        "input": [
+          [
+            "same",
+            "size"
+          ]
+        ],
+        "expected": [
+          "same",
+          "size"
+        ],
+        "label": "equal length"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-sort-objects-by-property",
+    "title": "Array Sort: Users by Age",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "sortUsersByAge",
+    "description": "Given an array of user objects users where each object has name and age, return a new array sorted by age ascending.",
+    "whatShouldHappen": [
+      "Clone users into a new array.",
+      "Sort using comparator (a, b) => a.age - b.age.",
+      "Return sorted copy."
+    ],
+    "starterCode": "function sortUsersByAge(users) {\n  // your code here\n}",
+    "solution": "function sortUsersByAge(users) {\n  return [...users].sort((a, b) => a.age - b.age);\n}",
+    "skeletonHint": "function sortUsersByAge(users) {\n  return [...users].sort((a, b) => a.age - ____.age);\n}",
+    "traceTable": {
+      "inputLabel": "users = [{name: 'Bob', age: 30}, {name: 'Alice', age: 25}]",
+      "columns": [
+        "name",
+        "age",
+        "sorted order"
+      ],
+      "rows": [
+        {
+          "name": "Alice",
+          "age": 25,
+          "sorted order": "1st"
+        },
+        {
+          "name": "Bob",
+          "age": 30,
+          "sorted order": "2nd"
+        }
+      ]
+    },
+    "patternTag": "Object Property Sorting",
+    "patternExplanation": "Custom sort functions access object keys to arrange collection records cleanly.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            {
+              "name": "Bob",
+              "age": 30
+            },
+            {
+              "name": "Alice",
+              "age": 25
+            }
+          ]
+        ],
+        "expected": [
+          {
+            "name": "Alice",
+            "age": 25
+          },
+          {
+            "name": "Bob",
+            "age": 30
+          }
+        ],
+        "label": "sort 2 users"
+      },
+      {
+        "input": [
+          [
+            {
+              "name": "C",
+              "age": 40
+            },
+            {
+              "name": "B",
+              "age": 20
+            },
+            {
+              "name": "A",
+              "age": 10
+            }
+          ]
+        ],
+        "expected": [
+          {
+            "name": "A",
+            "age": 10
+          },
+          {
+            "name": "B",
+            "age": 20
+          },
+          {
+            "name": "C",
+            "age": 40
+          }
+        ],
+        "label": "3 users"
+      },
+      {
+        "input": [
+          [
+            {
+              "name": "Solo",
+              "age": 50
+            }
+          ]
+        ],
+        "expected": [
+          {
+            "name": "Solo",
+            "age": 50
+          }
+        ],
+        "label": "single user"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-sort-case-insensitive",
+    "title": "Array Sort: Case-Insensitive Alphabetical",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "sortCaseInsensitive",
+    "description": "Given an array of strings words, return a sorted copy using a.localeCompare(b) so that sorting is case-insensitive.",
+    "whatShouldHappen": [
+      "Clone words with [...words].",
+      "Sort with (a, b) => a.localeCompare(b).",
+      "Return sorted array."
+    ],
+    "starterCode": "function sortCaseInsensitive(words) {\n  // your code here\n}",
+    "solution": "function sortCaseInsensitive(words) {\n  return [...words].sort((a, b) => a.localeCompare(b));\n}",
+    "skeletonHint": "function sortCaseInsensitive(words) {\n  return [...words].sort((a, b) => a.____(b));\n}",
+    "traceTable": {
+      "inputLabel": "words = ['banana', 'Apple', 'cherry']",
+      "columns": [
+        "word",
+        "localeCompare order"
+      ],
+      "rows": [
+        {
+          "word": "Apple",
+          "localeCompare order": "1st"
+        },
+        {
+          "word": "banana",
+          "localeCompare order": "2nd"
+        },
+        {
+          "word": "cherry",
+          "localeCompare order": "3rd"
+        }
+      ]
+    },
+    "patternTag": "Locale String Comparison",
+    "patternExplanation": "String.prototype.localeCompare() correctly handles linguistic sorting regardless of ASCII code point differences.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "banana",
+            "Apple",
+            "cherry"
+          ]
+        ],
+        "expected": [
+          "Apple",
+          "banana",
+          "cherry"
+        ],
+        "label": "mixed case words"
+      },
+      {
+        "input": [
+          [
+            "b",
+            "a"
+          ]
+        ],
+        "expected": [
+          "a",
+          "b"
+        ],
+        "label": "lowercase pair"
+      },
+      {
+        "input": [
+          [
+            "Z",
+            "A"
+          ]
+        ],
+        "expected": [
+          "A",
+          "Z"
+        ],
+        "label": "uppercase pair"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-sort-booleans-false-first",
+    "title": "Array Sort: Booleans (False Before True)",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "sortBooleans",
+    "description": "Given an array of booleans bools, return a new array with false values sorted before true values.",
+    "whatShouldHappen": [
+      "Clone bools with [...bools].",
+      "Sort using Number(a) - Number(b).",
+      "Return sorted copy."
+    ],
+    "starterCode": "function sortBooleans(bools) {\n  // your code here\n}",
+    "solution": "function sortBooleans(bools) {\n  return [...bools].sort((a, b) => Number(a) - Number(b));\n}",
+    "skeletonHint": "function sortBooleans(bools) {\n  return [...bools].sort((a, b) => Number(____) - Number(____));\n}",
+    "traceTable": {
+      "inputLabel": "bools = [true, false, true, false]",
+      "columns": [
+        "bool",
+        "Number(bool)",
+        "order"
+      ],
+      "rows": [
+        {
+          "bool": "false",
+          "Number(bool)": 0,
+          "order": "first"
+        },
+        {
+          "bool": "true",
+          "Number(bool)": 1,
+          "order": "second"
+        }
+      ]
+    },
+    "patternTag": "Boolean Numeric Coercion",
+    "patternExplanation": "Coercing booleans to numbers (false -> 0, true -> 1) allows sorting flags via simple subtraction.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            true,
+            false,
+            true,
+            false
+          ]
+        ],
+        "expected": [
+          false,
+          false,
+          true,
+          true
+        ],
+        "label": "mixed booleans"
+      },
+      {
+        "input": [
+          [
+            true,
+            true
+          ]
+        ],
+        "expected": [
+          true,
+          true
+        ],
+        "label": "all true"
+      },
+      {
+        "input": [
+          [
+            false
+          ]
+        ],
+        "expected": [
+          false
+        ],
+        "label": "single false"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-sort-descending-strings",
+    "title": "Array Sort: Strings Descending",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "sortStringsDescending",
+    "description": "Given an array of strings words, return a copy sorted in reverse alphabetical (descending) order using b.localeCompare(a).",
+    "whatShouldHappen": [
+      "Clone words with [...words].",
+      "Sort with (a, b) => b.localeCompare(a).",
+      "Return sorted array."
+    ],
+    "starterCode": "function sortStringsDescending(words) {\n  // your code here\n}",
+    "solution": "function sortStringsDescending(words) {\n  return [...words].sort((a, b) => b.localeCompare(a));\n}",
+    "skeletonHint": "function sortStringsDescending(words) {\n  return [...words].sort((a, b) => b.localeCompare(____));\n}",
+    "traceTable": {
+      "inputLabel": "words = ['a', 'c', 'b']",
+      "columns": [
+        "word",
+        "descending order"
+      ],
+      "rows": [
+        {
+          "word": "c",
+          "descending order": "1st"
+        },
+        {
+          "word": "b",
+          "descending order": "2nd"
+        },
+        {
+          "word": "a",
+          "descending order": "3rd"
+        }
+      ]
+    },
+    "patternTag": "Reverse Locale Comparison",
+    "patternExplanation": "Inverting localeCompare arguments achieves descending lexicographical ordering.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "a",
+            "c",
+            "b"
+          ]
+        ],
+        "expected": [
+          "c",
+          "b",
+          "a"
+        ],
+        "label": "descending letters"
+      },
+      {
+        "input": [
+          [
+            "apple",
+            "zebra"
+          ]
+        ],
+        "expected": [
+          "zebra",
+          "apple"
+        ],
+        "label": "two words"
+      },
+      {
+        "input": [
+          [
+            "alpha"
+          ]
+        ],
+        "expected": [
+          "alpha"
+        ],
+        "label": "single word"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-simulate-stack-push-pop",
+    "title": "Array Methods: Stack Simulation",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "simulateStack",
+    "description": "Given an array of commands operations (strings like 'push:5' or 'pop'), simulate a stack starting empty. Return the final stack array.",
+    "whatShouldHappen": [
+      "Initialize stack = [].",
+      "For each op, if op starts with \"push:\", push the extracted value to stack.",
+      "If op is \"pop\", call stack.pop().",
+      "Return stack."
+    ],
+    "starterCode": "function simulateStack(operations) {\n  // your code here\n}",
+    "solution": "function simulateStack(operations) {\n  const stack = [];\n  for (const op of operations) {\n    if (op.startsWith(\"push:\")) {\n      stack.push(op.slice(5));\n    } else if (op === \"pop\") {\n      stack.pop();\n    }\n  }\n  return stack;\n}",
+    "skeletonHint": "function simulateStack(operations) {\n  const stack = [];\n  for (const op of operations) {\n    if (op.startsWith(\"push:\")) {\n      stack.push(op.slice(____));\n    } else if (op === \"pop\") {\n      stack.____();\n    }\n  }\n  return stack;\n}",
+    "traceTable": {
+      "inputLabel": "operations = ['push:1', 'push:2', 'pop']",
+      "columns": [
+        "op",
+        "action",
+        "stack after"
+      ],
+      "rows": [
+        {
+          "op": "'push:1'",
+          "action": "push 1",
+          "stack after": "['1']"
+        },
+        {
+          "op": "'push:2'",
+          "action": "push 2",
+          "stack after": "['1', '2']"
+        },
+        {
+          "op": "'pop'",
+          "action": "pop",
+          "stack after": "['1']"
+        }
+      ]
+    },
+    "patternTag": "Stack Data Structure",
+    "patternExplanation": "Arrays implement LIFO (Last-In First-Out) stack operations via push() and pop().",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "push:1",
+            "push:2",
+            "pop"
+          ]
+        ],
+        "expected": [
+          "1"
+        ],
+        "label": "push 2 and pop 1"
+      },
+      {
+        "input": [
+          [
+            "push:a",
+            "push:b"
+          ]
+        ],
+        "expected": [
+          "a",
+          "b"
+        ],
+        "label": "two pushes"
+      },
+      {
+        "input": [
+          [
+            "pop"
+          ]
+        ],
+        "expected": [],
+        "label": "pop empty"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "no operations"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-simulate-queue-fifo",
+    "title": "Array Methods: FIFO Queue Simulation",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "simulateQueue",
+    "description": "Given an array of commands operations (strings like 'enqueue:X' or 'dequeue'), simulate a FIFO queue. Return the final queue array.",
+    "whatShouldHappen": [
+      "Initialize queue = [].",
+      "If op starts with \"enqueue:\", push value to queue.",
+      "If op is \"dequeue\", shift() from queue.",
+      "Return queue."
+    ],
+    "starterCode": "function simulateQueue(operations) {\n  // your code here\n}",
+    "solution": "function simulateQueue(operations) {\n  const queue = [];\n  for (const op of operations) {\n    if (op.startsWith(\"enqueue:\")) {\n      queue.push(op.slice(8));\n    } else if (op === \"dequeue\") {\n      queue.shift();\n    }\n  }\n  return queue;\n}",
+    "skeletonHint": "function simulateQueue(operations) {\n  const queue = [];\n  for (const op of operations) {\n    if (op.startsWith(\"enqueue:\")) {\n      queue.push(op.slice(____));\n    } else if (op === \"dequeue\") {\n      queue.____();\n    }\n  }\n  return queue;\n}",
+    "traceTable": {
+      "inputLabel": "operations = ['enqueue:1', 'enqueue:2', 'dequeue']",
+      "columns": [
+        "op",
+        "action",
+        "queue after"
+      ],
+      "rows": [
+        {
+          "op": "'enqueue:1'",
+          "action": "push 1",
+          "queue after": "['1']"
+        },
+        {
+          "op": "'enqueue:2'",
+          "action": "push 2",
+          "queue after": "['1', '2']"
+        },
+        {
+          "op": "'dequeue'",
+          "action": "shift 1",
+          "queue after": "['2']"
+        }
+      ]
+    },
+    "patternTag": "Queue Data Structure",
+    "patternExplanation": "Arrays implement FIFO (First-In First-Out) queue semantics using push() for enqueue and shift() for dequeue.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "enqueue:1",
+            "enqueue:2",
+            "dequeue"
+          ]
+        ],
+        "expected": [
+          "2"
+        ],
+        "label": "enqueue 2 and dequeue 1"
+      },
+      {
+        "input": [
+          [
+            "enqueue:a",
+            "enqueue:b",
+            "enqueue:c"
+          ]
+        ],
+        "expected": [
+          "a",
+          "b",
+          "c"
+        ],
+        "label": "3 enqueues"
+      },
+      {
+        "input": [
+          [
+            "dequeue"
+          ]
+        ],
+        "expected": [],
+        "label": "dequeue empty"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty operations"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-rotate-array-k",
+    "title": "Array Methods: Rotate Array Right by K",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "rotateArrayRight",
+    "description": "Given an array nums and integer k, rotate the array right by k steps using slice and concat without modifying nums.",
+    "whatShouldHappen": [
+      "If nums is empty return [].",
+      "Normalize k = k % nums.length.",
+      "Slice last k items and concat with first length - k items.",
+      "Return rotated array."
+    ],
+    "starterCode": "function rotateArrayRight(nums, k) {\n  // your code here\n}",
+    "solution": "function rotateArrayRight(nums, k) {\n  if (nums.length === 0) return [];\n  const shift = k % nums.length;\n  if (shift === 0) return [...nums];\n  return nums.slice(-shift).concat(nums.slice(0, nums.length - shift));\n}",
+    "skeletonHint": "function rotateArrayRight(nums, k) {\n  if (nums.length === 0) return [];\n  const shift = k % nums.length;\n  return nums.slice(-shift).concat(nums.slice(0, ____));\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 2, 3, 4, 5], k = 2",
+      "columns": [
+        "shift",
+        "tail slice",
+        "head slice",
+        "result"
+      ],
+      "rows": [
+        {
+          "shift": 2,
+          "tail slice": "[4, 5]",
+          "head slice": "[1, 2, 3]",
+          "result": "[4, 5, 1, 2, 3]"
+        }
+      ]
+    },
+    "patternTag": "Array Rotation",
+    "patternExplanation": "Combining slice(-k) and slice(0, length - k) with concat performs cyclic rotations in O(n) time.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          2
+        ],
+        "expected": [
+          4,
+          5,
+          1,
+          2,
+          3
+        ],
+        "label": "rotate right by 2"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          3
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ],
+        "label": "k equals length"
+      },
+      {
+        "input": [
+          [
+            10,
+            20
+          ],
+          1
+        ],
+        "expected": [
+          20,
+          10
+        ],
+        "label": "swap two elements"
+      },
+      {
+        "input": [
+          [],
+          5
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-transfer-matching",
+    "title": "Array Methods: Partition Even Numbers",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "partitionEvensAndOdds",
+    "description": "Given an array nums, return a new array where all even numbers appear first, followed by all odd numbers, preserving relative order.",
+    "whatShouldHappen": [
+      "Filter evens with nums.filter(n => n % 2 === 0).",
+      "Filter odds with nums.filter(n => n % 2 !== 0).",
+      "Return evens.concat(odds)."
+    ],
+    "starterCode": "function partitionEvensAndOdds(nums) {\n  // your code here\n}",
+    "solution": "function partitionEvensAndOdds(nums) {\n  const evens = nums.filter(n => n % 2 === 0);\n  const odds = nums.filter(n => n % 2 !== 0);\n  return evens.concat(odds);\n}",
+    "skeletonHint": "function partitionEvensAndOdds(nums) {\n  const evens = nums.filter(n => n % 2 === ____);\n  const odds = nums.filter(n => n % 2 !== ____);\n  return evens.concat(odds);\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 2, 3, 4]",
+      "columns": [
+        "evens",
+        "odds",
+        "concatenated result"
+      ],
+      "rows": [
+        {
+          "evens": "[2, 4]",
+          "odds": "[1, 3]",
+          "concatenated result": "[2, 4, 1, 3]"
+        }
+      ]
+    },
+    "patternTag": "Filter and Concat",
+    "patternExplanation": "Filtering two partitions and joining them with .concat() stabilizes ordered groupings.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "expected": [
+          2,
+          4,
+          1,
+          3
+        ],
+        "label": "mixed evens and odds"
+      },
+      {
+        "input": [
+          [
+            2,
+            4
+          ]
+        ],
+        "expected": [
+          2,
+          4
+        ],
+        "label": "only evens"
+      },
+      {
+        "input": [
+          [
+            1,
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          3
+        ],
+        "label": "only odds"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-compact-falsy",
+    "title": "Array Filter: Compact Falsy Values",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "compactArray",
+    "description": "Given an array arr containing mixed values, use Array.prototype.filter(Boolean) to remove all falsy values (0, false, null, undefined, NaN, \"\").",
+    "whatShouldHappen": [
+      "Call arr.filter(Boolean).",
+      "Return truthy elements only."
+    ],
+    "starterCode": "function compactArray(arr) {\n  // your code here\n}",
+    "solution": "function compactArray(arr) {\n  return arr.filter(Boolean);\n}",
+    "skeletonHint": "function compactArray(arr) {\n  return arr.filter(____);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [0, 1, false, 2, '', 3]",
+      "columns": [
+        "item",
+        "Boolean(item)",
+        "kept?"
+      ],
+      "rows": [
+        {
+          "item": 0,
+          "Boolean(item)": "false",
+          "kept?": "no"
+        },
+        {
+          "item": 1,
+          "Boolean(item)": "true",
+          "kept?": "yes"
+        },
+        {
+          "item": "false",
+          "Boolean(item)": "false",
+          "kept?": "no"
+        },
+        {
+          "item": 2,
+          "Boolean(item)": "true",
+          "kept?": "yes"
+        }
+      ]
+    },
+    "patternTag": "Boolean Filter Compaction",
+    "patternExplanation": "Passing the Boolean constructor directly to .filter() strips all falsy values cleanly.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            0,
+            1,
+            false,
+            2,
+            "",
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ],
+        "label": "compact mixed falsy"
+      },
+      {
+        "input": [
+          [
+            null,
+            null,
+            false
+          ]
+        ],
+        "expected": [],
+        "label": "all falsy"
+      },
+      {
+        "input": [
+          [
+            "a",
+            "b"
+          ]
+        ],
+        "expected": [
+          "a",
+          "b"
+        ],
+        "label": "all truthy"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-array-unique-filter",
+    "title": "Array Filter: Unique Elements via IndexOf",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "uniqueWithFilter",
+    "description": "Given an array arr, use arr.filter((val, idx, self) => self.indexOf(val) === idx) to return an array of unique values in first-seen order.",
+    "whatShouldHappen": [
+      "Filter arr comparing self.indexOf(val) === idx.",
+      "Return the deduplicated array."
+    ],
+    "starterCode": "function uniqueWithFilter(arr) {\n  // your code here\n}",
+    "solution": "function uniqueWithFilter(arr) {\n  return arr.filter((val, idx, self) => self.indexOf(val) === idx);\n}",
+    "skeletonHint": "function uniqueWithFilter(arr) {\n  return arr.filter((val, idx, self) => self.indexOf(____) === ____);\n}",
+    "traceTable": {
+      "inputLabel": "arr = [1, 2, 2, 3]",
+      "columns": [
+        "idx",
+        "val",
+        "self.indexOf(val)",
+        "idx === indexOf?"
+      ],
+      "rows": [
+        {
+          "idx": 0,
+          "val": 1,
+          "self.indexOf(val)": 0,
+          "idx === indexOf?": "true (keep)"
+        },
+        {
+          "idx": 1,
+          "val": 2,
+          "self.indexOf(val)": 1,
+          "idx === indexOf?": "true (keep)"
+        },
+        {
+          "idx": 2,
+          "val": 2,
+          "self.indexOf(val)": 1,
+          "idx === indexOf?": "false (skip)"
+        },
+        {
+          "idx": 3,
+          "val": 3,
+          "self.indexOf(val)": 3,
+          "idx === indexOf?": "true (keep)"
+        }
+      ]
+    },
+    "patternTag": "Self IndexOf Deduplication",
+    "patternExplanation": "If an element index matches self.indexOf(val), it is the first occurrence of that value in the array.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            2,
+            3,
+            1
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ],
+        "label": "deduplicate numbers"
+      },
+      {
+        "input": [
+          [
+            "a",
+            "b",
+            "a"
+          ]
+        ],
+        "expected": [
+          "a",
+          "b"
+        ],
+        "label": "deduplicate strings"
+      },
+      {
+        "input": [
+          [
+            5,
+            5,
+            5
+          ]
+        ],
+        "expected": [
+          5
+        ],
+        "label": "identical elements"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-array-intersection-filter",
+    "title": "Array Filter: Intersection of Two Arrays",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "intersectArrays",
+    "description": "Given two arrays arr1 and arr2, use Array.prototype.filter and Array.prototype.includes to return elements of arr1 that exist in arr2.",
+    "whatShouldHappen": [
+      "Filter arr1 with item => arr2.includes(item).",
+      "Return matching elements."
+    ],
+    "starterCode": "function intersectArrays(arr1, arr2) {\n  // your code here\n}",
+    "solution": "function intersectArrays(arr1, arr2) {\n  return arr1.filter(item => arr2.includes(item));\n}",
+    "skeletonHint": "function intersectArrays(arr1, arr2) {\n  return arr1.filter(item => arr2.____(item));\n}",
+    "traceTable": {
+      "inputLabel": "arr1 = [1, 2, 3], arr2 = [2, 4]",
+      "columns": [
+        "item",
+        "arr2.includes?",
+        "kept?"
+      ],
+      "rows": [
+        {
+          "item": 1,
+          "arr2.includes?": "false",
+          "kept?": "no"
+        },
+        {
+          "item": 2,
+          "arr2.includes?": "true",
+          "kept?": "yes"
+        },
+        {
+          "item": 3,
+          "arr2.includes?": "false",
+          "kept?": "no"
+        }
+      ]
+    },
+    "patternTag": "Array Filter Intersection",
+    "patternExplanation": "Filtering by collection inclusion computes the intersection of two arrays.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "expected": [
+          2
+        ],
+        "label": "common element 2"
+      },
+      {
+        "input": [
+          [
+            "a",
+            "b"
+          ],
+          [
+            "c",
+            "d"
+          ]
+        ],
+        "expected": [],
+        "label": "no overlap"
+      },
+      {
+        "input": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          2
+        ],
+        "label": "all match"
+      },
+      {
+        "input": [
+          [],
+          [
+            1
+          ]
+        ],
+        "expected": [],
+        "label": "empty first array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-array-difference-filter",
+    "title": "Array Filter: Difference of Two Arrays",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "differenceArrays",
+    "description": "Given two arrays arr1 and arr2, use arr1.filter(x => !arr2.includes(x)) to return elements that are in arr1 but NOT in arr2.",
+    "whatShouldHappen": [
+      "Filter arr1 keeping items where !arr2.includes(item).",
+      "Return difference array."
+    ],
+    "starterCode": "function differenceArrays(arr1, arr2) {\n  // your code here\n}",
+    "solution": "function differenceArrays(arr1, arr2) {\n  return arr1.filter(item => !arr2.includes(item));\n}",
+    "skeletonHint": "function differenceArrays(arr1, arr2) {\n  return arr1.filter(item => !arr2.____(item));\n}",
+    "traceTable": {
+      "inputLabel": "arr1 = [1, 2, 3], arr2 = [2]",
+      "columns": [
+        "item",
+        "arr2.includes?",
+        "in difference?"
+      ],
+      "rows": [
+        {
+          "item": 1,
+          "arr2.includes?": "false",
+          "in difference?": "yes"
+        },
+        {
+          "item": 2,
+          "arr2.includes?": "true",
+          "in difference?": "no"
+        },
+        {
+          "item": 3,
+          "arr2.includes?": "false",
+          "in difference?": "yes"
+        }
+      ]
+    },
+    "patternTag": "Array Difference",
+    "patternExplanation": "Negating includes() inside filter computes the relative complement (A - B).",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            2
+          ]
+        ],
+        "expected": [
+          1,
+          3
+        ],
+        "label": "exclude 2"
+      },
+      {
+        "input": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": [],
+        "label": "all excluded"
+      },
+      {
+        "input": [
+          [
+            "a",
+            "b"
+          ],
+          [
+            "c"
+          ]
+        ],
+        "expected": [
+          "a",
+          "b"
+        ],
+        "label": "none excluded"
+      },
+      {
+        "input": [
+          [],
+          [
+            1
+          ]
+        ],
+        "expected": [],
+        "label": "empty first"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-array-symmetric-difference",
+    "title": "Array Filter: Symmetric Difference",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "symmetricDifferenceArrays",
+    "description": "Given two arrays arr1 and arr2, return all elements that are in either arr1 or arr2, but NOT in both.",
+    "whatShouldHappen": [
+      "Find elements in arr1 not in arr2: diff1 = arr1.filter(x => !arr2.includes(x)).",
+      "Find elements in arr2 not in arr1: diff2 = arr2.filter(x => !arr1.includes(x)).",
+      "Return diff1.concat(diff2)."
+    ],
+    "starterCode": "function symmetricDifferenceArrays(arr1, arr2) {\n  // your code here\n}",
+    "solution": "function symmetricDifferenceArrays(arr1, arr2) {\n  const diff1 = arr1.filter(x => !arr2.includes(x));\n  const diff2 = arr2.filter(x => !arr1.includes(x));\n  return diff1.concat(diff2);\n}",
+    "skeletonHint": "function symmetricDifferenceArrays(arr1, arr2) {\n  const diff1 = arr1.filter(x => !arr2.includes(x));\n  const diff2 = arr2.filter(x => !arr1.includes(x));\n  return diff1.____(diff2);\n}",
+    "traceTable": {
+      "inputLabel": "arr1 = [1, 2], arr2 = [2, 3]",
+      "columns": [
+        "diff1 (arr1 - arr2)",
+        "diff2 (arr2 - arr1)",
+        "combined symmetric diff"
+      ],
+      "rows": [
+        {
+          "diff1 (arr1 - arr2)": "[1]",
+          "diff2 (arr2 - arr1)": "[3]",
+          "combined symmetric diff": "[1, 3]"
+        }
+      ]
+    },
+    "patternTag": "Symmetric Difference",
+    "patternExplanation": "Symmetric difference combines (A - B) and (B - A), isolating unique elements belonging exclusively to one array.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "expected": [
+          1,
+          3
+        ],
+        "label": "symmetric diff of [1,2] and [2,3]"
+      },
+      {
+        "input": [
+          [
+            "a"
+          ],
+          [
+            "b"
+          ]
+        ],
+        "expected": [
+          "a",
+          "b"
+        ],
+        "label": "disjoint sets"
+      },
+      {
+        "input": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": [],
+        "label": "identical sets"
+      },
+      {
+        "input": [
+          [],
+          [
+            5
+          ]
+        ],
+        "expected": [
+          5
+        ],
+        "label": "one empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-zip-two-arrays",
+    "title": "Array Map: Zip Two Arrays into Pairs",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "zipArrays",
+    "description": "Given two arrays arr1 and arr2, return an array of pairs [[arr1[0], arr2[0]], [arr1[1], arr2[1]], ...] up to the length of the shorter array using .slice() and .map().",
+    "whatShouldHappen": [
+      "Find min length = Math.min(arr1.length, arr2.length).",
+      "Slice arr1 from 0 to min length.",
+      "Map each element to [val, arr2[index]].",
+      "Return paired array."
+    ],
+    "starterCode": "function zipArrays(arr1, arr2) {\n  // your code here\n}",
+    "solution": "function zipArrays(arr1, arr2) {\n  const minLen = Math.min(arr1.length, arr2.length);\n  return arr1.slice(0, minLen).map((val, i) => [val, arr2[i]]);\n}",
+    "skeletonHint": "function zipArrays(arr1, arr2) {\n  const minLen = Math.min(arr1.length, arr2.length);\n  return arr1.slice(0, minLen).map((val, i) => [val, arr2[____]]);\n}",
+    "traceTable": {
+      "inputLabel": "arr1 = ['a', 'b'], arr2 = [1, 2, 3]",
+      "columns": [
+        "i",
+        "arr1[i]",
+        "arr2[i]",
+        "zipped pair"
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "arr1[i]": "'a'",
+          "arr2[i]": 1,
+          "zipped pair": "['a', 1]"
+        },
+        {
+          "i": 1,
+          "arr1[i]": "'b'",
+          "arr2[i]": 2,
+          "zipped pair": "['b', 2]"
+        }
+      ]
+    },
+    "patternTag": "Array Zipping",
+    "patternExplanation": "Zipping pairs corresponding elements from two collections by shared index.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "a",
+            "b"
+          ],
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": [
+          [
+            "a",
+            1
+          ],
+          [
+            "b",
+            2
+          ]
+        ],
+        "label": "zip unequal arrays"
+      },
+      {
+        "input": [
+          [
+            1,
+            2
+          ],
+          [
+            "x",
+            "y"
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            "x"
+          ],
+          [
+            2,
+            "y"
+          ]
+        ],
+        "label": "equal length"
+      },
+      {
+        "input": [
+          [],
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": [],
+        "label": "first empty"
+      },
+      {
+        "input": [
+          [
+            10
+          ],
+          []
+        ],
+        "expected": [],
+        "label": "second empty"
+      }
+    ]
+  }
+]
