@@ -5,7 +5,19 @@ import mongoose from 'mongoose'
 import { Problem } from './models/Problem'
 import { validateProblem } from './utils/problem-validation'
 
-const MCQ_FILE = path.resolve(__dirname, '../../scripts/mcq-starter.json')
+const resolveScriptFile = (filename: string): string => {
+  const candidates = [
+    path.resolve(__dirname, '../../scripts', filename),
+    path.resolve(process.cwd(), 'scripts', filename),
+    path.resolve(process.cwd(), '../scripts', filename),
+  ]
+  for (const c of candidates) {
+    if (fs.existsSync(c)) return c
+  }
+  return candidates[0]!
+}
+
+const MCQ_FILE = resolveScriptFile('mcq-starter.json')
 
 const run = async (): Promise<void> => {
   const uri = process.env.MONGODB_URI

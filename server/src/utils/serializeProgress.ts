@@ -30,35 +30,44 @@ const normalizeSolvedEntry = (entry: unknown): unknown => {
 }
 
 interface ProgressFields {
-  solvedProblems:           Map<string, unknown>
-  lastActiveDate:           string
-  currentStreak:            number
-  longestStreak:            number
-  dismissedBackupMilestone: number
+  solvedProblems:           Map<string, unknown> | Record<string, unknown>
+  lastActiveDate?:          string
+  currentStreak?:           number
+  longestStreak?:           number
+  dismissedBackupMilestone?: number
   dailyStreak?:             number
   longestDailyStreak?:      number
   completedDailies?:        string[]
   readArticles?:            string[]
+  bookmarkedArticles?:      string[]
   readingStreak?:           number
   longestReadingStreak?:    number
   lastArticleReadAt?:       string | null
   readingHistory?:          { articleId?: string | null; date?: string | null }[]
 }
 
-export const serializeProgress = (doc: ProgressFields): object => ({
-  solvedProblems:           Object.fromEntries(
-    [...(doc.solvedProblems ?? new Map()).entries()].map(([k, v]) => [k, normalizeSolvedEntry(v)])
-  ),
-  lastActiveDate:           doc.lastActiveDate,
-  currentStreak:            doc.currentStreak,
-  longestStreak:            doc.longestStreak,
-  dismissedBackupMilestone: doc.dismissedBackupMilestone,
-  dailyStreak:              doc.dailyStreak ?? 0,
-  longestDailyStreak:       doc.longestDailyStreak ?? 0,
-  completedDailies:         doc.completedDailies ?? [],
-  readArticles:             doc.readArticles ?? [],
-  readingStreak:            doc.readingStreak ?? 0,
-  longestReadingStreak:     doc.longestReadingStreak ?? 0,
-  lastArticleReadAt:        doc.lastArticleReadAt,
-  readingHistory:           doc.readingHistory ?? [],
-})
+export const serializeProgress = (doc: ProgressFields): object => {
+  const entries: [string, unknown][] =
+    doc.solvedProblems instanceof Map
+      ? [...doc.solvedProblems.entries()]
+      : Object.entries(doc.solvedProblems ?? {})
+
+  return {
+    solvedProblems:           Object.fromEntries(
+      entries.map(([k, v]) => [k, normalizeSolvedEntry(v)])
+    ),
+    lastActiveDate:           doc.lastActiveDate ?? '',
+    currentStreak:            doc.currentStreak ?? 0,
+    longestStreak:            doc.longestStreak ?? 0,
+    dismissedBackupMilestone: doc.dismissedBackupMilestone ?? 0,
+    dailyStreak:              doc.dailyStreak ?? 0,
+    longestDailyStreak:       doc.longestDailyStreak ?? 0,
+    completedDailies:         doc.completedDailies ?? [],
+    readArticles:             doc.readArticles ?? [],
+    bookmarkedArticles:       doc.bookmarkedArticles ?? [],
+    readingStreak:            doc.readingStreak ?? 0,
+    longestReadingStreak:     doc.longestReadingStreak ?? 0,
+    lastArticleReadAt:        doc.lastArticleReadAt ?? null,
+    readingHistory:           doc.readingHistory ?? [],
+  }
+}

@@ -10,14 +10,19 @@ export interface ActivityData {
 }
 
 export const getDailyActivity = (
-  solvedProblems: Map<string, { solvedAt?: string }>,
+  solvedProblems: Map<string, { solvedAt?: string }> | Record<string, { solvedAt?: string }>,
   readingHistory: { articleId?: string; date?: string }[] = [],
   windowDays = 371,
 ): ActivityData => {
   const countByDate = new Map<string, number>()
 
-  for (const [, entry] of solvedProblems) {
-    if (!entry.solvedAt) continue
+  const entries: { solvedAt?: string }[] =
+    solvedProblems instanceof Map
+      ? Array.from(solvedProblems.values())
+      : Object.values(solvedProblems ?? {})
+
+  for (const entry of entries) {
+    if (!entry?.solvedAt) continue
     const parsed = Date.parse(entry.solvedAt)
     if (isNaN(parsed)) continue
     const dateStr = new Date(parsed).toISOString().split('T')[0] ?? ''

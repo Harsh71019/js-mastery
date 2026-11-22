@@ -774,5 +774,491 @@
     "patternTag": "Two Pointer (Opposite Ends Swap)",
     "patternExplanation": "Swapping elements from both boundaries moving inward reverses the entire sequence in O(n/2) steps with O(1) space.",
     "estimatedMinutes": 5
+  },
+  {
+    "id": "two-pointer-trapping-rain-water",
+    "title": "Trapping Rain Water",
+    "category": "two-pointer",
+    "difficulty": "Hard",
+    "functionName": "trapRainWater",
+    "description": "Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.",
+    "whatShouldHappen": [
+      "Initialize left = 0, right = height.length - 1, leftMax = 0, rightMax = 0, water = 0.",
+      "While left < right, compare height[left] with height[right].",
+      "If height[left] < height[right], update leftMax. If height[left] < leftMax, add leftMax - height[left] to water; then advance left++.",
+      "Otherwise, update rightMax. If height[right] < rightMax, add rightMax - height[right] to water; then decrement right--.",
+      "Return total trapped water."
+    ],
+    "starterCode": "function trapRainWater(height) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "height = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]",
+      "columns": [
+        "left",
+        "right",
+        "leftMax",
+        "rightMax",
+        "trappedWater"
+      ],
+      "rows": [
+        {
+          "left": 0,
+          "right": 11,
+          "leftMax": 0,
+          "rightMax": 1,
+          "trappedWater": 0
+        },
+        {
+          "left": 2,
+          "right": 10,
+          "leftMax": 1,
+          "rightMax": 2,
+          "trappedWater": 1
+        },
+        {
+          "left": 5,
+          "right": 7,
+          "leftMax": 2,
+          "rightMax": 3,
+          "trappedWater": 5
+        },
+        {
+          "left": 7,
+          "right": 7,
+          "leftMax": 3,
+          "rightMax": 3,
+          "trappedWater": 6
+        }
+      ]
+    },
+    "skeletonHint": "function trapRainWater(height) {\n  let left = 0, right = height.length - 1;\n  let leftMax = 0, rightMax = 0;\n  let water = 0;\n  while (left < right) {\n    if (height[left] < height[right]) {\n      if (height[left] >= leftMax) leftMax = height[left];\n      else water += leftMax - height[left];\n      left++;\n    } else {\n      if (height[right] >= rightMax) rightMax = height[right];\n      else water += rightMax - height[right];\n      right--;\n    }\n  }\n  return water;\n}",
+    "solution": "function trapRainWater(height) {\n  if (!height || height.length <= 2) return 0;\n  let left = 0;\n  let right = height.length - 1;\n  let leftMax = 0;\n  let rightMax = 0;\n  let water = 0;\n\n  while (left < right) {\n    if (height[left] < height[right]) {\n      if (height[left] >= leftMax) {\n        leftMax = height[left];\n      } else {\n        water += leftMax - height[left];\n      }\n      left++;\n    } else {\n      if (height[right] >= rightMax) {\n        rightMax = height[right];\n      } else {\n        water += rightMax - height[right];\n      }\n      right--;\n    }\n  }\n  return water;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            0,
+            1,
+            0,
+            2,
+            1,
+            0,
+            1,
+            3,
+            2,
+            1,
+            2,
+            1
+          ]
+        ],
+        "expected": 6,
+        "label": "Standard elevation map"
+      },
+      {
+        "input": [
+          [
+            4,
+            2,
+            0,
+            3,
+            2,
+            5
+          ]
+        ],
+        "expected": 9,
+        "label": "Deep valley"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        ],
+        "expected": 0,
+        "label": "Strictly ascending (no trapped water)"
+      },
+      {
+        "input": [
+          [
+            3,
+            0,
+            2,
+            0,
+            4
+          ]
+        ],
+        "expected": 7,
+        "label": "Multiple internal basins"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": 0,
+        "label": "Empty array"
+      }
+    ],
+    "patternTag": "Two Pointers (Inward Squeeze)",
+    "patternExplanation": "Using two pointers moving inward from both ends allows computing water trapped based on the smaller bounded boundary in O(n) time and O(1) space.",
+    "estimatedMinutes": 20,
+    "status": "published"
+  },
+  {
+    "id": "two-pointer-sort-colors",
+    "title": "Sort Colors (Dutch National Flag)",
+    "category": "two-pointer",
+    "difficulty": "Medium",
+    "functionName": "sortColors",
+    "description": "Given an array nums with n objects colored red (0), white (1), or blue (2), sort them in-place so that objects of the same color are adjacent, in order 0, 1, and 2.",
+    "whatShouldHappen": [
+      "Use three pointers: low = 0 (boundary for 0s), mid = 0 (current element), high = nums.length - 1 (boundary for 2s).",
+      "While mid <= high, check nums[mid].",
+      "If nums[mid] === 0, swap nums[low] and nums[mid], increment low++ and mid++.",
+      "If nums[mid] === 1, just increment mid++.",
+      "If nums[mid] === 2, swap nums[mid] and nums[high], decrement high-- (do not advance mid yet).",
+      "Return the sorted array nums in-place."
+    ],
+    "starterCode": "function sortColors(nums) {\n  // your in-place sort here\n  return nums;\n}",
+    "traceTable": {
+      "inputLabel": "nums = [2, 0, 2, 1, 1, 0]",
+      "columns": [
+        "low",
+        "mid",
+        "high",
+        "nums",
+        "action"
+      ],
+      "rows": [
+        {
+          "low": 0,
+          "mid": 0,
+          "high": 5,
+          "nums": "[2,0,2,1,1,0]",
+          "action": "swap(mid, high), high--"
+        },
+        {
+          "low": 0,
+          "mid": 0,
+          "high": 4,
+          "nums": "[0,0,2,1,1,2]",
+          "action": "swap(low, mid), low++, mid++"
+        },
+        {
+          "low": 1,
+          "mid": 1,
+          "high": 4,
+          "nums": "[0,0,2,1,1,2]",
+          "action": "swap(low, mid), low++, mid++"
+        },
+        {
+          "low": 2,
+          "mid": 2,
+          "high": 4,
+          "nums": "[0,0,2,1,1,2]",
+          "action": "swap(mid, high), high--"
+        },
+        {
+          "low": 2,
+          "mid": 2,
+          "high": 3,
+          "nums": "[0,0,1,1,2,2]",
+          "action": "mid++"
+        }
+      ]
+    },
+    "skeletonHint": "function sortColors(nums) {\n  let low = 0, mid = 0, high = nums.length - 1;\n  while (mid <= high) {\n    if (nums[mid] === 0) {\n      [nums[low], nums[mid]] = [nums[mid], nums[low]];\n      low++; mid++;\n    } else if (nums[mid] === 1) {\n      mid++;\n    } else {\n      [nums[mid], nums[high]] = [nums[high], nums[mid]];\n      high--;\n    }\n  }\n  return nums;\n}",
+    "solution": "function sortColors(nums) {\n  let low = 0;\n  let mid = 0;\n  let high = nums.length - 1;\n\n  while (mid <= high) {\n    if (nums[mid] === 0) {\n      const temp = nums[low];\n      nums[low] = nums[mid];\n      nums[mid] = temp;\n      low++;\n      mid++;\n    } else if (nums[mid] === 1) {\n      mid++;\n    } else {\n      const temp = nums[mid];\n      nums[mid] = nums[high];\n      nums[high] = temp;\n      high--;\n    }\n  }\n  return nums;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            2,
+            0,
+            2,
+            1,
+            1,
+            0
+          ]
+        ],
+        "expected": [
+          0,
+          0,
+          1,
+          1,
+          2,
+          2
+        ],
+        "label": "Mixed 0, 1, 2"
+      },
+      {
+        "input": [
+          [
+            2,
+            0,
+            1
+          ]
+        ],
+        "expected": [
+          0,
+          1,
+          2
+        ],
+        "label": "Simple three items"
+      },
+      {
+        "input": [
+          [
+            0
+          ]
+        ],
+        "expected": [
+          0
+        ],
+        "label": "Single element"
+      },
+      {
+        "input": [
+          [
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": [
+          1,
+          1,
+          1
+        ],
+        "label": "All identical elements"
+      },
+      {
+        "input": [
+          [
+            2,
+            2,
+            0,
+            0,
+            1
+          ]
+        ],
+        "expected": [
+          0,
+          0,
+          1,
+          2,
+          2
+        ],
+        "label": "Multiple zeros and twos"
+      }
+    ],
+    "patternTag": "Three Pointers (Dutch National Flag)",
+    "patternExplanation": "Dijkstra Dutch National Flag algorithm partitions an array into three segments in a single pass O(n) and O(1) space.",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "two-pointer-3sum-closest",
+    "title": "3Sum Closest",
+    "category": "two-pointer",
+    "difficulty": "Medium",
+    "functionName": "threeSumClosest",
+    "description": "Given an integer array nums of length n and an integer target, find three integers in nums such that the sum is closest to target. Return the sum of the three integers.",
+    "whatShouldHappen": [
+      "Sort nums in ascending order.",
+      "Initialize closestSum to nums[0] + nums[1] + nums[2].",
+      "Iterate i from 0 to nums.length - 3.",
+      "For each i, set left = i + 1, right = nums.length - 1.",
+      "Compute sum = nums[i] + nums[left] + nums[right].",
+      "If Math.abs(target - sum) < Math.abs(target - closestSum), update closestSum = sum.",
+      "If sum < target, advance left++; if sum > target, decrement right--; if sum === target, return sum directly."
+    ],
+    "starterCode": "function threeSumClosest(nums, target) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [-1, 2, 1, -4], target = 1",
+      "columns": [
+        "i",
+        "left",
+        "right",
+        "currentSum",
+        "closestSum"
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "left": 1,
+          "right": 3,
+          "currentSum": -3,
+          "closestSum": -3
+        },
+        {
+          "i": 0,
+          "left": 2,
+          "right": 3,
+          "currentSum": 2,
+          "closestSum": 2
+        },
+        {
+          "i": 1,
+          "left": 2,
+          "right": 3,
+          "currentSum": -1,
+          "closestSum": 2
+        }
+      ]
+    },
+    "skeletonHint": "function threeSumClosest(nums, target) {\n  nums.sort((a, b) => a - b);\n  let closest = nums[0] + nums[1] + nums[2];\n  for (let i = 0; i < nums.length - 2; i++) {\n    let left = i + 1, right = nums.length - 1;\n    while (left < right) {\n      const sum = nums[i] + nums[left] + nums[right];\n      if (Math.abs(target - sum) < Math.abs(target - closest)) closest = sum;\n      if (sum < target) left++;\n      else if (sum > target) right--;\n      else return sum;\n    }\n  }\n  return closest;\n}",
+    "solution": "function threeSumClosest(nums, target) {\n  nums.sort((a, b) => a - b);\n  let closestSum = nums[0] + nums[1] + nums[2];\n\n  for (let i = 0; i < nums.length - 2; i++) {\n    let left = i + 1;\n    let right = nums.length - 1;\n\n    while (left < right) {\n      const currentSum = nums[i] + nums[left] + nums[right];\n      if (Math.abs(target - currentSum) < Math.abs(target - closestSum)) {\n        closestSum = currentSum;\n      }\n      if (currentSum < target) {\n        left++;\n      } else if (currentSum > target) {\n        right--;\n      } else {\n        return currentSum;\n      }\n    }\n  }\n  return closestSum;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            -1,
+            2,
+            1,
+            -4
+          ],
+          1
+        ],
+        "expected": 2,
+        "label": "Closest sum is 2 (-1 + 2 + 1)"
+      },
+      {
+        "input": [
+          [
+            0,
+            0,
+            0
+          ],
+          1
+        ],
+        "expected": 0,
+        "label": "All zeros target 1"
+      },
+      {
+        "input": [
+          [
+            1,
+            1,
+            1,
+            0
+          ],
+          -100
+        ],
+        "expected": 2,
+        "label": "Far negative target"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            4,
+            8,
+            16
+          ],
+          15
+        ],
+        "expected": 14,
+        "label": "Target 15 (2+4+8 = 14)"
+      }
+    ],
+    "patternTag": "Sorted Two Pointers",
+    "patternExplanation": "Sorting the array enables directional two-pointer traversal inside an outer loop, reducing an O(n^3) search to O(n^2).",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "two-pointer-backspace-string-compare",
+    "title": "Backspace String Compare",
+    "category": "two-pointer",
+    "difficulty": "Easy",
+    "functionName": "backspaceCompare",
+    "description": "Given two strings s and t, return true if they are equal when both are typed into empty text editors. \"#\" means a backspace character. Resolve in O(1) space.",
+    "whatShouldHappen": [
+      "Iterate backwards through both strings using two pointers i = s.length - 1, j = t.length - 1.",
+      "Maintain skip count for each string when \"#\" is encountered.",
+      "Skip deleted characters until reaching valid characters to compare.",
+      "If both valid characters match, decrement both pointers and continue.",
+      "If one string has a valid character and the other does not, return false.",
+      "Return true if both pointers successfully process all characters."
+    ],
+    "starterCode": "function backspaceCompare(s, t) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "s = \"ab#c\", t = \"ad#c\"",
+      "columns": [
+        "i",
+        "j",
+        "charS",
+        "charT",
+        "match"
+      ],
+      "rows": [
+        {
+          "i": 3,
+          "j": 3,
+          "charS": "c",
+          "charT": "c",
+          "match": "true"
+        },
+        {
+          "i": 0,
+          "j": 0,
+          "charS": "a",
+          "charT": "a",
+          "match": "true"
+        }
+      ]
+    },
+    "skeletonHint": "function backspaceCompare(s, t) {\n  let i = s.length - 1, j = t.length - 1;\n  let skipS = 0, skipT = 0;\n  while (i >= 0 || j >= 0) {\n    while (i >= 0) {\n      if (s[i] === '#') { skipS++; i--; }\n      else if (skipS > 0) { skipS--; i--; }\n      else break;\n    }\n    while (j >= 0) {\n      if (t[j] === '#') { skipT++; j--; }\n      else if (skipT > 0) { skipT--; j--; }\n      else break;\n    }\n    if (i >= 0 && j >= 0 && s[i] !== t[j]) return false;\n    if ((i >= 0) !== (j >= 0)) return false;\n    i--; j--;\n  }\n  return true;\n}",
+    "solution": "function backspaceCompare(s, t) {\n  let i = s.length - 1;\n  let j = t.length - 1;\n  let skipS = 0;\n  let skipT = 0;\n\n  while (i >= 0 || j >= 0) {\n    while (i >= 0) {\n      if (s[i] === '#') {\n        skipS++;\n        i--;\n      } else if (skipS > 0) {\n        skipS--;\n        i--;\n      } else {\n        break;\n      }\n    }\n    while (j >= 0) {\n      if (t[j] === '#') {\n        skipT++;\n        j--;\n      } else if (skipT > 0) {\n        skipT--;\n        j--;\n      } else {\n        break;\n      }\n    }\n    if (i >= 0 && j >= 0 && s[i] !== t[j]) {\n      return false;\n    }\n    if ((i >= 0) !== (j >= 0)) {\n      return false;\n    }\n    i--;\n    j--;\n  }\n  return true;\n}",
+    "tests": [
+      {
+        "input": [
+          "ab#c",
+          "ad#c"
+        ],
+        "expected": true,
+        "label": "Both resolve to \"ac\""
+      },
+      {
+        "input": [
+          "ab##",
+          "c#d#"
+        ],
+        "expected": true,
+        "label": "Both resolve to empty string \"\""
+      },
+      {
+        "input": [
+          "a#c",
+          "b"
+        ],
+        "expected": false,
+        "label": "\"c\" vs \"b\""
+      },
+      {
+        "input": [
+          "bxj##tw",
+          "bxj###tw"
+        ],
+        "expected": false,
+        "label": "Extra backspaces"
+      },
+      {
+        "input": [
+          "xywrrmp",
+          "xywrrmu#p"
+        ],
+        "expected": true,
+        "label": "Mid-string backspace equality"
+      }
+    ],
+    "patternTag": "Reverse Two Pointers",
+    "patternExplanation": "Iterating backward from string ends handles backspaces naturally in O(1) auxiliary space without building stack strings.",
+    "estimatedMinutes": 12,
+    "status": "published"
   }
 ]

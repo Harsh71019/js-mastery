@@ -22,6 +22,23 @@ export const ImportBodySchema = z.object({
   currentStreak: z.number().int().min(0).optional(),
   longestStreak: z.number().int().min(0).optional(),
   dismissedBackupMilestone: z.number().int().min(0).optional(),
+  dailyStreak: z.number().int().min(0).optional(),
+  longestDailyStreak: z.number().int().min(0).optional(),
+  lastDailySolvedAt: z.string().nullable().optional(),
+  completedDailies: z.array(z.string()).optional(),
+  readArticles: z.array(z.string()).optional(),
+  bookmarkedArticles: z.array(z.string()).optional(),
+  readingStreak: z.number().int().min(0).optional(),
+  longestReadingStreak: z.number().int().min(0).optional(),
+  lastArticleReadAt: z.string().nullable().optional(),
+  readingHistory: z
+    .array(
+      z.object({
+        articleId: z.string().optional(),
+        date: z.string().optional(),
+      }),
+    )
+    .optional(),
 })
 
 export type SolveBodyInput = z.infer<typeof SolveBodySchema>

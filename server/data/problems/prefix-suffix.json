@@ -692,5 +692,252 @@
     "patternTag": "Prefix Suffix (Simultaneous Difference)",
     "patternExplanation": "Accumulating from left while subtracting from total provides both prefixes and suffixes in a single pass with O(1) auxiliary space.",
     "estimatedMinutes": 8
+  },
+  {
+    "id": "prefix-suffix-contiguous-array",
+    "title": "Contiguous Array (Equal 0s and 1s)",
+    "category": "prefix-suffix",
+    "difficulty": "Medium",
+    "functionName": "findMaxLength",
+    "description": "Given a binary array nums, return the maximum length of a contiguous subarray with an equal number of 0 and 1.",
+    "whatShouldHappen": [
+      "Transform the problem: treat 0 as -1 and 1 as +1.",
+      "Now the problem becomes finding the longest subarray with sum equal to 0.",
+      "Use a Map to store the earliest index where each running sum occurred, initialized with sum 0 at index -1.",
+      "Iterate through nums, updating running sum.",
+      "If running sum was seen before, compute current_index - previous_index and update maxLength.",
+      "Otherwise, record the earliest index of this running sum in the map."
+    ],
+    "starterCode": "function findMaxLength(nums) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [0, 1, 0, 1]",
+      "columns": [
+        "index",
+        "num",
+        "runningSum",
+        "earliestSeen",
+        "maxLen"
+      ],
+      "rows": [
+        {
+          "index": 0,
+          "num": 0,
+          "runningSum": -1,
+          "earliestSeen": "index 0",
+          "maxLen": 0
+        },
+        {
+          "index": 1,
+          "num": 1,
+          "runningSum": 0,
+          "earliestSeen": "index -1",
+          "maxLen": 2
+        },
+        {
+          "index": 2,
+          "num": 0,
+          "runningSum": -1,
+          "earliestSeen": "index 0",
+          "maxLen": 2
+        },
+        {
+          "index": 3,
+          "num": 1,
+          "runningSum": 0,
+          "earliestSeen": "index -1",
+          "maxLen": 4
+        }
+      ]
+    },
+    "skeletonHint": "function findMaxLength(nums) {\n  const map = new Map();\n  map.set(0, -1);\n  let maxLen = 0, sum = 0;\n  for (let i = 0; i < nums.length; i++) {\n    sum += nums[i] === 0 ? -1 : 1;\n    if (map.has(sum)) {\n      maxLen = Math.max(maxLen, i - map.get(sum));\n    } else {\n      map.set(sum, i);\n    }\n  }\n  return maxLen;\n}",
+    "solution": "function findMaxLength(nums) {\n  const map = new Map();\n  map.set(0, -1);\n  let maxLen = 0;\n  let runningSum = 0;\n\n  for (let i = 0; i < nums.length; i++) {\n    runningSum += nums[i] === 0 ? -1 : 1;\n    if (map.has(runningSum)) {\n      maxLen = Math.max(maxLen, i - map.get(runningSum));\n    } else {\n      map.set(runningSum, i);\n    }\n  }\n\n  return maxLen;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            0,
+            1
+          ]
+        ],
+        "expected": 2,
+        "label": "Simple pair"
+      },
+      {
+        "input": [
+          [
+            0,
+            1,
+            0
+          ]
+        ],
+        "expected": 2,
+        "label": "Three elements"
+      },
+      {
+        "input": [
+          [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            1
+          ]
+        ],
+        "expected": 6,
+        "label": "Longer mixed subarray"
+      },
+      {
+        "input": [
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "expected": 0,
+        "label": "No ones"
+      },
+      {
+        "input": [
+          [
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": 0,
+        "label": "No zeros"
+      }
+    ],
+    "patternTag": "Prefix Sum + Hash Map",
+    "patternExplanation": "By treating 0 as -1, equal count of 0s and 1s becomes a sub-array sum of 0, solvable with prefix sum index tracking in O(n).",
+    "estimatedMinutes": 15,
+    "status": "published"
+  },
+  {
+    "id": "prefix-suffix-continuous-subarray-sum",
+    "title": "Continuous Subarray Sum",
+    "category": "prefix-suffix",
+    "difficulty": "Medium",
+    "functionName": "checkSubarraySum",
+    "description": "Given an integer array nums and an integer k, return true if nums has a good subarray: a continuous subarray of length at least two whose elements sum up to a multiple of k.",
+    "whatShouldHappen": [
+      "Maintain running sum modulo k: runningSum = (runningSum + nums[i]) % k.",
+      "If two prefix sums have the same remainder when divided by k, the subarray between them is divisible by k.",
+      "Use a Map to store remainder -> earliest index seen, initialized with remainder 0 at index -1.",
+      "If remainder seen before and current_index - earliest_index >= 2, return true.",
+      "If remainder not in map, store remainder -> current_index."
+    ],
+    "starterCode": "function checkSubarraySum(nums, k) {\n  // your code here\n}",
+    "traceTable": {
+      "inputLabel": "nums = [23, 2, 4, 6, 7], k = 6",
+      "columns": [
+        "i",
+        "num",
+        "prefixMod",
+        "earliestIndex",
+        "validSubarray"
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "num": 23,
+          "prefixMod": 5,
+          "earliestIndex": 0,
+          "validSubarray": "false"
+        },
+        {
+          "i": 1,
+          "num": 2,
+          "prefixMod": 1,
+          "earliestIndex": 1,
+          "validSubarray": "false"
+        },
+        {
+          "i": 2,
+          "num": 4,
+          "prefixMod": 5,
+          "earliestIndex": 0,
+          "validSubarray": "true (2 - 0 >= 2)"
+        }
+      ]
+    },
+    "skeletonHint": "function checkSubarraySum(nums, k) {\n  const map = new Map();\n  map.set(0, -1);\n  let rem = 0;\n  for (let i = 0; i < nums.length; i++) {\n    rem = (rem + nums[i]) % k;\n    if (map.has(rem)) {\n      if (i - map.get(rem) >= 2) return true;\n    } else {\n      map.set(rem, i);\n    }\n  }\n  return false;\n}",
+    "solution": "function checkSubarraySum(nums, k) {\n  const map = new Map();\n  map.set(0, -1);\n  let remainder = 0;\n\n  for (let i = 0; i < nums.length; i++) {\n    remainder = (remainder + nums[i]) % k;\n    if (map.has(remainder)) {\n      if (i - map.get(remainder) >= 2) {\n        return true;\n      }\n    } else {\n      map.set(remainder, i);\n    }\n  }\n\n  return false;\n}",
+    "tests": [
+      {
+        "input": [
+          [
+            23,
+            2,
+            4,
+            6,
+            7
+          ],
+          6
+        ],
+        "expected": true,
+        "label": "[2, 4] sums to 6"
+      },
+      {
+        "input": [
+          [
+            23,
+            2,
+            6,
+            4,
+            7
+          ],
+          6
+        ],
+        "expected": true,
+        "label": "[23, 2, 6, 4, 7] sums to 42"
+      },
+      {
+        "input": [
+          [
+            23,
+            2,
+            6,
+            4,
+            7
+          ],
+          13
+        ],
+        "expected": false,
+        "label": "No subarray divisible by 13"
+      },
+      {
+        "input": [
+          [
+            0,
+            0
+          ],
+          1
+        ],
+        "expected": true,
+        "label": "Zeros subarray length 2"
+      },
+      {
+        "input": [
+          [
+            5,
+            0,
+            0,
+            0
+          ],
+          3
+        ],
+        "expected": true,
+        "label": "Multiple zeros"
+      }
+    ],
+    "patternTag": "Prefix Sum Modulo Arithmetic",
+    "patternExplanation": "If prefixSum[j] % k === prefixSum[i] % k, then sum(nums[i+1..j]) is a multiple of k.",
+    "estimatedMinutes": 15,
+    "status": "published"
   }
 ]

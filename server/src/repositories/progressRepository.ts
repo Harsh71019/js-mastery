@@ -21,6 +21,7 @@ export const resetOne = () =>
       lastDailySolvedAt:        null,
       completedDailies:         [],
       readArticles:             [],
+      bookmarkedArticles:       [],
       readingStreak:            0,
       longestReadingStreak:     0,
       lastArticleReadAt:        null,

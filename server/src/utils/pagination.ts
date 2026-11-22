@@ -7,7 +7,11 @@ export interface PaginationParams {
 }
 
 export const parsePagination = (query: ParsedQs): PaginationParams => {
-  const page  = Math.max(1, parseInt(query.page  as string) || 1)
-  const limit = Math.min(100, Math.max(1, parseInt(query.limit as string) || 20))
+  const rawPage  = parseInt(query.page  as string, 10)
+  const rawLimit = parseInt(query.limit as string, 10)
+
+  const page  = Math.max(1, Number.isNaN(rawPage)  ? 1  : rawPage)
+  const limit = Math.min(100, Math.max(1, Number.isNaN(rawLimit) ? 20 : rawLimit))
+
   return { page, limit, skip: (page - 1) * limit }
 }

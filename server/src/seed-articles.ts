@@ -4,7 +4,20 @@ import path from 'path'
 import mongoose from 'mongoose'
 import { Article } from './models/Article'
 
-const ARTICLES_FILE = path.resolve(__dirname, '../../server/data/articles/engineering_blogs.json')
+const resolveDataFile = (relPath: string): string => {
+  const candidates = [
+    path.resolve(__dirname, '../data', relPath),
+    path.resolve(__dirname, '../../server/data', relPath),
+    path.resolve(process.cwd(), 'server/data', relPath),
+    path.resolve(process.cwd(), 'data', relPath),
+  ]
+  for (const c of candidates) {
+    if (fs.existsSync(c)) return c
+  }
+  return candidates[0]!
+}
+
+const ARTICLES_FILE = resolveDataFile('articles/engineering_blogs.json')
 
 const run = async (): Promise<void> => {
   const uri = process.env.MONGODB_URI

@@ -32,9 +32,19 @@ export const getVisitStats = async () => {
     problemMeta[p.id as string] = { title: p.title as string, category: p.category as string }
   }
 
-  const solvedIds = new Set(
-    progress?.solvedProblems ? Object.keys(progress.solvedProblems as object) : [],
-  )
+  const solvedIds = new Set<string>()
+  if (progress?.solvedProblems) {
+    const entries =
+      progress.solvedProblems instanceof Map
+        ? Array.from(progress.solvedProblems.entries())
+        : Object.entries(progress.solvedProblems as Record<string, { solvedAt?: string }>)
+
+    for (const [id, entry] of entries) {
+      if (entry && typeof entry === 'object' && 'solvedAt' in entry && (entry as { solvedAt?: string }).solvedAt) {
+        solvedIds.add(id)
+      }
+    }
+  }
 
   const byProblem: Record<string, { title: string; category: string; visitCount: number; isSolved: boolean }> = {}
   for (const problemId of visitedIds) {
