@@ -1,5 +1,6 @@
 import React from 'react'
 import { BookOpen, ExternalLink, Clock, Bookmark } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import type { Article } from '@/types/article'
 import { useProgressStore } from '@/store/useProgressStore'
 
@@ -27,7 +28,7 @@ export const RelatedArticles: React.FC<RelatedArticlesProps> = ({ articles, isLo
     <div className="flex flex-col gap-4">
       <h2 className="text-text-primary text-sm font-bold uppercase tracking-[0.2em] px-1 font-geist flex items-center gap-2">
         <BookOpen size={14} className="text-accent-purple" />
-        Engineering Context
+        Engineering Context & Deep Dives
       </h2>
       <div className="flex flex-col gap-2">
         {articles.map(article => {
@@ -37,10 +38,8 @@ export const RelatedArticles: React.FC<RelatedArticlesProps> = ({ articles, isLo
               key={article.id}
               className="flex items-center justify-between p-3 bg-white/[0.02] border border-white/5 rounded-xl hover:bg-white/[0.04] transition-colors group"
             >
-              <a
-                href={article.url}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to={`/insights/${article.id}`}
                 className="flex flex-col gap-1 flex-1 min-w-0 mr-3"
               >
                 <span className="text-[10px] font-bold text-accent-purple uppercase tracking-tighter">
@@ -49,7 +48,7 @@ export const RelatedArticles: React.FC<RelatedArticlesProps> = ({ articles, isLo
                 <span className="text-sm text-text-secondary group-hover:text-text-primary transition-colors line-clamp-1">
                   {article.title}
                 </span>
-              </a>
+              </Link>
               <div className="flex items-center gap-2.5 shrink-0">
                 <div className="flex items-center gap-1 text-[10px] text-text-tertiary">
                   <Clock size={10} />
@@ -72,6 +71,7 @@ export const RelatedArticles: React.FC<RelatedArticlesProps> = ({ articles, isLo
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-1 text-text-tertiary hover:text-white"
+                  title="Open external source"
                 >
                   <ExternalLink size={14} />
                 </a>

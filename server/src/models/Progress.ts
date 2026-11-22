@@ -53,6 +53,19 @@ const ProgressSchema = new Schema(
       ],
       default: [],
     },
+    articleNotes: { type: Map, of: String, default: {} },
+    articleQuizScores: {
+      type: Map,
+      of: new Schema(
+        {
+          score: { type: Number, default: 0 },
+          total: { type: Number, default: 0 },
+          completedAt: { type: String, default: '' },
+        },
+        { _id: false },
+      ),
+      default: {},
+    },
   },
   { timestamps: true },
 )

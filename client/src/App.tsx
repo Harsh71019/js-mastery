@@ -77,6 +77,7 @@ export const App = (): React.JSX.Element => {
               <Route path="patterns" element={<PatternsPage />} />
               <Route path="patterns/:tag" element={<PatternPage />} />
               <Route path="insights" element={<InsightsPage />} />
+              <Route path="insights/:id" element={<InsightsPage />} />
               <Route path="progress" element={<ProgressPage />} />
               <Route path="stats" element={<StatsPage />} />
             </Route>

@@ -834,5 +834,474 @@
     "patternTag": "Basic Loops (Aggregation and Division)",
     "patternExplanation": "Accumulate total sum in O(n) and divide by length, guarding against division by zero on empty input.",
     "estimatedMinutes": 5
+  },
+  {
+    "id": "basic-loops-9",
+    "title": "Sum Digits with While Loop",
+    "category": "basic-loops",
+    "difficulty": "Beginner",
+    "functionName": "sumDigits",
+    "description": "Given a non-negative integer num, return the sum of its individual digits. Use a while loop with modulo (%) and division (Math.floor) to extract digits from right to left.",
+    "whatShouldHappen": [
+      "Initialize a running sum to 0.",
+      "Handle edge case: if num is 0, return 0.",
+      "While num > 0, extract the last digit with num % 10 and add it to sum.",
+      "Remove the last digit by updating num = Math.floor(num / 10).",
+      "Return sum once num reaches 0."
+    ],
+    "starterCode": "function sumDigits(num) {\n  // your code here\n}",
+    "solution": "function sumDigits(num) {\n  if (num === 0) return 0;\n  let sum = 0;\n  let n = num;\n  while (n > 0) {\n    sum += n % 10;\n    n = Math.floor(n / 10);\n  }\n  return sum;\n}",
+    "skeletonHint": "function sumDigits(num) {\n  let sum = 0;\n  let n = num;\n  while (n > ____) {\n    sum += n % ____;\n    n = Math.floor(n / ____);\n  }\n  return sum;\n}",
+    "traceTable": {
+      "inputLabel": "num = 1234",
+      "columns": [
+        "n",
+        "n % 10",
+        "sum",
+        "next n"
+      ],
+      "rows": [
+        {
+          "n": 1234,
+          "n % 10": 4,
+          "sum": 4,
+          "next n": 123
+        },
+        {
+          "n": 123,
+          "n % 10": 3,
+          "sum": 7,
+          "next n": 12
+        },
+        {
+          "n": 12,
+          "n % 10": 2,
+          "sum": 9,
+          "next n": 1
+        },
+        {
+          "n": 1,
+          "n % 10": 1,
+          "sum": 10,
+          "next n": 0
+        }
+      ]
+    },
+    "patternTag": "Digit Extraction Loop",
+    "patternExplanation": "Using while (n > 0) paired with n % 10 and Math.floor(n / 10) is the standard pattern for extracting and processing integer digits without converting to strings.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          1234
+        ],
+        "expected": 10,
+        "label": "standard 4-digit number"
+      },
+      {
+        "input": [
+          0
+        ],
+        "expected": 0,
+        "label": "zero"
+      },
+      {
+        "input": [
+          905
+        ],
+        "expected": 14,
+        "label": "number with zero digit"
+      },
+      {
+        "input": [
+          7
+        ],
+        "expected": 7,
+        "label": "single digit"
+      }
+    ]
+  },
+  {
+    "id": "basic-loops-10",
+    "title": "Count Collatz Steps",
+    "category": "basic-loops",
+    "difficulty": "Easy",
+    "functionName": "countCollatzSteps",
+    "description": "Given a positive integer n, return the number of steps required to reach 1 following the Collatz sequence: if n is even, divide it by 2 (n / 2); if n is odd, multiply by 3 and add 1 (3 * n + 1). If n is already 1, return 0.",
+    "whatShouldHappen": [
+      "Initialize step counter to 0.",
+      "While n is not equal to 1, check if n is even or odd using n % 2 === 0.",
+      "If even, divide n by 2; if odd, update n to 3 * n + 1.",
+      "Increment steps on each cycle.",
+      "Return total steps when n becomes 1."
+    ],
+    "starterCode": "function countCollatzSteps(n) {\n  // your code here\n}",
+    "solution": "function countCollatzSteps(n) {\n  let steps = 0;\n  let current = n;\n  while (current !== 1) {\n    if (current % 2 === 0) {\n      current = current / 2;\n    } else {\n      current = 3 * current + 1;\n    }\n    steps++;\n  }\n  return steps;\n}",
+    "skeletonHint": "function countCollatzSteps(n) {\n  let steps = 0;\n  let current = n;\n  while (current !== ____) {\n    current = current % 2 === 0 ? current / ____ : 3 * current + ____;\n    steps++;\n  }\n  return steps;\n}",
+    "traceTable": {
+      "inputLabel": "n = 6",
+      "columns": [
+        "step",
+        "current",
+        "even/odd",
+        "next current"
+      ],
+      "rows": [
+        {
+          "step": 1,
+          "current": 6,
+          "even/odd": "even",
+          "next current": 3
+        },
+        {
+          "step": 2,
+          "current": 3,
+          "even/odd": "odd",
+          "next current": 10
+        },
+        {
+          "step": 3,
+          "current": 10,
+          "even/odd": "even",
+          "next current": 5
+        },
+        {
+          "step": 4,
+          "current": 5,
+          "even/odd": "odd",
+          "next current": 16
+        },
+        {
+          "step": 5,
+          "current": 16,
+          "even/odd": "even",
+          "next current": 8
+        },
+        {
+          "step": 6,
+          "current": 8,
+          "even/odd": "even",
+          "next current": 4
+        },
+        {
+          "step": 7,
+          "current": 4,
+          "even/odd": "even",
+          "next current": 2
+        },
+        {
+          "step": 8,
+          "current": 2,
+          "even/odd": "even",
+          "next current": 1
+        }
+      ]
+    },
+    "patternTag": "Conditional While Loop",
+    "patternExplanation": "While loops with condition-dependent updates model state-transition algorithms where the number of iterations cannot be known upfront.",
+    "estimatedMinutes": 8,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          1
+        ],
+        "expected": 0,
+        "label": "already one"
+      },
+      {
+        "input": [
+          6
+        ],
+        "expected": 8,
+        "label": "even start"
+      },
+      {
+        "input": [
+          11
+        ],
+        "expected": 14,
+        "label": "odd start"
+      },
+      {
+        "input": [
+          16
+        ],
+        "expected": 4,
+        "label": "power of two"
+      }
+    ]
+  },
+  {
+    "id": "basic-loops-11",
+    "title": "Count Halvings with Do-While",
+    "category": "basic-loops",
+    "difficulty": "Beginner",
+    "functionName": "countHalvings",
+    "description": "Given a positive integer n, use a do...while loop to repeatedly divide n by 2 (using Math.floor(n / 2)) until n is 1 or less. Return the total count of halvings performed. Because do...while always executes at least once, n = 1 will be halved once (resulting in 0) and return 1.",
+    "whatShouldHappen": [
+      "Initialize count to 0 and current to n.",
+      "Execute do block: update current = Math.floor(current / 2) and increment count.",
+      "Continue loop while current > 1.",
+      "Return count."
+    ],
+    "starterCode": "function countHalvings(n) {\n  // your code here\n}",
+    "solution": "function countHalvings(n) {\n  let count = 0;\n  let current = n;\n  do {\n    current = Math.floor(current / 2);\n    count++;\n  } while (current > 1);\n  return count;\n}",
+    "skeletonHint": "function countHalvings(n) {\n  let count = 0;\n  let current = n;\n  do {\n    current = Math.floor(current / ____);\n    count++;\n  } while (current > ____);\n  return count;\n}",
+    "traceTable": {
+      "inputLabel": "n = 16",
+      "columns": [
+        "iteration",
+        "before",
+        "after halving",
+        "continue?"
+      ],
+      "rows": [
+        {
+          "iteration": 1,
+          "before": 16,
+          "after halving": 8,
+          "continue?": "true (8 > 1)"
+        },
+        {
+          "iteration": 2,
+          "before": 8,
+          "after halving": 4,
+          "continue?": "true (4 > 1)"
+        },
+        {
+          "iteration": 3,
+          "before": 4,
+          "after halving": 2,
+          "continue?": "true (2 > 1)"
+        },
+        {
+          "iteration": 4,
+          "before": 2,
+          "after halving": 1,
+          "continue?": "false (1 not > 1)"
+        }
+      ]
+    },
+    "patternTag": "Do-While Post-Condition",
+    "patternExplanation": "A do...while loop guarantees the loop body runs at least once before testing its exit condition, making it ideal for processes requiring at least one initial reduction.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          16
+        ],
+        "expected": 4,
+        "label": "even power of 2"
+      },
+      {
+        "input": [
+          1
+        ],
+        "expected": 1,
+        "label": "single execution edge case"
+      },
+      {
+        "input": [
+          7
+        ],
+        "expected": 2,
+        "label": "odd number"
+      },
+      {
+        "input": [
+          100
+        ],
+        "expected": 6,
+        "label": "larger number"
+      }
+    ]
+  },
+  {
+    "id": "basic-loops-12",
+    "title": "Compute Integer Power with While Loop",
+    "category": "basic-loops",
+    "difficulty": "Beginner",
+    "functionName": "powerWhile",
+    "description": "Given non-negative integers base and exp, compute base raised to the power exp using a while loop and compound multiplication (*=). Do not use Math.pow or the ** operator.",
+    "whatShouldHappen": [
+      "Initialize result to 1 (since any number to power 0 is 1).",
+      "Initialize remainingExp to exp.",
+      "While remainingExp > 0, multiply result by base and decrement remainingExp by 1.",
+      "Return result."
+    ],
+    "starterCode": "function powerWhile(base, exp) {\n  // your code here\n}",
+    "solution": "function powerWhile(base, exp) {\n  let result = 1;\n  let remainingExp = exp;\n  while (remainingExp > 0) {\n    result *= base;\n    remainingExp--;\n  }\n  return result;\n}",
+    "skeletonHint": "function powerWhile(base, exp) {\n  let result = ____;\n  let remaining = exp;\n  while (remaining > 0) {\n    result *= ____;\n    remaining--;\n  }\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "base = 2, exp = 3",
+      "columns": [
+        "remaining",
+        "result before",
+        "result after"
+      ],
+      "rows": [
+        {
+          "remaining": 3,
+          "result before": 1,
+          "result after": 2
+        },
+        {
+          "remaining": 2,
+          "result before": 2,
+          "result after": 4
+        },
+        {
+          "remaining": 1,
+          "result before": 4,
+          "result after": 8
+        }
+      ]
+    },
+    "patternTag": "Multiplicative Accumulator",
+    "patternExplanation": "Starting an accumulator at 1 and multiplying by a factor across iterations is the foundation of powers, factorials, and compound scaling.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          2,
+          3
+        ],
+        "expected": 8,
+        "label": "cube 2"
+      },
+      {
+        "input": [
+          5,
+          0
+        ],
+        "expected": 1,
+        "label": "zero power"
+      },
+      {
+        "input": [
+          3,
+          4
+        ],
+        "expected": 81,
+        "label": "fourth power 3"
+      },
+      {
+        "input": [
+          10,
+          1
+        ],
+        "expected": 10,
+        "label": "power 1"
+      }
+    ]
+  },
+  {
+    "id": "basic-loops-13",
+    "title": "Sum Until Sentinel with Break",
+    "category": "basic-loops",
+    "difficulty": "Beginner",
+    "functionName": "sumUntilStop",
+    "description": "Given an array of numbers nums and a sentinel value stopVal, iterate from left to right and sum all numbers until encountering stopVal. Once stopVal is encountered, immediately terminate the loop using the break keyword without adding stopVal to the total.",
+    "whatShouldHappen": [
+      "Initialize total to 0.",
+      "Iterate through nums from index 0 to nums.length - 1.",
+      "If the current number strictly equals stopVal, break out of the loop.",
+      "Otherwise, add current number to total.",
+      "Return total after loop exits."
+    ],
+    "starterCode": "function sumUntilStop(nums, stopVal) {\n  // your code here\n}",
+    "solution": "function sumUntilStop(nums, stopVal) {\n  let total = 0;\n  for (let i = 0; i < nums.length; i++) {\n    if (nums[i] === stopVal) {\n      break;\n    }\n    total += nums[i];\n  }\n  return total;\n}",
+    "skeletonHint": "function sumUntilStop(nums, stopVal) {\n  let total = 0;\n  for (let i = 0; i < nums.length; i++) {\n    if (nums[i] === ____) {\n      ____;\n    }\n    total += nums[i];\n  }\n  return total;\n}",
+    "traceTable": {
+      "inputLabel": "nums = [1, 2, 3, -1, 4], stopVal = -1",
+      "columns": [
+        "i",
+        "nums[i]",
+        "is stopVal?",
+        "total"
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "nums[i]": 1,
+          "is stopVal?": "false",
+          "total": 1
+        },
+        {
+          "i": 1,
+          "nums[i]": 2,
+          "is stopVal?": "false",
+          "total": 3
+        },
+        {
+          "i": 2,
+          "nums[i]": 3,
+          "is stopVal?": "false",
+          "total": 6
+        },
+        {
+          "i": 3,
+          "nums[i]": -1,
+          "is stopVal?": "true (break)",
+          "total": 6
+        }
+      ]
+    },
+    "patternTag": "Early Exit Sentinel",
+    "patternExplanation": "The break statement allows early termination of loops as soon as a stop condition or sentinel value is detected, preventing unnecessary iterations.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            -1,
+            4
+          ],
+          -1
+        ],
+        "expected": 6,
+        "label": "stop mid-array"
+      },
+      {
+        "input": [
+          [
+            10,
+            20,
+            30
+          ],
+          99
+        ],
+        "expected": 60,
+        "label": "stopVal never appears"
+      },
+      {
+        "input": [
+          [
+            5,
+            5,
+            5
+          ],
+          5
+        ],
+        "expected": 0,
+        "label": "stopVal at index 0"
+      },
+      {
+        "input": [
+          [],
+          0
+        ],
+        "expected": 0,
+        "label": "empty array"
+      }
+    ]
   }
 ]

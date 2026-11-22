@@ -1,28 +1,75 @@
-import React, { useState, useMemo } from 'react'
-import { Flame, Trophy, Info, BookOpen, RotateCcw, Bookmark, Search } from 'lucide-react'
+import React, { useState, useMemo, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import {
+  Flame,
+  Trophy,
+  Info,
+  BookOpen,
+  RotateCcw,
+  Bookmark,
+  Search,
+  Sparkles,
+  Edit3,
+} from 'lucide-react'
 import { useArticles } from '@/hooks/useArticles'
 import { ArticleCard } from '@/components/insights/ArticleCard'
+import { ArticleReaderModal } from '@/components/insights/ArticleReaderModal'
 import { useProgressStore } from '@/store/useProgressStore'
 import { PageContainer } from '@/components/ui/PageContainer'
 import { Glow } from '@/components/ui/Glow'
 import { Select } from '@/components/ui/Select'
+import type { Article, ArticleDomain } from '@/types/article'
+
+const DOMAIN_OPTIONS: Array<{ value: ArticleDomain | ''; label: string }> = [
+  { value: '', label: 'All Domains' },
+  { value: 'javascript-v8', label: '⚡ JS & V8 Internals' },
+  { value: 'distributed-systems', label: '🌐 Distributed Systems' },
+  { value: 'frontend-performance', label: '🚀 Frontend & Web Perf' },
+  { value: 'architecture-design', label: '🏗️ System Architecture' },
+  { value: 'databases-caching', label: '💾 Databases & Caching' },
+  { value: 'reliability-security', label: '🛡️ Reliability & Security' },
+]
 
 export const InsightsPage: React.FC = () => {
-  const [filters, setFilters] = useState({
+  const { id: urlArticleId } = useParams<{ id?: string }>()
+  const navigate = useNavigate()
+
+  const [filters, setFilters] = useState<{
+    company: string
+    region: string
+    difficulty: string
+    domain: ArticleDomain | ''
+  }>({
     company: '',
     region: '',
     difficulty: '',
+    domain: '',
   })
   const [searchQuery, setSearchQuery] = useState('')
   const [viewMode, setViewMode] = useState<'all' | 'saved' | 'unread'>('all')
+
+  // Selected article for reader modal
+  const [activeArticleId, setActiveArticleId] = useState<string | null>(urlArticleId || null)
+  const [selectedArticleObject, setSelectedArticleObject] = useState<Article | null>(null)
+
+  useEffect(() => {
+    if (urlArticleId) {
+      setActiveArticleId(urlArticleId)
+    }
+  }, [urlArticleId])
 
   const { articles, isLoading, error } = useArticles(filters)
   const readingStreak = useProgressStore(state => state.readingStreak)
   const longestReadingStreak = useProgressStore(state => state.longestReadingStreak)
   const readArticles = useProgressStore(state => state.readArticles || [])
   const bookmarkedArticles = useProgressStore(state => state.bookmarkedArticles || [])
+  const articleNotes = useProgressStore(state => state.articleNotes || {})
+  const articleQuizScores = useProgressStore(state => state.articleQuizScores || {})
+
   const readArticlesCount = readArticles.length
   const bookmarkedCount = bookmarkedArticles.length
+  const notesCount = Object.keys(articleNotes).filter(k => (articleNotes[k] || '').trim().length > 0).length
+  const quizzesPassedCount = Object.keys(articleQuizScores).length
 
   const dynamicCompanies = useMemo(() => {
     const set = new Set<string>()
@@ -58,6 +105,9 @@ export const InsightsPage: React.FC = () => {
       if (viewMode === 'unread' && readArticles.includes(article.id)) {
         return false
       }
+      if (filters.domain && article.domain !== filters.domain) {
+        return false
+      }
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim()
         const matchTitle = article.title.toLowerCase().includes(q)
@@ -70,33 +120,57 @@ export const InsightsPage: React.FC = () => {
       }
       return true
     })
-  }, [articles, viewMode, bookmarkedArticles, readArticles, searchQuery])
+  }, [articles, viewMode, bookmarkedArticles, readArticles, searchQuery, filters.domain])
 
-  const isFiltered = Boolean(filters.company || filters.region || filters.difficulty || searchQuery || viewMode !== 'all')
+  const handleOpenReader = (art: Article) => {
+    setSelectedArticleObject(art)
+    setActiveArticleId(art.id)
+  }
+
+  const handleCloseReader = () => {
+    setActiveArticleId(null)
+    setSelectedArticleObject(null)
+    if (urlArticleId) {
+      navigate('/insights', { replace: true })
+    }
+  }
+
+  const isFiltered = Boolean(
+    filters.company || filters.region || filters.difficulty || filters.domain || searchQuery || viewMode !== 'all'
+  )
 
   return (
     <PageContainer className="flex flex-col gap-10 relative pb-24">
       <Glow color="var(--color-accent-purple)" size="xl" className="-top-40 -right-20 opacity-[0.06]" />
       <Glow color="var(--color-accent-blue)" size="lg" className="top-1/2 -left-20 opacity-[0.04]" />
 
+      {/* Reader Modal */}
+      {activeArticleId && (
+        <ArticleReaderModal
+          articleId={activeArticleId}
+          initialArticle={selectedArticleObject}
+          onClose={handleCloseReader}
+        />
+      )}
+
       {/* Header Telemetry */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-bold uppercase tracking-[0.3em] font-geist text-accent-purple bg-accent-purple/10 px-2 py-0.5 rounded border border-accent-purple/20">
-              Knowledge Repository
+              Knowledge Repository & Interactive Reader
             </span>
           </div>
-          <h1 className="text-3xl font-bold font-geist tracking-tight text-white uppercase">
-            Engineering Insights & Web Bookmarks
+          <h1 className="text-2xl sm:text-3xl font-bold font-geist tracking-tight text-white uppercase">
+            Engineering Insights & System Architecture Hub
           </h1>
           <p className="text-text-tertiary text-sm max-w-xl leading-relaxed font-medium">
-            Curated architectural postmortems, performance breakdowns, JavaScript internals, and system design patterns from world-class engineering teams. Bookmark to read and learn anytime.
+            Curated architectural postmortems, performance breakdowns, JavaScript internals, and system design patterns from world-class engineering teams. Read in-depth, inspect production code, take notes, and verify retention with knowledge quizzes.
           </p>
         </div>
 
-        <div className="grid grid-cols-3 sm:flex items-center gap-2.5 sm:gap-3 w-full sm:w-auto shrink-0">
-          <div className="glass-panel rounded-xl p-3 px-3.5 sm:px-5 flex items-center gap-2.5 sm:gap-3.5 border-white/10 shadow-sm">
+        <div className="grid grid-cols-2 sm:grid-cols-4 items-center gap-2.5 sm:gap-3 w-full sm:w-auto shrink-0">
+          <div className="glass-panel rounded-xl p-3 px-3.5 sm:px-4 flex items-center gap-2.5 sm:gap-3 border-white/10 shadow-sm">
             <div className="w-8 h-8 rounded-lg bg-accent-purple/10 flex items-center justify-center text-accent-purple shrink-0">
               <Flame size={17} className="fill-accent-purple/30 animate-pulse" />
             </div>
@@ -105,7 +179,8 @@ export const InsightsPage: React.FC = () => {
               <div className="text-base sm:text-lg font-bold font-geist text-white">{readingStreak}D</div>
             </div>
           </div>
-          <div className="glass-panel rounded-xl p-3 px-3.5 sm:px-5 flex items-center gap-2.5 sm:gap-3.5 border-white/10 shadow-sm">
+
+          <div className="glass-panel rounded-xl p-3 px-3.5 sm:px-4 flex items-center gap-2.5 sm:gap-3 border-white/10 shadow-sm">
             <div className="w-8 h-8 rounded-lg bg-accent-amber/10 flex items-center justify-center text-accent-amber shrink-0">
               <Trophy size={17} />
             </div>
@@ -114,16 +189,47 @@ export const InsightsPage: React.FC = () => {
               <div className="text-base sm:text-lg font-bold font-geist text-white">{readArticlesCount}</div>
             </div>
           </div>
-          <div className="glass-panel rounded-xl p-3 px-3.5 sm:px-5 flex items-center gap-2.5 sm:gap-3.5 border-white/10 shadow-sm">
-            <div className="w-8 h-8 rounded-lg bg-accent-blue/10 flex items-center justify-center text-accent-blue shrink-0">
-              <Bookmark size={17} className={bookmarkedCount > 0 ? "fill-accent-blue/40" : ""} />
+
+          <div className="glass-panel rounded-xl p-3 px-3.5 sm:px-4 flex items-center gap-2.5 sm:gap-3 border-white/10 shadow-sm">
+            <div className="w-8 h-8 rounded-lg bg-accent-green/10 flex items-center justify-center text-accent-green shrink-0">
+              <Sparkles size={17} />
             </div>
             <div>
-              <div className="text-[9px] text-text-tertiary uppercase font-bold tracking-widest font-geist">Saved</div>
-              <div className="text-base sm:text-lg font-bold font-geist text-white">{bookmarkedCount}</div>
+              <div className="text-[9px] text-text-tertiary uppercase font-bold tracking-widest font-geist">Mastered</div>
+              <div className="text-base sm:text-lg font-bold font-geist text-white">{quizzesPassedCount}</div>
+            </div>
+          </div>
+
+          <div className="glass-panel rounded-xl p-3 px-3.5 sm:px-4 flex items-center gap-2.5 sm:gap-3 border-white/10 shadow-sm">
+            <div className="w-8 h-8 rounded-lg bg-accent-blue/10 flex items-center justify-center text-accent-blue shrink-0">
+              <Edit3 size={17} />
+            </div>
+            <div>
+              <div className="text-[9px] text-text-tertiary uppercase font-bold tracking-widest font-geist">Notes</div>
+              <div className="text-base sm:text-lg font-bold font-geist text-white">{notesCount}</div>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Domain Navigation Pills */}
+      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 -mt-2 relative z-10">
+        {DOMAIN_OPTIONS.map(opt => {
+          const isSelected = filters.domain === opt.value
+          return (
+            <button
+              key={opt.value}
+              onClick={() => setFilters(prev => ({ ...prev, domain: opt.value }))}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-geist font-medium transition-all whitespace-nowrap cursor-pointer ${
+                isSelected
+                  ? 'bg-accent-purple/20 text-white font-bold border border-accent-purple/40 shadow-sm'
+                  : 'bg-white/[0.02] text-text-tertiary hover:text-white border border-white/5 hover:border-white/15'
+              }`}
+            >
+              {opt.label}
+            </button>
+          )
+        })}
       </div>
 
       {/* View Tabs & Search Bar */}
@@ -169,7 +275,7 @@ export const InsightsPage: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Search articles, topics, companies..."
+              placeholder="Search articles, architecture, topics..."
               className="w-full pl-9 pr-3 py-1.5 text-xs font-geist rounded-xl bg-white/[0.03] border border-white/10 text-white placeholder:text-text-tertiary focus:outline-none focus:border-accent-purple/40"
             />
           </div>
@@ -210,7 +316,7 @@ export const InsightsPage: React.FC = () => {
           {isFiltered && (
             <button
               onClick={() => {
-                setFilters({ company: '', region: '', difficulty: '' })
+                setFilters({ company: '', region: '', difficulty: '', domain: '' })
                 setSearchQuery('')
                 setViewMode('all')
               }}
@@ -256,7 +362,11 @@ export const InsightsPage: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredArticles.map(article => (
-              <ArticleCard key={article.id} article={article} />
+              <ArticleCard
+                key={article.id}
+                article={article}
+                onOpenReader={handleOpenReader}
+              />
             ))}
           </div>
         )}
