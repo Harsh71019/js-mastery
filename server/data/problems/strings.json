@@ -1,0 +1,2724 @@
+[
+  {
+    "id": "strings-char-at-position",
+    "title": "String charAt: Character at Position",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "getCharAtPos",
+    "description": "Given a string str and a 0-based index pos, use str.charAt(pos) to return the character at that position. Return empty string if pos is out of bounds.",
+    "whatShouldHappen": [
+      "Call str.charAt(pos).",
+      "Return the character."
+    ],
+    "starterCode": "function getCharAtPos(str, pos) {\n  // your code here\n}",
+    "solution": "function getCharAtPos(str, pos) {\n  return str.charAt(pos);\n}",
+    "skeletonHint": "function getCharAtPos(str, pos) {\n  return str.charAt(____);\n}",
+    "traceTable": {
+      "inputLabel": "str = 'hello', pos = 1",
+      "columns": [
+        "pos",
+        "str.charAt(pos)"
+      ],
+      "rows": [
+        {
+          "pos": 1,
+          "str.charAt(pos)": "'e'"
+        }
+      ]
+    },
+    "patternTag": "Character Extraction",
+    "patternExplanation": ".charAt(index) extracts character at an index, safely returning an empty string if index is out of bounds.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "hello",
+          1
+        ],
+        "expected": "e",
+        "label": "second character"
+      },
+      {
+        "input": [
+          "hello",
+          0
+        ],
+        "expected": "h",
+        "label": "first character"
+      },
+      {
+        "input": [
+          "test",
+          10
+        ],
+        "expected": "",
+        "label": "out of bounds"
+      },
+      {
+        "input": [
+          "",
+          0
+        ],
+        "expected": "",
+        "label": "empty string"
+      }
+    ]
+  },
+  {
+    "id": "strings-char-code-at",
+    "title": "String charCodeAt: ASCII Code of Character",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "getAsciiCode",
+    "description": "Given a string str and index idx, use str.charCodeAt(idx) to return the UTF-16 / ASCII code point integer.",
+    "whatShouldHappen": [
+      "Call str.charCodeAt(idx).",
+      "Return the integer code."
+    ],
+    "starterCode": "function getAsciiCode(str, idx) {\n  // your code here\n}",
+    "solution": "function getAsciiCode(str, idx) {\n  return str.charCodeAt(idx);\n}",
+    "skeletonHint": "function getAsciiCode(str, idx) {\n  return str.charCodeAt(____);\n}",
+    "traceTable": {
+      "inputLabel": "str = 'ABC', idx = 0",
+      "columns": [
+        "char",
+        "charCodeAt"
+      ],
+      "rows": [
+        {
+          "char": "'A'",
+          "charCodeAt": 65
+        }
+      ]
+    },
+    "patternTag": "Code Point Inspection",
+    "patternExplanation": ".charCodeAt(idx) retrieves the numeric ASCII/UTF-16 value of the character.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "ABC",
+          0
+        ],
+        "expected": 65,
+        "label": "'A' code is 65"
+      },
+      {
+        "input": [
+          "abc",
+          0
+        ],
+        "expected": 97,
+        "label": "'a' code is 97"
+      },
+      {
+        "input": [
+          "0",
+          0
+        ],
+        "expected": 48,
+        "label": "'0' code is 48"
+      },
+      {
+        "input": [
+          "Z",
+          0
+        ],
+        "expected": 90,
+        "label": "'Z' code is 90"
+      }
+    ]
+  },
+  {
+    "id": "strings-at-negative",
+    "title": "String at: Negative Index Access",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "getCharFromEnd",
+    "description": "Given a string str and positive integer k, use str.at(-k) to return the k-th character from the end. If str is shorter than k, return undefined.",
+    "whatShouldHappen": [
+      "Call str.at(-k).",
+      "Return character."
+    ],
+    "starterCode": "function getCharFromEnd(str, k) {\n  // your code here\n}",
+    "solution": "function getCharFromEnd(str, k) {\n  return str.at(-k);\n}",
+    "skeletonHint": "function getCharFromEnd(str, k) {\n  return str.at(-____);\n}",
+    "traceTable": {
+      "inputLabel": "str = 'world', k = 1",
+      "columns": [
+        "k",
+        "str.at(-1)",
+        "result"
+      ],
+      "rows": [
+        {
+          "k": 1,
+          "str.at(-1)": "'d'",
+          "result": "'d'"
+        }
+      ]
+    },
+    "patternTag": "Relative Indexing",
+    "patternExplanation": "String.prototype.at() supports negative indices counting backwards from the end of the string.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "world",
+          1
+        ],
+        "expected": "d",
+        "label": "last character"
+      },
+      {
+        "input": [
+          "world",
+          2
+        ],
+        "expected": "l",
+        "label": "second to last"
+      },
+      {
+        "input": [
+          "hi",
+          5
+        ],
+        "label": "k exceeds length"
+      },
+      {
+        "input": [
+          "a",
+          1
+        ],
+        "expected": "a",
+        "label": "single char"
+      }
+    ]
+  },
+  {
+    "id": "strings-index-of-search",
+    "title": "String indexOf: Find Substring Position",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "findSubstringPos",
+    "description": "Given string text and substring target, use text.indexOf(target) to return the 0-based starting index of the first occurrence of target. Return -1 if not found.",
+    "whatShouldHappen": [
+      "Call text.indexOf(target).",
+      "Return the index."
+    ],
+    "starterCode": "function findSubstringPos(text, target) {\n  // your code here\n}",
+    "solution": "function findSubstringPos(text, target) {\n  return text.indexOf(target);\n}",
+    "skeletonHint": "function findSubstringPos(text, target) {\n  return text.indexOf(____);\n}",
+    "traceTable": {
+      "inputLabel": "text = 'banana', target = 'na'",
+      "columns": [
+        "text",
+        "target",
+        "first index"
+      ],
+      "rows": [
+        {
+          "text": "'banana'",
+          "target": "'na'",
+          "first index": 2
+        }
+      ]
+    },
+    "patternTag": "Substring Locator",
+    "patternExplanation": ".indexOf(target) returns the start position of the target substring, or -1 if absent.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "banana",
+          "na"
+        ],
+        "expected": 2,
+        "label": "first occurrence of na"
+      },
+      {
+        "input": [
+          "hello world",
+          "world"
+        ],
+        "expected": 6,
+        "label": "find world"
+      },
+      {
+        "input": [
+          "apple",
+          "orange"
+        ],
+        "expected": -1,
+        "label": "not found"
+      },
+      {
+        "input": [
+          "",
+          "a"
+        ],
+        "expected": -1,
+        "label": "empty text"
+      }
+    ]
+  },
+  {
+    "id": "strings-last-index-of",
+    "title": "String lastIndexOf: Last Substring Position",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "findLastSubstringPos",
+    "description": "Given string text and substring target, use text.lastIndexOf(target) to return the index of the last occurrence of target.",
+    "whatShouldHappen": [
+      "Call text.lastIndexOf(target).",
+      "Return the index."
+    ],
+    "starterCode": "function findLastSubstringPos(text, target) {\n  // your code here\n}",
+    "solution": "function findLastSubstringPos(text, target) {\n  return text.lastIndexOf(target);\n}",
+    "skeletonHint": "function findLastSubstringPos(text, target) {\n  return text.lastIndexOf(____);\n}",
+    "traceTable": {
+      "inputLabel": "text = 'banana', target = 'na'",
+      "columns": [
+        "text",
+        "target",
+        "last index"
+      ],
+      "rows": [
+        {
+          "text": "'banana'",
+          "target": "'na'",
+          "last index": 4
+        }
+      ]
+    },
+    "patternTag": "Reverse Substring Locator",
+    "patternExplanation": ".lastIndexOf() searches backwards from the end of the string to find the final occurrence.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "banana",
+          "na"
+        ],
+        "expected": 4,
+        "label": "last occurrence of na"
+      },
+      {
+        "input": [
+          "cat, dog, cat",
+          "cat"
+        ],
+        "expected": 10,
+        "label": "last cat"
+      },
+      {
+        "input": [
+          "one",
+          "two"
+        ],
+        "expected": -1,
+        "label": "absent"
+      },
+      {
+        "input": [
+          "aaa",
+          "a"
+        ],
+        "expected": 2,
+        "label": "last char in aaa"
+      }
+    ]
+  },
+  {
+    "id": "strings-starts-with-prefix",
+    "title": "String startsWith: Verify HTTPS URL",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "isUrlSecure",
+    "description": "Given a string url, use url.startsWith('https://') to check if it begins with the secure protocol prefix.",
+    "whatShouldHappen": [
+      "Check url.startsWith('https://').",
+      "Return boolean."
+    ],
+    "starterCode": "function isUrlSecure(url) {\n  // your code here\n}",
+    "solution": "function isUrlSecure(url) {\n  return url.startsWith('https://');\n}",
+    "skeletonHint": "function isUrlSecure(url) {\n  return url.startsWith('____');\n}",
+    "traceTable": {
+      "inputLabel": "url = 'https://example.com'",
+      "columns": [
+        "url",
+        "startsWith https://",
+        "secure?"
+      ],
+      "rows": [
+        {
+          "url": "'https://example.com'",
+          "startsWith https://": "true",
+          "secure?": "true"
+        }
+      ]
+    },
+    "patternTag": "Prefix Verification",
+    "patternExplanation": ".startsWith(prefix) checks for string prefix match without regular expressions.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "https://example.com"
+        ],
+        "expected": true,
+        "label": "secure https"
+      },
+      {
+        "input": [
+          "http://example.com"
+        ],
+        "expected": false,
+        "label": "insecure http"
+      },
+      {
+        "input": [
+          "ftp://example.com"
+        ],
+        "expected": false,
+        "label": "ftp"
+      },
+      {
+        "input": [
+          ""
+        ],
+        "expected": false,
+        "label": "empty string"
+      }
+    ]
+  },
+  {
+    "id": "strings-ends-with-extension",
+    "title": "String endsWith: Validate File Extension",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "hasFileExtension",
+    "description": "Given string filename and extension ext, use filename.endsWith(ext) to check if the file ends with that extension.",
+    "whatShouldHappen": [
+      "Call filename.endsWith(ext).",
+      "Return boolean."
+    ],
+    "starterCode": "function hasFileExtension(filename, ext) {\n  // your code here\n}",
+    "solution": "function hasFileExtension(filename, ext) {\n  return filename.endsWith(ext);\n}",
+    "skeletonHint": "function hasFileExtension(filename, ext) {\n  return filename.endsWith(____);\n}",
+    "traceTable": {
+      "inputLabel": "filename = 'report.pdf', ext = '.pdf'",
+      "columns": [
+        "filename",
+        "endsWith .pdf"
+      ],
+      "rows": [
+        {
+          "filename": "'report.pdf'",
+          "endsWith .pdf": "true"
+        }
+      ]
+    },
+    "patternTag": "Suffix Verification",
+    "patternExplanation": ".endsWith(suffix) performs exact end-of-string matching cleanly.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "report.pdf",
+          ".pdf"
+        ],
+        "expected": true,
+        "label": "valid pdf"
+      },
+      {
+        "input": [
+          "photo.jpg",
+          ".png"
+        ],
+        "expected": false,
+        "label": "wrong extension"
+      },
+      {
+        "input": [
+          "main.js",
+          "js"
+        ],
+        "expected": true,
+        "label": "extension without dot"
+      },
+      {
+        "input": [
+          "file",
+          ".txt"
+        ],
+        "expected": false,
+        "label": "no extension"
+      }
+    ]
+  },
+  {
+    "id": "strings-includes-substring",
+    "title": "String includes: Case-Insensitive Search",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "containsKeyword",
+    "description": "Given string text and keyword, check if keyword appears in text ignoring case by converting both with .toLowerCase().",
+    "whatShouldHappen": [
+      "Convert text.toLowerCase() and keyword.toLowerCase().",
+      "Return lowerText.includes(lowerKeyword)."
+    ],
+    "starterCode": "function containsKeyword(text, keyword) {\n  // your code here\n}",
+    "solution": "function containsKeyword(text, keyword) {\n  return text.toLowerCase().includes(keyword.toLowerCase());\n}",
+    "skeletonHint": "function containsKeyword(text, keyword) {\n  return text.toLowerCase().includes(keyword.____());\n}",
+    "traceTable": {
+      "inputLabel": "text = 'Hello World', keyword = 'WORLD'",
+      "columns": [
+        "lowerText",
+        "lowerKeyword",
+        "includes?"
+      ],
+      "rows": [
+        {
+          "lowerText": "'hello world'",
+          "lowerKeyword": "'world'",
+          "includes?": "true"
+        }
+      ]
+    },
+    "patternTag": "Case-Insensitive Match",
+    "patternExplanation": "Normalizing both strings with toLowerCase() before calling .includes() normalizes text for search.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "Hello World",
+          "WORLD"
+        ],
+        "expected": true,
+        "label": "uppercase keyword match"
+      },
+      {
+        "input": [
+          "JavaScript",
+          "script"
+        ],
+        "expected": true,
+        "label": "substring match"
+      },
+      {
+        "input": [
+          "Apple",
+          "orange"
+        ],
+        "expected": false,
+        "label": "not present"
+      },
+      {
+        "input": [
+          "",
+          "test"
+        ],
+        "expected": false,
+        "label": "empty text"
+      }
+    ]
+  },
+  {
+    "id": "strings-starts-with-offset",
+    "title": "String startsWith: Position Offset",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "startsWithAtPos",
+    "description": "Given string str, substring prefix, and integer pos, use str.startsWith(prefix, pos) to check if prefix begins at position pos.",
+    "whatShouldHappen": [
+      "Call str.startsWith(prefix, pos).",
+      "Return boolean."
+    ],
+    "starterCode": "function startsWithAtPos(str, prefix, pos) {\n  // your code here\n}",
+    "solution": "function startsWithAtPos(str, prefix, pos) {\n  return str.startsWith(prefix, pos);\n}",
+    "skeletonHint": "function startsWithAtPos(str, prefix, pos) {\n  return str.startsWith(____, ____);\n}",
+    "traceTable": {
+      "inputLabel": "str = 'hello world', prefix = 'world', pos = 6",
+      "columns": [
+        "pos",
+        "slice from pos",
+        "starts with world?"
+      ],
+      "rows": [
+        {
+          "pos": 6,
+          "slice from pos": "'world'",
+          "starts with world?": "true"
+        }
+      ]
+    },
+    "patternTag": "Offset Prefix Match",
+    "patternExplanation": "Providing the position parameter checks prefix match at an internal index.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "hello world",
+          "world",
+          6
+        ],
+        "expected": true,
+        "label": "world starts at 6"
+      },
+      {
+        "input": [
+          "hello world",
+          "world",
+          0
+        ],
+        "expected": false,
+        "label": "does not start at 0"
+      },
+      {
+        "input": [
+          "abc",
+          "b",
+          1
+        ],
+        "expected": true,
+        "label": "b starts at 1"
+      },
+      {
+        "input": [
+          "abc",
+          "d",
+          1
+        ],
+        "expected": false,
+        "label": "not present"
+      }
+    ]
+  },
+  {
+    "id": "strings-ends-with-length",
+    "title": "String endsWith: Up to Target Length",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "endsWithAtLength",
+    "description": "Given string str, suffix, and integer len, use str.endsWith(suffix, len) to verify if the string up to length len ends with suffix.",
+    "whatShouldHappen": [
+      "Call str.endsWith(suffix, len).",
+      "Return boolean."
+    ],
+    "starterCode": "function endsWithAtLength(str, suffix, len) {\n  // your code here\n}",
+    "solution": "function endsWithAtLength(str, suffix, len) {\n  return str.endsWith(suffix, len);\n}",
+    "skeletonHint": "function endsWithAtLength(str, suffix, len) {\n  return str.endsWith(____, ____);\n}",
+    "traceTable": {
+      "inputLabel": "str = 'hello world', suffix = 'hello', len = 5",
+      "columns": [
+        "len",
+        "prefix slice",
+        "ends with hello?"
+      ],
+      "rows": [
+        {
+          "len": 5,
+          "prefix slice": "'hello'",
+          "ends with hello?": "true"
+        }
+      ]
+    },
+    "patternTag": "Bounded Suffix Match",
+    "patternExplanation": "The length parameter treats the string as if it were truncated to that length before checking endsWith.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "hello world",
+          "hello",
+          5
+        ],
+        "expected": true,
+        "label": "first 5 chars end with hello"
+      },
+      {
+        "input": [
+          "abcdef",
+          "cd",
+          4
+        ],
+        "expected": true,
+        "label": "first 4 chars (abcd) end with cd"
+      },
+      {
+        "input": [
+          "test",
+          "x",
+          2
+        ],
+        "expected": false,
+        "label": "no match"
+      },
+      {
+        "input": [
+          "abc",
+          "abc",
+          3
+        ],
+        "expected": true,
+        "label": "exact length"
+      }
+    ]
+  },
+  {
+    "id": "strings-slice-first-word",
+    "title": "String slice: Extract First Word",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "getFirstWord",
+    "description": "Given a sentence string sentence, use sentence.indexOf(' ') and sentence.slice() to extract the first word. If there is no space, return the entire string.",
+    "whatShouldHappen": [
+      "Find const spaceIdx = sentence.indexOf(' ').",
+      "If spaceIdx === -1, return sentence.",
+      "Otherwise return sentence.slice(0, spaceIdx)."
+    ],
+    "starterCode": "function getFirstWord(sentence) {\n  // your code here\n}",
+    "solution": "function getFirstWord(sentence) {\n  const spaceIdx = sentence.indexOf(' ');\n  if (spaceIdx === -1) return sentence;\n  return sentence.slice(0, spaceIdx);\n}",
+    "skeletonHint": "function getFirstWord(sentence) {\n  const spaceIdx = sentence.indexOf(' ');\n  if (spaceIdx === -1) return sentence;\n  return sentence.slice(0, ____);\n}",
+    "traceTable": {
+      "inputLabel": "sentence = 'Quick brown fox'",
+      "columns": [
+        "spaceIdx",
+        "slice(0, spaceIdx)"
+      ],
+      "rows": [
+        {
+          "spaceIdx": 5,
+          "slice(0, spaceIdx)": "'Quick'"
+        }
+      ]
+    },
+    "patternTag": "Delimiter Substring Slicing",
+    "patternExplanation": "Combining indexOf to find a boundary with .slice() extracts the first token cleanly.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "Quick brown fox"
+        ],
+        "expected": "Quick",
+        "label": "first word of multi-word sentence"
+      },
+      {
+        "input": [
+          "Single"
+        ],
+        "expected": "Single",
+        "label": "no spaces"
+      },
+      {
+        "input": [
+          "a b"
+        ],
+        "expected": "a",
+        "label": "two single letters"
+      },
+      {
+        "input": [
+          ""
+        ],
+        "expected": "",
+        "label": "empty string"
+      }
+    ]
+  },
+  {
+    "id": "strings-slice-remove-first-last",
+    "title": "String slice: Strip First and Last Characters",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "stripEnclosingChars",
+    "description": "Given string text with at least 2 characters, return the string with its first and last character removed using text.slice(1, -1). If text has length <= 2, return \"\".",
+    "whatShouldHappen": [
+      "If text.length <= 2, return \"\".",
+      "Return text.slice(1, -1)."
+    ],
+    "starterCode": "function stripEnclosingChars(text) {\n  // your code here\n}",
+    "solution": "function stripEnclosingChars(text) {\n  if (text.length <= 2) return \"\";\n  return text.slice(1, -1);\n}",
+    "skeletonHint": "function stripEnclosingChars(text) {\n  if (text.length <= 2) return \"\";\n  return text.slice(1, ____);\n}",
+    "traceTable": {
+      "inputLabel": "text = '[hello]'",
+      "columns": [
+        "original",
+        "slice(1, -1)"
+      ],
+      "rows": [
+        {
+          "original": "'[hello]'",
+          "slice(1, -1)": "'hello'"
+        }
+      ]
+    },
+    "patternTag": "Boundary Stripping",
+    "patternExplanation": ".slice(1, -1) trims off the boundary characters on both sides.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "[hello]"
+        ],
+        "expected": "hello",
+        "label": "strip brackets"
+      },
+      {
+        "input": [
+          "\"test\""
+        ],
+        "expected": "test",
+        "label": "strip quotes"
+      },
+      {
+        "input": [
+          "ab"
+        ],
+        "expected": "",
+        "label": "two characters"
+      },
+      {
+        "input": [
+          "a"
+        ],
+        "expected": "",
+        "label": "one character"
+      }
+    ]
+  },
+  {
+    "id": "strings-slice-extension",
+    "title": "String slice: Extract File Extension",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "getFileExtension",
+    "description": "Given filename string, find the last dot ('.') using lastIndexOf and return the extension including the dot (e.g. '.js'). If no dot exists, return ''.",
+    "whatShouldHappen": [
+      "Find const dotIdx = filename.lastIndexOf('.').",
+      "If dotIdx === -1, return \"\".",
+      "Return filename.slice(dotIdx)."
+    ],
+    "starterCode": "function getFileExtension(filename) {\n  // your code here\n}",
+    "solution": "function getFileExtension(filename) {\n  const dotIdx = filename.lastIndexOf('.');\n  if (dotIdx === -1) return '';\n  return filename.slice(dotIdx);\n}",
+    "skeletonHint": "function getFileExtension(filename) {\n  const dotIdx = filename.lastIndexOf('.');\n  if (dotIdx === -1) return '';\n  return filename.slice(____);\n}",
+    "traceTable": {
+      "inputLabel": "filename = 'app.bundle.js'",
+      "columns": [
+        "dotIdx",
+        "slice(dotIdx)"
+      ],
+      "rows": [
+        {
+          "dotIdx": 10,
+          "slice(dotIdx)": "'.js'"
+        }
+      ]
+    },
+    "patternTag": "Extension Slicing",
+    "patternExplanation": "Using lastIndexOf to find the final dot ensures handling files with multiple dots correctly.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "app.bundle.js"
+        ],
+        "expected": ".js",
+        "label": "multi-dot filename"
+      },
+      {
+        "input": [
+          "image.png"
+        ],
+        "expected": ".png",
+        "label": "standard image"
+      },
+      {
+        "input": [
+          "README"
+        ],
+        "expected": "",
+        "label": "no extension"
+      },
+      {
+        "input": [
+          ".env"
+        ],
+        "expected": ".env",
+        "label": "hidden dotfile"
+      }
+    ]
+  },
+  {
+    "id": "strings-substring-bounds",
+    "title": "String substring: Extract Range with Auto-Swap",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "safeSubstring",
+    "description": "Given string str and indices start and end, use str.substring(start, end) to return the characters between them. Note that substring automatically swaps arguments if start > end.",
+    "whatShouldHappen": [
+      "Call str.substring(start, end).",
+      "Return substring."
+    ],
+    "starterCode": "function safeSubstring(str, start, end) {\n  // your code here\n}",
+    "solution": "function safeSubstring(str, start, end) {\n  return str.substring(start, end);\n}",
+    "skeletonHint": "function safeSubstring(str, start, end) {\n  return str.substring(____, ____);\n}",
+    "traceTable": {
+      "inputLabel": "str = 'JavaScript', start = 4, end = 0",
+      "columns": [
+        "start",
+        "end",
+        "swapped range",
+        "result"
+      ],
+      "rows": [
+        {
+          "start": 4,
+          "end": 0,
+          "swapped range": "0 to 4",
+          "result": "'Java'"
+        }
+      ]
+    },
+    "patternTag": "Substring Argument Swapping",
+    "patternExplanation": ".substring() swaps start and end if start > end and treats negative arguments as 0.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "JavaScript",
+          0,
+          4
+        ],
+        "expected": "Java",
+        "label": "normal order"
+      },
+      {
+        "input": [
+          "JavaScript",
+          4,
+          0
+        ],
+        "expected": "Java",
+        "label": "inverted order"
+      },
+      {
+        "input": [
+          "hello",
+          1,
+          3
+        ],
+        "expected": "el",
+        "label": "indices 1 to 3"
+      },
+      {
+        "input": [
+          "",
+          0,
+          5
+        ],
+        "expected": "",
+        "label": "empty string"
+      }
+    ]
+  },
+  {
+    "id": "strings-truncate-with-ellipsis",
+    "title": "String slice: Truncate with Ellipsis",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "truncateText",
+    "description": "Given text string and integer maxLen, if text.length > maxLen, return text.slice(0, maxLen) + '...'. Otherwise return text unchanged.",
+    "whatShouldHappen": [
+      "If text.length > maxLen, return text.slice(0, maxLen) + '...'.",
+      "Otherwise return text."
+    ],
+    "starterCode": "function truncateText(text, maxLen) {\n  // your code here\n}",
+    "solution": "function truncateText(text, maxLen) {\n  if (text.length > maxLen) return text.slice(0, maxLen) + '...';\n  return text;\n}",
+    "skeletonHint": "function truncateText(text, maxLen) {\n  if (text.length > maxLen) return text.slice(0, ____) + '...';\n  return text;\n}",
+    "traceTable": {
+      "inputLabel": "text = 'Supercalifragilistic', maxLen = 5",
+      "columns": [
+        "length",
+        "maxLen",
+        "result"
+      ],
+      "rows": [
+        {
+          "length": 20,
+          "maxLen": 5,
+          "result": "'Super...'"
+        }
+      ]
+    },
+    "patternTag": "Text Truncation",
+    "patternExplanation": "Checking length against maximum display budget and appending an ellipsis is the standard snippet preview pattern.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "Supercalifragilistic",
+          5
+        ],
+        "expected": "Super...",
+        "label": "truncate long word"
+      },
+      {
+        "input": [
+          "Short",
+          10
+        ],
+        "expected": "Short",
+        "label": "within limit"
+      },
+      {
+        "input": [
+          "Exact",
+          5
+        ],
+        "expected": "Exact",
+        "label": "exact length"
+      },
+      {
+        "input": [
+          "",
+          3
+        ],
+        "expected": "",
+        "label": "empty text"
+      }
+    ]
+  },
+  {
+    "id": "strings-pad-start-zeros",
+    "title": "String padStart: Zero-Pad Integer",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "padZeroInteger",
+    "description": "Given a non-negative integer num and target length targetLen, return String(num) padded on the left with '0' using padStart.",
+    "whatShouldHappen": [
+      "Convert num to string: String(num).",
+      "Call .padStart(targetLen, '0').",
+      "Return padded string."
+    ],
+    "starterCode": "function padZeroInteger(num, targetLen) {\n  // your code here\n}",
+    "solution": "function padZeroInteger(num, targetLen) {\n  return String(num).padStart(targetLen, '0');\n}",
+    "skeletonHint": "function padZeroInteger(num, targetLen) {\n  return String(num).padStart(____, '0');\n}",
+    "traceTable": {
+      "inputLabel": "num = 42, targetLen = 5",
+      "columns": [
+        "original string",
+        "padded result"
+      ],
+      "rows": [
+        {
+          "original string": "'42'",
+          "padded result": "'00042'"
+        }
+      ]
+    },
+    "patternTag": "Left Padding",
+    "patternExplanation": ".padStart(targetLength, padChar) pads leading characters until target length is satisfied.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          42,
+          5
+        ],
+        "expected": "00042",
+        "label": "pad 42 to 5 digits"
+      },
+      {
+        "input": [
+          7,
+          2
+        ],
+        "expected": "07",
+        "label": "pad 7 to 2 digits"
+      },
+      {
+        "input": [
+          1234,
+          3
+        ],
+        "expected": "1234",
+        "label": "already longer than target"
+      },
+      {
+        "input": [
+          0,
+          4
+        ],
+        "expected": "0000",
+        "label": "pad zero"
+      }
+    ]
+  },
+  {
+    "id": "strings-pad-end-column",
+    "title": "String padEnd: Right-Pad Column",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "padColumnRight",
+    "description": "Given text string and target width width, return text padded on the right with spaces (' ') using text.padEnd(width, ' ').",
+    "whatShouldHappen": [
+      "Call text.padEnd(width, ' ').",
+      "Return padded string."
+    ],
+    "starterCode": "function padColumnRight(text, width) {\n  // your code here\n}",
+    "solution": "function padColumnRight(text, width) {\n  return text.padEnd(width, ' ');\n}",
+    "skeletonHint": "function padColumnRight(text, width) {\n  return text.padEnd(____, ' ');\n}",
+    "traceTable": {
+      "inputLabel": "text = 'Item', width = 8",
+      "columns": [
+        "text",
+        "width",
+        "padEnd result"
+      ],
+      "rows": [
+        {
+          "text": "'Item'",
+          "width": 8,
+          "padEnd result": "'Item    '"
+        }
+      ]
+    },
+    "patternTag": "Right Padding",
+    "patternExplanation": ".padEnd(width, padString) pads trailing characters, useful for tabular formatting in terminal displays.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "Item",
+          8
+        ],
+        "expected": "Item    ",
+        "label": "pad Item to 8 chars"
+      },
+      {
+        "input": [
+          "Price",
+          5
+        ],
+        "expected": "Price",
+        "label": "exact length"
+      },
+      {
+        "input": [
+          "LongName",
+          4
+        ],
+        "expected": "LongName",
+        "label": "already exceeds width"
+      },
+      {
+        "input": [
+          "",
+          3
+        ],
+        "expected": "   ",
+        "label": "pad empty"
+      }
+    ]
+  },
+  {
+    "id": "strings-repeat-pattern",
+    "title": "String repeat: Build Divider Line",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "buildDivider",
+    "description": "Given string pattern and integer count, use pattern.repeat(count) to generate a repeated divider string. If count <= 0, return \"\".",
+    "whatShouldHappen": [
+      "If count <= 0 return \"\".",
+      "Return pattern.repeat(count)."
+    ],
+    "starterCode": "function buildDivider(pattern, count) {\n  // your code here\n}",
+    "solution": "function buildDivider(pattern, count) {\n  if (count <= 0) return \"\";\n  return pattern.repeat(count);\n}",
+    "skeletonHint": "function buildDivider(pattern, count) {\n  if (count <= 0) return \"\";\n  return pattern.repeat(____);\n}",
+    "traceTable": {
+      "inputLabel": "pattern = '-=', count = 3",
+      "columns": [
+        "pattern",
+        "count",
+        "repeat result"
+      ],
+      "rows": [
+        {
+          "pattern": "'-='",
+          "count": 3,
+          "repeat result": "'-=-=-='"
+        }
+      ]
+    },
+    "patternTag": "String Repetition",
+    "patternExplanation": ".repeat(count) replicates a string sequence count times in constant JS engine allocation.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "-=",
+          3
+        ],
+        "expected": "-=-=-=",
+        "label": "repeat 3 times"
+      },
+      {
+        "input": [
+          "*",
+          5
+        ],
+        "expected": "*****",
+        "label": "five stars"
+      },
+      {
+        "input": [
+          "abc",
+          0
+        ],
+        "expected": "",
+        "label": "count zero"
+      },
+      {
+        "input": [
+          "",
+          10
+        ],
+        "expected": "",
+        "label": "empty pattern"
+      }
+    ]
+  },
+  {
+    "id": "strings-mask-credit-card",
+    "title": "String padStart: Mask Sensitive Card",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "maskCardNumber",
+    "description": "Given a credit card number string cardNum of length >= 4, keep only the last 4 characters and replace all preceding characters with '*' using padStart.",
+    "whatShouldHappen": [
+      "Extract last 4 chars with cardNum.slice(-4).",
+      "Pad with '*' to full cardNum.length using .padStart(cardNum.length, '*').",
+      "Return masked card string."
+    ],
+    "starterCode": "function maskCardNumber(cardNum) {\n  // your code here\n}",
+    "solution": "function maskCardNumber(cardNum) {\n  return cardNum.slice(-4).padStart(cardNum.length, '*');\n}",
+    "skeletonHint": "function maskCardNumber(cardNum) {\n  return cardNum.slice(-4).padStart(____, '*');\n}",
+    "traceTable": {
+      "inputLabel": "cardNum = '1234567812345678'",
+      "columns": [
+        "last 4",
+        "length",
+        "masked result"
+      ],
+      "rows": [
+        {
+          "last 4": "'5678'",
+          "length": 16,
+          "masked result": "'************5678'"
+        }
+      ]
+    },
+    "patternTag": "Data Masking",
+    "patternExplanation": "Extracting trailing digits and padding the difference with asterisks is the standard data sanitization pattern.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "1234567812345678"
+        ],
+        "expected": "************5678",
+        "label": "16 digit card"
+      },
+      {
+        "input": [
+          "1234"
+        ],
+        "expected": "1234",
+        "label": "exact 4 digits"
+      },
+      {
+        "input": [
+          "987654321"
+        ],
+        "expected": "*****4321",
+        "label": "9 digits"
+      },
+      {
+        "input": [
+          "00001111"
+        ],
+        "expected": "****1111",
+        "label": "8 digits"
+      }
+    ]
+  },
+  {
+    "id": "strings-repeat-staircase",
+    "title": "String repeat: Build Character Staircase",
+    "category": "strings",
+    "difficulty": "Easy",
+    "functionName": "buildStaircase",
+    "description": "Given char string and total rows, return an array of strings where row i (from 1 to rows) contains char repeated i times.",
+    "whatShouldHappen": [
+      "Initialize result array.",
+      "Loop i from 1 to rows.",
+      "Push char.repeat(i) to result.",
+      "Return result."
+    ],
+    "starterCode": "function buildStaircase(char, rows) {\n  // your code here\n}",
+    "solution": "function buildStaircase(char, rows) {\n  const result = [];\n  for (let i = 1; i <= rows; i++) {\n    result.push(char.repeat(i));\n  }\n  return result;\n}",
+    "skeletonHint": "function buildStaircase(char, rows) {\n  const result = [];\n  for (let i = 1; i <= rows; i++) {\n    result.push(char.repeat(____));\n  }\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "char = '#', rows = 3",
+      "columns": [
+        "i",
+        "char.repeat(i)",
+        "result array"
+      ],
+      "rows": [
+        {
+          "i": 1,
+          "char.repeat(i)": "'#'",
+          "result array": "['#']"
+        },
+        {
+          "i": 2,
+          "char.repeat(i)": "'##'",
+          "result array": "['#', '##']"
+        },
+        {
+          "i": 3,
+          "char.repeat(i)": "'###'",
+          "result array": "['#', '##', '###']"
+        }
+      ]
+    },
+    "patternTag": "Iterative Pattern Generation",
+    "patternExplanation": "Using loop index i as the count in char.repeat(i) builds stepped sequence structures.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "#",
+          3
+        ],
+        "expected": [
+          "#",
+          "##",
+          "###"
+        ],
+        "label": "3 rows of #"
+      },
+      {
+        "input": [
+          "*",
+          1
+        ],
+        "expected": [
+          "*"
+        ],
+        "label": "1 row"
+      },
+      {
+        "input": [
+          "x",
+          0
+        ],
+        "expected": [],
+        "label": "0 rows"
+      },
+      {
+        "input": [
+          "A",
+          4
+        ],
+        "expected": [
+          "A",
+          "AA",
+          "AAA",
+          "AAAA"
+        ],
+        "label": "4 rows of A"
+      }
+    ]
+  },
+  {
+    "id": "strings-trim-both",
+    "title": "String trim: Clean Input Whitespace",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "cleanWhitespace",
+    "description": "Given string text, return text with all leading and trailing whitespace removed using text.trim().",
+    "whatShouldHappen": [
+      "Call text.trim().",
+      "Return trimmed string."
+    ],
+    "starterCode": "function cleanWhitespace(text) {\n  // your code here\n}",
+    "solution": "function cleanWhitespace(text) {\n  return text.trim();\n}",
+    "skeletonHint": "function cleanWhitespace(text) {\n  return text.____();\n}",
+    "traceTable": {
+      "inputLabel": "text = '   hello world   '",
+      "columns": [
+        "original",
+        "trim() result"
+      ],
+      "rows": [
+        {
+          "original": "'   hello world   '",
+          "trim() result": "'hello world'"
+        }
+      ]
+    },
+    "patternTag": "Whitespace Cleansing",
+    "patternExplanation": ".trim() removes spaces, tabs, and newlines from both ends of a string.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "   hello world   "
+        ],
+        "expected": "hello world",
+        "label": "both ends whitespace"
+      },
+      {
+        "input": [
+          "  start"
+        ],
+        "expected": "start",
+        "label": "leading only"
+      },
+      {
+        "input": [
+          "end  "
+        ],
+        "expected": "end",
+        "label": "trailing only"
+      },
+      {
+        "input": [
+          "   "
+        ],
+        "expected": "",
+        "label": "only spaces"
+      }
+    ]
+  },
+  {
+    "id": "strings-trim-start-only",
+    "title": "String trimStart: Remove Leading Spaces",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "stripLeadingSpaces",
+    "description": "Given string text, remove only the leading whitespace while keeping any trailing whitespace intact using text.trimStart().",
+    "whatShouldHappen": [
+      "Call text.trimStart().",
+      "Return string."
+    ],
+    "starterCode": "function stripLeadingSpaces(text) {\n  // your code here\n}",
+    "solution": "function stripLeadingSpaces(text) {\n  return text.trimStart();\n}",
+    "skeletonHint": "function stripLeadingSpaces(text) {\n  return text.____();\n}",
+    "traceTable": {
+      "inputLabel": "text = '   hello   '",
+      "columns": [
+        "original",
+        "trimStart() result"
+      ],
+      "rows": [
+        {
+          "original": "'   hello   '",
+          "trimStart() result": "'hello   '"
+        }
+      ]
+    },
+    "patternTag": "Leading Trim",
+    "patternExplanation": ".trimStart() leaves trailing formatting intact while sanitizing initial indentations.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "   hello   "
+        ],
+        "expected": "hello   ",
+        "label": "removes only leading"
+      },
+      {
+        "input": [
+          "text"
+        ],
+        "expected": "text",
+        "label": "no leading spaces"
+      },
+      {
+        "input": [
+          "\t\tcode"
+        ],
+        "expected": "code",
+        "label": "tabs leading"
+      },
+      {
+        "input": [
+          "   "
+        ],
+        "expected": "",
+        "label": "all spaces"
+      }
+    ]
+  },
+  {
+    "id": "strings-trim-end-only",
+    "title": "String trimEnd: Remove Trailing Spaces",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "stripTrailingSpaces",
+    "description": "Given string text, remove only the trailing whitespace using text.trimEnd().",
+    "whatShouldHappen": [
+      "Call text.trimEnd().",
+      "Return string."
+    ],
+    "starterCode": "function stripTrailingSpaces(text) {\n  // your code here\n}",
+    "solution": "function stripTrailingSpaces(text) {\n  return text.trimEnd();\n}",
+    "skeletonHint": "function stripTrailingSpaces(text) {\n  return text.____();\n}",
+    "traceTable": {
+      "inputLabel": "text = '   hello   '",
+      "columns": [
+        "original",
+        "trimEnd() result"
+      ],
+      "rows": [
+        {
+          "original": "'   hello   '",
+          "trimEnd() result": "'   hello'"
+        }
+      ]
+    },
+    "patternTag": "Trailing Trim",
+    "patternExplanation": ".trimEnd() strips line-ending whitespace without disturbing initial indentation.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "   hello   "
+        ],
+        "expected": "   hello",
+        "label": "removes only trailing"
+      },
+      {
+        "input": [
+          "word  "
+        ],
+        "expected": "word",
+        "label": "trailing spaces"
+      },
+      {
+        "input": [
+          "clean"
+        ],
+        "expected": "clean",
+        "label": "no trailing spaces"
+      },
+      {
+        "input": [
+          "  "
+        ],
+        "expected": "",
+        "label": "all spaces"
+      }
+    ]
+  },
+  {
+    "id": "strings-collapse-spaces",
+    "title": "String Split & Join: Normalize Multi-Spaces",
+    "category": "strings",
+    "difficulty": "Easy",
+    "functionName": "collapseSpaces",
+    "description": "Given a string text containing consecutive spaces, return text where all contiguous sequences of whitespace are collapsed into single spaces, and trimmed.",
+    "whatShouldHappen": [
+      "Split text by ' '.",
+      "Filter with Boolean to remove empty segments.",
+      "Join with ' '.",
+      "Return normalized string."
+    ],
+    "starterCode": "function collapseSpaces(text) {\n  // your code here\n}",
+    "solution": "function collapseSpaces(text) {\n  return text.split(' ').filter(Boolean).join(' ');\n}",
+    "skeletonHint": "function collapseSpaces(text) {\n  return text.split(' ').filter(____).join(' ');\n}",
+    "traceTable": {
+      "inputLabel": "text = 'hello    world   js'",
+      "columns": [
+        "original",
+        "split filter join result"
+      ],
+      "rows": [
+        {
+          "original": "'hello    world   js'",
+          "split filter join result": "'hello world js'"
+        }
+      ]
+    },
+    "patternTag": "Space Normalization",
+    "patternExplanation": "Splitting by spaces, filtering out empty strings, and rejoining with single spaces normalizes whitespace effortlessly.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "hello    world   js"
+        ],
+        "expected": "hello world js",
+        "label": "collapse multiple spaces"
+      },
+      {
+        "input": [
+          "  leading and trailing  "
+        ],
+        "expected": "leading and trailing",
+        "label": "trims boundaries too"
+      },
+      {
+        "input": [
+          "single"
+        ],
+        "expected": "single",
+        "label": "single word"
+      },
+      {
+        "input": [
+          "    "
+        ],
+        "expected": "",
+        "label": "all spaces"
+      }
+    ]
+  },
+  {
+    "id": "strings-remove-newlines",
+    "title": "String replaceAll: Remove Newlines",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "replaceNewlinesWithSpace",
+    "description": "Given a multiline string text, use text.replaceAll('\\n', ' ') to replace all newline characters with a single space.",
+    "whatShouldHappen": [
+      "Call text.replaceAll('\\n', ' ').",
+      "Return single-line string."
+    ],
+    "starterCode": "function replaceNewlinesWithSpace(text) {\n  // your code here\n}",
+    "solution": "function replaceNewlinesWithSpace(text) {\n  return text.replaceAll('\\n', ' ');\n}",
+    "skeletonHint": "function replaceNewlinesWithSpace(text) {\n  return text.replaceAll('____', ' ');\n}",
+    "traceTable": {
+      "inputLabel": "text = 'line1\\nline2\\nline3'",
+      "columns": [
+        "original",
+        "replaceAll result"
+      ],
+      "rows": [
+        {
+          "original": "'line1\\nline2'",
+          "replaceAll result": "'line1 line2'"
+        }
+      ]
+    },
+    "patternTag": "Newline Flattening",
+    "patternExplanation": ".replaceAll() eliminates all instances of a target character string without requiring regex flags.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "line1\nline2\nline3"
+        ],
+        "expected": "line1 line2 line3",
+        "label": "two newlines"
+      },
+      {
+        "input": [
+          "single line"
+        ],
+        "expected": "single line",
+        "label": "no newlines"
+      },
+      {
+        "input": [
+          "\nstart"
+        ],
+        "expected": " start",
+        "label": "leading newline"
+      },
+      {
+        "input": [
+          ""
+        ],
+        "expected": "",
+        "label": "empty string"
+      }
+    ]
+  },
+  {
+    "id": "strings-capitalize-word",
+    "title": "String slice: Capitalize First Letter",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "capitalizeFirst",
+    "description": "Given word string, capitalize its first letter and keep the remaining letters lowercase. Return empty string if word is empty.",
+    "whatShouldHappen": [
+      "If word is empty return \"\".",
+      "Return word[0].toUpperCase() + word.slice(1).toLowerCase()."
+    ],
+    "starterCode": "function capitalizeFirst(word) {\n  // your code here\n}",
+    "solution": "function capitalizeFirst(word) {\n  if (!word) return \"\";\n  return word[0].toUpperCase() + word.slice(1).toLowerCase();\n}",
+    "skeletonHint": "function capitalizeFirst(word) {\n  if (!word) return \"\";\n  return word[0].toUpperCase() + word.slice(1).____();\n}",
+    "traceTable": {
+      "inputLabel": "word = 'javascript'",
+      "columns": [
+        "first letter upper",
+        "rest lower",
+        "result"
+      ],
+      "rows": [
+        {
+          "first letter upper": "'J'",
+          "rest lower": "'avascript'",
+          "result": "'Javascript'"
+        }
+      ]
+    },
+    "patternTag": "Title Capitalization",
+    "patternExplanation": "Combining char[0].toUpperCase() with slice(1).toLowerCase() establishes standard capitalized casing.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "javascript"
+        ],
+        "expected": "Javascript",
+        "label": "lowercase word"
+      },
+      {
+        "input": [
+          "HELLO"
+        ],
+        "expected": "Hello",
+        "label": "uppercase word"
+      },
+      {
+        "input": [
+          "a"
+        ],
+        "expected": "A",
+        "label": "single char"
+      },
+      {
+        "input": [
+          ""
+        ],
+        "expected": "",
+        "label": "empty string"
+      }
+    ]
+  },
+  {
+    "id": "strings-title-case-words",
+    "title": "String map: Title Case Every Word",
+    "category": "strings",
+    "difficulty": "Easy",
+    "functionName": "toTitleCase",
+    "description": "Given a space-separated sentence string, return the sentence with the first letter of each word capitalized and the rest lowercase.",
+    "whatShouldHappen": [
+      "Split sentence into words with sentence.split(' ').",
+      "Map each word: w ? w[0].toUpperCase() + w.slice(1).toLowerCase() : \"\".",
+      "Join with ' ' and return."
+    ],
+    "starterCode": "function toTitleCase(sentence) {\n  // your code here\n}",
+    "solution": "function toTitleCase(sentence) {\n  if (!sentence) return '';\n  return sentence.split(' ').map(w => w ? w[0].toUpperCase() + w.slice(1).toLowerCase() : '').join(' ');\n}",
+    "skeletonHint": "function toTitleCase(sentence) {\n  return sentence.split(' ').map(w => w[0].____() + w.slice(1).toLowerCase()).join(' ');\n}",
+    "traceTable": {
+      "inputLabel": "sentence = 'the quick brown fox'",
+      "columns": [
+        "word",
+        "capitalized word"
+      ],
+      "rows": [
+        {
+          "word": "the",
+          "capitalized word": "The"
+        },
+        {
+          "word": "quick",
+          "capitalized word": "Quick"
+        },
+        {
+          "word": "brown",
+          "capitalized word": "Brown"
+        },
+        {
+          "word": "fox",
+          "capitalized word": "Fox"
+        }
+      ]
+    },
+    "patternTag": "Sentence Title Casing",
+    "patternExplanation": "Splitting words, capitalizing each, and joining with spaces creates standard headline typography.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "the quick brown fox"
+        ],
+        "expected": "The Quick Brown Fox",
+        "label": "four words"
+      },
+      {
+        "input": [
+          "HELLO WORLD"
+        ],
+        "expected": "Hello World",
+        "label": "all caps input"
+      },
+      {
+        "input": [
+          "javaScript mastery"
+        ],
+        "expected": "Javascript Mastery",
+        "label": "mixed case"
+      },
+      {
+        "input": [
+          ""
+        ],
+        "expected": "",
+        "label": "empty string"
+      }
+    ]
+  },
+  {
+    "id": "strings-toggle-case",
+    "title": "String Loop: Toggle Case of Characters",
+    "category": "strings",
+    "difficulty": "Easy",
+    "functionName": "toggleCase",
+    "description": "Given string str, return a new string where all uppercase characters become lowercase, and lowercase characters become uppercase.",
+    "whatShouldHappen": [
+      "Initialize result = \"\".",
+      "Iterate each char of str.",
+      "If char === char.toUpperCase(), append char.toLowerCase().",
+      "Otherwise append char.toUpperCase().",
+      "Return result."
+    ],
+    "starterCode": "function toggleCase(str) {\n  // your code here\n}",
+    "solution": "function toggleCase(str) {\n  let result = \"\";\n  for (const c of str) {\n    if (c === c.toUpperCase()) {\n      result += c.toLowerCase();\n    } else {\n      result += c.toUpperCase();\n    }\n  }\n  return result;\n}",
+    "skeletonHint": "function toggleCase(str) {\n  let result = \"\";\n  for (const c of str) {\n    result += c === c.toUpperCase() ? c.____() : c.____();\n  }\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "str = 'HeLLo'",
+      "columns": [
+        "char",
+        "is uppercase?",
+        "toggled char"
+      ],
+      "rows": [
+        {
+          "char": "H",
+          "is uppercase?": "true",
+          "toggled char": "h"
+        },
+        {
+          "char": "e",
+          "is uppercase?": "false",
+          "toggled char": "E"
+        },
+        {
+          "char": "L",
+          "is uppercase?": "true",
+          "toggled char": "l"
+        }
+      ]
+    },
+    "patternTag": "Case Inversion Loop",
+    "patternExplanation": "Comparing each character against its upper-case form reveals casing and directs the inversion.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "HeLLo"
+        ],
+        "expected": "hEllO",
+        "label": "toggle mixed case"
+      },
+      {
+        "input": [
+          "abc"
+        ],
+        "expected": "ABC",
+        "label": "all lower to upper"
+      },
+      {
+        "input": [
+          "XYZ"
+        ],
+        "expected": "xyz",
+        "label": "all upper to lower"
+      },
+      {
+        "input": [
+          "123 !"
+        ],
+        "expected": "123 !",
+        "label": "non-alpha unchanged"
+      }
+    ]
+  },
+  {
+    "id": "strings-is-all-uppercase",
+    "title": "String: Check if Entirely Uppercase",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "isAllUpperCase",
+    "description": "Given string str containing at least one alphabetical character, return true if str === str.toUpperCase() and false otherwise.",
+    "whatShouldHappen": [
+      "Check if str === str.toUpperCase() and has at least one letter.",
+      "Return boolean."
+    ],
+    "starterCode": "function isAllUpperCase(str) {\n  // your code here\n}",
+    "solution": "function isAllUpperCase(str) {\n  return str.length > 0 && str === str.toUpperCase() && str !== str.toLowerCase();\n}",
+    "skeletonHint": "function isAllUpperCase(str) {\n  return str.length > 0 && str === str.____() && str !== str.toLowerCase();\n}",
+    "traceTable": {
+      "inputLabel": "str = 'HELLO'",
+      "columns": [
+        "str",
+        "str.toUpperCase()",
+        "match?"
+      ],
+      "rows": [
+        {
+          "str": "'HELLO'",
+          "str.toUpperCase()": "'HELLO'",
+          "match?": "true"
+        }
+      ]
+    },
+    "patternTag": "Case Verification",
+    "patternExplanation": "Equality with str.toUpperCase() and inequality with str.toLowerCase() verifies all-caps alphabetical content.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "HELLO"
+        ],
+        "expected": true,
+        "label": "all uppercase"
+      },
+      {
+        "input": [
+          "Hello"
+        ],
+        "expected": false,
+        "label": "mixed case"
+      },
+      {
+        "input": [
+          "abc"
+        ],
+        "expected": false,
+        "label": "lowercase"
+      },
+      {
+        "input": [
+          "123"
+        ],
+        "expected": false,
+        "label": "no letters"
+      }
+    ]
+  },
+  {
+    "id": "strings-camel-to-kebab",
+    "title": "String replace: camelCase to kebab-case",
+    "category": "strings",
+    "difficulty": "Easy",
+    "functionName": "camelToKebab",
+    "description": "Given camelCase string str (e.g. 'fontSize'), convert it to kebab-case (e.g. 'font-size') using replace with regex.",
+    "whatShouldHappen": [
+      "Use str.replace(/[A-Z]/g, match => '-' + match.toLowerCase()).",
+      "Return lowercase kebab string."
+    ],
+    "starterCode": "function camelToKebab(str) {\n  // your code here\n}",
+    "solution": "function camelToKebab(str) {\n  return str.replace(/[A-Z]/g, m => '-' + m.toLowerCase());\n}",
+    "skeletonHint": "function camelToKebab(str) {\n  return str.replace(/[A-Z]/g, m => '-' + m.____());\n}",
+    "traceTable": {
+      "inputLabel": "str = 'fontSize'",
+      "columns": [
+        "match",
+        "replacement",
+        "result"
+      ],
+      "rows": [
+        {
+          "match": "'S'",
+          "replacement": "'-s'",
+          "result": "'font-size'"
+        }
+      ]
+    },
+    "patternTag": "Identifier Casing Conversion",
+    "patternExplanation": "Regex replacement functions insert delimiters before matched uppercase letters, transforming naming conventions.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "fontSize"
+        ],
+        "expected": "font-size",
+        "label": "single uppercase letter"
+      },
+      {
+        "input": [
+          "backgroundColor"
+        ],
+        "expected": "background-color",
+        "label": "two uppercase letters"
+      },
+      {
+        "input": [
+          "simple"
+        ],
+        "expected": "simple",
+        "label": "no uppercase"
+      },
+      {
+        "input": [
+          ""
+        ],
+        "expected": "",
+        "label": "empty string"
+      }
+    ]
+  },
+  {
+    "id": "strings-split-csv-line",
+    "title": "String split: Parse Comma-Separated Values",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "parseCsvLine",
+    "description": "Given a CSV record string line, use line.split(',') to parse it into an array of string values.",
+    "whatShouldHappen": [
+      "Call line.split(',').",
+      "Return the parsed values array."
+    ],
+    "starterCode": "function parseCsvLine(line) {\n  // your code here\n}",
+    "solution": "function parseCsvLine(line) {\n  return line.split(',');\n}",
+    "skeletonHint": "function parseCsvLine(line) {\n  return line.split('____');\n}",
+    "traceTable": {
+      "inputLabel": "line = 'alice,30,engineer'",
+      "columns": [
+        "csv line",
+        "split result"
+      ],
+      "rows": [
+        {
+          "csv line": "'alice,30,engineer'",
+          "split result": "['alice', '30', 'engineer']"
+        }
+      ]
+    },
+    "patternTag": "Delimited Parsing",
+    "patternExplanation": ".split(\",\") tokenizes character-separated data into indexed array elements.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "alice,30,engineer"
+        ],
+        "expected": [
+          "alice",
+          "30",
+          "engineer"
+        ],
+        "label": "3 csv tokens"
+      },
+      {
+        "input": [
+          "one,two"
+        ],
+        "expected": [
+          "one",
+          "two"
+        ],
+        "label": "2 tokens"
+      },
+      {
+        "input": [
+          "single"
+        ],
+        "expected": [
+          "single"
+        ],
+        "label": "no commas"
+      },
+      {
+        "input": [
+          ""
+        ],
+        "expected": [
+          ""
+        ],
+        "label": "empty string"
+      }
+    ]
+  },
+  {
+    "id": "strings-reverse-words-sentence",
+    "title": "String split & reverse: Invert Word Order",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "reverseWordOrder",
+    "description": "Given a space-separated sentence string, return a new string with the order of words reversed.",
+    "whatShouldHappen": [
+      "Split sentence with .split(' ').",
+      "Reverse array with .reverse().",
+      "Join with .join(' ').",
+      "Return reversed sentence."
+    ],
+    "starterCode": "function reverseWordOrder(sentence) {\n  // your code here\n}",
+    "solution": "function reverseWordOrder(sentence) {\n  return sentence.split(' ').reverse().join(' ');\n}",
+    "skeletonHint": "function reverseWordOrder(sentence) {\n  return sentence.split(' ').____().join(' ');\n}",
+    "traceTable": {
+      "inputLabel": "sentence = 'sky is blue'",
+      "columns": [
+        "split",
+        "reverse",
+        "joined"
+      ],
+      "rows": [
+        {
+          "split": "['sky', 'is', 'blue']",
+          "reverse": "['blue', 'is', 'sky']",
+          "joined": "'blue is sky'"
+        }
+      ]
+    },
+    "patternTag": "Token Reversal",
+    "patternExplanation": "The split-reverse-join pipeline is the classic idiom for inverting word sequences.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "sky is blue"
+        ],
+        "expected": "blue is sky",
+        "label": "three words"
+      },
+      {
+        "input": [
+          "hello world"
+        ],
+        "expected": "world hello",
+        "label": "two words"
+      },
+      {
+        "input": [
+          "solo"
+        ],
+        "expected": "solo",
+        "label": "one word"
+      },
+      {
+        "input": [
+          ""
+        ],
+        "expected": "",
+        "label": "empty string"
+      }
+    ]
+  },
+  {
+    "id": "strings-count-word-occurrences",
+    "title": "String filter: Count Target Word Frequency",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "countWordOccurrences",
+    "description": "Given text and targetWord, split text by spaces and count how many words match targetWord (case-insensitive).",
+    "whatShouldHappen": [
+      "Split text by ' '.",
+      "Filter words where w.toLowerCase() === targetWord.toLowerCase().",
+      "Return filtered length."
+    ],
+    "starterCode": "function countWordOccurrences(text, targetWord) {\n  // your code here\n}",
+    "solution": "function countWordOccurrences(text, targetWord) {\n  if (!text) return 0;\n  const target = targetWord.toLowerCase();\n  return text.split(' ').filter(w => w.toLowerCase() === target).length;\n}",
+    "skeletonHint": "function countWordOccurrences(text, targetWord) {\n  return text.split(' ').filter(w => w.toLowerCase() === targetWord.____()).length;\n}",
+    "traceTable": {
+      "inputLabel": "text = 'the cat and the dog', targetWord = 'the'",
+      "columns": [
+        "word",
+        "matches target?",
+        "count"
+      ],
+      "rows": [
+        {
+          "word": "the",
+          "matches target?": "true",
+          "count": 1
+        },
+        {
+          "word": "cat",
+          "matches target?": "false",
+          "count": 1
+        },
+        {
+          "word": "and",
+          "matches target?": "false",
+          "count": 1
+        },
+        {
+          "word": "the",
+          "matches target?": "true",
+          "count": 2
+        }
+      ]
+    },
+    "patternTag": "Token Frequency Counting",
+    "patternExplanation": "Tokenizing by word boundaries and counting matching elements provides text frequency analysis.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "the cat and the dog",
+          "the"
+        ],
+        "expected": 2,
+        "label": "two occurrences"
+      },
+      {
+        "input": [
+          "Hello hello HELLO",
+          "hello"
+        ],
+        "expected": 3,
+        "label": "case-insensitive"
+      },
+      {
+        "input": [
+          "quick brown fox",
+          "wolf"
+        ],
+        "expected": 0,
+        "label": "not found"
+      },
+      {
+        "input": [
+          "",
+          "word"
+        ],
+        "expected": 0,
+        "label": "empty text"
+      }
+    ]
+  },
+  {
+    "id": "strings-split-into-chars",
+    "title": "String spread: Convert String to Characters Array",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "stringToChars",
+    "description": "Given string str, use array spread [...str] to return an array of its individual characters.",
+    "whatShouldHappen": [
+      "Call [...str].",
+      "Return characters array."
+    ],
+    "starterCode": "function stringToChars(str) {\n  // your code here\n}",
+    "solution": "function stringToChars(str) {\n  return [...str];\n}",
+    "skeletonHint": "function stringToChars(str) {\n  return [____str];\n}",
+    "traceTable": {
+      "inputLabel": "str = 'code'",
+      "columns": [
+        "str",
+        "spread array"
+      ],
+      "rows": [
+        {
+          "str": "'code'",
+          "spread array": "['c', 'o', 'd', 'e']"
+        }
+      ]
+    },
+    "patternTag": "String Array Spread",
+    "patternExplanation": "Spreading a string into an array correctly handles full Unicode code points unlike legacy charAt loops.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "code"
+        ],
+        "expected": [
+          "c",
+          "o",
+          "d",
+          "e"
+        ],
+        "label": "four letters"
+      },
+      {
+        "input": [
+          "hi"
+        ],
+        "expected": [
+          "h",
+          "i"
+        ],
+        "label": "two letters"
+      },
+      {
+        "input": [
+          "a"
+        ],
+        "expected": [
+          "a"
+        ],
+        "label": "single char"
+      },
+      {
+        "input": [
+          ""
+        ],
+        "expected": [],
+        "label": "empty string"
+      }
+    ]
+  },
+  {
+    "id": "strings-join-path-segments",
+    "title": "Array join: Assemble Filepath",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "joinPathSegments",
+    "description": "Given an array of path segment strings segments, use segments.join('/') to combine them into a slash-separated path.",
+    "whatShouldHappen": [
+      "Call segments.join('/').",
+      "Return path string."
+    ],
+    "starterCode": "function joinPathSegments(segments) {\n  // your code here\n}",
+    "solution": "function joinPathSegments(segments) {\n  return segments.join('/');\n}",
+    "skeletonHint": "function joinPathSegments(segments) {\n  return segments.join('____');\n}",
+    "traceTable": {
+      "inputLabel": "segments = ['usr', 'local', 'bin']",
+      "columns": [
+        "segments",
+        "joined path"
+      ],
+      "rows": [
+        {
+          "segments": "['usr', 'local', 'bin']",
+          "joined path": "'usr/local/bin'"
+        }
+      ]
+    },
+    "patternTag": "Path Assembly",
+    "patternExplanation": ".join(\"/\") joins directory and path tokens with consistent delimiters.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "usr",
+            "local",
+            "bin"
+          ]
+        ],
+        "expected": "usr/local/bin",
+        "label": "three path segments"
+      },
+      {
+        "input": [
+          [
+            "home",
+            "user"
+          ]
+        ],
+        "expected": "home/user",
+        "label": "two segments"
+      },
+      {
+        "input": [
+          [
+            "root"
+          ]
+        ],
+        "expected": "root",
+        "label": "single segment"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": "",
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "strings-replace-first-match",
+    "title": "String replace: Swap First Match",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "replaceFirstMatch",
+    "description": "Given string text, target substring target, and replacement repl, use text.replace(target, repl) to replace the first occurrence of target.",
+    "whatShouldHappen": [
+      "Call text.replace(target, repl).",
+      "Return modified string."
+    ],
+    "starterCode": "function replaceFirstMatch(text, target, repl) {\n  // your code here\n}",
+    "solution": "function replaceFirstMatch(text, target, repl) {\n  return text.replace(target, repl);\n}",
+    "skeletonHint": "function replaceFirstMatch(text, target, repl) {\n  return text.replace(____, ____);\n}",
+    "traceTable": {
+      "inputLabel": "text = 'cats and cats', target = 'cats', repl = 'dogs'",
+      "columns": [
+        "original",
+        "first replaced"
+      ],
+      "rows": [
+        {
+          "original": "'cats and cats'",
+          "first replaced": "'dogs and cats'"
+        }
+      ]
+    },
+    "patternTag": "First Match Replacement",
+    "patternExplanation": ".replace(string, replacement) replaces only the first occurrence of a string pattern.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "cats and cats",
+          "cats",
+          "dogs"
+        ],
+        "expected": "dogs and cats",
+        "label": "replaces first cats"
+      },
+      {
+        "input": [
+          "hello world",
+          "world",
+          "there"
+        ],
+        "expected": "hello there",
+        "label": "replace word"
+      },
+      {
+        "input": [
+          "test",
+          "x",
+          "y"
+        ],
+        "expected": "test",
+        "label": "target absent"
+      },
+      {
+        "input": [
+          "",
+          "a",
+          "b"
+        ],
+        "expected": "",
+        "label": "empty text"
+      }
+    ]
+  },
+  {
+    "id": "strings-replace-all-matches",
+    "title": "String replaceAll: Substitute Every Occurrence",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "replaceAllMatches",
+    "description": "Given string text, target substring target, and replacement repl, use text.replaceAll(target, repl) to replace all occurrences of target.",
+    "whatShouldHappen": [
+      "Call text.replaceAll(target, repl).",
+      "Return replaced string."
+    ],
+    "starterCode": "function replaceAllMatches(text, target, repl) {\n  // your code here\n}",
+    "solution": "function replaceAllMatches(text, target, repl) {\n  return text.replaceAll(target, repl);\n}",
+    "skeletonHint": "function replaceAllMatches(text, target, repl) {\n  return text.replaceAll(____, ____);\n}",
+    "traceTable": {
+      "inputLabel": "text = 'foo bar foo', target = 'foo', repl = 'baz'",
+      "columns": [
+        "original",
+        "replaceAll result"
+      ],
+      "rows": [
+        {
+          "original": "'foo bar foo'",
+          "replaceAll result": "'baz bar baz'"
+        }
+      ]
+    },
+    "patternTag": "Global Substring Replacement",
+    "patternExplanation": ".replaceAll() updates all occurrences of a string without requiring global regexes.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "foo bar foo",
+          "foo",
+          "baz"
+        ],
+        "expected": "baz bar baz",
+        "label": "replace both foo"
+      },
+      {
+        "input": [
+          "banana",
+          "a",
+          "o"
+        ],
+        "expected": "bonono",
+        "label": "replace all a with o"
+      },
+      {
+        "input": [
+          "unchanged",
+          "z",
+          "x"
+        ],
+        "expected": "unchanged",
+        "label": "target absent"
+      },
+      {
+        "input": [
+          "",
+          "a",
+          "b"
+        ],
+        "expected": "",
+        "label": "empty string"
+      }
+    ]
+  },
+  {
+    "id": "strings-remove-vowels",
+    "title": "String replace: Strip English Vowels",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "removeVowels",
+    "description": "Given a string text, use text.replace(/[aeiou]/gi, '') to remove all English vowels (case-insensitive).",
+    "whatShouldHappen": [
+      "Use text.replace(/[aeiou]/gi, '').",
+      "Return consonant string."
+    ],
+    "starterCode": "function removeVowels(text) {\n  // your code here\n}",
+    "solution": "function removeVowels(text) {\n  return text.replace(/[aeiou]/gi, '');\n}",
+    "skeletonHint": "function removeVowels(text) {\n  return text.replace(/[____]/gi, '');\n}",
+    "traceTable": {
+      "inputLabel": "text = 'JavaScript'",
+      "columns": [
+        "original",
+        "without vowels"
+      ],
+      "rows": [
+        {
+          "original": "'JavaScript'",
+          "without vowels": "'JvScrpt'"
+        }
+      ]
+    },
+    "patternTag": "Regex Character Class Stripping",
+    "patternExplanation": "Using regular expression character classes [aeiou] with global and ignore-case flags removes character subsets.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "JavaScript"
+        ],
+        "expected": "JvScrpt",
+        "label": "strip from JavaScript"
+      },
+      {
+        "input": [
+          "hello world"
+        ],
+        "expected": "hll wrld",
+        "label": "strip from hello world"
+      },
+      {
+        "input": [
+          "AEIOU"
+        ],
+        "expected": "",
+        "label": "all uppercase vowels"
+      },
+      {
+        "input": [
+          "rhythm"
+        ],
+        "expected": "rhythm",
+        "label": "no vowels"
+      }
+    ]
+  },
+  {
+    "id": "strings-censor-bad-words",
+    "title": "String replaceAll: Censor Target Word",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "censorWord",
+    "description": "Given string sentence and badWord, replace every occurrence of badWord with an asterisk string of matching length ('*'.repeat(badWord.length)).",
+    "whatShouldHappen": [
+      "Create mask = '*'.repeat(badWord.length).",
+      "Return sentence.replaceAll(badWord, mask)."
+    ],
+    "starterCode": "function censorWord(sentence, badWord) {\n  // your code here\n}",
+    "solution": "function censorWord(sentence, badWord) {\n  if (!badWord) return sentence;\n  return sentence.replaceAll(badWord, '*'.repeat(badWord.length));\n}",
+    "skeletonHint": "function censorWord(sentence, badWord) {\n  const mask = '*'.repeat(badWord.____);\n  return sentence.replaceAll(badWord, mask);\n}",
+    "traceTable": {
+      "inputLabel": "sentence = 'darn that darn cat', badWord = 'darn'",
+      "columns": [
+        "badWord",
+        "mask",
+        "censored sentence"
+      ],
+      "rows": [
+        {
+          "badWord": "'darn'",
+          "mask": "'****'",
+          "censored sentence": "'**** that **** cat'"
+        }
+      ]
+    },
+    "patternTag": "Content Redaction",
+    "patternExplanation": "Generating dynamic length masks with repeat and applying replaceAll redacts sensitive words securely.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "darn that darn cat",
+          "darn"
+        ],
+        "expected": "**** that **** cat",
+        "label": "censor 4-letter word"
+      },
+      {
+        "input": [
+          "bad dog",
+          "bad"
+        ],
+        "expected": "*** dog",
+        "label": "censor 3-letter word"
+      },
+      {
+        "input": [
+          "clean speech",
+          "foul"
+        ],
+        "expected": "clean speech",
+        "label": "word not present"
+      },
+      {
+        "input": [
+          "",
+          "bad"
+        ],
+        "expected": "",
+        "label": "empty sentence"
+      }
+    ]
+  },
+  {
+    "id": "strings-escape-html-basic",
+    "title": "String Chained replaceAll: Escape Basic HTML",
+    "category": "strings",
+    "difficulty": "Beginner",
+    "functionName": "escapeHtmlBasic",
+    "description": "Given string str, escape '&' to '&amp;', '<' to '&lt;', and '>' to '&gt;' using chained replaceAll calls in order.",
+    "whatShouldHappen": [
+      "Replace '&' with '&amp;' first.",
+      "Replace '<' with '&lt;'.",
+      "Replace '>' with '&gt;'.",
+      "Return escaped string."
+    ],
+    "starterCode": "function escapeHtmlBasic(str) {\n  // your code here\n}",
+    "solution": "function escapeHtmlBasic(str) {\n  return str.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');\n}",
+    "skeletonHint": "function escapeHtmlBasic(str) {\n  return str.replaceAll('&', '&amp;').replaceAll('<', '____').replaceAll('>', '____');\n}",
+    "traceTable": {
+      "inputLabel": "str = '<b>Tom & Jerry</b>'",
+      "columns": [
+        "original",
+        "escaped"
+      ],
+      "rows": [
+        {
+          "original": "'<b>Tom & Jerry</b>'",
+          "escaped": "'&lt;b&gt;Tom &amp; Jerry&lt;/b&gt;'"
+        }
+      ]
+    },
+    "patternTag": "HTML Entity Sanitization",
+    "patternExplanation": "Escaping ampersands first followed by angle brackets avoids double-encoding entities in HTML sanitization.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          "<b>Tom & Jerry</b>"
+        ],
+        "expected": "&lt;b&gt;Tom &amp; Jerry&lt;/b&gt;",
+        "label": "escape tags and ampersand"
+      },
+      {
+        "input": [
+          "x < 5 && y > 2"
+        ],
+        "expected": "x &lt; 5 &amp;&amp; y &gt; 2",
+        "label": "code comparison"
+      },
+      {
+        "input": [
+          "plain text"
+        ],
+        "expected": "plain text",
+        "label": "no special chars"
+      },
+      {
+        "input": [
+          ""
+        ],
+        "expected": "",
+        "label": "empty string"
+      }
+    ]
+  }
+]
