@@ -1,0 +1,579 @@
+[
+  {
+    "id": "maps-and-sets-1",
+    "title": "Filter Array by Set Membership",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "functionName": "filterBySetMembership",
+    "description": "Given an array items and an array allowedList, construct a Set from allowedList for O(1) lookups. Iterate through items using for...of and return an array containing only elements present in the set.",
+    "whatShouldHappen": [
+      "Construct a Set from allowedList: const allowedSet = new Set(allowedList).",
+      "Initialize an empty result array.",
+      "Iterate through items with for (const item of items).",
+      "If allowedSet.has(item), push item to result.",
+      "Return result."
+    ],
+    "starterCode": "function filterBySetMembership(items, allowedList) {\n  // your code here\n}",
+    "solution": "function filterBySetMembership(items, allowedList) {\n  const allowedSet = new Set(allowedList);\n  const result = [];\n  for (const item of items) {\n    if (allowedSet.has(item)) {\n      result.push(item);\n    }\n  }\n  return result;\n}",
+    "skeletonHint": "function filterBySetMembership(items, allowedList) {\n  const allowedSet = new Set(____);\n  const result = [];\n  for (const item of items) {\n    if (allowedSet.____(item)) {\n      result.push(item);\n    }\n  }\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "items = [1, 2, 3], allowedList = [2, 4]",
+      "columns": [
+        "item",
+        "allowedSet.has(item)",
+        "action",
+        "result array"
+      ],
+      "rows": [
+        {
+          "item": 1,
+          "allowedSet.has(item)": "false",
+          "action": "skip",
+          "result array": "[]"
+        },
+        {
+          "item": 2,
+          "allowedSet.has(item)": "true",
+          "action": "push",
+          "result array": "[2]"
+        },
+        {
+          "item": 3,
+          "allowedSet.has(item)": "false",
+          "action": "skip",
+          "result array": "[2]"
+        }
+      ]
+    },
+    "patternTag": "Set Fast Lookup",
+    "patternExplanation": "Set.prototype.has() provides O(1) constant-time membership checking, drastically optimizing filter operations over large arrays.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          [
+            2,
+            4,
+            6
+          ]
+        ],
+        "expected": [
+          2,
+          4
+        ],
+        "label": "filter numbers"
+      },
+      {
+        "input": [
+          [
+            "cat",
+            "dog",
+            "bird"
+          ],
+          [
+            "fish",
+            "lizard"
+          ]
+        ],
+        "expected": [],
+        "label": "no matches"
+      },
+      {
+        "input": [
+          [
+            10,
+            20
+          ],
+          [
+            10,
+            20,
+            30
+          ]
+        ],
+        "expected": [
+          10,
+          20
+        ],
+        "label": "all match"
+      },
+      {
+        "input": [
+          [],
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": [],
+        "label": "empty items"
+      }
+    ]
+  },
+  {
+    "id": "maps-and-sets-2",
+    "title": "Find Common Unique Elements with Set Loop",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "functionName": "findCommonUnique",
+    "description": "Given two arrays arr1 and arr2, return an array of unique values that appear in both arrays. Convert both arrays to Sets and iterate over the first set with for...of.",
+    "whatShouldHappen": [
+      "Create set1 = new Set(arr1) and set2 = new Set(arr2).",
+      "Initialize result array.",
+      "Iterate through set1 with for (const val of set1).",
+      "If set2.has(val), push val to result.",
+      "Return result."
+    ],
+    "starterCode": "function findCommonUnique(arr1, arr2) {\n  // your code here\n}",
+    "solution": "function findCommonUnique(arr1, arr2) {\n  const set1 = new Set(arr1);\n  const set2 = new Set(arr2);\n  const result = [];\n  for (const val of set1) {\n    if (set2.has(val)) {\n      result.push(val);\n    }\n  }\n  return result;\n}",
+    "skeletonHint": "function findCommonUnique(arr1, arr2) {\n  const set1 = new Set(____);\n  const set2 = new Set(____);\n  const result = [];\n  for (const val of set1) {\n    if (set2.____(val)) {\n      result.push(val);\n    }\n  }\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "arr1 = [1, 2, 2, 3], arr2 = [2, 3, 4]",
+      "columns": [
+        "val in set1",
+        "set2.has(val)",
+        "result array"
+      ],
+      "rows": [
+        {
+          "val in set1": 1,
+          "set2.has(val)": "false",
+          "result array": "[]"
+        },
+        {
+          "val in set1": 2,
+          "set2.has(val)": "true",
+          "result array": "[2]"
+        },
+        {
+          "val in set1": 3,
+          "set2.has(val)": "true",
+          "result array": "[2, 3]"
+        }
+      ]
+    },
+    "patternTag": "Set Intersection Iteration",
+    "patternExplanation": "Iterating over a deduplicated Set and checking membership in a second Set computes mathematical set intersection cleanly.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            2,
+            3
+          ],
+          [
+            2,
+            3,
+            3,
+            4
+          ]
+        ],
+        "expected": [
+          2,
+          3
+        ],
+        "label": "deduplicated common elements"
+      },
+      {
+        "input": [
+          [
+            "a",
+            "b"
+          ],
+          [
+            "c",
+            "d"
+          ]
+        ],
+        "expected": [],
+        "label": "disjoint arrays"
+      },
+      {
+        "input": [
+          [
+            5,
+            5,
+            5
+          ],
+          [
+            5
+          ]
+        ],
+        "expected": [
+          5
+        ],
+        "label": "single common element with duplicates"
+      },
+      {
+        "input": [
+          [],
+          [
+            1,
+            2
+          ]
+        ],
+        "expected": [],
+        "label": "empty first array"
+      }
+    ]
+  },
+  {
+    "id": "maps-and-sets-3",
+    "title": "Build Frequency Map Entries",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "functionName": "buildFrequencyMapEntries",
+    "description": "Given an array items, use a for...of loop to count the occurrences of each element in a Map. Return the result as an array of [key, count] pairs using Array.from(map.entries()).",
+    "whatShouldHappen": [
+      "Create const map = new Map().",
+      "Iterate through items with for (const item of items).",
+      "Update map: map.set(item, (map.get(item) || 0) + 1).",
+      "Return Array.from(map.entries())."
+    ],
+    "starterCode": "function buildFrequencyMapEntries(items) {\n  // your code here\n}",
+    "solution": "function buildFrequencyMapEntries(items) {\n  const map = new Map();\n  for (const item of items) {\n    map.set(item, (map.get(item) || 0) + 1);\n  }\n  return Array.from(map.entries());\n}",
+    "skeletonHint": "function buildFrequencyMapEntries(items) {\n  const map = new Map();\n  for (const item of items) {\n    map.set(item, (map.get(item) || 0) + ____);\n  }\n  return Array.from(map.____());\n}",
+    "traceTable": {
+      "inputLabel": "items = ['a', 'b', 'a']",
+      "columns": [
+        "item",
+        "map.get(item)",
+        "new count",
+        "map state"
+      ],
+      "rows": [
+        {
+          "item": "a",
+          "map.get(item)": "undefined (0)",
+          "new count": 1,
+          "map state": "{'a' => 1}"
+        },
+        {
+          "item": "b",
+          "map.get(item)": "undefined (0)",
+          "new count": 1,
+          "map state": "{'a' => 1, 'b' => 1}"
+        },
+        {
+          "item": "a",
+          "map.get(item)": "1",
+          "new count": 2,
+          "map state": "{'a' => 2, 'b' => 1}"
+        }
+      ]
+    },
+    "patternTag": "Map Frequency Counter",
+    "patternExplanation": "Map maintains insertion order and supports any key type, making map.set(key, (map.get(key) || 0) + 1) the idiomatic frequency counting pattern.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "a",
+            "b",
+            "a",
+            "c",
+            "b",
+            "a"
+          ]
+        ],
+        "expected": [
+          [
+            "a",
+            3
+          ],
+          [
+            "b",
+            2
+          ],
+          [
+            "c",
+            1
+          ]
+        ],
+        "label": "string frequencies"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "label": "distinct numbers"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      },
+      {
+        "input": [
+          [
+            "x",
+            "x",
+            "x"
+          ]
+        ],
+        "expected": [
+          [
+            "x",
+            3
+          ]
+        ],
+        "label": "identical elements"
+      }
+    ]
+  },
+  {
+    "id": "maps-and-sets-4",
+    "title": "Find Key with Highest Frequency from Map",
+    "category": "maps-and-sets",
+    "difficulty": "Easy",
+    "functionName": "findMostFrequentFromMap",
+    "description": "Given an array of [key, count] pairs, initialize a Map and iterate through its entries using for (const [key, count] of map) to find and return the key with the highest count. If the map is empty, return null.",
+    "whatShouldHappen": [
+      "If pairs is empty, return null.",
+      "Initialize const map = new Map(pairs).",
+      "Track maxKey = null and maxCount = -Infinity.",
+      "Iterate through entries with for (const [key, count] of map).",
+      "If count > maxCount, update maxCount = count and maxKey = key.",
+      "Return maxKey."
+    ],
+    "starterCode": "function findMostFrequentFromMap(pairs) {\n  // your code here\n}",
+    "solution": "function findMostFrequentFromMap(pairs) {\n  if (pairs.length === 0) return null;\n  const map = new Map(pairs);\n  let maxKey = null;\n  let maxCount = -Infinity;\n  for (const [key, count] of map) {\n    if (count > maxCount) {\n      maxCount = count;\n      maxKey = key;\n    }\n  }\n  return maxKey;\n}",
+    "skeletonHint": "function findMostFrequentFromMap(pairs) {\n  if (pairs.length === 0) return null;\n  const map = new Map(pairs);\n  let maxKey = null;\n  let maxCount = -Infinity;\n  for (const [key, count] of map) {\n    if (count > ____) {\n      maxCount = count;\n      maxKey = ____;\n    }\n  }\n  return maxKey;\n}",
+    "traceTable": {
+      "inputLabel": "pairs = [['apple', 5], ['banana', 12]]",
+      "columns": [
+        "key",
+        "count",
+        "count > maxCount",
+        "maxKey",
+        "maxCount"
+      ],
+      "rows": [
+        {
+          "key": "apple",
+          "count": 5,
+          "count > maxCount": "true",
+          "maxKey": "apple",
+          "maxCount": 5
+        },
+        {
+          "key": "banana",
+          "count": 12,
+          "count > maxCount": "true",
+          "maxKey": "banana",
+          "maxCount": 12
+        }
+      ]
+    },
+    "patternTag": "Map Entry Traversal",
+    "patternExplanation": "Maps are directly iterable with for...of, yielding [key, value] pairs without requiring extra Object.entries conversions.",
+    "estimatedMinutes": 8,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            [
+              "apple",
+              5
+            ],
+            [
+              "banana",
+              12
+            ],
+            [
+              "cherry",
+              3
+            ]
+          ]
+        ],
+        "expected": "banana",
+        "label": "find max frequency"
+      },
+      {
+        "input": [
+          [
+            [
+              "x",
+              1
+            ]
+          ]
+        ],
+        "expected": "x",
+        "label": "single entry"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": null,
+        "label": "empty map"
+      },
+      {
+        "input": [
+          [
+            [
+              "a",
+              10
+            ],
+            [
+              "b",
+              2
+            ]
+          ]
+        ],
+        "expected": "a",
+        "label": "first key largest"
+      }
+    ]
+  },
+  {
+    "id": "maps-and-sets-5",
+    "title": "Filter Map Keys by Value Threshold",
+    "category": "maps-and-sets",
+    "difficulty": "Beginner",
+    "functionName": "filterMapKeysByMin",
+    "description": "Given an array of [key, numericValue] pairs and a minThreshold, construct a Map and iterate over its entries. Return an array containing only the keys whose associated value is greater than or equal to minThreshold.",
+    "whatShouldHappen": [
+      "Construct const map = new Map(pairs).",
+      "Initialize an empty result array.",
+      "Iterate through map entries with for (const [key, val] of map).",
+      "If val >= minThreshold, push key into result.",
+      "Return result."
+    ],
+    "starterCode": "function filterMapKeysByMin(pairs, minThreshold) {\n  // your code here\n}",
+    "solution": "function filterMapKeysByMin(pairs, minThreshold) {\n  const map = new Map(pairs);\n  const result = [];\n  for (const [key, val] of map) {\n    if (val >= minThreshold) {\n      result.push(key);\n    }\n  }\n  return result;\n}",
+    "skeletonHint": "function filterMapKeysByMin(pairs, minThreshold) {\n  const map = new Map(pairs);\n  const result = [];\n  for (const [key, val] of map) {\n    if (val >= ____) {\n      result.push(____);\n    }\n  }\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "pairs = [['gold', 100], ['bronze', 20]], minThreshold = 50",
+      "columns": [
+        "key",
+        "val",
+        "val >= 50",
+        "pushed to result?"
+      ],
+      "rows": [
+        {
+          "key": "gold",
+          "val": 100,
+          "val >= 50": "true",
+          "pushed to result?": "yes"
+        },
+        {
+          "key": "bronze",
+          "val": 20,
+          "val >= 50": "false",
+          "pushed to result?": "no"
+        }
+      ]
+    },
+    "patternTag": "Map Value Filtering",
+    "patternExplanation": "Iterating over a Map while filtering on values extracts key subsets based on quantitative criteria.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            [
+              "gold",
+              100
+            ],
+            [
+              "silver",
+              50
+            ],
+            [
+              "bronze",
+              20
+            ]
+          ],
+          50
+        ],
+        "expected": [
+          "gold",
+          "silver"
+        ],
+        "label": "filter values >= 50"
+      },
+      {
+        "input": [
+          [
+            [
+              "a",
+              5
+            ],
+            [
+              "b",
+              10
+            ]
+          ],
+          20
+        ],
+        "expected": [],
+        "label": "no values meet threshold"
+      },
+      {
+        "input": [
+          [],
+          10
+        ],
+        "expected": [],
+        "label": "empty pairs"
+      },
+      {
+        "input": [
+          [
+            [
+              "alpha",
+              1
+            ],
+            [
+              "beta",
+              2
+            ]
+          ],
+          1
+        ],
+        "expected": [
+          "alpha",
+          "beta"
+        ],
+        "label": "all values meet threshold"
+      }
+    ]
+  }
+]

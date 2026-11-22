@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { CategorySlug, Difficulty } from '@/types/problem'
+import type { CategorySlug, Difficulty, ProblemType } from '@/types/problem'
 
 export interface RunTiming {
   readonly ms: number
@@ -13,6 +13,7 @@ export interface SolvedEntry {
   readonly title?:           string
   readonly category?:        CategorySlug
   readonly difficulty?:      Difficulty
+  readonly type?:            ProblemType
   readonly reviewInterval?:  number
   readonly lastReviewedAt?:  string
   readonly nextReviewDue?:   string
@@ -31,6 +32,7 @@ export interface ProblemMeta {
   readonly title: string
   readonly category: CategorySlug
   readonly difficulty: Difficulty
+  readonly type?: ProblemType
 }
 
 interface ProgressState {
@@ -48,6 +50,8 @@ interface ProgressState {
   longestReadingStreak:     number
   lastArticleReadAt:        string
   readingHistory:           { articleId: string; date: string }[]
+  articleNotes:             Record<string, string>
+  articleQuizScores:        Record<string, { score: number; total: number; completedAt: string }>
   isLoaded:                 boolean
 }
 
@@ -62,6 +66,8 @@ interface ProgressActions {
   completeDailyChallenge: () => Promise<void>
   completeArticle:        (id: string) => Promise<void>
   toggleBookmarkArticle:  (id: string) => Promise<void>
+  saveArticleNote:        (id: string, note: string) => Promise<void>
+  submitArticleQuiz:      (id: string, answers: number[]) => Promise<{ score: number; total: number; percentage: number; passed: boolean; results: any[] }>
 }
 
 type ProgressStore = ProgressState & ProgressActions
@@ -81,6 +87,8 @@ const INITIAL_STATE: ProgressState = {
   longestReadingStreak:     0,
   lastArticleReadAt:        '',
   readingHistory:           [],
+  articleNotes:             {},
+  articleQuizScores:        {},
   isLoaded:                 false,
 }
 
@@ -118,6 +126,7 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
       title:           meta?.title ?? existing?.title,
       category:        meta?.category ?? existing?.category,
       difficulty:      meta?.difficulty ?? existing?.difficulty,
+      type:            meta?.type ?? existing?.type ?? 'coding',
       executionTimeMs: executionTimeMs ?? existing?.executionTimeMs,
       memoryUsageMb:   memoryUsageMb ?? existing?.memoryUsageMb,
       memoryBytes:     memoryBytes ?? existing?.memoryBytes,
@@ -276,5 +285,45 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
     } catch (error: unknown) {
       console.error('Failed to toggle bookmark:', error)
     }
+  },
+
+  saveArticleNote: async (id, note) => {
+    const currentNotes = { ...get().articleNotes, [id]: note }
+    set({ articleNotes: currentNotes })
+
+    try {
+      const response = await fetch(`/api/articles/notes/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ note }),
+      })
+      if (!response.ok) throw new Error(`Server error: ${response.status}`)
+    } catch (error: unknown) {
+      console.error('Failed to save article note:', error)
+    }
+  },
+
+  submitArticleQuiz: async (id, answers) => {
+    const response = await fetch(`/api/articles/quiz/${id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers }),
+    })
+    if (!response.ok) throw new Error(`Server error: ${response.status}`)
+    const json = await response.json()
+    if (!json.success || !json.data) throw new Error(json.error || 'Quiz submission failed')
+
+    const { score, total, percentage, passed, results, progress } = json.data
+    if (progress) {
+      set({ ...applyServerState(progress), isLoaded: true })
+    } else {
+      const scores = {
+        ...get().articleQuizScores,
+        [id]: { score, total, completedAt: new Date().toISOString() },
+      }
+      set({ articleQuizScores: scores })
+    }
+
+    return { score, total, percentage, passed, results }
   },
 }))

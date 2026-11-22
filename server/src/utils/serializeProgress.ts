@@ -44,6 +44,8 @@ interface ProgressFields {
   longestReadingStreak?:    number
   lastArticleReadAt?:       string | null
   readingHistory?:          { articleId?: string | null; date?: string | null }[]
+  articleNotes?:            Map<string, string> | Record<string, string>
+  articleQuizScores?:       Map<string, unknown> | Record<string, unknown>
 }
 
 export const serializeProgress = (doc: ProgressFields): object => {
@@ -51,6 +53,16 @@ export const serializeProgress = (doc: ProgressFields): object => {
     doc.solvedProblems instanceof Map
       ? [...doc.solvedProblems.entries()]
       : Object.entries(doc.solvedProblems ?? {})
+
+  const notes =
+    doc.articleNotes instanceof Map
+      ? Object.fromEntries(doc.articleNotes.entries())
+      : (doc.articleNotes ?? {})
+
+  const quizScores =
+    doc.articleQuizScores instanceof Map
+      ? Object.fromEntries(doc.articleQuizScores.entries())
+      : (doc.articleQuizScores ?? {})
 
   return {
     solvedProblems:           Object.fromEntries(
@@ -69,5 +81,7 @@ export const serializeProgress = (doc: ProgressFields): object => {
     longestReadingStreak:     doc.longestReadingStreak ?? 0,
     lastArticleReadAt:        doc.lastArticleReadAt ?? null,
     readingHistory:           doc.readingHistory ?? [],
+    articleNotes:             notes,
+    articleQuizScores:        quizScores,
   }
 }

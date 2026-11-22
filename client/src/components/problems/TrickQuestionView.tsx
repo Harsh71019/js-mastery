@@ -49,6 +49,7 @@ export const TrickQuestionView = ({
         title: problem.title,
         category: problem.category,
         difficulty: problem.difficulty,
+        type: problem.type,
       })
       if (!confettiFired.current) {
         confettiFired.current = true

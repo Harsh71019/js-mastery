@@ -46,6 +46,12 @@ export const findTestsById = (id: string) =>
 export const findAllPublishedIds = () =>
   Problem.find({ status: 'published' }).select('id -_id').sort({ _id: 1 }).lean()
 
+export const findQuizProblems = () =>
+  Problem.find(
+    { status: 'published', type: { $in: ['mcq', 'trick'] } },
+    { id: 1, title: 1, type: 1, category: 1, difficulty: 1, patternTag: 1, _id: 0 },
+  ).lean()
+
 export const aggregatePatterns = () =>
   Problem.aggregate([
     { $match: { status: 'published' } },

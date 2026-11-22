@@ -82,7 +82,7 @@
       ]
     },
     "skeletonHint": "function isAtEnds(arr, val) {\n  return arr.indexOf(val) === ____ || arr.lastIndexOf(val) === ____;\n}",
-    "solution": "function isAtEnds(arr, val) {\n  return arr.indexOf(val) === 0 || arr.lastIndexOf(val) === arr.length - 1;\n}",
+    "solution": "function isAtEnds(arr, val) {\n  return arr.length > 0 && (arr.indexOf(val) === 0 || arr.lastIndexOf(val) === arr.length - 1);\n}",
     "tests": [
       { "input": [[1, 2, 3], 1], "expected": true, "label": "at start" },
       { "input": [[1, 2, 3], 3], "expected": true, "label": "at end" },

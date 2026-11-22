@@ -6,5 +6,8 @@ export const param = (req: Request, key: string): string => {
   if (value === undefined || value.trim() === '') {
     throw new BadRequestError(`Missing route param: ${key}`)
   }
+  if (value.length > 128) {
+    throw new BadRequestError(`Route param ${key} exceeds maximum length`)
+  }
   return value
 }

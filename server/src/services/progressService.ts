@@ -22,6 +22,7 @@ export type SolveBody = {
   title?: string
   category?: string
   difficulty?: string
+  type?: 'coding' | 'mcq' | 'trick'
   executionTimeMs?: number
   memoryBytes?: number
   memoryUsageMb?: number
@@ -64,6 +65,7 @@ export const solveProgress = async (problemId: string, body: SolveBody) => {
     title:           title ?? existing?.title,
     category:        category ?? existing?.category,
     difficulty:      difficulty ?? existing?.difficulty,
+    type:            (body.type ?? (existing as { type?: 'coding' | 'mcq' | 'trick' })?.type ?? 'coding') as 'coding' | 'mcq' | 'trick',
     reviewInterval:  review.reviewInterval,
     lastReviewedAt:  review.lastReviewedAt,
     nextReviewDue:   review.nextReviewDue,
@@ -142,6 +144,7 @@ export const attemptProgress = async (
     title:           existing?.title,
     category:        existing?.category,
     difficulty:      existing?.difficulty,
+    type:            ((existing as { type?: 'coding' | 'mcq' | 'trick' })?.type ?? 'coding') as 'coding' | 'mcq' | 'trick',
     reviewInterval:  existing?.reviewInterval ?? 1,
     lastReviewedAt:  existing?.lastReviewedAt,
     nextReviewDue:   existing?.nextReviewDue,
@@ -183,6 +186,7 @@ export const recallProgress = async (problemId: string) => {
     title:           existing.title,
     category:        existing.category,
     difficulty:      existing.difficulty,
+    type:            ((existing as { type?: 'coding' | 'mcq' | 'trick' })?.type ?? 'coding') as 'coding' | 'mcq' | 'trick',
     executionTimeMs: existing.executionTimeMs,
     runCount:        existing.runCount,
     runTimings:      existing.runTimings,
@@ -214,6 +218,7 @@ export const skipRecallProgress = async (problemId: string) => {
     title:           existing.title,
     category:        existing.category,
     difficulty:      existing.difficulty,
+    type:            ((existing as { type?: 'coding' | 'mcq' | 'trick' })?.type ?? 'coding') as 'coding' | 'mcq' | 'trick',
     executionTimeMs: existing.executionTimeMs,
     runCount:        existing.runCount,
     runTimings:      existing.runTimings,

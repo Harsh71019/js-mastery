@@ -26,6 +26,8 @@ export const resetOne = () =>
       longestReadingStreak:     0,
       lastArticleReadAt:        null,
       readingHistory:           [],
+      articleNotes:             {},
+      articleQuizScores:        {},
     },
     { upsert: true },
   )

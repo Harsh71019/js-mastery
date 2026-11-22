@@ -73,4 +73,34 @@ describe('Progress Serialization (serializeProgress)', () => {
     assert.deepStrictEqual(serialized.bookmarkedArticles, [])
     assert.strictEqual(serialized.readingStreak, 0)
   })
+
+  test('serializes articleNotes and articleQuizScores from Map and Plain Object', () => {
+    const docWithMap = {
+      solvedProblems: new Map(),
+      articleNotes: new Map([['art-1', 'Use Redis distributed lock']]),
+      articleQuizScores: new Map([['art-1', { score: 2, total: 2, completedAt: '2026-05-01' }]]),
+    }
+
+    const resMap = serializeProgress(docWithMap as never) as {
+      articleNotes: Record<string, string>
+      articleQuizScores: Record<string, { score: number; total: number }>
+    }
+
+    assert.strictEqual(resMap.articleNotes['art-1'], 'Use Redis distributed lock')
+    assert.strictEqual(resMap.articleQuizScores['art-1']?.score, 2)
+
+    const docWithObj = {
+      solvedProblems: {},
+      articleNotes: { 'art-2': 'Zomato module federation notes' },
+      articleQuizScores: { 'art-2': { score: 3, total: 3, completedAt: '2026-05-02' } },
+    }
+
+    const resObj = serializeProgress(docWithObj as never) as {
+      articleNotes: Record<string, string>
+      articleQuizScores: Record<string, { score: number; total: number }>
+    }
+
+    assert.strictEqual(resObj.articleNotes['art-2'], 'Zomato module federation notes')
+    assert.strictEqual(resObj.articleQuizScores['art-2']?.score, 3)
+  })
 })

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { useProgress } from '@/hooks/useProgress'
 import { useProblems } from '@/hooks/useProblems'
 import { FilterBar, type FilterState } from '@/components/problems/FilterBar'
@@ -7,7 +7,25 @@ import { PageContainer } from '@/components/ui/PageContainer'
 import { Tabs } from '@/components/ui/Tabs'
 import { Glow } from '@/components/ui/Glow'
 import { Button } from '@/components/ui/Button'
+import { StatCard } from '@/components/progress/StatCard'
 import type { ProblemSummary } from '@/types/problem'
+
+interface QuizStatsData {
+  totalQuizzes: number
+  totalMcq: number
+  totalTrick: number
+  userSolved: number
+  userSolvedMcq: number
+  userSolvedTrick: number
+  completionRate: number
+  averageAttempts: number
+  byDifficulty: {
+    Beginner: { total: number; solved: number }
+    Easy: { total: number; solved: number }
+    Medium: { total: number; solved: number }
+    Hard: { total: number; solved: number }
+  }
+}
 
 type QuizType = 'all' | 'mcq' | 'trick'
 
@@ -40,7 +58,19 @@ export const QuizPage = (): React.JSX.Element => {
   const [quizType, setQuizType] = useState<QuizType>('all')
   const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS)
   const [page, setPage] = useState(1)
+  const [stats, setStats] = useState<QuizStatsData | null>(null)
   const { solvedProblems } = useProgress()
+
+  useEffect(() => {
+    fetch('/api/problems/quiz/stats')
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success && res.data) {
+          setStats(res.data)
+        }
+      })
+      .catch((err) => console.error('Failed to fetch quiz stats:', err))
+  }, [solvedProblems])
 
   const apiFilters = useMemo(
     () => ({
@@ -90,6 +120,51 @@ export const QuizPage = (): React.JSX.Element => {
         <div className="h-px bg-white/5 flex-1 mx-6" />
         <span className="text-[9px] font-bold text-text-tertiary uppercase font-geist whitespace-nowrap">Session: Quiz_Mode</span>
       </div>
+
+      {stats && (
+        <div className="flex flex-col gap-4 relative z-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <StatCard
+              label="Assessment Pool"
+              value={`${stats.totalQuizzes}`}
+              accentColor="var(--color-accent-purple)"
+            />
+            <StatCard
+              label="Solved Quizzes"
+              value={`${stats.userSolved} (${stats.completionRate}%)`}
+              accentColor="var(--color-accent-blue)"
+            />
+            <StatCard
+              label="MCQ Sequence"
+              value={`${stats.userSolvedMcq} / ${stats.totalMcq}`}
+              accentColor="var(--color-accent-green)"
+            />
+            <StatCard
+              label="Trick Anomalies"
+              value={`${stats.userSolvedTrick} / ${stats.totalTrick}`}
+              accentColor="var(--color-accent-amber)"
+            />
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 glass-panel px-4 py-2.5 rounded-xl border border-white/5 text-[11px] font-geist text-text-secondary">
+            <span className="text-[9px] font-bold text-text-tertiary uppercase tracking-wider">Difficulty Breakdown:</span>
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent-green" />
+              <span>Easy: <strong className="text-text-primary">{stats.byDifficulty.Easy.solved}</strong>/{stats.byDifficulty.Easy.total}</span>
+            </div>
+            <span className="text-white/10">•</span>
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent-amber" />
+              <span>Medium: <strong className="text-text-primary">{stats.byDifficulty.Medium.solved}</strong>/{stats.byDifficulty.Medium.total}</span>
+            </div>
+            <span className="text-white/10">•</span>
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent-red" />
+              <span>Hard: <strong className="text-text-primary">{stats.byDifficulty.Hard.solved}</strong>/{stats.byDifficulty.Hard.total}</span>
+            </div>
+          </div>
+        </div>
+      )}
       
       <div className="flex flex-col gap-8 relative z-10">
         <Tabs

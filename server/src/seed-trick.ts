@@ -7,6 +7,9 @@ import { validateProblem } from './utils/problem-validation'
 
 const resolveScriptFile = (filename: string): string => {
   const candidates = [
+    path.resolve(__dirname, '../data/problems/quiz/trick.json'),
+    path.resolve(__dirname, '../../server/data/problems/quiz/trick.json'),
+    path.resolve(process.cwd(), 'server/data/problems/quiz/trick.json'),
     path.resolve(__dirname, '../../scripts', filename),
     path.resolve(process.cwd(), 'scripts', filename),
     path.resolve(process.cwd(), '../scripts', filename),
@@ -40,9 +43,10 @@ const run = async (): Promise<void> => {
     }
 
     try {
+      // Use replaceOne with upsert: true to update existing records with full content
       await Problem.replaceOne(
         { id: problem.id },
-        { ...problem, status: (problem.status as string) ?? 'published' },
+        { ...problem, status: 'published' },
         { upsert: true }
       )
       console.log(`  ✓ ${String(problem.id)}`)

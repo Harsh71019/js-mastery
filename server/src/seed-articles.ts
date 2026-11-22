@@ -46,7 +46,7 @@ const run = async (): Promise<void> => {
     try {
       const result = await Article.updateOne(
         { id: doc.id },
-        { $setOnInsert: { ...doc, status: 'published' } },
+        { $set: { ...doc, status: doc.status || 'published' } },
         { upsert: true }
       )
       if (result.upsertedCount > 0) {

@@ -22,7 +22,7 @@
     "solution": "function getLastItem(arr) {\n  return arr.at(-1);\n}",
     "tests": [
       { "input": [[10, 20, 30]], "expected": 30, "label": "3 elements" },
-      { "input": [["alone"]], "expected": "lone", "label": "1 element" },
+      { "input": [["alone"]], "expected": "alone", "label": "1 element" },
       { "input": [[]], "expected": null, "label": "empty array" }
     ],
     "patternTag": "Modern Accessors",
@@ -114,7 +114,7 @@
     "solution": "function replaceAt(arr, index, val) {\n  return arr.with(index, val);\n}",
     "tests": [
       { "input": [[1, 2, 3], 1, 99], "expected": [1, 99, 3], "label": "middle replace" },
-      { "input": [["a", "b"], 0, "Z"], "expected": ["z", "b"], "label": "start replace" }
+      { "input": [["a", "b"], 0, "Z"], "expected": ["Z", "b"], "label": "start replace" }
     ],
     "patternTag": "Immutability",
     "patternExplanation": ".with(index, value) is a convenient way to get a copy of an array with one element changed, which is a very common pattern in React state updates.",
@@ -206,7 +206,7 @@
     "skeletonHint": "function flattenDeep(arr) {\n  return arr.flat(____);\n}",
     "solution": "function flattenDeep(arr) {\n  return arr.flat(2);\n}",
     "tests": [
-      { "input": [[[1, [2, [3, 4]], 5]]], "expected": [1, 2, 3, 4, 5], "label": "depth 2 nested" },
+      { "input": [[1, [2, [3, 4]], 5]], "expected": [1, 2, 3, 4, 5], "label": "depth 2 nested" },
       { "input": [[1, [2]]], "expected": [1, 2], "label": "shallow nested" }
     ],
     "patternTag": "Modern Utility",

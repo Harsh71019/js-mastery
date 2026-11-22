@@ -119,7 +119,7 @@
       ]
     },
     "skeletonHint": "function invertObject(obj) {\n  const result = {};\n  for (const [____, ____] of Object.entries(obj)) {\n    result[____] = ____;\n  }\n  return result;\n}",
-    "solution": "function invertObject(obj) {\n  // result will hold the swapped key-value pairs\n  const result: Record<string, string> = {};\n  // Object.entries yields [key, value] tuples we can destructure directly\n  for (const [key, value] of Object.entries(obj)) {\n    // swap: the old value becomes the new key, old key becomes the new value\n    result[String(value)] = key;\n  }\n  // return the inverted object\n  return result;\n}",
+    "solution": "function invertObject(obj) {\n  // result will hold the swapped key-value pairs\n  const result = {};\n  // Object.entries yields [key, value] tuples we can destructure directly\n  for (const [key, value] of Object.entries(obj)) {\n    // swap: the old value becomes the new key, old key becomes the new value\n    result[String(value)] = key;\n  }\n  // return the inverted object\n  return result;\n}",
     "tests": [
       {
         "input": [
@@ -548,5 +548,480 @@
     "patternTag": "Object Iteration (Hash Table Accumulation)",
     "patternExplanation": "Using an object as a hash map to aggregate item counts in a single O(n) pass is the basis of countless frequency patterns.",
     "estimatedMinutes": 5
+  },
+  {
+    "id": "object-loops-7",
+    "title": "Scale Object Numeric Values",
+    "category": "object-loops",
+    "difficulty": "Beginner",
+    "functionName": "scaleObjectValues",
+    "description": "Given an object obj whose values are numbers and a numeric factor, return a new object where each property value is multiplied by factor using Object.entries().",
+    "whatShouldHappen": [
+      "Initialize a new result object.",
+      "Iterate through [key, value] pairs of Object.entries(obj).",
+      "Multiply value by factor and assign to result[key].",
+      "Return result."
+    ],
+    "starterCode": "function scaleObjectValues(obj, factor) {\n  // your code here\n}",
+    "solution": "function scaleObjectValues(obj, factor) {\n  const result = {};\n  for (const [key, value] of Object.entries(obj)) {\n    result[key] = value * factor;\n  }\n  return result;\n}",
+    "skeletonHint": "function scaleObjectValues(obj, factor) {\n  const result = {};\n  for (const [key, value] of Object.____(obj)) {\n    result[key] = value * ____;\n  }\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "obj = { a: 2, b: 5 }, factor = 3",
+      "columns": [
+        "key",
+        "value",
+        "value * factor",
+        "result"
+      ],
+      "rows": [
+        {
+          "key": "a",
+          "value": 2,
+          "value * factor": 6,
+          "result": "{ a: 6 }"
+        },
+        {
+          "key": "b",
+          "value": 5,
+          "value * factor": 15,
+          "result": "{ a: 6, b: 15 }"
+        }
+      ]
+    },
+    "patternTag": "Object Entry Transformation",
+    "patternExplanation": "Object.entries() produces an array of [key, value] tuples, enabling clean destructuring in for...of loops for transforming object properties.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          {
+            "a": 2,
+            "b": 5,
+            "c": 10
+          },
+          3
+        ],
+        "expected": {
+          "a": 6,
+          "b": 15,
+          "c": 30
+        },
+        "label": "scale by 3"
+      },
+      {
+        "input": [
+          {
+            "x": -4,
+            "y": 0
+          },
+          2
+        ],
+        "expected": {
+          "x": -8,
+          "y": 0
+        },
+        "label": "negative and zero"
+      },
+      {
+        "input": [
+          {},
+          5
+        ],
+        "expected": {},
+        "label": "empty object"
+      },
+      {
+        "input": [
+          {
+            "count": 1
+          },
+          0
+        ],
+        "expected": {
+          "count": 0
+        },
+        "label": "scale by zero"
+      }
+    ]
+  },
+  {
+    "id": "object-loops-8",
+    "title": "Filter Object by Property Value Threshold",
+    "category": "object-loops",
+    "difficulty": "Beginner",
+    "functionName": "filterObjectByThreshold",
+    "description": "Given an object obj whose values are numbers, and a number minThreshold, return a new object containing only properties whose values are greater than or equal to minThreshold.",
+    "whatShouldHappen": [
+      "Initialize a new empty result object.",
+      "Iterate through entries of obj with Object.entries(obj).",
+      "If value >= minThreshold, assign result[key] = value.",
+      "Return result."
+    ],
+    "starterCode": "function filterObjectByThreshold(obj, minThreshold) {\n  // your code here\n}",
+    "solution": "function filterObjectByThreshold(obj, minThreshold) {\n  const result = {};\n  for (const [key, value] of Object.entries(obj)) {\n    if (value >= minThreshold) {\n      result[key] = value;\n    }\n  }\n  return result;\n}",
+    "skeletonHint": "function filterObjectByThreshold(obj, minThreshold) {\n  const result = {};\n  for (const [key, value] of Object.entries(obj)) {\n    if (value >= ____) {\n      result[key] = ____;\n    }\n  }\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "obj = { apples: 5, bananas: 2 }, minThreshold = 5",
+      "columns": [
+        "key",
+        "value",
+        "value >= 5",
+        "kept in result?"
+      ],
+      "rows": [
+        {
+          "key": "apples",
+          "value": 5,
+          "value >= 5": "true",
+          "kept in result?": "yes"
+        },
+        {
+          "key": "bananas",
+          "value": 2,
+          "value >= 5": "false",
+          "kept in result?": "no"
+        }
+      ]
+    },
+    "patternTag": "Object Property Filtering",
+    "patternExplanation": "Iterating entries and conditionally setting properties on a fresh object creates an immutable filtered copy.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          {
+            "apples": 5,
+            "bananas": 2,
+            "oranges": 8
+          },
+          5
+        ],
+        "expected": {
+          "apples": 5,
+          "oranges": 8
+        },
+        "label": "filter above 5"
+      },
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": 2,
+            "c": 3
+          },
+          10
+        ],
+        "expected": {},
+        "label": "no values pass threshold"
+      },
+      {
+        "input": [
+          {
+            "p": 100
+          },
+          50
+        ],
+        "expected": {
+          "p": 100
+        },
+        "label": "single pass"
+      },
+      {
+        "input": [
+          {},
+          0
+        ],
+        "expected": {},
+        "label": "empty object"
+      }
+    ]
+  },
+  {
+    "id": "object-loops-9",
+    "title": "Count Property Types in Object",
+    "category": "object-loops",
+    "difficulty": "Beginner",
+    "functionName": "countPropertyTypes",
+    "description": "Given an object obj, iterate over its values using Object.values(obj) and return an object counting occurrences of each typeof primitive (e.g. 'string', 'number', 'boolean').",
+    "whatShouldHappen": [
+      "Initialize a counts object.",
+      "Iterate through Object.values(obj) using for...of.",
+      "Determine type with typeof val.",
+      "Increment counts[type] = (counts[type] || 0) + 1.",
+      "Return counts."
+    ],
+    "starterCode": "function countPropertyTypes(obj) {\n  // your code here\n}",
+    "solution": "function countPropertyTypes(obj) {\n  const counts = {};\n  for (const val of Object.values(obj)) {\n    const type = typeof val;\n    counts[type] = (counts[type] || 0) + 1;\n  }\n  return counts;\n}",
+    "skeletonHint": "function countPropertyTypes(obj) {\n  const counts = {};\n  for (const val of Object.____(obj)) {\n    const type = typeof ____;\n    counts[type] = (counts[type] || 0) + 1;\n  }\n  return counts;\n}",
+    "traceTable": {
+      "inputLabel": "obj = { name: 'Alice', age: 30, active: true }",
+      "columns": [
+        "val",
+        "typeof val",
+        "counts object"
+      ],
+      "rows": [
+        {
+          "val": "Alice",
+          "typeof val": "string",
+          "counts object": "{ string: 1 }"
+        },
+        {
+          "val": 30,
+          "typeof val": "number",
+          "counts object": "{ string: 1, number: 1 }"
+        },
+        {
+          "val": "true",
+          "typeof val": "boolean",
+          "counts object": "{ string: 1, number: 1, boolean: 1 }"
+        }
+      ]
+    },
+    "patternTag": "Type Tally Frequency",
+    "patternExplanation": "Object.values() extracts property values directly, simplifying tallying and histogram creation when keys are not needed.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          {
+            "name": "Alice",
+            "age": 30,
+            "active": true,
+            "city": "Paris"
+          }
+        ],
+        "expected": {
+          "string": 2,
+          "number": 1,
+          "boolean": 1
+        },
+        "label": "mixed types"
+      },
+      {
+        "input": [
+          {
+            "a": 1,
+            "b": 2,
+            "c": 3
+          }
+        ],
+        "expected": {
+          "number": 3
+        },
+        "label": "all numbers"
+      },
+      {
+        "input": [
+          {}
+        ],
+        "expected": {},
+        "label": "empty object"
+      },
+      {
+        "input": [
+          {
+            "flag": false,
+            "count": 0
+          }
+        ],
+        "expected": {
+          "boolean": 1,
+          "number": 1
+        },
+        "label": "falsy primitive types"
+      }
+    ]
+  },
+  {
+    "id": "object-loops-10",
+    "title": "Format Object to Query String Pairs",
+    "category": "object-loops",
+    "difficulty": "Beginner",
+    "functionName": "objectToQueryPairs",
+    "description": "Given an object params representing query parameters, iterate over Object.entries(params) and return an array of strings in 'key=value' format. If params is empty, return [].",
+    "whatShouldHappen": [
+      "Initialize an empty array pairs.",
+      "Iterate through [key, value] of Object.entries(params).",
+      "Format string using template literal `${key}=${value}` and push to pairs.",
+      "Return pairs."
+    ],
+    "starterCode": "function objectToQueryPairs(params) {\n  // your code here\n}",
+    "solution": "function objectToQueryPairs(params) {\n  const pairs = [];\n  for (const [key, value] of Object.entries(params)) {\n    pairs.push(`${key}=${value}`);\n  }\n  return pairs;\n}",
+    "skeletonHint": "function objectToQueryPairs(params) {\n  const pairs = [];\n  for (const [key, value] of Object.entries(params)) {\n    pairs.push(`${____}=${____}`);\n  }\n  return pairs;\n}",
+    "traceTable": {
+      "inputLabel": "params = { page: 1, sort: 'desc' }",
+      "columns": [
+        "key",
+        "value",
+        "formatted string",
+        "pairs array"
+      ],
+      "rows": [
+        {
+          "key": "page",
+          "value": 1,
+          "formatted string": "'page=1'",
+          "pairs array": "['page=1']"
+        },
+        {
+          "key": "sort",
+          "value": "desc",
+          "formatted string": "'sort=desc'",
+          "pairs array": "['page=1', 'sort=desc']"
+        }
+      ]
+    },
+    "patternTag": "Key-Value String Formatting",
+    "patternExplanation": "Transforming entries into formatted strings using template literals is the fundamental step for URL query strings, HTTP headers, and configuration files.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          {
+            "page": 1,
+            "sort": "desc",
+            "filter": "active"
+          }
+        ],
+        "expected": [
+          "page=1",
+          "sort=desc",
+          "filter=active"
+        ],
+        "label": "multiple params"
+      },
+      {
+        "input": [
+          {
+            "id": 42
+          }
+        ],
+        "expected": [
+          "id=42"
+        ],
+        "label": "single param"
+      },
+      {
+        "input": [
+          {}
+        ],
+        "expected": [],
+        "label": "empty object"
+      },
+      {
+        "input": [
+          {
+            "a": "foo",
+            "b": "bar"
+          }
+        ],
+        "expected": [
+          "a=foo",
+          "b=bar"
+        ],
+        "label": "string values"
+      }
+    ]
+  },
+  {
+    "id": "object-loops-11",
+    "title": "Merge and Sum Object Counts",
+    "category": "object-loops",
+    "difficulty": "Easy",
+    "functionName": "mergeAndSumCounts",
+    "description": "Given two objects objA and objB whose values are numeric quantities, return a merged object where each key value is the sum of its counts from both objects. Use for...in or Object.keys() to visit all keys.",
+    "whatShouldHappen": [
+      "Initialize a result object with a shallow clone of objA.",
+      "Loop through keys of objB using Object.keys(objB).",
+      "Add objB[key] to result[key] (using (result[key] || 0) + objB[key]).",
+      "Return result."
+    ],
+    "starterCode": "function mergeAndSumCounts(objA, objB) {\n  // your code here\n}",
+    "solution": "function mergeAndSumCounts(objA, objB) {\n  const result = { ...objA };\n  for (const key of Object.keys(objB)) {\n    result[key] = (result[key] || 0) + objB[key];\n  }\n  return result;\n}",
+    "skeletonHint": "function mergeAndSumCounts(objA, objB) {\n  const result = { ...objA };\n  for (const key of Object.keys(objB)) {\n    result[key] = (result[key] || 0) + ____;\n  }\n  return result;\n}",
+    "traceTable": {
+      "inputLabel": "objA = { apples: 3 }, objB = { apples: 2, bananas: 5 }",
+      "columns": [
+        "key in objB",
+        "existing in result",
+        "added value",
+        "result after"
+      ],
+      "rows": [
+        {
+          "key in objB": "apples",
+          "existing in result": 3,
+          "added value": 2,
+          "result after": "{ apples: 5 }"
+        },
+        {
+          "key in objB": "bananas",
+          "existing in result": "undefined (0)",
+          "added value": 5,
+          "result after": "{ apples: 5, bananas: 5 }"
+        }
+      ]
+    },
+    "patternTag": "Object Aggregation Merge",
+    "patternExplanation": "Cloning the initial object and aggregating secondary entries using logical OR fallback (result[key] || 0) cleanly sums inventory counts.",
+    "estimatedMinutes": 8,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          {
+            "apples": 3,
+            "oranges": 2
+          },
+          {
+            "apples": 2,
+            "bananas": 5
+          }
+        ],
+        "expected": {
+          "apples": 5,
+          "oranges": 2,
+          "bananas": 5
+        },
+        "label": "overlapping keys"
+      },
+      {
+        "input": [
+          {},
+          {
+            "widgets": 10
+          }
+        ],
+        "expected": {
+          "widgets": 10
+        },
+        "label": "first object empty"
+      },
+      {
+        "input": [
+          {
+            "x": 1
+          },
+          {}
+        ],
+        "expected": {
+          "x": 1
+        },
+        "label": "second object empty"
+      },
+      {
+        "input": [
+          {},
+          {}
+        ],
+        "expected": {},
+        "label": "both empty"
+      }
+    ]
   }
 ]

@@ -7,6 +7,7 @@ const SolvedEntrySchema = new Schema(
     title: String,
     category: String,
     difficulty: String,
+    type: { type: String, enum: ['coding', 'mcq', 'trick'], default: 'coding' },
     reviewInterval: { type: Number, default: 1 },
     lastReviewedAt: { type: String },
     nextReviewDue: { type: String },
@@ -51,6 +52,19 @@ const ProgressSchema = new Schema(
         ),
       ],
       default: [],
+    },
+    articleNotes: { type: Map, of: String, default: {} },
+    articleQuizScores: {
+      type: Map,
+      of: new Schema(
+        {
+          score: { type: Number, default: 0 },
+          total: { type: Number, default: 0 },
+          completedAt: { type: String, default: '' },
+        },
+        { _id: false },
+      ),
+      default: {},
     },
   },
   { timestamps: true },

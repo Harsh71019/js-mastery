@@ -4,6 +4,7 @@ export const SolveBodySchema = z.object({
   title: z.string().optional(),
   category: z.string().optional(),
   difficulty: z.string().optional(),
+  type: z.enum(['coding', 'mcq', 'trick']).optional(),
   executionTimeMs: z.number().min(0).optional(),
   memoryBytes: z.number().min(0).optional(),
   memoryUsageMb: z.number().min(0).optional(),

@@ -14,18 +14,59 @@
     "starterCode": "function convertTemperatures(celsius) {\n  // your code here\n}",
     "traceTable": {
       "inputLabel": "celsius = [0, 10]",
-      "columns": ["C", "result"],
+      "columns": [
+        "C",
+        "result"
+      ],
       "rows": [
-        { "C": 0, "result": 32 },
-        { "C": 10, "result": 50 }
+        {
+          "C": 0,
+          "result": 32
+        },
+        {
+          "C": 10,
+          "result": 50
+        }
       ]
     },
     "skeletonHint": "function convertTemperatures(celsius) {\n  return celsius.map(c => (____ * 9/5) + ____);\n}",
     "solution": "function convertTemperatures(celsius) {\n  return celsius.map(c => (c * 9/5) + 32);\n}",
     "tests": [
-      { "input": [[0, 10, 20, 30]], "expected": [32, 50, 68, 86], "label": "standard temperatures" },
-      { "input": [[-10]], "expected": [14], "label": "negative temperature" },
-      { "input": [[]], "expected": [], "label": "empty array" }
+      {
+        "input": [
+          [
+            0,
+            10,
+            20,
+            30
+          ]
+        ],
+        "expected": [
+          32,
+          50,
+          68,
+          86
+        ],
+        "label": "standard temperatures"
+      },
+      {
+        "input": [
+          [
+            -10
+          ]
+        ],
+        "expected": [
+          14
+        ],
+        "label": "negative temperature"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
     ],
     "patternTag": "Data Transformation",
     "patternExplanation": ".map() is the standard tool for transforming Every item in an array into something else while keeping the array length the same.",
@@ -47,18 +88,66 @@
     "starterCode": "function getActiveUsers(users) {\n  // your code here\n}",
     "traceTable": {
       "inputLabel": "users = [{id: 1, isActive: true}, {id: 2, isActive: false}]",
-      "columns": ["user.id", "isActive", "keep?"],
+      "columns": [
+        "user.id",
+        "isActive",
+        "keep?"
+      ],
       "rows": [
-        { "user.id": 1, "isActive": "true", "keep?": "true" },
-        { "user.id": 2, "isActive": "false", "keep?": "false" }
+        {
+          "user.id": 1,
+          "isActive": "true",
+          "keep?": "true"
+        },
+        {
+          "user.id": 2,
+          "isActive": "false",
+          "keep?": "false"
+        }
       ]
     },
     "skeletonHint": "function getActiveUsers(users) {\n  return users.filter(user => user.____);\n}",
     "solution": "function getActiveUsers(users) {\n  return users.filter(user => user.isActive);\n}",
     "tests": [
-      { "input": [[{ "id": 1, "isActive": true }, { "id": 2, "isActive": false }]], "expected": [{ "id": 1, "isActive": true }], "label": "mixed users" },
-      { "input": [[{ "isActive": false }]], "expected": [], "label": "no active users" },
-      { "input": [[]], "expected": [], "label": "empty array" }
+      {
+        "input": [
+          [
+            {
+              "id": 1,
+              "isActive": true
+            },
+            {
+              "id": 2,
+              "isActive": false
+            }
+          ]
+        ],
+        "expected": [
+          {
+            "id": 1,
+            "isActive": true
+          }
+        ],
+        "label": "mixed users"
+      },
+      {
+        "input": [
+          [
+            {
+              "isActive": false
+            }
+          ]
+        ],
+        "expected": [],
+        "label": "no active users"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
     ],
     "patternTag": "Predicate Filtering",
     "patternExplanation": ".filter() creates a subset of the original array based on a boolean condition.",
@@ -80,18 +169,64 @@
     "starterCode": "function findUser(users, id) {\n  // your code here\n}",
     "traceTable": {
       "inputLabel": "users = [{id: 1}, {id: 2}], target = 2",
-      "columns": ["user.id", "match?"],
+      "columns": [
+        "user.id",
+        "match?"
+      ],
       "rows": [
-        { "user.id": 1, "match?": "false" },
-        { "user.id": 2, "match?": "true (RETURN)" }
+        {
+          "user.id": 1,
+          "match?": "false"
+        },
+        {
+          "user.id": 2,
+          "match?": "true (RETURN)"
+        }
       ]
     },
     "skeletonHint": "function findUser(users, id) {\n  return users.find(user => user.____ === ____);\n}",
     "solution": "function findUser(users, id) {\n  return users.find(user => user.id === id);\n}",
     "tests": [
-      { "input": [[{ "id": 1, "name": "A" }, { "id": 2, "name": "B" }], 2], "expected": { "id": 2, "name": "B" }, "label": "user exists" },
-      { "input": [[{ "id": 1 }], 99], "expected": null, "label": "user does not exist" },
-      { "input": [[], 1], "expected": null, "label": "empty array" }
+      {
+        "input": [
+          [
+            {
+              "id": 1,
+              "name": "A"
+            },
+            {
+              "id": 2,
+              "name": "B"
+            }
+          ],
+          2
+        ],
+        "expected": {
+          "id": 2,
+          "name": "B"
+        },
+        "label": "user exists"
+      },
+      {
+        "input": [
+          [
+            {
+              "id": 1
+            }
+          ],
+          99
+        ],
+        "expected": null,
+        "label": "user does not exist"
+      },
+      {
+        "input": [
+          [],
+          1
+        ],
+        "expected": null,
+        "label": "empty array"
+      }
     ],
     "patternTag": "Searching",
     "patternExplanation": ".find() is more efficient than .filter() when you only need a single item, as it stops iterating as soon as a match is found.",
@@ -113,19 +248,63 @@
     "starterCode": "function areAllEven(nums) {\n  // your code here\n}",
     "traceTable": {
       "inputLabel": "nums = [2, 4, 5]",
-      "columns": ["num", "isEven?", "result"],
+      "columns": [
+        "num",
+        "isEven?",
+        "result"
+      ],
       "rows": [
-        { "num": 2, "isEven?": "true", "result": "true" },
-        { "num": 4, "isEven?": "true", "result": "true" },
-        { "num": 5, "isEven?": "false", "result": "false (EXIT)" }
+        {
+          "num": 2,
+          "isEven?": "true",
+          "result": "true"
+        },
+        {
+          "num": 4,
+          "isEven?": "true",
+          "result": "true"
+        },
+        {
+          "num": 5,
+          "isEven?": "false",
+          "result": "false (EXIT)"
+        }
       ]
     },
     "skeletonHint": "function areAllEven(nums) {\n  return nums.every(n => ____ % 2 === 0);\n}",
     "solution": "function areAllEven(nums) {\n  return nums.every(n => n % 2 === 0);\n}",
     "tests": [
-      { "input": [[2, 4, 6, 8]], "expected": true, "label": "all even" },
-      { "input": [[2, 4, 7, 8]], "expected": false, "label": "contains one odd" },
-      { "input": [[]], "expected": true, "label": "empty array (vacuously true)" }
+      {
+        "input": [
+          [
+            2,
+            4,
+            6,
+            8
+          ]
+        ],
+        "expected": true,
+        "label": "all even"
+      },
+      {
+        "input": [
+          [
+            2,
+            4,
+            7,
+            8
+          ]
+        ],
+        "expected": false,
+        "label": "contains one odd"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": true,
+        "label": "empty array (vacuously true)"
+      }
     ],
     "patternTag": "Validation",
     "patternExplanation": ".every() returns true if the callback returns true for ALL elements. If it finds one false, it stops and returns false immediately.",
@@ -147,18 +326,59 @@
     "starterCode": "function hasAdmin(users) {\n  // your code here\n}",
     "traceTable": {
       "inputLabel": "users = [{role: 'user'}, {role: 'admin'}]",
-      "columns": ["role", "isAdmin?"],
+      "columns": [
+        "role",
+        "isAdmin?"
+      ],
       "rows": [
-        { "role": "user", "isAdmin?": "false" },
-        { "role": "admin", "isAdmin?": "true (RETURN true)" }
+        {
+          "role": "user",
+          "isAdmin?": "false"
+        },
+        {
+          "role": "admin",
+          "isAdmin?": "true (RETURN true)"
+        }
       ]
     },
     "skeletonHint": "function hasAdmin(users) {\n  return users.some(u => u.____ === 'admin');\n}",
     "solution": "function hasAdmin(users) {\n  return users.some(u => u.role === 'admin');\n}",
     "tests": [
-      { "input": [[{ "role": "user" }, { "role": "admin" }]], "expected": true, "label": "one admin" },
-      { "input": [[{ "role": "user" }, { "role": "guest" }]], "expected": false, "label": "no admins" },
-      { "input": [[]], "expected": false, "label": "empty array" }
+      {
+        "input": [
+          [
+            {
+              "role": "user"
+            },
+            {
+              "role": "admin"
+            }
+          ]
+        ],
+        "expected": true,
+        "label": "one admin"
+      },
+      {
+        "input": [
+          [
+            {
+              "role": "user"
+            },
+            {
+              "role": "guest"
+            }
+          ]
+        ],
+        "expected": false,
+        "label": "no admins"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": false,
+        "label": "empty array"
+      }
     ],
     "patternTag": "Existential Check",
     "patternExplanation": ".some() returns true if at least ONE element satisfies the condition. It stops iterating as soon as it finds a match.",
@@ -180,19 +400,69 @@
     "starterCode": "function getFirstVowelIndex(chars) {\n  // your code here\n}",
     "traceTable": {
       "inputLabel": "chars = ['b', 'c', 'e', 'd']",
-      "columns": ["char", "isVowel?", "index"],
+      "columns": [
+        "char",
+        "isVowel?",
+        "index"
+      ],
       "rows": [
-        { "char": "b", "isVowel?": "false", "index": 0 },
-        { "char": "c", "isVowel?": "false", "index": 1 },
-        { "char": "e", "isVowel?": "true", "index": 2 }
+        {
+          "char": "b",
+          "isVowel?": "false",
+          "index": 0
+        },
+        {
+          "char": "c",
+          "isVowel?": "false",
+          "index": 1
+        },
+        {
+          "char": "e",
+          "isVowel?": "true",
+          "index": 2
+        }
       ]
     },
     "skeletonHint": "function getFirstVowelIndex(chars) {\n  const vowels = 'aeiou';\n  return chars.findIndex(char => vowels.includes(____.toLowerCase()));\n}",
     "solution": "function getFirstVowelIndex(chars) {\n  const vowels = 'aeiou';\n  return chars.findIndex(char => vowels.includes(char.toLowerCase()));\n}",
     "tests": [
-      { "input": [["p", "r", "o", "g", "r", "a", "m"]], "expected": 2, "label": "contains multiple vowels" },
-      { "input": [["X", "Y", "Z"]], "expected": -1, "label": "no vowels" },
-      { "input": [["A", "b", "c"]], "expected": 0, "label": "vowel at start" }
+      {
+        "input": [
+          [
+            "p",
+            "r",
+            "o",
+            "g",
+            "r",
+            "a",
+            "m"
+          ]
+        ],
+        "expected": 2,
+        "label": "contains multiple vowels"
+      },
+      {
+        "input": [
+          [
+            "X",
+            "Y",
+            "Z"
+          ]
+        ],
+        "expected": -1,
+        "label": "no vowels"
+      },
+      {
+        "input": [
+          [
+            "A",
+            "b",
+            "c"
+          ]
+        ],
+        "expected": 0,
+        "label": "vowel at start"
+      }
     ],
     "patternTag": "Position Searching",
     "patternExplanation": ".findIndex() is similar to .find(), but it returns the numeric index of the first match instead of the value itself.",
@@ -216,20 +486,72 @@
     "starterCode": "function sumPositives(nums) {\n  let sum = 0;\n  // your code here\n  return sum;\n}",
     "traceTable": {
       "inputLabel": "nums = [1, -5, 2]",
-      "columns": ["num", "isPositive?", "currentSum"],
+      "columns": [
+        "num",
+        "isPositive?",
+        "currentSum"
+      ],
       "rows": [
-        { "num": 1, "isPositive?": "true", "currentSum": 1 },
-        { "num": -5, "isPositive?": "false", "currentSum": 1 },
-        { "num": 2, "isPositive?": "true", "currentSum": 3 }
+        {
+          "num": 1,
+          "isPositive?": "true",
+          "currentSum": 1
+        },
+        {
+          "num": -5,
+          "isPositive?": "false",
+          "currentSum": 1
+        },
+        {
+          "num": 2,
+          "isPositive?": "true",
+          "currentSum": 3
+        }
       ]
     },
     "skeletonHint": "function sumPositives(nums) {\n  let sum = 0;\n  nums.forEach(n => {\n    if (n > ____) {\n      sum += ____;\n    }\n  });\n  return sum;\n}",
     "solution": "function sumPositives(nums) {\n  let sum = 0;\n  nums.forEach(n => {\n    if (n > 0) {\n      sum += n;\n    }\n  });\n  return sum;\n}",
     "tests": [
-      { "input": [[1, -2, 3, -4]], "expected": 4, "label": "mixed numbers" },
-      { "input": [[-1, -2, -3]], "expected": 0, "label": "all negatives" },
-      { "input": [[5, 10]], "expected": 15, "label": "all positives" },
-      { "input": [[]], "expected": 0, "label": "empty array" }
+      {
+        "input": [
+          [
+            1,
+            -2,
+            3,
+            -4
+          ]
+        ],
+        "expected": 4,
+        "label": "mixed numbers"
+      },
+      {
+        "input": [
+          [
+            -1,
+            -2,
+            -3
+          ]
+        ],
+        "expected": 0,
+        "label": "all negatives"
+      },
+      {
+        "input": [
+          [
+            5,
+            10
+          ]
+        ],
+        "expected": 15,
+        "label": "all positives"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": 0,
+        "label": "empty array"
+      }
     ],
     "patternTag": "Manual Accumulation",
     "patternExplanation": ".forEach() is used for side effects. While .reduce() is usually better for summing, forEach is a clear way to perform logic on every item without creating a new array.",
@@ -251,18 +573,66 @@
     "starterCode": "function getTopPerformerNames(students) {\n  // your code here\n}",
     "traceTable": {
       "inputLabel": "students = [{name: 'A', score: 90}, {name: 'B', score: 50}]",
-      "columns": ["step", "result"],
+      "columns": [
+        "step",
+        "result"
+      ],
       "rows": [
-        { "step": "filter (score >= 80)", "result": "[{name: 'A', score: 90}]" },
-        { "step": "map (name)", "result": "['A']" }
+        {
+          "step": "filter (score >= 80)",
+          "result": "[{name: 'A', score: 90}]"
+        },
+        {
+          "step": "map (name)",
+          "result": "['A']"
+        }
       ]
     },
     "skeletonHint": "function getTopPerformerNames(students) {\n  return students\n    .filter(s => s.____ >= 80)\n    .map(s => s.____);\n}",
     "solution": "function getTopPerformerNames(students) {\n  return students\n    .filter(s => s.score >= 80)\n    .map(s => s.name);\n}",
     "tests": [
-      { "input": [[{ "name": "Alice", "score": 90 }, { "name": "Bob", "score": 70 }, { "name": "Charlie", "score": 85 }]], "expected": ["Alice", "Charlie"], "label": "mixed scores" },
-      { "input": [[{ "name": "Dave", "score": 10 }]], "expected": [], "label": "no high scores" },
-      { "input": [[]], "expected": [], "label": "empty array" }
+      {
+        "input": [
+          [
+            {
+              "name": "Alice",
+              "score": 90
+            },
+            {
+              "name": "Bob",
+              "score": 70
+            },
+            {
+              "name": "Charlie",
+              "score": 85
+            }
+          ]
+        ],
+        "expected": [
+          "Alice",
+          "Charlie"
+        ],
+        "label": "mixed scores"
+      },
+      {
+        "input": [
+          [
+            {
+              "name": "Dave",
+              "score": 10
+            }
+          ]
+        ],
+        "expected": [],
+        "label": "no high scores"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
     ],
     "patternTag": "Method Chaining",
     "patternExplanation": "One of the biggest strengths of functional array methods is that they can be chained together to perform complex data pipelines in a readable way.",
@@ -284,18 +654,58 @@
     "starterCode": "function numberItems(items) {\n  // your code here\n}",
     "traceTable": {
       "inputLabel": "items = ['a', 'b']",
-      "columns": ["item", "index", "result"],
+      "columns": [
+        "item",
+        "index",
+        "result"
+      ],
       "rows": [
-        { "item": "a", "index": 0, "result": "'1. a'" },
-        { "item": "b", "index": 1, "result": "'2. b'" }
+        {
+          "item": "a",
+          "index": 0,
+          "result": "'1. a'"
+        },
+        {
+          "item": "b",
+          "index": 1,
+          "result": "'2. b'"
+        }
       ]
     },
     "skeletonHint": "function numberItems(items) {\n  return items.map((item, index) => {\n    return `${____ + 1}. ${____}`;\n  });\n}",
     "solution": "function numberItems(items) {\n  return items.map((item, index) => `${index + 1}. ${item}`);\n}",
     "tests": [
-      { "input": [["apple", "banana"]], "expected": ["1. apple", "2. banana"], "label": "multiple items" },
-      { "input": [["lone"]], "expected": ["1. lone"], "label": "single item" },
-      { "input": [[]], "expected": [], "label": "empty array" }
+      {
+        "input": [
+          [
+            "apple",
+            "banana"
+          ]
+        ],
+        "expected": [
+          "1. apple",
+          "2. banana"
+        ],
+        "label": "multiple items"
+      },
+      {
+        "input": [
+          [
+            "lone"
+          ]
+        ],
+        "expected": [
+          "1. lone"
+        ],
+        "label": "single item"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
     ],
     "patternTag": "Index Utilization",
     "patternExplanation": "All iteration methods (map, filter, forEach, etc.) provide the index as a second argument to the callback.",
@@ -319,24 +729,608 @@
     "starterCode": "function getUniqueValues(arr) {\n  // your code here\n}",
     "traceTable": {
       "inputLabel": "arr = [1, 2, 1]",
-      "columns": ["item", "index", "indexOf(item)", "keep?"],
+      "columns": [
+        "item",
+        "index",
+        "indexOf(item)",
+        "keep?"
+      ],
       "rows": [
-        { "item": 1, "index": 0, "indexOf(item)": 0, "keep?": "true" },
-        { "item": 2, "index": 1, "indexOf(item)": 1, "keep?": "true" },
-        { "item": 1, "index": 2, "indexOf(item)": 0, "keep?": "false" }
+        {
+          "item": 1,
+          "index": 0,
+          "indexOf(item)": 0,
+          "keep?": "true"
+        },
+        {
+          "item": 2,
+          "index": 1,
+          "indexOf(item)": 1,
+          "keep?": "true"
+        },
+        {
+          "item": 1,
+          "index": 2,
+          "indexOf(item)": 0,
+          "keep?": "false"
+        }
       ]
     },
     "skeletonHint": "function getUniqueValues(arr) {\n  return arr.filter((item, index) => {\n    return arr.indexOf(____) === ____;\n  });\n}",
     "solution": "function getUniqueValues(arr) {\n  return arr.filter((item, index) => arr.indexOf(item) === index);\n}",
     "tests": [
-      { "input": [[1, 2, 2, 3, 1, 4]], "expected": [1, 2, 3, 4], "label": "numbers with duplicates" },
-      { "input": [["a", "b", "a"]], "expected": ["a", "b"], "label": "strings" },
-      { "input": [[1, 1, 1]], "expected": [1], "label": "all same" },
-      { "input": [[]], "expected": [], "label": "empty array" }
+      {
+        "input": [
+          [
+            1,
+            2,
+            2,
+            3,
+            1,
+            4
+          ]
+        ],
+        "expected": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "label": "numbers with duplicates"
+      },
+      {
+        "input": [
+          [
+            "a",
+            "b",
+            "a"
+          ]
+        ],
+        "expected": [
+          "a",
+          "b"
+        ],
+        "label": "strings"
+      },
+      {
+        "input": [
+          [
+            1,
+            1,
+            1
+          ]
+        ],
+        "expected": [
+          1
+        ],
+        "label": "all same"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
     ],
     "patternTag": "Uniqueness Pattern",
     "patternExplanation": "Comparing the current index to the indexOf() the element is a classic clever way to filter duplicates in a single chain without extra data structures.",
     "estimatedMinutes": 8,
     "status": "published"
+  },
+  {
+    "id": "array-methods-format-full-names",
+    "title": "Map: Format User Full Names",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "formatFullNames",
+    "description": "Given an array of user objects users, where each object has firstName and lastName string properties, use Array.prototype.map to return an array of full name strings formatted as 'firstName lastName'.",
+    "whatShouldHappen": [
+      "Use .map() on the users array.",
+      "For each user, construct a string `${user.firstName} ${user.lastName}`.",
+      "Return the transformed array."
+    ],
+    "starterCode": "function formatFullNames(users) {\n  // your code here\n}",
+    "solution": "function formatFullNames(users) {\n  return users.map((u) => `${u.firstName} ${u.lastName}`);\n}",
+    "skeletonHint": "function formatFullNames(users) {\n  return users.map(u => `${u.____} ${u.____}`);\n}",
+    "traceTable": {
+      "inputLabel": "users = [{ firstName: 'John', lastName: 'Doe' }]",
+      "columns": [
+        "firstName",
+        "lastName",
+        "formatted full name"
+      ],
+      "rows": [
+        {
+          "firstName": "John",
+          "lastName": "Doe",
+          "formatted full name": "'John Doe'"
+        }
+      ]
+    },
+    "patternTag": "Array Map Projection",
+    "patternExplanation": ".map() transforms each element of an array into a new value, preserving array length and order.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            {
+              "firstName": "John",
+              "lastName": "Doe"
+            },
+            {
+              "firstName": "Jane",
+              "lastName": "Smith"
+            }
+          ]
+        ],
+        "expected": [
+          "John Doe",
+          "Jane Smith"
+        ],
+        "label": "two users"
+      },
+      {
+        "input": [
+          [
+            {
+              "firstName": "Ada",
+              "lastName": "Lovelace"
+            }
+          ]
+        ],
+        "expected": [
+          "Ada Lovelace"
+        ],
+        "label": "single user"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      },
+      {
+        "input": [
+          [
+            {
+              "firstName": "Alan",
+              "lastName": "Turing"
+            },
+            {
+              "firstName": "Grace",
+              "lastName": "Hopper"
+            }
+          ]
+        ],
+        "expected": [
+          "Alan Turing",
+          "Grace Hopper"
+        ],
+        "label": "pioneers"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-filter-even-indices",
+    "title": "Filter: Elements at Even Indices",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "filterEvenIndices",
+    "description": "Given an array arr, use Array.prototype.filter with its index argument to return a new array containing only elements located at even indices (index 0, 2, 4, ...).",
+    "whatShouldHappen": [
+      "Call arr.filter((_, index) => ...).",
+      "Check if index % 2 === 0.",
+      "Return the filtered array."
+    ],
+    "starterCode": "function filterEvenIndices(arr) {\n  // your code here\n}",
+    "solution": "function filterEvenIndices(arr) {\n  return arr.filter((_, index) => index % 2 === 0);\n}",
+    "skeletonHint": "function filterEvenIndices(arr) {\n  return arr.filter((_, index) => index % 2 === ____);\n}",
+    "traceTable": {
+      "inputLabel": "arr = ['a', 'b', 'c', 'd']",
+      "columns": [
+        "index",
+        "element",
+        "index % 2 === 0",
+        "kept?"
+      ],
+      "rows": [
+        {
+          "index": 0,
+          "element": "a",
+          "index % 2 === 0": "true",
+          "kept?": "yes"
+        },
+        {
+          "index": 1,
+          "element": "b",
+          "index % 2 === 0": "false",
+          "kept?": "no"
+        },
+        {
+          "index": 2,
+          "element": "c",
+          "index % 2 === 0": "true",
+          "kept?": "yes"
+        },
+        {
+          "index": 3,
+          "element": "d",
+          "index % 2 === 0": "false",
+          "kept?": "no"
+        }
+      ]
+    },
+    "patternTag": "Index-Aware Filtering",
+    "patternExplanation": "The secondary index parameter in Array callbacks provides clean access to position within the array without external index counters.",
+    "estimatedMinutes": 3,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "a",
+            "b",
+            "c",
+            "d",
+            "e"
+          ]
+        ],
+        "expected": [
+          "a",
+          "c",
+          "e"
+        ],
+        "label": "letters at 0 2 4"
+      },
+      {
+        "input": [
+          [
+            10,
+            20,
+            30,
+            40
+          ]
+        ],
+        "expected": [
+          10,
+          30
+        ],
+        "label": "numbers at 0 2"
+      },
+      {
+        "input": [
+          [
+            100
+          ]
+        ],
+        "expected": [
+          100
+        ],
+        "label": "single element"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": [],
+        "label": "empty array"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-tally-occurrences",
+    "title": "Reduce: Tally Occurrences into Object",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "tallyOccurrences",
+    "description": "Given an array of strings or numbers items, use Array.prototype.reduce with an initial empty object {} to return an object counting how many times each item appears.",
+    "whatShouldHappen": [
+      "Call items.reduce((acc, item) => ..., {}).",
+      "For each item, update acc[item] = (acc[item] || 0) + 1.",
+      "Return accumulator acc on each step.",
+      "Return final object."
+    ],
+    "starterCode": "function tallyOccurrences(items) {\n  // your code here\n}",
+    "solution": "function tallyOccurrences(items) {\n  return items.reduce((acc, item) => {\n    acc[item] = (acc[item] || 0) + 1;\n    return acc;\n  }, {});\n}",
+    "skeletonHint": "function tallyOccurrences(items) {\n  return items.reduce((acc, item) => {\n    acc[item] = (acc[item] || 0) + ____;\n    return acc;\n  }, {});\n}",
+    "traceTable": {
+      "inputLabel": "items = ['apple', 'banana', 'apple']",
+      "columns": [
+        "item",
+        "acc before",
+        "acc after"
+      ],
+      "rows": [
+        {
+          "item": "apple",
+          "acc before": "{}",
+          "acc after": "{ apple: 1 }"
+        },
+        {
+          "item": "banana",
+          "acc before": "{ apple: 1 }",
+          "acc after": "{ apple: 1, banana: 1 }"
+        },
+        {
+          "item": "apple",
+          "acc before": "{ apple: 1, banana: 1 }",
+          "acc after": "{ apple: 2, banana: 1 }"
+        }
+      ]
+    },
+    "patternTag": "Reduce Frequency Tally",
+    "patternExplanation": ".reduce() with an object accumulator aggregates a flat array into an indexed histogram in a single pass.",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            "apple",
+            "orange",
+            "apple",
+            "banana",
+            "orange",
+            "apple"
+          ]
+        ],
+        "expected": {
+          "apple": 3,
+          "orange": 2,
+          "banana": 1
+        },
+        "label": "fruit frequencies"
+      },
+      {
+        "input": [
+          [
+            1,
+            2,
+            2,
+            3
+          ]
+        ],
+        "expected": {
+          "1": 1,
+          "2": 2,
+          "3": 1
+        },
+        "label": "number frequencies"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": {},
+        "label": "empty array"
+      },
+      {
+        "input": [
+          [
+            "solo"
+          ]
+        ],
+        "expected": {
+          "solo": 1
+        },
+        "label": "single element"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-group-by-category",
+    "title": "Reduce: Group Items by Category",
+    "category": "array-methods",
+    "difficulty": "Easy",
+    "functionName": "groupByCategory",
+    "description": "Given an array of objects items, each having name and category string properties, use Array.prototype.reduce to group item names by category into an object where keys are categories and values are arrays of names.",
+    "whatShouldHappen": [
+      "Call items.reduce((acc, item) => ..., {}).",
+      "If acc[item.category] does not exist, initialize it to [].",
+      "Push item.name to acc[item.category].",
+      "Return acc.",
+      "Return final grouped object."
+    ],
+    "starterCode": "function groupByCategory(items) {\n  // your code here\n}",
+    "solution": "function groupByCategory(items) {\n  return items.reduce((acc, item) => {\n    if (!acc[item.category]) {\n      acc[item.category] = [];\n    }\n    acc[item.category].push(item.name);\n    return acc;\n  }, {});\n}",
+    "skeletonHint": "function groupByCategory(items) {\n  return items.reduce((acc, item) => {\n    if (!acc[item.category]) {\n      acc[item.category] = ____;\n    }\n    acc[item.category].push(item.____);\n    return acc;\n  }, {});\n}",
+    "traceTable": {
+      "inputLabel": "items = [{name: 'apple', category: 'fruit'}, {name: 'carrot', category: 'veg'}]",
+      "columns": [
+        "item.name",
+        "item.category",
+        "grouped object state"
+      ],
+      "rows": [
+        {
+          "item.name": "apple",
+          "item.category": "fruit",
+          "grouped object state": "{ fruit: ['apple'] }"
+        },
+        {
+          "item.name": "carrot",
+          "item.category": "veg",
+          "grouped object state": "{ fruit: ['apple'], veg: ['carrot'] }"
+        }
+      ]
+    },
+    "patternTag": "Reduce Group By",
+    "patternExplanation": "Grouping arrays into keyed buckets is one of the most common data modeling tasks, implemented seamlessly with .reduce().",
+    "estimatedMinutes": 8,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            {
+              "name": "apple",
+              "category": "fruit"
+            },
+            {
+              "name": "carrot",
+              "category": "veg"
+            },
+            {
+              "name": "banana",
+              "category": "fruit"
+            }
+          ]
+        ],
+        "expected": {
+          "fruit": [
+            "apple",
+            "banana"
+          ],
+          "veg": [
+            "carrot"
+          ]
+        },
+        "label": "multiple categories"
+      },
+      {
+        "input": [
+          [
+            {
+              "name": "desk",
+              "category": "furniture"
+            }
+          ]
+        ],
+        "expected": {
+          "furniture": [
+            "desk"
+          ]
+        },
+        "label": "single category"
+      },
+      {
+        "input": [
+          []
+        ],
+        "expected": {},
+        "label": "empty items"
+      },
+      {
+        "input": [
+          [
+            {
+              "name": "rose",
+              "category": "flower"
+            },
+            {
+              "name": "tulip",
+              "category": "flower"
+            }
+          ]
+        ],
+        "expected": {
+          "flower": [
+            "rose",
+            "tulip"
+          ]
+        },
+        "label": "same category"
+      }
+    ]
+  },
+  {
+    "id": "array-methods-check-thresholds",
+    "title": "Every & Some: Check Score Thresholds",
+    "category": "array-methods",
+    "difficulty": "Beginner",
+    "functionName": "checkScoreThresholds",
+    "description": "Given an array of numbers scores and a passThreshold, return an object { allPassed: boolean, anyPassed: boolean } using Array.prototype.every and Array.prototype.some. For an empty scores array, return { allPassed: true, anyPassed: false }.",
+    "whatShouldHappen": [
+      "Calculate allPassed using scores.every(s => s >= passThreshold).",
+      "Calculate anyPassed using scores.some(s => s >= passThreshold).",
+      "Return { allPassed, anyPassed }."
+    ],
+    "starterCode": "function checkScoreThresholds(scores, passThreshold) {\n  // your code here\n}",
+    "solution": "function checkScoreThresholds(scores, passThreshold) {\n  return {\n    allPassed: scores.every((s) => s >= passThreshold),\n    anyPassed: scores.some((s) => s >= passThreshold),\n  };\n}",
+    "skeletonHint": "function checkScoreThresholds(scores, passThreshold) {\n  return {\n    allPassed: scores.every(s => s >= ____),\n    anyPassed: scores.some(s => s >= ____),\n  };\n}",
+    "traceTable": {
+      "inputLabel": "scores = [85, 90, 78], passThreshold = 70",
+      "columns": [
+        "scores",
+        "every >= 70",
+        "some >= 70",
+        "result object"
+      ],
+      "rows": [
+        {
+          "scores": "[85, 90, 78]",
+          "every >= 70": "true",
+          "some >= 70": "true",
+          "result object": "{ allPassed: true, anyPassed: true }"
+        }
+      ]
+    },
+    "patternTag": "Predicate Quantification",
+    "patternExplanation": ".every() checks for universal quantification (all elements satisfy predicate) and .some() checks for existential quantification (at least one satisfies).",
+    "estimatedMinutes": 5,
+    "status": "published",
+    "tests": [
+      {
+        "input": [
+          [
+            85,
+            90,
+            78,
+            92
+          ],
+          70
+        ],
+        "expected": {
+          "allPassed": true,
+          "anyPassed": true
+        },
+        "label": "all scores passed"
+      },
+      {
+        "input": [
+          [
+            45,
+            60,
+            55
+          ],
+          70
+        ],
+        "expected": {
+          "allPassed": false,
+          "anyPassed": false
+        },
+        "label": "none passed"
+      },
+      {
+        "input": [
+          [
+            50,
+            75,
+            60
+          ],
+          70
+        ],
+        "expected": {
+          "allPassed": false,
+          "anyPassed": true
+        },
+        "label": "some passed"
+      },
+      {
+        "input": [
+          [],
+          70
+        ],
+        "expected": {
+          "allPassed": true,
+          "anyPassed": false
+        },
+        "label": "empty array"
+      }
+    ]
   }
 ]

@@ -173,7 +173,7 @@
       ]
     },
     "skeletonHint": "function moveZeros(nums) {\n  let write = 0;\n  for (let read = 0; read < ____; read++) {\n    if (nums[read] !== 0) {\n      nums[____] = nums[read];\n      write++;\n    }\n  }\n  while (write < ____) {\n    nums[write++] = 0;\n  }\n}",
-    "solution": "function moveZeros(nums) {\n  // write tracks where the next non-zero value should go\n  let write = 0;\n  // read scans every element\n  for (let read = 0; read < nums.length; read++) {\n    // only copy non-zero values forward\n    if (nums[read] !== 0) {\n      nums[write] = nums[read];\n      write++;\n    }\n  }\n  // everything from write onward should now be zeros\n  while (write < nums.length) {\n    nums[write++] = 0;\n  }\n}",
+    "solution": "function moveZeros(nums) {\n  // write tracks where the next non-zero value should go\n  let write = 0;\n  // read scans every element\n  for (let read = 0; read < nums.length; read++) {\n    // only copy non-zero values forward\n    if (nums[read] !== 0) {\n      nums[write] = nums[read];\n      write++;\n    }\n  }\n  // everything from write onward should now be zeros\n  while (write < nums.length) {\n    nums[write++] = 0;\n  }\n  return nums;\n}",
     "tests": [
       {
         "input": [
@@ -192,7 +192,8 @@
           0,
           0
         ],
-        "label": "normal input"
+        "label": "normal input",
+        "testRunnerWrapper": "function runner(fn, input) { var res = fn(input[0]); return res !== undefined ? res : input[0]; }"
       },
       {
         "input": [
@@ -207,7 +208,8 @@
           0,
           0
         ],
-        "label": "zeros at start"
+        "label": "zeros at start",
+        "testRunnerWrapper": "function runner(fn, input) { var res = fn(input[0]); return res !== undefined ? res : input[0]; }"
       },
       {
         "input": [
@@ -222,7 +224,8 @@
           2,
           3
         ],
-        "label": "no zeros"
+        "label": "no zeros",
+        "testRunnerWrapper": "function runner(fn, input) { var res = fn(input[0]); return res !== undefined ? res : input[0]; }"
       },
       {
         "input": [
@@ -233,7 +236,8 @@
         "expected": [
           0
         ],
-        "label": "single zero"
+        "label": "single zero",
+        "testRunnerWrapper": "function runner(fn, input) { var res = fn(input[0]); return res !== undefined ? res : input[0]; }"
       }
     ],
     "patternTag": "Write Pointer",

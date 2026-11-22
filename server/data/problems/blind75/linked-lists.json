@@ -221,15 +221,18 @@
     "tests": [
       { 
         "input": [{"val": 1, "next": {"val": 2, "next": {"val": 3, "next": {"val": 4, "next": null}}}}], 
-        "expected": {"val": 1, "next": {"val": 4, "next": {"val": 2, "next": {"val": 3, "next": null}}}}
+        "expected": {"val": 1, "next": {"val": 4, "next": {"val": 2, "next": {"val": 3, "next": null}}}},
+        "testRunnerWrapper": "function runner(fn, input) { var res = fn(input[0]); return res !== undefined ? res : input[0]; }"
       },
       { 
         "input": [{"val": 1, "next": {"val": 2, "next": {"val": 3, "next": {"val": 4, "next": {"val": 5, "next": null}}}}}] ,
-        "expected": {"val": 1, "next": {"val": 5, "next": {"val": 2, "next": {"val": 4, "next": {"val": 3, "next": null}}}}}
+        "expected": {"val": 1, "next": {"val": 5, "next": {"val": 2, "next": {"val": 4, "next": {"val": 3, "next": null}}}}},
+        "testRunnerWrapper": "function runner(fn, input) { var res = fn(input[0]); return res !== undefined ? res : input[0]; }"
       },
       { 
         "input": [{"val": 1, "next": null}], 
-        "expected": {"val": 1, "next": null}
+        "expected": {"val": 1, "next": null},
+        "testRunnerWrapper": "function runner(fn, input) { var res = fn(input[0]); return res !== undefined ? res : input[0]; }"
       }
     ],
     "patternTag": "Two Pointers",

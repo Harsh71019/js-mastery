@@ -53,4 +53,12 @@ describe('Route Param Utility (param)', () => {
       (err) => err instanceof BadRequestError && err.status === 400,
     )
   })
+
+  test('throws BadRequestError when param exceeds maximum length', () => {
+    const req = { params: { id: 'a'.repeat(129) } } as unknown as Request
+    assert.throws(
+      () => param(req, 'id'),
+      (err) => err instanceof BadRequestError && err.status === 400,
+    )
+  })
 })
