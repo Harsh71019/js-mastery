@@ -43,9 +43,10 @@ const run = async (): Promise<void> => {
     }
 
     try {
+      // Use replaceOne with upsert: true to update existing records with full content
       await Problem.replaceOne(
         { id: problem.id },
-        { ...problem, status: (problem.status as string) ?? 'published' },
+        { ...problem, status: 'published' },
         { upsert: true }
       )
       console.log(`  ✓ ${String(problem.id)}`)
