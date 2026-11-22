@@ -1,5 +1,6 @@
 import { type Types } from 'mongoose'
 import * as problemRepo from '../repositories/problemRepository'
+import * as progressRepo from '../repositories/progressRepository'
 import { escapeRegex, validateProblem, type ValidationError } from '../utils/problem-validation'
 import { parsePagination } from '../utils/pagination'
 import type { CreateProblemInput, PatchProblemInput } from '../types/schemas/problemSchemas'
@@ -56,6 +57,119 @@ export const getPatterns = () => problemRepo.aggregatePatterns()
 export const getCategoryCounts = () => problemRepo.aggregateCategoryCounts()
 
 export const getCollectionCounts = () => problemRepo.aggregateCollectionCounts()
+
+export const getQuizStats = async () => {
+  const [quizzes, progress] = await Promise.all([
+    problemRepo.findQuizProblems(),
+    progressRepo.findOneLean(),
+  ])
+
+  const totalQuizzes = quizzes.length
+  let totalMcq = 0
+  let totalTrick = 0
+
+  const byDifficulty: Record<string, { total: number; solved: number }> = {
+    Beginner: { total: 0, solved: 0 },
+    Easy:     { total: 0, solved: 0 },
+    Medium:   { total: 0, solved: 0 },
+    Hard:     { total: 0, solved: 0 },
+  }
+
+  const byCategory: Record<string, { total: number; solved: number }> = {}
+  const patternCounts: Record<string, { total: number; solved: number }> = {}
+
+  for (const q of quizzes) {
+    if (q.type === 'trick') totalTrick++
+    else totalMcq++
+
+    const diff = (q.difficulty as string) || 'Medium'
+    if (byDifficulty[diff]) {
+      byDifficulty[diff].total++
+    }
+
+    const cat = (q.category as string) || 'other'
+    if (!byCategory[cat]) byCategory[cat] = { total: 0, solved: 0 }
+    byCategory[cat].total++
+
+    const pat = (q.patternTag as string) || 'General'
+    if (!patternCounts[pat]) patternCounts[pat] = { total: 0, solved: 0 }
+    patternCounts[pat].total++
+  }
+
+  const solvedMap = new Map<string, { solvedAt?: string; attempts?: number }>()
+  if (progress?.solvedProblems) {
+    const entries =
+      progress.solvedProblems instanceof Map
+        ? Array.from(progress.solvedProblems.entries())
+        : Object.entries(progress.solvedProblems as Record<string, { solvedAt?: string; attempts?: number }>)
+
+    for (const [id, entry] of entries) {
+      if (entry && typeof entry === 'object' && (entry as { solvedAt?: string }).solvedAt) {
+        solvedMap.set(id, entry as { solvedAt?: string; attempts?: number })
+      }
+    }
+  }
+
+  let userSolved = 0
+  let userSolvedMcq = 0
+  let userSolvedTrick = 0
+  let totalAttemptsOnSolved = 0
+
+  const recentSolved: Array<{ id: string; title: string; type: string; solvedAt: string }> = []
+
+  for (const q of quizzes) {
+    const solvedEntry = solvedMap.get(q.id as string)
+    if (solvedEntry) {
+      userSolved++
+      if (q.type === 'trick') userSolvedTrick++
+      else userSolvedMcq++
+
+      const diff = (q.difficulty as string) || 'Medium'
+      if (byDifficulty[diff]) byDifficulty[diff].solved++
+
+      const cat = (q.category as string) || 'other'
+      if (byCategory[cat]) byCategory[cat].solved++
+
+      const pat = (q.patternTag as string) || 'General'
+      if (patternCounts[pat]) patternCounts[pat].solved++
+
+      totalAttemptsOnSolved += solvedEntry.attempts ?? 1
+
+      if (solvedEntry.solvedAt) {
+        recentSolved.push({
+          id: q.id as string,
+          title: q.title as string,
+          type: (q.type as string) || 'mcq',
+          solvedAt: solvedEntry.solvedAt,
+        })
+      }
+    }
+  }
+
+  recentSolved.sort((a, b) => new Date(b.solvedAt).getTime() - new Date(a.solvedAt).getTime())
+
+  const completionRate = totalQuizzes > 0 ? Math.round((userSolved / totalQuizzes) * 1000) / 10 : 0
+  const averageAttempts = userSolved > 0 ? Math.round((totalAttemptsOnSolved / userSolved) * 10) / 10 : 1
+
+  const byPattern = Object.entries(patternCounts)
+    .map(([pattern, data]) => ({ pattern, total: data.total, solved: data.solved }))
+    .sort((a, b) => b.total - a.total)
+
+  return {
+    totalQuizzes,
+    totalMcq,
+    totalTrick,
+    userSolved,
+    userSolvedMcq,
+    userSolvedTrick,
+    completionRate,
+    averageAttempts,
+    byDifficulty,
+    byCategory,
+    byPattern,
+    recentSolved: recentSolved.slice(0, 10),
+  }
+}
 
 export const getProblemById = async (id: string) => {
   const [problem, meta] = await Promise.all([

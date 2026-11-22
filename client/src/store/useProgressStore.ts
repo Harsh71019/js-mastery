@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { CategorySlug, Difficulty } from '@/types/problem'
+import type { CategorySlug, Difficulty, ProblemType } from '@/types/problem'
 
 export interface RunTiming {
   readonly ms: number
@@ -13,6 +13,7 @@ export interface SolvedEntry {
   readonly title?:           string
   readonly category?:        CategorySlug
   readonly difficulty?:      Difficulty
+  readonly type?:            ProblemType
   readonly reviewInterval?:  number
   readonly lastReviewedAt?:  string
   readonly nextReviewDue?:   string
@@ -31,6 +32,7 @@ export interface ProblemMeta {
   readonly title: string
   readonly category: CategorySlug
   readonly difficulty: Difficulty
+  readonly type?: ProblemType
 }
 
 interface ProgressState {
@@ -118,6 +120,7 @@ export const useProgressStore = create<ProgressStore>()((set, get) => ({
       title:           meta?.title ?? existing?.title,
       category:        meta?.category ?? existing?.category,
       difficulty:      meta?.difficulty ?? existing?.difficulty,
+      type:            meta?.type ?? existing?.type ?? 'coding',
       executionTimeMs: executionTimeMs ?? existing?.executionTimeMs,
       memoryUsageMb:   memoryUsageMb ?? existing?.memoryUsageMb,
       memoryBytes:     memoryBytes ?? existing?.memoryBytes,

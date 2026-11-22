@@ -1,5 +1,6 @@
 import { type Request, type Response } from 'express'
 import { catchAsync } from '../middleware/catchAsync'
+import { NotFoundError } from '../middleware/AppError'
 import * as problemService from '../services/problemService'
 import { success, paginated } from '../utils/apiResponse'
 import { param } from '../utils/param'
@@ -29,11 +30,14 @@ export const collectionCounts = catchAsync(async (_req: Request, res: Response) 
   res.json(success(await problemService.getCollectionCounts()))
 })
 
+export const quizStats = catchAsync(async (_req: Request, res: Response) => {
+  res.json(success(await problemService.getQuizStats()))
+})
+
 export const submitTests = catchAsync(async (req: Request, res: Response) => {
   const tests = await problemService.getSubmitTests(param(req, 'id'))
   if (tests === null) {
-    res.status(404).json({ error: 'Problem not found' })
-    return
+    throw new NotFoundError('Problem not found')
   }
   res.json(success({ tests }))
 })
@@ -41,8 +45,7 @@ export const submitTests = catchAsync(async (req: Request, res: Response) => {
 export const getById = catchAsync(async (req: Request, res: Response) => {
   const problem = await problemService.getProblemById(param(req, 'id'))
   if (!problem) {
-    res.status(404).json({ error: 'Problem not found' })
-    return
+    throw new NotFoundError('Problem not found')
   }
   res.json(success(problem))
 })

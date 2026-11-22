@@ -54,7 +54,9 @@
           4,
           6
         ],
-        "label": "mutates via callback"
+        "label": "mutates via callback",
+        "isEval": true,
+        "testRunnerWrapper": "function runner(fn, input) { fn(input[0], input[1]); return input[0]; }"
       },
       {
         "input": [
@@ -62,7 +64,9 @@
           "() => {}"
         ],
         "expected": [],
-        "label": "empty array"
+        "label": "empty array",
+        "isEval": true,
+        "testRunnerWrapper": "function runner(fn, input) { fn(input[0], input[1]); return input[0]; }"
       },
       {
         "input": [
@@ -74,7 +78,9 @@
         "expected": [
           43
         ],
-        "label": "single element"
+        "label": "single element",
+        "isEval": true,
+        "testRunnerWrapper": "function runner(fn, input) { fn(input[0], input[1]); return input[0]; }"
       },
       {
         "input": [
@@ -88,7 +94,9 @@
           "a0",
           "b1"
         ],
-        "label": "receives index"
+        "label": "receives index",
+        "isEval": true,
+        "testRunnerWrapper": "function runner(fn, input) { fn(input[0], input[1]); return input[0]; }"
       }
     ],
     "patternTag": "Higher-Order Function",
@@ -155,7 +163,8 @@
           6,
           9
         ],
-        "label": "triple values"
+        "label": "triple values",
+        "isEval": true
       },
       {
         "input": [
@@ -163,7 +172,8 @@
           "el => el"
         ],
         "expected": [],
-        "label": "empty array"
+        "label": "empty array",
+        "isEval": true
       },
       {
         "input": [
@@ -175,7 +185,8 @@
         "expected": [
           6
         ],
-        "label": "single element"
+        "label": "single element",
+        "isEval": true
       },
       {
         "input": [
@@ -189,7 +200,8 @@
           "a0",
           "b1"
         ],
-        "label": "uses index"
+        "label": "uses index",
+        "isEval": true
       }
     ],
     "patternTag": "Higher-Order Function",

@@ -569,7 +569,8 @@
           {"val": 2},
           {"val": 8}
         ],
-        "expected": {"val": 6}
+        "expected": {"val": 6},
+        "testRunnerWrapper": "function runner(fn, input) { var res = fn(input[0], input[1], input[2]); return res && typeof res.val !== 'undefined' ? { val: res.val } : res; }"
       },
       {
         "input": [
@@ -577,7 +578,8 @@
           {"val": 2},
           {"val": 4}
         ],
-        "expected": {"val": 2}
+        "expected": {"val": 2},
+        "testRunnerWrapper": "function runner(fn, input) { var res = fn(input[0], input[1], input[2]); return res && typeof res.val !== 'undefined' ? { val: res.val } : res; }"
       },
       {
         "input": [
@@ -585,7 +587,8 @@
           {"val": 2},
           {"val": 1}
         ],
-        "expected": {"val": 2}
+        "expected": {"val": 2},
+        "testRunnerWrapper": "function runner(fn, input) { var res = fn(input[0], input[1], input[2]); return res && typeof res.val !== 'undefined' ? { val: res.val } : res; }"
       }
     ],
     "patternTag": "BST Properties",

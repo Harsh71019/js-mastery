@@ -1,5 +1,6 @@
 import { type Request, type Response } from 'express'
 import { catchAsync } from '../middleware/catchAsync'
+import { NotFoundError } from '../middleware/AppError'
 import * as submissionService from '../services/submissionService'
 import { success } from '../utils/apiResponse'
 import { param } from '../utils/param'
@@ -30,8 +31,7 @@ export const getOne = catchAsync(async (req: Request, res: Response) => {
     param(req, 'submissionId'),
   )
   if (!submission) {
-    res.status(404).json({ error: 'Submission not found' })
-    return
+    throw new NotFoundError('Submission not found')
   }
   res.json(success(submission))
 })

@@ -7,6 +7,7 @@ const SolvedEntrySchema = new Schema(
     title: String,
     category: String,
     difficulty: String,
+    type: { type: String, enum: ['coding', 'mcq', 'trick'], default: 'coding' },
     reviewInterval: { type: Number, default: 1 },
     lastReviewedAt: { type: String },
     nextReviewDue: { type: String },

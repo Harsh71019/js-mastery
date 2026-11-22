@@ -57,24 +57,47 @@ const deriveVerdict = (
   return isCompileError ? 'Compile Error' : 'Runtime Error'
 }
 
-// Injected into the sandbox — key-order-independent, NaN-aware, null/undefined-strict
-const DEEP_EQUAL_FN = `function deepEqual(a,b){
-  if(a===b)return true;
-  if(typeof a==='number'&&typeof b==='number'&&isNaN(a)&&isNaN(b))return true;
-  if(a===null||a===undefined||b===null||b===undefined)return false;
-  if(typeof a!==typeof b)return false;
-  if(Array.isArray(a)!==Array.isArray(b))return false;
-  if(Array.isArray(a)){
-    if(a.length!==b.length)return false;
-    for(var di=0;di<a.length;di++){if(!deepEqual(a[di],b[di]))return false;}
+// Injected into the sandbox — key-order-independent, NaN-aware, Set/Map/Date-aware, loose null/undefined-tolerant
+const DEEP_EQUAL_FN = `function deepEqual(a, b) {
+  if (a === b) return true;
+  if ((a === null || a === undefined) && (b === null || b === undefined)) return true;
+  if (a === null || a === undefined || b === null || b === undefined) return false;
+  if (typeof a === 'number' && typeof b === 'number' && isNaN(a) && isNaN(b)) return true;
+  if (typeof a !== typeof b) return false;
+  if (a instanceof Date && b instanceof Date) return a.getTime() === b.getTime();
+  if (a instanceof RegExp && b instanceof RegExp) return a.source === b.source && a.flags === b.flags;
+  if (a instanceof Set && b instanceof Set) {
+    if (a.size !== b.size) return false;
+    for (var sa of a) {
+      var found = false;
+      for (var sb of b) {
+        if (deepEqual(sa, sb)) { found = true; break; }
+      }
+      if (!found) return false;
+    }
     return true;
   }
-  if(typeof a==='object'){
-    var ak=Object.keys(a).sort(),bk=Object.keys(b).sort();
-    if(ak.length!==bk.length)return false;
-    for(var di=0;di<ak.length;di++){
-      if(ak[di]!==bk[di])return false;
-      if(!deepEqual(a[ak[di]],b[bk[di]]))return false;
+  if (a instanceof Map && b instanceof Map) {
+    if (a.size !== b.size) return false;
+    for (var [mk, mv] of a) {
+      if (!b.has(mk) || !deepEqual(mv, b.get(mk))) return false;
+    }
+    return true;
+  }
+  if (Array.isArray(a) !== Array.isArray(b)) return false;
+  if (Array.isArray(a)) {
+    if (a.length !== b.length) return false;
+    for (var di = 0; di < a.length; di++) {
+      if (!deepEqual(a[di], b[di])) return false;
+    }
+    return true;
+  }
+  if (typeof a === 'object') {
+    var ak = Object.keys(a).sort(), bk = Object.keys(b).sort();
+    if (ak.length !== bk.length) return false;
+    for (var di = 0; di < ak.length; di++) {
+      if (ak[di] !== bk[di]) return false;
+      if (!deepEqual(a[ak[di]], b[bk[di]])) return false;
     }
     return true;
   }
@@ -88,6 +111,7 @@ const buildSandboxHtml = (
 ): string => {
   const serializedTests = JSON.stringify(tests)
   const safeFnName = JSON.stringify(functionName)
+  const safeUserCode = userCode.replace(/<\/script/gi, '<\\/script')
   const closeScript = '</' + 'script>'
 
   return `<!doctype html><html><body>
@@ -97,6 +121,24 @@ window.__fnName__ = ${safeFnName};
 window.__results__ = [];
 window.__error__ = null;
 window.__currentLogs__ = [];
+
+window.onerror = function(msg, url, line, col, err) {
+  if (!window.__error__) {
+    window.__error__ = err ? (err.message || String(err)) : String(msg);
+  }
+};
+
+function ListNode(val, next) {
+  this.val = (val === undefined ? 0 : val);
+  this.next = (next === undefined ? null : next);
+}
+function TreeNode(val, left, right) {
+  this.val = (val === undefined ? 0 : val);
+  this.left = (left === undefined ? null : left);
+  this.right = (right === undefined ? null : right);
+}
+window.ListNode = ListNode;
+window.TreeNode = TreeNode;
 
 var formatArg = function(arg) {
   if (arg === null) return 'null';
@@ -126,7 +168,7 @@ console.error = function() { captureLog('error', arguments); };
 ${closeScript}
 <script>
 try {
-${userCode}
+${safeUserCode}
   try {
     if (typeof ${functionName} === 'function') {
       window[${safeFnName}] = ${functionName};

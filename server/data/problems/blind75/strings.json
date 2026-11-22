@@ -97,10 +97,10 @@
     },
     "skeletonHint": "Consider every character (and the gap between characters) as a potential center of a palindrome. Expand outwards from the center as long as the characters match.",
     "tests": [
-      { "input": ["babad"], "expected": "bab" },
+      { "input": ["babad"], "expected": "bab", "testRunnerWrapper": "function runner(fn, input) { var res = fn(input[0]); return (input[0] === 'babad' && (res === 'bab' || res === 'aba')) ? 'bab' : res; }" },
       { "input": ["cbbd"], "expected": "bb" },
       { "input": ["a"], "expected": "a" },
-      { "input": ["ac"], "expected": "a" }
+      { "input": ["ac"], "expected": "a", "testRunnerWrapper": "function runner(fn, input) { var res = fn(input[0]); return (input[0] === 'ac' && (res === 'a' || res === 'c')) ? 'a' : res; }" }
     ],
     "patternTag": "Expand Around Center",
     "patternExplanation": "Expanding around the center avoids the O(n³) brute force approach and allows us to find palindromes in O(n²) time by checking all 2n-1 potential centers.",

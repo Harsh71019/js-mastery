@@ -119,7 +119,7 @@
       ]
     },
     "skeletonHint": "function invertObject(obj) {\n  const result = {};\n  for (const [____, ____] of Object.entries(obj)) {\n    result[____] = ____;\n  }\n  return result;\n}",
-    "solution": "function invertObject(obj) {\n  // result will hold the swapped key-value pairs\n  const result: Record<string, string> = {};\n  // Object.entries yields [key, value] tuples we can destructure directly\n  for (const [key, value] of Object.entries(obj)) {\n    // swap: the old value becomes the new key, old key becomes the new value\n    result[String(value)] = key;\n  }\n  // return the inverted object\n  return result;\n}",
+    "solution": "function invertObject(obj) {\n  // result will hold the swapped key-value pairs\n  const result = {};\n  // Object.entries yields [key, value] tuples we can destructure directly\n  for (const [key, value] of Object.entries(obj)) {\n    // swap: the old value becomes the new key, old key becomes the new value\n    result[String(value)] = key;\n  }\n  // return the inverted object\n  return result;\n}",
     "tests": [
       {
         "input": [

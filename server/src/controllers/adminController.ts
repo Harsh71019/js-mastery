@@ -1,5 +1,6 @@
 import { type Request, type Response } from 'express'
 import { catchAsync } from '../middleware/catchAsync'
+import { NotFoundError } from '../middleware/AppError'
 import * as problemService from '../services/problemService'
 import { success, paginated } from '../utils/apiResponse'
 import { param } from '../utils/param'
@@ -41,8 +42,7 @@ export const bulkCreate = catchAsync(async (req: Request, res: Response) => {
 export const getById = catchAsync(async (req: Request, res: Response) => {
   const problem = await problemService.adminGetProblemById(param(req, 'id'))
   if (!problem) {
-    res.status(404).json({ error: 'Problem not found' })
-    return
+    throw new NotFoundError('Problem not found')
   }
   res.json(success(problem))
 })
@@ -50,8 +50,7 @@ export const getById = catchAsync(async (req: Request, res: Response) => {
 export const patch = catchAsync(async (req: Request, res: Response) => {
   const problem = await problemService.adminPatchProblem(param(req, 'id'), req.body as PatchProblemInput)
   if (!problem) {
-    res.status(404).json({ error: 'Problem not found' })
-    return
+    throw new NotFoundError('Problem not found')
   }
   res.json(success(problem))
 })
@@ -59,8 +58,7 @@ export const patch = catchAsync(async (req: Request, res: Response) => {
 export const remove = catchAsync(async (req: Request, res: Response) => {
   const result = await problemService.adminDeleteProblem(param(req, 'id'))
   if (result.deletedCount === 0) {
-    res.status(404).json({ error: 'Problem not found' })
-    return
+    throw new NotFoundError('Problem not found')
   }
   res.status(204).send()
 })
@@ -68,8 +66,7 @@ export const remove = catchAsync(async (req: Request, res: Response) => {
 export const publish = catchAsync(async (req: Request, res: Response) => {
   const problem = await problemService.adminSetStatus(param(req, 'id'), 'published')
   if (!problem) {
-    res.status(404).json({ error: 'Problem not found' })
-    return
+    throw new NotFoundError('Problem not found')
   }
   res.json(success(problem))
 })
@@ -77,8 +74,7 @@ export const publish = catchAsync(async (req: Request, res: Response) => {
 export const unpublish = catchAsync(async (req: Request, res: Response) => {
   const problem = await problemService.adminSetStatus(param(req, 'id'), 'draft')
   if (!problem) {
-    res.status(404).json({ error: 'Problem not found' })
-    return
+    throw new NotFoundError('Problem not found')
   }
   res.json(success(problem))
 })
